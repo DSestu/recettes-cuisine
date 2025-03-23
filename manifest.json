@@ -1,0 +1,20 @@
+---
+layout: none
+---
+
+{
+    "name": "{{ site.title }}",
+    "short_name": "{{ site.title }}",
+    "icons": [
+        {
+            "src": "/icons/favicon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "theme_color": "{{ site.color }}",
+    "background_color": "{{ site.color }}",
+    "start_url": "",
+    "display": "standalone"
+}
