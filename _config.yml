@@ -4,7 +4,7 @@ email: nope@gmail.com
 description: Plein de recettes de cuisine
 url: "https://dsestu.github.io"
 baseurl: "recettes-cuisine"
-language: "en"
+language: "fr"
 lang_direction: "ltr"
 color: "#F53200"
 twitter_username: none
