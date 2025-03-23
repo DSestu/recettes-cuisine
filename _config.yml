@@ -1,13 +1,13 @@
 # Site settings
-title: Chowdown
-email: your-email@domain.com
-description: The plain text recipe database for hackers
-baseurl: "https://chowdown.io"
+title: DSestu - Recettes de cuisine
+email: nope@gmail.com
+description: Plein de recettes de cuisine
+baseurl: "https://dsestu.github.io/recettes-cuisine"
 language: "en"
 lang_direction: "ltr"
 color: "#F53200"
-twitter_username: clarklab
-github_username:  clarklab
+twitter_username: none
+github_username:  none
 
 # Build settings
 markdown: kramdown
