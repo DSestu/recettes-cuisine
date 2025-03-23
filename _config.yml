@@ -34,6 +34,16 @@ translation:
     search: "Search"
     blog: "Blog"
     subscribe: "Subscribe"
+  fr:
+    components: "Composants"
+    ingredients: "Ingrédients"
+    directions: "Préparation"
+    category: "Catégorie"
+    nutritional_information: "Informations nutritionnelles"
+    component_based: 'C''est une <strong class="blue">recette à composants</strong>.'
+    search: "Rechercher"
+    blog: "Blog"
+    subscribe: "S'abonner"
   de:
     components: "Komponenten"
     ingredients: "Zutaten"
