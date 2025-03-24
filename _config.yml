@@ -24,16 +24,6 @@ collections:
 exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md']
 
 translation:
-  en:
-    components: "Components"
-    ingredients: "Ingredients"
-    directions: "Directions"
-    category: "Category"
-    nutritional_information: "Nutritional Information"
-    component_based: 'This is a <strong class="blue">component-based recipe</strong>.'
-    search: "Search"
-    blog: "Blog"
-    subscribe: "Subscribe"
   fr:
     components: "Composants"
     ingredients: "Ingrédients"
@@ -44,6 +34,17 @@ translation:
     search: "Rechercher"
     blog: "Blog"
     subscribe: "S'abonner"
+
+  en:
+    components: "Components"
+    ingredients: "Ingredients"
+    directions: "Directions"
+    category: "Category"
+    nutritional_information: "Nutritional Information"
+    component_based: 'This is a <strong class="blue">component-based recipe</strong>.'
+    search: "Search"
+    blog: "Blog"
+    subscribe: "Subscribe"
   de:
     components: "Komponenten"
     ingredients: "Zutaten"
