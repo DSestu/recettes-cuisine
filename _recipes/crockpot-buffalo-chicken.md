@@ -17,9 +17,14 @@ ingredients:
 
 directions:
 - Add all the above into a crockpot, cook on low for 6-8 hours
+- 
 - Shred chicken when soft
 - Serve with pickles and Hawaiian rolls
 
+nutrition:
+    servingSize: 4 personnes
+    calories: 500
+    fatContent: 10
 ---
 
 This is a party favorite, perfect for a Super Bowl or a game night. It takes a long time, but like most slow cooker recipes, is easy as hell. Bonus: guests love it.
