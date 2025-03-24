@@ -3,7 +3,7 @@ title: DSestu - Recettes de cuisine
 email: nope@gmail.com
 description: Plein de recettes de cuisine
 url: "https://dsestu.github.io"
-baseurl: ""
+baseurl: "/recettes-cuisine"
 language: "fr"
 lang_direction: "ltr"
 color: "#F53200"
