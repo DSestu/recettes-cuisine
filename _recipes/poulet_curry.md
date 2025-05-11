@@ -10,27 +10,28 @@ tags:
 - poulet
 - curry
 - riz
-- 
+- oignons
+- sauce huitre
 
 ingredients:
 - 300-400g de filet de poulet ou d'émincé de dinde (encore mieux)
 - 1 gros oignon
-- Sauce huitre
+- Sauce huître
 - Poivre
 - Piment d'Espelette
-- Crème fraiche semi-épaisse
+- Crème fraîche semi-épaisse
 - riz
 
 directions:
 - Couper l'oignon relativement finement
-- A feu moyen, huile d'olive, et mettre une noix de beurre dans l'huile lorsque celle-ci peut commencer à crépiter sans bruler
+- A feu moyen, huile d'olive, et mettre une noix de beurre dans l'huile lorsque celle-ci peut commencer à crépiter sans brûler
 - Laisser cuire et caraméliser les oignons, ils doivent devenir sucrés et dorés
 - Lancer la cuisson du riz (gérer la cuisson)
 - Couper la viande en dés de 2cm
-- Ajouter de la sauce huitre, poivre et piment d'Espelette
+- Ajouter de la sauce huître, poivre et piment d'Espelette
 - Mélanger le tout et attendre que les oignons soient dorés mais pas encore trop trop cuits
 - Ajouter la viande et laisser cuire jusqu'à ce que la viande soit bien cuite
-- Ajouter la crème fraiche, 2 cuillères à café de curry, mélanger et laisser réduire
+- Ajouter la crème fraîche, 2 cuillères à café de curry, mélanger et laisser réduire
 - Une fois la consistance désirée, servir avec le riz
 ---
 
