@@ -28,7 +28,7 @@ directions:
 - Laisser cuire et caraméliser les oignons, ils doivent devenir sucrés et dorés
 - Lancer la cuisson du riz (gérer la cuisson)
 - Couper la viande en dés de 2cm
-- Ajouter de la sauce huître, poivre et piment d'Espelette
+- Ajouter de la sauce huître, poivre et piment d'Espelette 
 - Mélanger le tout et attendre que les oignons soient dorés mais pas encore trop trop cuits
 - Ajouter la viande et laisser cuire jusqu'à ce que la viande soit bien cuite
 - Ajouter la crème fraîche, 2 cuillères à café de curry, mélanger et laisser réduire
