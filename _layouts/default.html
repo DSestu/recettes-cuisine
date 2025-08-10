@@ -3,7 +3,7 @@
 
   {% include head.html %}
 
-  <body class="flex h-full font-inter bg-orange-50 text-orange-950">
+  <body class="flex min-h-screen w-full font-inter bg-orange-50 text-orange-950">
 
     <button id="toggle-sidebar" class="fixed top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50" title="Afficher/masquer le menu">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
@@ -11,16 +11,7 @@
       </svg>
     </button>
 
-    <aside id="sidebar" class="hidden w-60 h-full bg-white border-r border-gray-200 p-5 pt-16 z-10">
-      <nav class="flex flex-col gap-3 text-sm">
-        <a class="hover:text-primary" href="{{ site.baseurl }}/">Accueil</a>
-        <a class="hover:text-primary" href="{{ site.baseurl }}/recherche/">Recherche</a>
-        <a class="hover:text-primary" href="{{ site.baseurl }}/components/">Composants</a>
-        <a class="hover:text-primary" href="{{ site.baseurl }}/blog.html">Blog</a>
-      </nav>
-    </aside>
-
-    <main class="flex-1">
+    <main class="flex-1 w-full">
       {{ content }}
     </main>
 
@@ -34,11 +25,11 @@
   <script>
     (function(){
       const btn = document.getElementById('toggle-sidebar');
-      const aside = document.getElementById('sidebar');
-      if (!btn || !aside) return;
+      const nav = document.querySelector('body > nav');
+      if (!btn || !nav) return;
       btn.addEventListener('click', ()=>{
-        const isHidden = aside.classList.contains('hidden');
-        aside.classList.toggle('hidden', !isHidden);
+        const isHidden = nav.classList.contains('hidden');
+        nav.classList.toggle('hidden', !isHidden);
       });
     })();
   </script>

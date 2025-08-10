@@ -3,7 +3,7 @@ layout: default
 permalink: /recherche/
 ---
 
-<div class="content w-full md:w-4/5 h-full overflow-scroll p-6">
+<div class="content w-full md:w-full p-6">
   <style>
     .viz-card{background:linear-gradient(135deg,#fff 0%,#fff6f2 60%,#ffe8e1 100%)}
     .chip{border:1px solid rgba(245,50,0,.35);background:rgba(245,50,0,.08)}
@@ -57,7 +57,7 @@ permalink: /recherche/
     </div>
 
     <!-- Col 2-3: Viz + Results -->
-    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6">
+    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(100vh-6rem)]">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
           <div class="flex items-center justify-between mb-2">
@@ -84,56 +84,65 @@ permalink: /recherche/
           <button id="toggle-advanced-viz" class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90">Masquer</button>
         </div>
         <div id="advanced-viz-panel" class="mt-4 block">
-          <div class="flex flex-wrap items-center gap-3 mb-3">
-            <label class="inline-flex items-center gap-2 text-sm">
-              <span>Max recettes</span>
-              <input id="max-recipes" type="range" min="10" max="150" value="60" class="accent-primary">
-              <span id="max-recipes-value" class="font-semibold">60</span>
-            </label>
-            <label class="inline-flex items-center gap-2 text-sm">
-              <span>Max ingrédients</span>
-              <input id="max-ingredients" type="range" min="10" max="150" value="60" class="accent-primary">
-              <span id="max-ingredients-value" class="font-semibold">60</span>
-            </label>
-            <label class="inline-flex items-center gap-2 text-sm">
-              <span>Masquer top fréquents</span>
-              <input id="hide-top-ingredients" type="range" min="0" max="50" value="0" class="accent-primary" title="Ignore les ingrédients les plus fréquents">
-              <span id="hide-top-ingredients-value" class="font-semibold">0</span>
-            </label>
-            <label class="inline-flex items-center gap-2 text-sm">
-              <span>Poids des arêtes</span>
-              <select id="edge-weight-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm" title="Définit ce que signifie une arête forte">
-                <option value="freq">Fréquence (plus fréquent = plus fort)</option>
-                <option value="idf">Rareté (IDF) (plus rare = plus fort)</option>
-                <option value="uniform" selected>Uniforme</option>
-              </select>
-            </label>
-            <label class="inline-flex items-center gap-2 text-sm">
-              <span>Impact</span>
-              <input id="edge-impact" type="range" min="0" max="100" value="60" class="accent-primary" title="Impact du poids sur largeur et distance">
-              <span id="edge-impact-value" class="font-semibold">60</span>
-            </label>
-            <label class="inline-flex items-center gap-2 text-sm">
-              <input id="show-tokens" type="checkbox" class="accent-primary" checked>
-              <span>Ingrédients</span>
-            </label>
-            <label class="inline-flex items-center gap-2 text-sm">
-              <input id="show-recipes" type="checkbox" class="accent-primary" checked>
-              <span>Recettes</span>
-            </label>
-            <label class="inline-flex items-center gap-2 text-sm">
-              <input id="show-components" type="checkbox" class="accent-primary" checked>
-              <span>Composants</span>
-            </label>
-            <div class="flex-1"></div>
-            <input id="graph-search" type="text" placeholder="Rechercher un nœud…" class="px-3 py-1 rounded-md border border-gray-300 bg-white text-sm w-48">
-            <button id="btn-fullscreen" class="text-sm px-3 py-1 rounded-lg border border-primary text-primary hover:bg-red-50">Plein écran</button>
-          </div>
-          <div class="mb-3">
-            <div class="text-xs text-gray-600 mb-1">Ingrédients masqués (fréquents) — cliquez pour les afficher à nouveau</div>
-            <div class="flex items-center gap-3">
-              <div id="hidden-top-ingredients" class="flex flex-wrap gap-2"></div>
-              <button id="btn-unhide-all" class="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-50">Tout réintégrer</button>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+            <div class="viz-card rounded-xl outline outline-1 outline-orange-200/60 p-4">
+              <h4 class="text-sm font-semibold text-primary mb-3">Mode & Liens</h4>
+              <div class="flex flex-wrap items-center gap-3">
+                <label class="inline-flex items-center gap-2 text-sm">
+                  <span>Type de liens</span>
+                  <select id="link-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
+                    <option value="auto" selected>Automatique</option>
+                    <option value="recipe-token">Recette → Ingrédient</option>
+                    <option value="token-token">Ingrédient ↔ Ingrédient</option>
+                  </select>
+                </label>
+                <label class="inline-flex items-center gap-2 text-sm">
+                  <span>Poids des arêtes</span>
+                  <select id="edge-weight-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
+                    <option value="freq">Fréquence</option>
+                    <option value="idf">Rareté (IDF)</option>
+                    <option value="uniform" selected>Uniforme</option>
+                  </select>
+                </label>
+                <label class="inline-flex items-center gap-2 text-sm">
+                  <span>Impact</span>
+                  <input id="edge-impact" type="range" min="0" max="100" value="60" class="accent-primary">
+                  <span id="edge-impact-value" class="font-semibold">60</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="viz-card rounded-xl outline outline-1 outline-orange-200/60 p-4">
+              <h4 class="text-sm font-semibold text-primary mb-3">Affichage des nœuds</h4>
+              <div class="flex flex-wrap items-center gap-4">
+                <label class="inline-flex items-center gap-2 text-sm"><input id="show-tokens" type="checkbox" class="accent-primary" checked><span>Ingrédients</span></label>
+                <label class="inline-flex items-center gap-2 text-sm"><input id="show-recipes" type="checkbox" class="accent-primary" checked><span>Recettes</span></label>
+                <label class="inline-flex items-center gap-2 text-sm"><input id="show-components" type="checkbox" class="accent-primary" checked><span>Composants</span></label>
+              </div>
+            </div>
+
+            <div class="viz-card rounded-xl outline outline-1 outline-orange-200/60 p-4">
+              <h4 class="text-sm font-semibold text-primary mb-3">Données & Filtres</h4>
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <label class="inline-flex items-center gap-2 text-sm"><span>Max recettes</span><input id="max-recipes" type="range" min="10" max="150" value="60" class="accent-primary"><span id="max-recipes-value" class="font-semibold">60</span></label>
+                <label class="inline-flex items-center gap-2 text-sm"><span>Max ingrédients</span><input id="max-ingredients" type="range" min="10" max="150" value="60" class="accent-primary"><span id="max-ingredients-value" class="font-semibold">60</span></label>
+                <label class="inline-flex items-center gap-2 text-sm"><span>Masquer top fréquents</span><input id="hide-top-ingredients" type="range" min="0" max="50" value="0" class="accent-primary"><span id="hide-top-ingredients-value" class="font-semibold">0</span></label>
+              </div>
+              <div>
+                <div class="text-xs text-gray-600 mb-1">Ingrédients masqués (fréquents) — cliquez pour les réintégrer</div>
+                <div class="flex items-center gap-3">
+                  <div id="hidden-top-ingredients" class="flex flex-wrap gap-2"></div>
+                  <button id="btn-unhide-all" class="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-50">Tout réintégrer</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="viz-card rounded-xl outline outline-1 outline-orange-200/60 p-4">
+              <h4 class="text-sm font-semibold text-primary mb-3">Interaction</h4>
+              <div class="flex items-center gap-3">
+                <input id="graph-search" type="text" placeholder="Rechercher un nœud…" class="px-3 py-1 rounded-full border border-gray-300 bg-white text-sm w-48">
+                <button id="btn-fullscreen" class="text-sm px-3 py-1 rounded-lg border border-primary text-primary hover:bg-red-50">Plein écran</button>
+              </div>
             </div>
           </div>
           <div class="rounded-xl outline outline-1 outline-orange-200/60 p-2 bg-gradient-to-br from-white to-orange-50" id="force-container" style="min-height: 480px;">
@@ -143,6 +152,7 @@ permalink: /recherche/
               <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#f97316"></span> recette</span>
               <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#14b8a6"></span> composant</span>
               <span class="inline-flex items-center gap-1"><span class="inline-block w-6 h-[3px] bg-gray-400"></span> épaisseur (si activée) = poids choisi</span>
+              <span id="link-mode-badge" class="inline-flex items-center gap-2 px-2 py-1 rounded-full border border-gray-300">Liens: Auto</span>
             </div>
           </div>
         </div>
@@ -502,16 +512,52 @@ function renderForceGraph(items) {
   const impact = Number(document.getElementById('edge-impact')?.value || 60) / 100; // 0..1
   const weightingEnabled = true; // always enabled, but mode can be 'uniform'
 
-  for (const r of recipes) {
-    if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
-    for (const tok of r.tokens) if (topTokens.has(tok) && showTokens) {
-      const freq = df.get(tok) || 1;
-      const idf = Math.log(1 + Ndocs / freq);
+  // Build links
+  const linkMode = (document.getElementById('link-mode')?.value) || 'auto';
+  const useRecipeToken = linkMode === 'recipe-token' || (linkMode === 'auto' && (showRecipes || showComponents));
+  const useTokenToken = linkMode === 'token-token' || (linkMode === 'auto' && !(showRecipes || showComponents));
+
+  if (useRecipeToken) {
+    // Standard recipe/component → token links
+    for (const r of recipes) {
+      if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
+      for (const tok of r.tokens) if (topTokens.has(tok) && showTokens) {
+        const freq = df.get(tok) || 1;
+        const idf = Math.log(1 + Ndocs / freq);
+        let wRaw = 1;
+        if (weightMode === 'idf') wRaw = idf;
+        else if (weightMode === 'freq') wRaw = freq;
+        else wRaw = 1;
+        links.push({ source: recipeId.get(r.title), target: tokenId.get(tok), weightRaw: wRaw });
+      }
+    }
+  } else if (useTokenToken && showTokens) {
+    // No recipes/components displayed: infer token↔token edges via hidden recipes/components
+    const pairCount = new Map(); // key: "a||b" where a<b
+    for (const r of recipes) {
+      const toks = Array.from(new Set(Array.from(r.tokens).filter(t => topTokens.has(t))));
+      for (let i = 0; i < toks.length; i++) {
+        for (let j = i + 1; j < toks.length; j++) {
+          const a = toks[i] < toks[j] ? toks[i] : toks[j];
+          const b = toks[i] < toks[j] ? toks[j] : toks[i];
+          const key = `${a}||${b}`;
+          pairCount.set(key, (pairCount.get(key) || 0) + 1);
+        }
+      }
+    }
+
+    for (const [key, count] of pairCount.entries()) {
+      const [a, b] = key.split('||');
+      if (!tokenId.has(a) || !tokenId.has(b)) continue;
+      const fa = df.get(a) || 1;
+      const fb = df.get(b) || 1;
+      const idfa = Math.log(1 + Ndocs / fa);
+      const idfb = Math.log(1 + Ndocs / fb);
       let wRaw = 1;
-      if (weightMode === 'idf') wRaw = idf;
-      else if (weightMode === 'freq') wRaw = freq;
+      if (weightMode === 'idf') wRaw = count * (idfa + idfb) / 2;
+      else if (weightMode === 'freq') wRaw = count;
       else wRaw = 1;
-      links.push({ source: recipeId.get(r.title), target: tokenId.get(tok), weightRaw: wRaw });
+      links.push({ source: tokenId.get(a), target: tokenId.get(b), weightRaw: wRaw });
     }
   }
 
@@ -733,6 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tags = params.get('tags');
   const comp = params.get('components');
   const viz = params.get('viz');
+  const linkPref = params.get('links');
   const ew = params.get('edge');
   const ei = params.get('impact');
   const mr = params.get('mr');
@@ -747,6 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
   if (viz === '0') { document.getElementById('advanced-viz-panel').classList.add('hidden'); document.getElementById('toggle-advanced-viz').textContent = 'Afficher'; }
   if (ew && ['uniform','freq','idf'].includes(ew)) document.getElementById('edge-weight-mode').value = ew;
+  if (linkPref && ['auto','recipe-token','token-token'].includes(linkPref)) document.getElementById('link-mode').value = linkPref;
   if (ei) { document.getElementById('edge-impact').value = ei; document.getElementById('edge-impact-value').textContent = ei; }
   if (mr) { document.getElementById('max-recipes').value = mr; document.getElementById('max-recipes-value').textContent = mr; }
   if (mi) { document.getElementById('max-ingredients').value = mi; document.getElementById('max-ingredients-value').textContent = mi; }
@@ -774,6 +822,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // prune-rare removed
   const hideTopCtrl = document.getElementById('hide-top-ingredients');
   hideTopCtrl.addEventListener('input', (e)=>{ document.getElementById('hide-top-ingredients-value').textContent = e.target.value; refresh(); });
+  const linkModeSel = document.getElementById('link-mode');
+  linkModeSel.addEventListener('change', ()=>{ refresh(); });
   document.getElementById('edge-weight-mode').addEventListener('change', ()=> refresh());
   const edgeImpact = document.getElementById('edge-impact');
   edgeImpact.addEventListener('input', (e)=>{ document.getElementById('edge-impact-value').textContent = e.target.value; refresh(); });
@@ -792,6 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function pushControlsToUrl() {
     setParam('viz', panel.classList.contains('hidden') ? '0' : '1');
+    setParam('links', document.getElementById('link-mode').value);
     setParam('edge', document.getElementById('edge-weight-mode').value);
     setParam('impact', document.getElementById('edge-impact').value);
     setParam('mr', document.getElementById('max-recipes').value);
@@ -802,7 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setParam('sc', document.getElementById('show-components').checked ? '1' : '0');
     setParam('components', document.getElementById('include-components').checked ? '1' : '0');
   }
-  const urlSyncControls = ['edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components'];
+  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components'];
   urlSyncControls.forEach(id => {
     const el = document.getElementById(id);
     const ev = el.tagName === 'SELECT' ? 'change' : 'input';
