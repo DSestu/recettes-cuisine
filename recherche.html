@@ -22,6 +22,24 @@ permalink: /recherche/
         <input id="include-components" type="checkbox" class="accent-primary">
         <span>Inclure les composants</span>
       </label>
+      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+        <span>Mode</span>
+        <select id="search-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
+          <option value="tag" selected>Tags</option>
+          <option value="ingredient">Ingrédients</option>
+        </select>
+      </label>
+      <div id="tolerance-group" class="w-full md:w-auto">
+        <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300 w-full md:w-auto">
+          <span>Tolérance manquants</span>
+          <input id="missing-tolerance" type="range" min="0" max="5" value="0" class="accent-primary"> 
+          <span id="tolerance-value" class="font-semibold">0</span>
+        </label>
+      </div>
+      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+        <input id="infinite-tolerance" type="checkbox" class="accent-primary">
+        <span>Tolérance infinie</span>
+      </label>
     </div>
   </div>
 
@@ -48,19 +66,6 @@ permalink: /recherche/
           <div class="text-xs text-gray-600">Sélectionnez plusieurs ingrédients à la fois. Les résultats afficheront les recettes contenant tous les ingrédients sélectionnés (selon la tolérance).</div>
         </div>
         <div id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
-        <div class="flex flex-col sm:flex-row gap-2">
-          <div id="tolerance-group" class="w-full sm:w-auto">
-            <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300 w-full sm:w-auto">
-              <span>Tolérance manquants</span>
-              <input id="missing-tolerance" type="range" min="0" max="5" value="0" class="accent-primary"> 
-              <span id="tolerance-value" class="font-semibold">0</span>
-            </label>
-          </div>
-          <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300 w-full sm:w-auto">
-            <input id="infinite-tolerance" type="checkbox" class="accent-primary">
-            <span>Tolérance infinie</span>
-          </label>
-        </div>
       </div>
     </div>
 
@@ -364,6 +369,7 @@ const state = {
   includeComponents: false,
   missingTolerance: 0,
   infiniteTolerance: false,
+  mode: 'tag', // 'tag' | 'ingredient'
   query: '',
   selectedTokens: new Set(),
   selectedTags: new Set(),
@@ -446,36 +452,46 @@ function itemMatches(it) {
     const q = state.query.toLowerCase();
     if (!it.textBlob.includes(q)) return false;
   }
-  // tags
-  for (const tg of state.selectedTags) {
-    if (!(it.tags || []).map(String).map(s=>s.trim().toLowerCase()).includes(String(tg).toLowerCase())) return false;
-  }
-  // ingredients tokens subset with tolerance
-  if (!state.infiniteTolerance) {
-    let missing = 0;
-    const setToks = it.ctokens || it.tokens;
-    for (const tok of state.selectedTokens) {
-      if (!setToks.has(tok)) missing += 1;
+  if (state.mode === 'tag') {
+    // Tag-based matching with tolerance
+    if (!state.infiniteTolerance) {
+      let missing = 0;
+      const itTags = new Set((it.tags || []).map(s=>String(s).trim().toLowerCase()));
+      for (const tg of state.selectedTags) if (!itTags.has(String(tg).toLowerCase())) missing += 1;
+      if (missing > state.missingTolerance) return false;
     }
-    if (missing > state.missingTolerance) return false;
   } else {
-    // infinite tolerance mode: accept even if missing exceeds slider
+    // Ingredient-based matching with tolerance
+    if (!state.infiniteTolerance) {
+      let missing = 0;
+      const setToks = it.ctokens || it.tokens;
+      for (const tok of state.selectedTokens) if (!setToks.has(tok)) missing += 1;
+      if (missing > state.missingTolerance) return false;
+    }
   }
   return true;
 }
 
 function getFiltered() {
   const filtered = ITEMS.filter(itemMatches);
-  // Sorting logic: when tolerance applies OR in infinite tolerance mode, sort by count of matched selected ingredients desc
-  if (state.selectedTokens.size > 0 && (state.infiniteTolerance || state.missingTolerance > 0)) {
-    const sel = Array.from(state.selectedTokens).map(t => t);
+  // Sorting with tolerance for current mode
+  const usingTokens = state.mode === 'ingredient';
+  const sel = usingTokens ? Array.from(state.selectedTokens) : Array.from(state.selectedTags).map(s=>String(s).toLowerCase());
+  if (sel.length > 0 && (state.infiniteTolerance || state.missingTolerance > 0)) {
     filtered.sort((a, b) => {
-      const setA = a.ctokens || a.tokens;
-      const setB = b.ctokens || b.tokens;
-      const ma = sel.reduce((acc, t) => acc + (setA.has(t) ? 1 : 0), 0);
-      const mb = sel.reduce((acc, t) => acc + (setB.has(t) ? 1 : 0), 0);
-      if (mb !== ma) return mb - ma;
-      // tie-breaker: title
+      if (usingTokens) {
+        const setA = a.ctokens || a.tokens;
+        const setB = b.ctokens || b.tokens;
+        const ma = sel.reduce((acc, t) => acc + (setA.has(t) ? 1 : 0), 0);
+        const mb = sel.reduce((acc, t) => acc + (setB.has(t) ? 1 : 0), 0);
+        if (mb !== ma) return mb - ma;
+      } else {
+        const tagsA = new Set((a.tags || []).map(x=>String(x).toLowerCase().trim()));
+        const tagsB = new Set((b.tags || []).map(x=>String(x).toLowerCase().trim()));
+        const ma = sel.reduce((acc, t) => acc + (tagsA.has(t) ? 1 : 0), 0);
+        const mb = sel.reduce((acc, t) => acc + (tagsB.has(t) ? 1 : 0), 0);
+        if (mb !== ma) return mb - ma;
+      }
       return String(a.title).localeCompare(String(b.title));
     });
   }
@@ -542,11 +558,16 @@ function updateCharts(items) {
 
   // Ingredients chart
   const tokCount = new Map();
-  for (const it of items) {
-    for (const tok of it.ctokens || it.tokens) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+  if (state.mode === 'ingredient') {
+    for (const it of items) for (const tok of (it.ctokens || it.tokens)) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+    const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
+    renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTokens.has(key)) state.selectedTokens.delete(key); else state.selectedTokens.add(key); updateSelectedChips(); refresh(); }, state.selectedTokens);
+  } else {
+    // In tag mode, show tag distribution instead
+    for (const it of items) for (const tg of (it.tags || [])) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
+    const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
+    renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTags.has(key)) state.selectedTags.delete(key); else state.selectedTags.add(key); updateSelectedChips(); refresh(); }, state.selectedTags);
   }
-  const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
-  renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTokens.has(key)) state.selectedTokens.delete(key); else state.selectedTokens.add(key); updateSelectedChips(); refresh(); }, state.selectedTokens);
 }
 
 // -----------------------------
@@ -578,7 +599,12 @@ function renderForceGraph(items) {
 
   // Select top ingredients
   const tokCount = new Map();
-  for (const it of items) for (const tok of (it.ctokens || it.tokens)) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+  const usingTagsForNodes = (state.mode === 'tag');
+  if (usingTagsForNodes) {
+    for (const it of items) for (const tg of (it.tags || [])) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
+  } else {
+    for (const it of items) for (const tok of (it.ctokens || it.tokens)) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+  }
   let maxIng = Number(document.getElementById('max-ingredients').value || 60);
   let maxRec = Number(document.getElementById('max-recipes').value || 60);
   const pruneRare = false;
@@ -617,8 +643,13 @@ function renderForceGraph(items) {
   // Document frequency for tokens among selected recipes/components
   const df = new Map();
   for (const r of recipes) {
-    const rset = r.ctokens || r.tokens;
-    for (const tok of rset) if (topTokens.has(tok)) df.set(tok, (df.get(tok)||0)+1);
+    if (usingTagsForNodes) {
+      const rtags = new Set((r.tags || []).map(x=>String(x)));
+      for (const tg of rtags) if (topTokens.has(tg)) df.set(tg, (df.get(tg)||0)+1);
+    } else {
+      const rset = r.ctokens || r.tokens;
+      for (const tok of rset) if (topTokens.has(tok)) df.set(tok, (df.get(tok)||0)+1);
+    }
   }
   const Ndocs = Math.max(1, recipes.length);
 
@@ -635,7 +666,8 @@ function renderForceGraph(items) {
     // Standard recipe/component → token links
     for (const r of recipes) {
       if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
-    for (const tok of (r.ctokens || r.tokens)) if (topTokens.has(tok) && showTokens) {
+      const setForLinks = usingTagsForNodes ? new Set((r.tags || []).map(x=>String(x))) : (r.ctokens || r.tokens);
+      for (const tok of setForLinks) if (topTokens.has(tok) && showTokens) {
         const freq = df.get(tok) || 1;
         const idf = Math.log(1 + Ndocs / freq);
         let wRaw = 1;
@@ -649,7 +681,7 @@ function renderForceGraph(items) {
     // No recipes/components displayed: infer token↔token edges via hidden recipes/components
     const pairCount = new Map(); // key: "a||b" where a<b
     for (const r of recipes) {
-       const toks = Array.from(new Set(Array.from((r.ctokens || r.tokens)).filter(t => topTokens.has(t))));
+      const toks = usingTagsForNodes ? Array.from(new Set((r.tags || []).map(x=>String(x)).filter(t => topTokens.has(t)))) : Array.from(new Set(Array.from((r.ctokens || r.tokens)).filter(t => topTokens.has(t))));
       for (let i = 0; i < toks.length; i++) {
         for (let j = i + 1; j < toks.length; j++) {
           const a = toks[i] < toks[j] ? toks[i] : toks[j];
@@ -860,6 +892,8 @@ document.addEventListener('DOMContentLoaded', () => {
   refresh();
 
   $('#include-components').addEventListener('change', (e)=>{ state.includeComponents = e.target.checked; refresh(); });
+  const modeSel = document.getElementById('search-mode');
+  modeSel.addEventListener('change', ()=>{ state.mode = modeSel.value; refresh(); });
   const range = $('#missing-tolerance');
   const tolLabel = $('#tolerance-value');
   range.addEventListener('input', (e)=>{ state.missingTolerance = Number(e.target.value); tolLabel.textContent = e.target.value; refresh(); });
@@ -938,6 +972,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const inf = params.get('inf');
   const linkPref = params.get('links');
   const ew = params.get('edge');
+  const modeParam = params.get('mode');
   const ei = params.get('impact');
   const mr = params.get('mr');
   const mi = params.get('mi');
@@ -953,6 +988,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ing) { ing.split(',').forEach(t=>state.selectedTokens.add(t)); }
   if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
   if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
+  if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
   if (inf === '1') { state.infiniteTolerance = true; document.getElementById('infinite-tolerance').checked = true; }
   if (viz === '0') { document.getElementById('advanced-viz-panel').classList.add('hidden'); document.getElementById('toggle-advanced-viz').textContent = 'Afficher'; }
   if (ew && ['uniform','freq','idf'].includes(ew)) document.getElementById('edge-weight-mode').value = ew;
@@ -1026,8 +1062,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setParam('sc', document.getElementById('show-components').checked ? '1' : '0');
     setParam('components', document.getElementById('include-components').checked ? '1' : '0');
     setParam('inf', document.getElementById('infinite-tolerance').checked ? '1' : '0');
+    setParam('mode', document.getElementById('search-mode').value);
   }
-  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components','infinite-tolerance'];
+  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
   urlSyncControls.forEach(id => {
     const el = document.getElementById(id);
     const ev = el.tagName === 'SELECT' ? 'change' : 'input';
