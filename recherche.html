@@ -1,0 +1,792 @@
+---
+layout: default
+permalink: /recherche/
+---
+
+<div class="content w-full md:w-4/5 h-full overflow-scroll p-6">
+  <div class="mb-6 flex items-center justify-between gap-4">
+    <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary">Recherche avancée</h1>
+    <div class="flex items-center gap-2 text-sm">
+      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+        <input id="include-components" type="checkbox" class="accent-primary">
+        <span>Inclure les composants</span>
+      </label>
+      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+        <span>Tolérance manquants</span>
+        <input id="missing-tolerance" type="range" min="0" max="5" value="0" class="accent-primary"> 
+        <span id="tolerance-value" class="font-semibold">0</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+    <!-- Col 1: Inputs -->
+    <div class="col-span-1 flex flex-col gap-4">
+      <div class="relative">
+        <input id="text-query" type="text" placeholder="Rechercher un titre, une étape, une note…" class="block w-full rounded-lg bg-white px-4 py-3 text-lg text-gray-900 outline outline-2 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary focus:ring-[6px] focus:ring-red-200">
+        <div class="absolute right-3 top-2.5 text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd"/></svg>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm uppercase text-primary font-semibold">J'ai dans mon frigo…</label>
+        <input id="ingredient-input" type="text" placeholder="Ex: carotte, ail, poulet…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
+        <div id="ingredient-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
+        <div id="selected-ingredients" class="flex flex-wrap gap-2"></div>
+        <div class="text-xs text-gray-600">Sélectionnez plusieurs ingrédients à la fois. Les résultats afficheront les recettes contenant tous les ingrédients sélectionnés (selon la tolérance).</div>
+      </div>
+
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm uppercase text-primary font-semibold">Tags</label>
+        <input id="tag-input" type="text" placeholder="Ajouter un tag…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
+        <div id="tag-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
+        <div id="selected-tags" class="flex flex-wrap gap-2"></div>
+        <div id="tag-suggestions" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm uppercase text-primary font-semibold">Ingrédients suggérés</label>
+        <div id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+
+    <!-- Col 2-3: Viz + Results -->
+    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl p-4 outline outline-1 outline-gray-200">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Tags (Top 20)</h3>
+            <button id="reset-tags" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
+          </div>
+          <svg id="tags-chart" class="w-full" style="height: 260px"></svg>
+        </div>
+        <div class="bg-white rounded-xl p-4 outline outline-1 outline-gray-200">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Ingrédients (Top 20)</h3>
+            <button id="reset-ingredients" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
+          </div>
+          <svg id="ingredients-chart" class="w-full" style="height: 260px"></svg>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl p-4 outline outline-1 outline-gray-200">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <h3 class="font-semibold">Visualisations avancées</h3>
+            <span class="text-xs text-gray-500">(facultatif)</span>
+          </div>
+          <button id="toggle-advanced-viz" class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90">Masquer</button>
+        </div>
+        <div id="advanced-viz-panel" class="mt-4 block">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <label class="inline-flex items-center gap-2 text-sm">
+              <span>Max recettes</span>
+              <input id="max-recipes" type="range" min="10" max="150" value="60" class="accent-primary">
+              <span id="max-recipes-value" class="font-semibold">60</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm">
+              <span>Max ingrédients</span>
+              <input id="max-ingredients" type="range" min="10" max="150" value="60" class="accent-primary">
+              <span id="max-ingredients-value" class="font-semibold">60</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm">
+              <span>Masquer top fréquents</span>
+              <input id="hide-top-ingredients" type="range" min="0" max="50" value="0" class="accent-primary" title="Ignore les ingrédients les plus fréquents">
+              <span id="hide-top-ingredients-value" class="font-semibold">0</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm">
+              <span>Poids des arêtes</span>
+              <select id="edge-weight-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm" title="Définit ce que signifie une arête forte">
+                <option value="freq">Fréquence (plus fréquent = plus fort)</option>
+                <option value="idf">Rareté (IDF) (plus rare = plus fort)</option>
+                <option value="uniform" selected>Uniforme</option>
+              </select>
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm">
+              <span>Impact</span>
+              <input id="edge-impact" type="range" min="0" max="100" value="60" class="accent-primary" title="Impact du poids sur largeur et distance">
+              <span id="edge-impact-value" class="font-semibold">60</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm">
+              <input id="show-tokens" type="checkbox" class="accent-primary" checked>
+              <span>Ingrédients</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm">
+              <input id="show-recipes" type="checkbox" class="accent-primary" checked>
+              <span>Recettes</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-sm">
+              <input id="show-components" type="checkbox" class="accent-primary" checked>
+              <span>Composants</span>
+            </label>
+            <div class="flex-1"></div>
+            <input id="graph-search" type="text" placeholder="Rechercher un nœud…" class="px-3 py-1 rounded-md border border-gray-300 bg-white text-sm w-48">
+            <button id="btn-fullscreen" class="text-sm px-3 py-1 rounded-lg border border-primary text-primary hover:bg-red-50">Plein écran</button>
+          </div>
+          <div class="mb-3">
+            <div class="text-xs text-gray-600 mb-1">Ingrédients masqués (fréquents) — cliquez pour les afficher à nouveau</div>
+            <div class="flex items-center gap-3">
+              <div id="hidden-top-ingredients" class="flex flex-wrap gap-2"></div>
+              <button id="btn-unhide-all" class="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-50">Tout réintégrer</button>
+            </div>
+          </div>
+          <div class="rounded-xl outline outline-1 outline-gray-100 p-2 bg-white" id="force-container" style="min-height: 420px;">
+            <svg id="force-graph" class="w-full h-full"></svg>
+            <div class="mt-2 text-xs text-gray-500 flex items-center gap-4">
+              <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#22c55e"></span> ingrédient</span>
+              <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#F53200"></span> recette</span>
+              <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#0ea5e9"></span> composant</span>
+              <span class="inline-flex items-center gap-1"><span class="inline-block w-6 h-[3px] bg-gray-400"></span> épaisseur (si activée) = poids choisi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="uppercase text-primary font-semibold">Résultats</h2>
+          <div class="text-sm text-gray-600"><span id="result-count">0</span> élément(s)</div>
+        </div>
+        <div id="results-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+// -----------------------------
+// Données générées côté Jekyll
+// -----------------------------
+const DATA = [
+  {% for recipe in site.recipes %}
+  {
+    type: 'recipe',
+    title: {{ recipe.title | jsonify }},
+    url: {{ recipe.url | prepend: site.baseurl | jsonify }},
+    image_field: {{ recipe.image | jsonify }},
+    tags: {{ recipe.tags | jsonify }},
+    ingredients_lines: {{ recipe.ingredients | jsonify }}
+  }{% if forloop.last == false %},{% endif %}
+  {% endfor %}
+  {% assign has_components = site.components | size %}
+  {% if has_components > 0 %}
+  ,
+  {% for c in site.components %}
+  {
+    type: 'component',
+    title: {{ c.title | jsonify }},
+    url: {{ c.url | prepend: site.baseurl | jsonify }},
+    image_field: {{ c.image | jsonify }},
+    tags: {{ c.tags | jsonify }},
+    ingredients_lines: {{ c.ingredients | jsonify }}
+  }{% if forloop.last == false %},{% endif %}
+  {% endfor %}
+  {% endif %}
+];
+
+// -----------------------------
+// Normalisation & Indexation
+// -----------------------------
+const FRENCH_STOPWORDS = new Set(['de','du','des','la','le','les','et','ou','au','aux','à','d\'','l\'','en','sur','avec','sans','un','une','vos','mes','ses','nos','vos','ces','ce','cette','pour','par','dans']);
+
+function tokenizeIngredient(line) {
+  if (!line) return [];
+  const tokens = String(line)
+    .toLowerCase()
+    .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+    .replace(/\d+[\w\s\/.,-]*/g, ' ') // retire quantités simples
+    .replace(/[^a-zA-Zàâäçéèêëîïôöùûüÿœ'-\s]/g, ' ')
+    .split(/\s+/)
+    .map(t => t.trim())
+    .filter(t => t.length > 2 && !FRENCH_STOPWORDS.has(t));
+  return Array.from(new Set(tokens));
+}
+
+const BASE = {{ site.baseurl | jsonify }};
+
+function normalizePath(p) {
+  if (!p) return null;
+  if (p.startsWith('http')) return p;
+  if (p.startsWith(BASE)) return p;
+  if (p.startsWith('/')) return `${BASE}${p}`;
+  if (p.startsWith('images/')) return `${BASE}/${p}`;
+  if (p.startsWith('/images/')) return `${BASE}${p}`;
+  return `${BASE}/images/${p}`;
+}
+
+function resolveImageUrl(imageField) {
+  try {
+    if (Array.isArray(imageField) && imageField.length > 0) {
+      const first = String(imageField[0]).trim();
+      const norm = normalizePath(first);
+      if (norm) return norm;
+    }
+    if (typeof imageField === 'string' && imageField.trim().length > 0) {
+      const norm = normalizePath(imageField.trim());
+      if (norm) return norm;
+    }
+  } catch (_) {}
+  return `${BASE}/assets/social.png`;
+}
+
+const ITEMS = DATA.map(item => {
+  const tokens = new Set((item.ingredients_lines || []).flatMap(tokenizeIngredient));
+  const textBlob = [item.title, ...(item.ingredients_lines || [])].join(' ').toLowerCase();
+  const image = resolveImageUrl(item.image_field);
+  return { ...item, image, tokens, textBlob };
+});
+
+const ALL_TOKENS = new Map();
+const ALL_TAGS = new Map();
+for (const it of ITEMS) {
+  for (const t of it.tokens) ALL_TOKENS.set(t, (ALL_TOKENS.get(t) || 0) + 1);
+  for (const tag of (it.tags || [])) {
+    const clean = String(tag).trim();
+    if (!clean) continue;
+    ALL_TAGS.set(clean, (ALL_TAGS.get(clean) || 0) + 1);
+  }
+}
+
+// -----------------------------
+// Etat UI
+// -----------------------------
+const state = {
+  includeComponents: false,
+  missingTolerance: 0,
+  query: '',
+  selectedTokens: new Set(),
+  selectedTags: new Set(),
+};
+
+// -----------------------------
+// Helpers UI
+// -----------------------------
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+function chip(label, onRemove) {
+  const span = document.createElement('span');
+  span.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-200 text-primary text-sm';
+  span.textContent = label;
+  const btn = document.createElement('button');
+  btn.innerHTML = '&times;';
+  btn.className = 'ml-1 hover:opacity-70';
+  btn.addEventListener('click', onRemove);
+  span.appendChild(btn);
+  return span;
+}
+
+function pill(label, onClick, active=false) {
+  const span = document.createElement('button');
+  span.className = `px-3 py-1 rounded-full border text-sm ${active ? 'bg-primary text-white border-primary' : 'bg-white text-primary border-primary hover:bg-red-50'}`;
+  span.textContent = label;
+  span.addEventListener('click', onClick);
+  return span;
+}
+
+function autocompleteItem(text, onClick) {
+  const btn = document.createElement('button');
+  btn.className = 'w-full text-left px-3 py-2 hover:bg-red-50';
+  btn.textContent = text;
+  btn.addEventListener('click', onClick);
+  return btn;
+}
+
+// -----------------------------
+// Rendu des suggestions (Top 20)
+// -----------------------------
+function renderSuggestions() {
+  const topIngredients = Array.from(ALL_TOKENS.entries()).sort((a,b)=>b[1]-a[1]).slice(0,20).map(([k])=>k);
+  const topTags = Array.from(ALL_TAGS.entries()).sort((a,b)=>b[1]-a[1]).slice(0,20).map(([k])=>k);
+
+  const ingC = $('#ingredient-suggestions');
+  ingC.innerHTML = '';
+  for (const ing of topIngredients) {
+    ingC.appendChild(pill(ing, ()=>{ state.selectedTokens.add(ing); updateSelectedChips(); refresh(); }));
+  }
+
+  const tagC = $('#tag-suggestions');
+  tagC.innerHTML = '';
+  for (const tg of topTags) {
+    tagC.appendChild(pill(tg, ()=>{ state.selectedTags.add(tg); updateSelectedChips(); refresh(); }));
+  }
+}
+
+function updateSelectedChips() {
+  const ingSel = $('#selected-ingredients');
+  ingSel.innerHTML = '';
+  for (const t of state.selectedTokens) {
+    ingSel.appendChild(chip(t, ()=>{ state.selectedTokens.delete(t); updateSelectedChips(); refresh(); }));
+  }
+  const tagSel = $('#selected-tags');
+  tagSel.innerHTML = '';
+  for (const t of state.selectedTags) {
+    tagSel.appendChild(chip(t, ()=>{ state.selectedTags.delete(t); updateSelectedChips(); refresh(); }));
+  }
+}
+
+// -----------------------------
+// Filtrage
+// -----------------------------
+function itemMatches(it) {
+  if (!state.includeComponents && it.type !== 'recipe') return false;
+  // text query
+  if (state.query) {
+    const q = state.query.toLowerCase();
+    if (!it.textBlob.includes(q)) return false;
+  }
+  // tags
+  for (const tg of state.selectedTags) {
+    if (!(it.tags || []).map(String).map(s=>s.trim().toLowerCase()).includes(String(tg).toLowerCase())) return false;
+  }
+  // ingredients tokens subset with tolerance
+  let missing = 0;
+  for (const tok of state.selectedTokens) {
+    if (!it.tokens.has(tok)) missing += 1;
+  }
+  if (missing > state.missingTolerance) return false;
+  return true;
+}
+
+function getFiltered() {
+  return ITEMS.filter(itemMatches);
+}
+
+// -----------------------------
+// Résultats
+// -----------------------------
+function renderResults(items) {
+  $('#result-count').textContent = items.length;
+  const grid = $('#results-grid');
+  grid.innerHTML = '';
+  for (const it of items) {
+    const a = document.createElement('a');
+    a.href = it.url;
+    a.className = 'recipe md:hover:scale-105 md:hover:rotate-1 transition';
+    a.innerHTML = `
+      <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(it.image)}');"></canvas>
+      <h1 class="font-semibold leading-tight">${it.title}</h1>
+    `;
+    grid.appendChild(a);
+  }
+}
+
+// -----------------------------
+// Dataviz (bar charts)
+// -----------------------------
+function renderBarChart(svgSel, data, onClick, activeSet = new Set()) {
+  const svg = d3.select(svgSel);
+  svg.selectAll('*').remove();
+  const width = svg.node().clientWidth || 300;
+  const height = svg.node().clientHeight || 260;
+  const margin = {top: 10, right: 10, bottom: 20, left: 100};
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+
+  const g = svg.attr('viewBox', `0 0 ${width} ${height}`).append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+  const x = d3.scaleLinear().domain([0, d3.max(data, d=>d.value)||1]).range([0, innerW]);
+  const y = d3.scaleBand().domain(data.map(d=>d.key)).range([0, innerH]).padding(0.15);
+
+  g.append('g').attr('transform', `translate(0,${innerH})`).call(d3.axisBottom(x).ticks(4));
+  g.append('g').call(d3.axisLeft(y));
+
+  g.selectAll('rect').data(data).enter().append('rect')
+    .attr('x', 0).attr('y', d=>y(d.key))
+    .attr('height', y.bandwidth())
+    .attr('width', d=>x(d.value))
+    .attr('fill', d=> activeSet.has(d.key) ? '#F53200' : '#fb7a5a')
+    .attr('opacity', 0.95)
+    .style('cursor', 'pointer')
+    .on('click', (_, d) => onClick(d.key));
+}
+
+function updateCharts(items) {
+  // Tags chart
+  const tagCount = new Map();
+  for (const it of items) {
+    for (const tg of (it.tags || [])) tagCount.set(tg, (tagCount.get(tg)||0)+1);
+  }
+  const tagData = Array.from(tagCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
+  renderBarChart('#tags-chart', tagData, (key)=>{ if (state.selectedTags.has(key)) state.selectedTags.delete(key); else state.selectedTags.add(key); updateSelectedChips(); refresh(); }, state.selectedTags);
+
+  // Ingredients chart
+  const tokCount = new Map();
+  for (const it of items) {
+    for (const tok of it.tokens) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+  }
+  const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
+  renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTokens.has(key)) state.selectedTokens.delete(key); else state.selectedTokens.add(key); updateSelectedChips(); refresh(); }, state.selectedTokens);
+}
+
+// -----------------------------
+// Visualisations avancées
+// -----------------------------
+function renderForceGraph(items) {
+  const svg = d3.select('#force-graph');
+  svg.selectAll('*').remove();
+  const container = document.getElementById('force-container');
+  function getSize() {
+    // In fullscreen, prefer screen size; otherwise use container rect
+    const isFs = !!document.fullscreenElement && document.fullscreenElement === container;
+    if (isFs) {
+      const w = Math.max(320, window.innerWidth || screen.width || 1024);
+      const h = Math.max(320, window.innerHeight || screen.height || 768);
+      return { w, h };
+    }
+    const r = container.getBoundingClientRect();
+    const w = Math.max(320, Math.floor(r.width));
+    const h = Math.max(320, Math.floor(r.height));
+    return { w, h };
+  }
+  let { w: width, h: height } = getSize();
+  const g = svg.attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio','xMidYMid meet').append('g');
+
+  // Zoom & pan
+  const zoom = d3.zoom().scaleExtent([0.3, 3]).on('zoom', (event) => { g.attr('transform', event.transform); });
+  svg.call(zoom);
+
+  // Select top ingredients
+  const tokCount = new Map();
+  for (const it of items) for (const tok of it.tokens) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+  let maxIng = Number(document.getElementById('max-ingredients').value || 60);
+  let maxRec = Number(document.getElementById('max-recipes').value || 60);
+  const pruneRare = false;
+  const hideTop = Number(document.getElementById('hide-top-ingredients').value || 0);
+  const sortedTokensArr = Array.from(tokCount.entries()).sort((a,b)=>b[1]-a[1]);
+  // Maintain a persistent blacklist across refreshes during the session
+  window.__hiddenTopBlacklist = window.__hiddenTopBlacklist || new Set();
+  // Compute the currently hidden top ingredients, taking blacklist into account
+  const hiddenTop = sortedTokensArr.slice(0, hideTop).map(([k])=>k).filter(k => !window.__hiddenTopBlacklist.has(k));
+  const limitedTokensArr = sortedTokensArr
+    .filter(([k]) => !hiddenTop.includes(k))
+    .slice(0, maxIng);
+  const topTokens = new Set(limitedTokensArr.map(([k])=>k));
+  const tokenWeight = new Map(limitedTokensArr.map(([k,v])=>[k, v]));
+  const recipes = items.slice(0, maxRec); // limit
+
+  const nodes = [];
+  const links = [];
+  const tokenId = new Map();
+  const recipeId = new Map();
+  let id = 0;
+  const showTokens = document.getElementById('show-tokens').checked;
+  const showRecipes = document.getElementById('show-recipes').checked;
+  const showComponents = document.getElementById('show-components').checked;
+
+  for (const tok of topTokens) {
+    if (!showTokens) break;
+    tokenId.set(tok, id++);
+    nodes.push({ id: tokenId.get(tok), label: tok, type: 'token' });
+  }
+  for (const r of recipes) {
+    if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
+    recipeId.set(r.title, id++);
+    nodes.push({ id: recipeId.get(r.title), label: r.title, url: r.url, type: r.type });
+  }
+  // Document frequency for tokens among selected recipes/components
+  const df = new Map();
+  for (const r of recipes) {
+    for (const tok of r.tokens) if (topTokens.has(tok)) df.set(tok, (df.get(tok)||0)+1);
+  }
+  const Ndocs = Math.max(1, recipes.length);
+
+  const weightMode = (document.getElementById('edge-weight-mode')?.value) || 'uniform';
+  const impact = Number(document.getElementById('edge-impact')?.value || 60) / 100; // 0..1
+  const weightingEnabled = true; // always enabled, but mode can be 'uniform'
+
+  for (const r of recipes) {
+    if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
+    for (const tok of r.tokens) if (topTokens.has(tok) && showTokens) {
+      const freq = df.get(tok) || 1;
+      const idf = Math.log(1 + Ndocs / freq);
+      let wRaw = 1;
+      if (weightMode === 'idf') wRaw = idf;
+      else if (weightMode === 'freq') wRaw = freq;
+      else wRaw = 1;
+      links.push({ source: recipeId.get(r.title), target: tokenId.get(tok), weightRaw: wRaw });
+    }
+  }
+
+  // Normalize link weights to [0,1]
+  const ext = d3.extent(links, d=>d.weightRaw);
+  const norm = d3.scaleLinear().domain(ext[0] === ext[1] ? [0,1] : ext).range([0,1]);
+  for (const l of links) l.weight = norm(l.weightRaw);
+
+  // Color by type
+  const colorByType = d => d.type === 'recipe' ? '#F53200' : (d.type === 'component' ? '#0ea5e9' : '#22c55e');
+
+  const minDist = 24;
+  const baseDist = 80;
+  const useWeighted = weightingEnabled && weightMode !== 'uniform';
+  const linkForce = d3.forceLink(links)
+    .id(d => d.id)
+    .distance(d => useWeighted ? (baseDist - (baseDist - minDist) * d.weight * impact) : baseDist)
+    .strength(d => useWeighted ? (0.2 + 0.6 * d.weight * impact) : 0.4);
+
+  let simulation = d3.forceSimulation(nodes)
+    .force('link', linkForce)
+    .force('charge', d3.forceManyBody().strength(-80))
+    .force('center', d3.forceCenter(width/2, height/2))
+    .force('collide', d3.forceCollide(18));
+
+  const linkScale = d3.scaleLinear().domain([0,1]).range([0.5, 4 + 6*impact]);
+  const link = g.append('g').attr('stroke', '#9ca3af').selectAll('line').data(links).enter().append('line')
+    .attr('stroke-width', d => {
+      if (!weightingEnabled) return 1;
+      if (weightMode === 'uniform') return 1;
+      return linkScale(d.weight);
+    });
+  const node = g.append('g').selectAll('g').data(nodes).enter().append('g').call(d3.drag()
+      .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+      .on('end', (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+    );
+
+  node.append('circle')
+    .attr('r', d => d.type === 'recipe' ? 7 : 5)
+    .attr('fill', d => colorByType(d))
+    .attr('opacity', 0.9)
+    .style('cursor', 'pointer')
+    .on('click', (_, d) => {
+      if (d.type === 'token') {
+        const tok = d.label;
+        if (state.selectedTokens.has(tok)) state.selectedTokens.delete(tok); else state.selectedTokens.add(tok);
+        updateSelectedChips();
+        refresh();
+      } else if ((d.type === 'recipe' || d.type === 'component') && d.url) {
+        window.location.href = d.url;
+      }
+    });
+
+  node.append('text')
+    .text(d => d.label)
+    .attr('x', 10)
+    .attr('y', 3)
+    .attr('font-size', 10)
+    .attr('fill', '#6b7280');
+
+  simulation.on('tick', () => {
+    link.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+
+  // Resize handler (including fullscreen changes)
+  function handleResize() {
+    const size = getSize();
+    width = size.w; height = size.h;
+    svg.attr('viewBox', `0 0 ${width} ${height}`);
+    simulation.force('center', d3.forceCenter(width/2, height/2));
+    simulation.alpha(0.3).restart();
+  }
+  window.addEventListener('resize', handleResize);
+  document.addEventListener('fullscreenchange', handleResize);
+
+  // Search highlight
+  const searchInput = document.getElementById('graph-search');
+  function applySearch() {
+    const q = searchInput.value.trim().toLowerCase();
+    node.selectAll('circle').attr('stroke', d => q && d.label.toLowerCase().includes(q) ? '#111827' : null).attr('stroke-width', d => q && d.label.toLowerCase().includes(q) ? 2 : 0);
+  }
+  searchInput.addEventListener('input', applySearch);
+  applySearch();
+
+  // Render the hidden top ingredients as removable pills
+  const hiddenWrap = document.getElementById('hidden-top-ingredients');
+  if (hiddenWrap) {
+    hiddenWrap.innerHTML = '';
+    for (const k of hiddenTop) {
+      const pill = document.createElement('button');
+      pill.className = 'px-3 py-1 rounded-full border text-xs bg-white text-primary border-primary hover:bg-red-50';
+      pill.textContent = k;
+      pill.title = 'Cliquer pour réafficher dans le graphe';
+      pill.addEventListener('click', () => {
+        window.__hiddenTopBlacklist.add(k);
+        refresh();
+      });
+      hiddenWrap.appendChild(pill);
+    }
+  }
+
+  // Fullscreen controls + resize handling
+  document.getElementById('btn-fullscreen').onclick = () => {
+    const container = document.getElementById('force-container');
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else if (container.requestFullscreen) {
+      container.requestFullscreen();
+    }
+  };
+}
+
+function updateAdvancedViz(items) {
+  const panel = document.getElementById('advanced-viz-panel');
+  if (panel.classList.contains('hidden')) return; // do nothing when hidden
+  renderForceGraph(items);
+}
+
+// -----------------------------
+// Rafraîchissement global
+// -----------------------------
+function refresh() {
+  const filtered = getFiltered();
+  renderResults(filtered);
+  updateCharts(filtered);
+  updateAdvancedViz(filtered);
+}
+
+// -----------------------------
+// Listeners
+// -----------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  // init suggestions
+  renderSuggestions();
+  updateSelectedChips();
+  refresh();
+
+  $('#include-components').addEventListener('change', (e)=>{ state.includeComponents = e.target.checked; refresh(); });
+  const range = $('#missing-tolerance');
+  const tolLabel = $('#tolerance-value');
+  range.addEventListener('input', (e)=>{ state.missingTolerance = Number(e.target.value); tolLabel.textContent = e.target.value; refresh(); });
+
+  $('#text-query').addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
+  const ingInput = $('#ingredient-input');
+  const ingAuto = $('#ingredient-autocomplete');
+  ingInput.addEventListener('keydown', (e)=>{
+    if (e.key === 'Enter') {
+      const v = e.target.value.trim().toLowerCase();
+      if (v) { state.selectedTokens.add(v); e.target.value=''; updateSelectedChips(); refresh(); }
+    }
+  });
+  ingInput.addEventListener('input', (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    const candidates = Array.from(ALL_TOKENS.keys()).filter(k => !state.selectedTokens.has(k) && k.includes(q)).slice(0, 20);
+    if (q && candidates.length) {
+      ingAuto.innerHTML = '';
+      for (const c of candidates) {
+        ingAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTokens.add(c); ingInput.value=''; ingAuto.classList.add('hidden'); updateSelectedChips(); refresh(); }));
+      }
+      ingAuto.classList.remove('hidden');
+    } else {
+      ingAuto.classList.add('hidden');
+    }
+  });
+  document.addEventListener('click', (e)=>{ if (!ingAuto.contains(e.target) && e.target !== ingInput) ingAuto.classList.add('hidden'); });
+
+  const tagInput = $('#tag-input');
+  const tagAuto = $('#tag-autocomplete');
+  tagInput.addEventListener('keydown', (e)=>{
+    if (e.key === 'Enter') {
+      const v = e.target.value.trim();
+      if (v) { state.selectedTags.add(v); e.target.value=''; updateSelectedChips(); refresh(); }
+    }
+  });
+  tagInput.addEventListener('input', (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    const candidates = Array.from(ALL_TAGS.keys()).filter(k => !state.selectedTags.has(k) && k.toLowerCase().includes(q)).slice(0, 20);
+    if (q && candidates.length) {
+      tagAuto.innerHTML = '';
+      for (const c of candidates) {
+        tagAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTags.add(c); tagInput.value=''; tagAuto.classList.add('hidden'); updateSelectedChips(); refresh(); }));
+      }
+      tagAuto.classList.remove('hidden');
+    } else {
+      tagAuto.classList.add('hidden');
+    }
+  });
+  document.addEventListener('click', (e)=>{ if (!tagAuto.contains(e.target) && e.target !== tagInput) tagAuto.classList.add('hidden'); });
+
+  $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
+  $('#reset-ingredients').addEventListener('click', ()=>{ state.selectedTokens.clear(); updateSelectedChips(); refresh(); });
+
+  // Paramètres URL (?q= & ingredients=a,b & tags=x,y & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  const ing = params.get('ingredients');
+  const tags = params.get('tags');
+  const comp = params.get('components');
+  const viz = params.get('viz');
+  const ew = params.get('edge');
+  const ei = params.get('impact');
+  const mr = params.get('mr');
+  const mi = params.get('mi');
+  const ht = params.get('ht');
+  const st = params.get('st');
+  const sr = params.get('sr');
+  const sc = params.get('sc');
+  if (q) { state.query = q; $('#text-query').value = q; }
+  if (ing) { ing.split(',').forEach(t=>state.selectedTokens.add(t)); }
+  if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
+  if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
+  if (viz === '0') { document.getElementById('advanced-viz-panel').classList.add('hidden'); document.getElementById('toggle-advanced-viz').textContent = 'Afficher'; }
+  if (ew && ['uniform','freq','idf'].includes(ew)) document.getElementById('edge-weight-mode').value = ew;
+  if (ei) { document.getElementById('edge-impact').value = ei; document.getElementById('edge-impact-value').textContent = ei; }
+  if (mr) { document.getElementById('max-recipes').value = mr; document.getElementById('max-recipes-value').textContent = mr; }
+  if (mi) { document.getElementById('max-ingredients').value = mi; document.getElementById('max-ingredients-value').textContent = mi; }
+  if (ht) { document.getElementById('hide-top-ingredients').value = ht; document.getElementById('hide-top-ingredients-value').textContent = ht; }
+  if (st) document.getElementById('show-tokens').checked = st === '1';
+  if (sr) document.getElementById('show-recipes').checked = sr === '1';
+  if (sc) document.getElementById('show-components').checked = sc === '1';
+
+  updateSelectedChips();
+  refresh();
+
+  // Advanced viz toggles
+  const toggleBtn = document.getElementById('toggle-advanced-viz');
+  const panel = document.getElementById('advanced-viz-panel');
+  toggleBtn.addEventListener('click', ()=>{
+    const isHidden = panel.classList.contains('hidden');
+    panel.classList.toggle('hidden', isHidden ? false : true);
+    toggleBtn.textContent = isHidden ? 'Masquer' : 'Afficher';
+    refresh();
+  });
+  const maxRec = document.getElementById('max-recipes');
+  const maxIng = document.getElementById('max-ingredients');
+  maxRec.addEventListener('input', (e)=>{ document.getElementById('max-recipes-value').textContent = e.target.value; refresh(); });
+  maxIng.addEventListener('input', (e)=>{ document.getElementById('max-ingredients-value').textContent = e.target.value; refresh(); });
+  // prune-rare removed
+  const hideTopCtrl = document.getElementById('hide-top-ingredients');
+  hideTopCtrl.addEventListener('input', (e)=>{ document.getElementById('hide-top-ingredients-value').textContent = e.target.value; refresh(); });
+  document.getElementById('edge-weight-mode').addEventListener('change', ()=> refresh());
+  const edgeImpact = document.getElementById('edge-impact');
+  edgeImpact.addEventListener('input', (e)=>{ document.getElementById('edge-impact-value').textContent = e.target.value; refresh(); });
+  document.getElementById('show-tokens').addEventListener('change', ()=> refresh());
+  document.getElementById('show-recipes').addEventListener('change', ()=> refresh());
+  document.getElementById('show-components').addEventListener('change', ()=> refresh());
+  const btnUnhideAll = document.getElementById('btn-unhide-all');
+  btnUnhideAll.addEventListener('click', ()=>{ window.__hiddenTopBlacklist = new Set(); refresh(); });
+
+  // Sync controls to URL
+  function setParam(name, value) {
+    const u = new URL(window.location);
+    if (value === null || value === undefined || value === '') u.searchParams.delete(name);
+    else u.searchParams.set(name, String(value));
+    window.history.replaceState({}, '', u);
+  }
+  function pushControlsToUrl() {
+    setParam('viz', panel.classList.contains('hidden') ? '0' : '1');
+    setParam('edge', document.getElementById('edge-weight-mode').value);
+    setParam('impact', document.getElementById('edge-impact').value);
+    setParam('mr', document.getElementById('max-recipes').value);
+    setParam('mi', document.getElementById('max-ingredients').value);
+    setParam('ht', document.getElementById('hide-top-ingredients').value);
+    setParam('st', document.getElementById('show-tokens').checked ? '1' : '0');
+    setParam('sr', document.getElementById('show-recipes').checked ? '1' : '0');
+    setParam('sc', document.getElementById('show-components').checked ? '1' : '0');
+    setParam('components', document.getElementById('include-components').checked ? '1' : '0');
+  }
+  const urlSyncControls = ['edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components'];
+  urlSyncControls.forEach(id => {
+    const el = document.getElementById(id);
+    const ev = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(ev, pushControlsToUrl);
+  });
+  toggleBtn.addEventListener('click', pushControlsToUrl);
+
+  // No undo history (supprimé)
+});
+</script>
+
+

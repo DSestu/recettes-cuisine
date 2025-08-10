@@ -5,8 +5,43 @@
 
   <body class="flex h-full font-inter bg-orange-50 text-orange-950">
 
-        {{ content }}
+    <button id="toggle-sidebar" class="fixed top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50" title="Afficher/masquer le menu">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+        <path fill-rule="evenodd" d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+      </svg>
+    </button>
 
+    <aside id="sidebar" class="hidden w-60 h-full bg-white border-r border-gray-200 p-5 pt-16 z-10">
+      <nav class="flex flex-col gap-3 text-sm">
+        <a class="hover:text-primary" href="{{ site.baseurl }}/">Accueil</a>
+        <a class="hover:text-primary" href="{{ site.baseurl }}/recherche/">Recherche</a>
+        <a class="hover:text-primary" href="{{ site.baseurl }}/components/">Composants</a>
+        <a class="hover:text-primary" href="{{ site.baseurl }}/blog.html">Blog</a>
+      </nav>
+    </aside>
+
+    <main class="flex-1">
+      {{ content }}
+    </main>
+
+
+  <a href="{{ site.baseurl }}/recherche/" class="fixed bottom-5 right-5 bg-primary text-white rounded-full p-4 shadow-lg hover:scale-105 hover:rotate-3 transition" title="Recherche avancée">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
+      <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd" />
+    </svg>
+  </a>
+
+  <script>
+    (function(){
+      const btn = document.getElementById('toggle-sidebar');
+      const aside = document.getElementById('sidebar');
+      if (!btn || !aside) return;
+      btn.addEventListener('click', ()=>{
+        const isHidden = aside.classList.contains('hidden');
+        aside.classList.toggle('hidden', !isHidden);
+      });
+    })();
+  </script>
 
   </body>
 
