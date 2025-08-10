@@ -22,11 +22,6 @@ permalink: /recherche/
         <input id="include-components" type="checkbox" class="accent-primary">
         <span>Inclure les composants</span>
       </label>
-      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
-        <span>Tolérance manquants</span>
-        <input id="missing-tolerance" type="range" min="0" max="5" value="0" class="accent-primary"> 
-        <span id="tolerance-value" class="font-semibold">0</span>
-      </label>
     </div>
   </div>
 
@@ -36,14 +31,6 @@ permalink: /recherche/
       <!-- Global free-text input removed per request -->
 
       <div class="flex flex-col gap-2 relative">
-        <label class="text-sm uppercase text-primary font-semibold">J'ai dans mon frigo…</label>
-        <input id="ingredient-input" type="text" placeholder="Ex: carotte, ail, poulet…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
-        <div id="ingredient-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
-        <div id="selected-ingredients" class="flex flex-wrap gap-2"></div>
-        <div class="text-xs text-gray-600">Sélectionnez plusieurs ingrédients à la fois. Les résultats afficheront les recettes contenant tous les ingrédients sélectionnés (selon la tolérance).</div>
-      </div>
-
-      <div class="flex flex-col gap-2 relative">
         <label class="text-sm uppercase text-primary font-semibold">Tags</label>
         <input id="tag-input" type="text" placeholder="Ajouter un tag…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
         <div id="tag-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
@@ -51,9 +38,29 @@ permalink: /recherche/
         <div id="tag-suggestions" class="flex flex-wrap gap-2"></div>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-3">
         <label class="text-sm uppercase text-primary font-semibold">Ingrédients suggérés</label>
+        <div class="flex flex-col gap-2 relative">
+          <label class="text-xs uppercase text-primary/80 font-semibold">J'ai dans mon frigo…</label>
+          <input id="ingredient-input" type="text" placeholder="Ex: carotte, ail, poulet…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
+          <div id="ingredient-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
+          <div id="selected-ingredients" class="flex flex-wrap gap-2"></div>
+          <div class="text-xs text-gray-600">Sélectionnez plusieurs ingrédients à la fois. Les résultats afficheront les recettes contenant tous les ingrédients sélectionnés (selon la tolérance).</div>
+        </div>
         <div id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <div id="tolerance-group" class="w-full sm:w-auto">
+            <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300 w-full sm:w-auto">
+              <span>Tolérance manquants</span>
+              <input id="missing-tolerance" type="range" min="0" max="5" value="0" class="accent-primary"> 
+              <span id="tolerance-value" class="font-semibold">0</span>
+            </label>
+          </div>
+          <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300 w-full sm:w-auto">
+            <input id="infinite-tolerance" type="checkbox" class="accent-primary">
+            <span>Tolérance infinie</span>
+          </label>
+        </div>
       </div>
     </div>
 
@@ -214,17 +221,79 @@ const DATA = [
 // -----------------------------
 // Normalisation & Indexation
 // -----------------------------
-const FRENCH_STOPWORDS = new Set(['de','du','des','la','le','les','et','ou','au','aux','à','d\'','l\'','en','sur','avec','sans','un','une','vos','mes','ses','nos','vos','ces','ce','cette','pour','par','dans']);
+const FRENCH_STOPWORDS = new Set([
+  'de','du','des','la','le','les','et','ou','au','aux','à','d\'','l\'','en','sur','avec','sans','un','une','vos','mes','ses','nos','vos','ces','ce','cette','pour','par','dans',
+  // mesures / quantités / adjectifs communs
+  'g','gramme','grammes','kg','mg','ml','cl','l','litre','litres','cuillere','cuillère','cuilleres','cuillères','cac','cas','càs','càc','tasse','verre','pincee','pincée','tranche','tranches',
+  'gros','grosses','grandes','grand','petit','petite','petites','petits','noix','poignee','poignée','morceaux','morceau','environ','environs','semi','epaisse','épaisse','fraiche','fraîche','fin','fins','fine','fines','bio','frais','fraichement','seche','sèche','sec','secs','degraines','degraines',
+  // articles/liaisons courants
+  'le','la','les','des','de','d','l','au','aux','du'
+]);
+
+function normalizeBasic(s) {
+  return String(s).toLowerCase()
+    .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+    .replace(/œ/g, 'oe')
+    .replace(/[^a-z0-9\-\s']/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function singularize(frWord) {
+  let w = frWord;
+  if (w.endsWith('es') && w.length > 4) return w.slice(0, -2);
+  if (w.endsWith('s') && w.length > 3) return w.slice(0, -1);
+  if (w.endsWith('x') && w.length > 3) return w.slice(0, -1);
+  return w;
+}
+
+function levenshtein(a, b){
+  const m = a.length, n = b.length;
+  if (m === 0) return n; if (n === 0) return m;
+  const dp = new Array(n + 1);
+  for (let j = 0; j <= n; j++) dp[j] = j;
+  for (let i = 1; i <= m; i++) {
+    let prev = i - 1; // dp[i-1][j-1]
+    dp[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const temp = dp[j];
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[j] = Math.min(
+        dp[j] + 1,      // deletion
+        dp[j - 1] + 1,  // insertion
+        prev + cost     // substitution
+      );
+      prev = temp;
+    }
+  }
+  return dp[n];
+}
+
+function buildCanonicalMap(vocabulary) {
+  const canonicalMap = new Map();
+  const representatives = [];
+  function toCandidate(t){
+    return singularize(normalizeBasic(t));
+  }
+  const tokens = Array.from(vocabulary).map(toCandidate).filter(t => t && !FRENCH_STOPWORDS.has(t));
+  for (const tok of tokens) {
+    let best = null, bestDist = Infinity;
+    for (const rep of representatives) {
+      const dist = levenshtein(tok, rep);
+      const thr = rep.length <= 4 ? 1 : (rep.length <= 7 ? 2 : 3);
+      if (dist < bestDist && dist <= thr) { bestDist = dist; best = rep; }
+    }
+    if (best) canonicalMap.set(tok, best); else { representatives.push(tok); canonicalMap.set(tok, tok); }
+  }
+  return { canonicalMap, representatives: new Set(representatives) };
+}
 
 function tokenizeIngredient(line) {
   if (!line) return [];
-  const tokens = String(line)
-    .toLowerCase()
-    .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+  const tokens = normalizeBasic(String(line))
     .replace(/\d+[\w\s\/.,-]*/g, ' ') // retire quantités simples
-    .replace(/[^a-zA-Zàâäçéèêëîïôöùûüÿœ'-\s]/g, ' ')
     .split(/\s+/)
-    .map(t => t.trim())
+    .map(t => singularize(t))
     .filter(t => t.length > 2 && !FRENCH_STOPWORDS.has(t));
   return Array.from(new Set(tokens));
 }
@@ -260,13 +329,27 @@ const ITEMS = DATA.map(item => {
   const tokens = new Set((item.ingredients_lines || []).flatMap(tokenizeIngredient));
   const textBlob = [item.title, ...(item.ingredients_lines || [])].join(' ').toLowerCase();
   const image = resolveImageUrl(item.image_field);
-  return { ...item, image, tokens, textBlob };
+  // also create a mutable ctokens placeholder that we will fill after canonical map is built
+  return { ...item, image, tokens, ctokens: new Set(), textBlob };
 });
+
+// Build canonical vocabulary from all items and attach canonical tokens per item
+const VOCAB = new Set();
+for (const it of ITEMS) { for (const t of it.tokens) VOCAB.add(t); }
+const { canonicalMap: TOKEN_TO_CANON } = buildCanonicalMap(VOCAB);
+function toCanonical(t){
+  const cand = singularize(normalizeBasic(t));
+  return TOKEN_TO_CANON.get(cand) || cand;
+}
+for (const it of ITEMS) {
+  it.ctokens.clear();
+  for (const t of it.tokens) it.ctokens.add(toCanonical(t));
+}
 
 const ALL_TOKENS = new Map();
 const ALL_TAGS = new Map();
 for (const it of ITEMS) {
-  for (const t of it.tokens) ALL_TOKENS.set(t, (ALL_TOKENS.get(t) || 0) + 1);
+  for (const t of it.ctokens) ALL_TOKENS.set(t, (ALL_TOKENS.get(t) || 0) + 1);
   for (const tag of (it.tags || [])) {
     const clean = String(tag).trim();
     if (!clean) continue;
@@ -280,6 +363,7 @@ for (const it of ITEMS) {
 const state = {
   includeComponents: false,
   missingTolerance: 0,
+  infiniteTolerance: false,
   query: '',
   selectedTokens: new Set(),
   selectedTags: new Set(),
@@ -367,16 +451,35 @@ function itemMatches(it) {
     if (!(it.tags || []).map(String).map(s=>s.trim().toLowerCase()).includes(String(tg).toLowerCase())) return false;
   }
   // ingredients tokens subset with tolerance
-  let missing = 0;
-  for (const tok of state.selectedTokens) {
-    if (!it.tokens.has(tok)) missing += 1;
+  if (!state.infiniteTolerance) {
+    let missing = 0;
+    const setToks = it.ctokens || it.tokens;
+    for (const tok of state.selectedTokens) {
+      if (!setToks.has(tok)) missing += 1;
+    }
+    if (missing > state.missingTolerance) return false;
+  } else {
+    // infinite tolerance mode: accept even if missing exceeds slider
   }
-  if (missing > state.missingTolerance) return false;
   return true;
 }
 
 function getFiltered() {
-  return ITEMS.filter(itemMatches);
+  const filtered = ITEMS.filter(itemMatches);
+  // Sorting logic: when tolerance applies OR in infinite tolerance mode, sort by count of matched selected ingredients desc
+  if (state.selectedTokens.size > 0 && (state.infiniteTolerance || state.missingTolerance > 0)) {
+    const sel = Array.from(state.selectedTokens).map(t => t);
+    filtered.sort((a, b) => {
+      const setA = a.ctokens || a.tokens;
+      const setB = b.ctokens || b.tokens;
+      const ma = sel.reduce((acc, t) => acc + (setA.has(t) ? 1 : 0), 0);
+      const mb = sel.reduce((acc, t) => acc + (setB.has(t) ? 1 : 0), 0);
+      if (mb !== ma) return mb - ma;
+      // tie-breaker: title
+      return String(a.title).localeCompare(String(b.title));
+    });
+  }
+  return filtered;
 }
 
 // -----------------------------
@@ -440,7 +543,7 @@ function updateCharts(items) {
   // Ingredients chart
   const tokCount = new Map();
   for (const it of items) {
-    for (const tok of it.tokens) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+    for (const tok of it.ctokens || it.tokens) tokCount.set(tok, (tokCount.get(tok)||0)+1);
   }
   const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
   renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTokens.has(key)) state.selectedTokens.delete(key); else state.selectedTokens.add(key); updateSelectedChips(); refresh(); }, state.selectedTokens);
@@ -475,7 +578,7 @@ function renderForceGraph(items) {
 
   // Select top ingredients
   const tokCount = new Map();
-  for (const it of items) for (const tok of it.tokens) tokCount.set(tok, (tokCount.get(tok)||0)+1);
+  for (const it of items) for (const tok of (it.ctokens || it.tokens)) tokCount.set(tok, (tokCount.get(tok)||0)+1);
   let maxIng = Number(document.getElementById('max-ingredients').value || 60);
   let maxRec = Number(document.getElementById('max-recipes').value || 60);
   const pruneRare = false;
@@ -514,7 +617,8 @@ function renderForceGraph(items) {
   // Document frequency for tokens among selected recipes/components
   const df = new Map();
   for (const r of recipes) {
-    for (const tok of r.tokens) if (topTokens.has(tok)) df.set(tok, (df.get(tok)||0)+1);
+    const rset = r.ctokens || r.tokens;
+    for (const tok of rset) if (topTokens.has(tok)) df.set(tok, (df.get(tok)||0)+1);
   }
   const Ndocs = Math.max(1, recipes.length);
 
@@ -531,7 +635,7 @@ function renderForceGraph(items) {
     // Standard recipe/component → token links
     for (const r of recipes) {
       if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
-      for (const tok of r.tokens) if (topTokens.has(tok) && showTokens) {
+    for (const tok of (r.ctokens || r.tokens)) if (topTokens.has(tok) && showTokens) {
         const freq = df.get(tok) || 1;
         const idf = Math.log(1 + Ndocs / freq);
         let wRaw = 1;
@@ -545,7 +649,7 @@ function renderForceGraph(items) {
     // No recipes/components displayed: infer token↔token edges via hidden recipes/components
     const pairCount = new Map(); // key: "a||b" where a<b
     for (const r of recipes) {
-      const toks = Array.from(new Set(Array.from(r.tokens).filter(t => topTokens.has(t))));
+       const toks = Array.from(new Set(Array.from((r.ctokens || r.tokens)).filter(t => topTokens.has(t))));
       for (let i = 0; i < toks.length; i++) {
         for (let j = i + 1; j < toks.length; j++) {
           const a = toks[i] < toks[j] ? toks[i] : toks[j];
@@ -759,12 +863,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const range = $('#missing-tolerance');
   const tolLabel = $('#tolerance-value');
   range.addEventListener('input', (e)=>{ state.missingTolerance = Number(e.target.value); tolLabel.textContent = e.target.value; refresh(); });
+  const infToggle = document.getElementById('infinite-tolerance');
+  const tolGroup = document.getElementById('tolerance-group');
+  function applyToleranceVisibility(){
+    tolGroup.style.display = state.infiniteTolerance ? 'none' : '';
+  }
+  infToggle.addEventListener('change', (e)=>{
+    state.infiniteTolerance = e.target.checked;
+    applyToleranceVisibility();
+    refresh();
+  });
+  applyToleranceVisibility();
 
   const textInputEl = document.getElementById('text-query');
   if (textInputEl) {
     textInputEl.addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
   }
-  const ingInput = $('#ingredient-input');
+   const ingInput = $('#ingredient-input');
   const ingAuto = $('#ingredient-autocomplete');
   ingInput.addEventListener('keydown', (e)=>{
     if (e.key === 'Enter') {
@@ -772,13 +887,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (v) { state.selectedTokens.add(v); e.target.value=''; updateSelectedChips(); refresh(); }
     }
   });
-  ingInput.addEventListener('input', (e)=>{
+   ingInput.addEventListener('input', (e)=>{
     const q = e.target.value.trim().toLowerCase();
-    const candidates = Array.from(ALL_TOKENS.keys()).filter(k => !state.selectedTokens.has(k) && k.includes(q)).slice(0, 20);
+     const candidates = Array.from(ALL_TOKENS.keys()).filter(k => !state.selectedTokens.has(k) && k.includes(q)).slice(0, 20);
     if (q && candidates.length) {
       ingAuto.innerHTML = '';
       for (const c of candidates) {
-        ingAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTokens.add(c); ingInput.value=''; ingAuto.classList.add('hidden'); updateSelectedChips(); refresh(); }));
+         ingAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTokens.add(c); ingInput.value=''; ingAuto.classList.add('hidden'); updateSelectedChips(); refresh(); }));
       }
       ingAuto.classList.remove('hidden');
     } else {
@@ -820,6 +935,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tags = params.get('tags');
   const comp = params.get('components');
   const viz = params.get('viz');
+  const inf = params.get('inf');
   const linkPref = params.get('links');
   const ew = params.get('edge');
   const ei = params.get('impact');
@@ -837,6 +953,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ing) { ing.split(',').forEach(t=>state.selectedTokens.add(t)); }
   if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
   if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
+  if (inf === '1') { state.infiniteTolerance = true; document.getElementById('infinite-tolerance').checked = true; }
   if (viz === '0') { document.getElementById('advanced-viz-panel').classList.add('hidden'); document.getElementById('toggle-advanced-viz').textContent = 'Afficher'; }
   if (ew && ['uniform','freq','idf'].includes(ew)) document.getElementById('edge-weight-mode').value = ew;
   if (linkPref && ['auto','recipe-token','token-token'].includes(linkPref)) document.getElementById('link-mode').value = linkPref;
@@ -850,6 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateSelectedChips();
   refresh();
+  applyToleranceVisibility();
 
   // Advanced viz toggles
   const toggleBtn = document.getElementById('toggle-advanced-viz');
@@ -907,8 +1025,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setParam('sr', document.getElementById('show-recipes').checked ? '1' : '0');
     setParam('sc', document.getElementById('show-components').checked ? '1' : '0');
     setParam('components', document.getElementById('include-components').checked ? '1' : '0');
+    setParam('inf', document.getElementById('infinite-tolerance').checked ? '1' : '0');
   }
-  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components'];
+  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components','infinite-tolerance'];
   urlSyncControls.forEach(id => {
     const el = document.getElementById(id);
     const ev = el.tagName === 'SELECT' ? 'change' : 'input';
