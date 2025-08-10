@@ -3,15 +3,21 @@ layout: default
 permalink: /recherche/
 ---
 
-<div class="content w-full md:w-full p-6">
+ <div class="content w-full md:w-full p-6">
+   <!-- Floating back button -->
+  <a href="#" onclick="if(document.referrer){history.back();}else{window.location.href='{{ site.baseurl }}/';} return false;" class="fixed top-4 left-4 md:left-16 z-30 bg-white rounded-full p-3 shadow border border-gray-200 hover:bg-gray-50 md:hidden" title="Retour" aria-label="Retour">
+     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+       <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+     </svg>
+   </a>
   <style>
     .viz-card{background:linear-gradient(135deg,#fff 0%,#fff6f2 60%,#ffe8e1 100%)}
     .chip{border:1px solid rgba(245,50,0,.35);background:rgba(245,50,0,.08)}
     #viz-tooltip{position:fixed;pointer-events:none;background:rgba(17,24,39,.96);color:#fff;padding:.5rem .65rem;border-radius:.5rem;font-size:.75rem;box-shadow:0 10px 20px rgba(0,0,0,.25);z-index:50;transform:translate(-50%,-120%);display:none}
   </style>
-  <div class="mb-6 flex items-center justify-between gap-4">
-    <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary">Recherche avancée</h1>
-    <div class="flex items-center gap-2 text-sm">
+   <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+     <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary">Recherche avancée</h1>
+    <div class="flex flex-col md:flex-row items-start md:items-center gap-2 text-sm">
       <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
         <input id="include-components" type="checkbox" class="accent-primary">
         <span>Inclure les composants</span>
@@ -27,12 +33,7 @@ permalink: /recherche/
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
     <!-- Col 1: Inputs -->
     <div class="col-span-1 flex flex-col gap-4">
-      <div class="relative">
-        <input id="text-query" type="text" placeholder="Rechercher un titre, une étape, une note…" class="block w-full rounded-lg bg-white px-4 py-3 text-lg text-gray-900 outline outline-2 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary focus:ring-[6px] focus:ring-red-200">
-        <div class="absolute right-3 top-2.5 text-gray-500">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd"/></svg>
-        </div>
-      </div>
+      <!-- Global free-text input removed per request -->
 
       <div class="flex flex-col gap-2 relative">
         <label class="text-sm uppercase text-primary font-semibold">J'ai dans mon frigo…</label>
@@ -58,20 +59,29 @@ permalink: /recherche/
 
     <!-- Col 2-3: Viz + Results -->
     <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(100vh-6rem)]">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-semibold">Tags (Top 20)</h3>
-            <button id="reset-tags" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
+      <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <h3 class="font-semibold">Tags histograms</h3>
+            <span class="text-xs text-gray-500">(mobile: replié par défaut)</span>
           </div>
-          <svg id="tags-chart" class="w-full" style="height: 260px"></svg>
+          <button id="toggle-histograms" class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90">Afficher</button>
         </div>
-        <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-semibold">Ingrédients (Top 20)</h3>
-            <button id="reset-ingredients" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
+        <div id="histograms-panel" class="mt-4 hidden md:grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-semibold">Tags (Top 20)</h3>
+              <button id="reset-tags" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
+            </div>
+            <svg id="tags-chart" class="w-full" style="height: 260px"></svg>
           </div>
-          <svg id="ingredients-chart" class="w-full" style="height: 260px"></svg>
+          <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-semibold">Ingrédients (Top 20)</h3>
+              <button id="reset-ingredients" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
+            </div>
+            <svg id="ingredients-chart" class="w-full" style="height: 260px"></svg>
+          </div>
         </div>
       </div>
 
@@ -81,9 +91,9 @@ permalink: /recherche/
             <h3 class="font-semibold">Visualisations avancées</h3>
             <span class="text-xs text-gray-500">(facultatif)</span>
           </div>
-          <button id="toggle-advanced-viz" class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90">Masquer</button>
+           <button id="toggle-advanced-viz" class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90">Afficher</button>
         </div>
-        <div id="advanced-viz-panel" class="mt-4 block">
+         <div id="advanced-viz-panel" class="mt-4 hidden">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
             <div class="viz-card rounded-xl outline outline-1 outline-orange-200/60 p-4">
               <h4 class="text-sm font-semibold text-primary mb-3">Mode & Liens</h4>
@@ -690,6 +700,34 @@ function renderForceGraph(items) {
       container.requestFullscreen();
     }
   };
+
+  // Add exit fullscreen button inside container when in fullscreen
+  function ensureFsButton(){
+    const container = document.getElementById('force-container');
+    let btn = document.getElementById('fs-exit-btn');
+    if (!btn){
+      btn = document.createElement('button');
+      btn.id = 'fs-exit-btn';
+      btn.innerHTML = '✕';
+      btn.title = 'Quitter le plein écran';
+      btn.style.position = 'absolute';
+      btn.style.top = '8px';
+      btn.style.left = '8px';
+      btn.style.zIndex = '60';
+      btn.style.padding = '6px 10px';
+      btn.style.borderRadius = '8px';
+      btn.style.background = 'rgba(255,255,255,0.9)';
+      btn.style.border = '1px solid #e5e7eb';
+      btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.08)';
+      btn.style.cursor = 'pointer';
+      btn.addEventListener('click', ()=>{ if(document.fullscreenElement) document.exitFullscreen(); });
+      container.style.position = 'relative';
+      container.appendChild(btn);
+    }
+    btn.style.display = document.fullscreenElement ? 'block' : 'none';
+  }
+  document.addEventListener('fullscreenchange', ensureFsButton);
+  ensureFsButton();
 }
 
 function updateAdvancedViz(items) {
@@ -722,7 +760,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const tolLabel = $('#tolerance-value');
   range.addEventListener('input', (e)=>{ state.missingTolerance = Number(e.target.value); tolLabel.textContent = e.target.value; refresh(); });
 
-  $('#text-query').addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
+  const textInputEl = document.getElementById('text-query');
+  if (textInputEl) {
+    textInputEl.addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
+  }
   const ingInput = $('#ingredient-input');
   const ingAuto = $('#ingredient-autocomplete');
   ingInput.addEventListener('keydown', (e)=>{
@@ -788,7 +829,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const st = params.get('st');
   const sr = params.get('sr');
   const sc = params.get('sc');
-  if (q) { state.query = q; $('#text-query').value = q; }
+  if (q) {
+    state.query = q;
+    const ti = document.getElementById('text-query');
+    if (ti) ti.value = q;
+  }
   if (ing) { ing.split(',').forEach(t=>state.selectedTokens.add(t)); }
   if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
   if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
@@ -815,6 +860,16 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleBtn.textContent = isHidden ? 'Masquer' : 'Afficher';
     refresh();
   });
+  // Histograms accordion (mobile collapsed by default)
+  const toggleHist = document.getElementById('toggle-histograms');
+  const histPanel = document.getElementById('histograms-panel');
+  if (toggleHist && histPanel) {
+    toggleHist.addEventListener('click', ()=>{
+      const isHidden = histPanel.classList.contains('hidden');
+      histPanel.classList.toggle('hidden', isHidden ? false : true);
+      toggleHist.textContent = isHidden ? 'Masquer' : 'Afficher';
+    });
+  }
   const maxRec = document.getElementById('max-recipes');
   const maxIng = document.getElementById('max-ingredients');
   maxRec.addEventListener('input', (e)=>{ document.getElementById('max-recipes-value').textContent = e.target.value; refresh(); });

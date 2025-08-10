@@ -16,11 +16,13 @@
     </main>
 
 
-  <a href="{{ site.baseurl }}/recherche/" class="fixed bottom-5 right-5 bg-primary text-white rounded-full p-4 shadow-lg hover:scale-105 hover:rotate-3 transition" title="Recherche avancée">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
-      <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd" />
-    </svg>
-  </a>
+  {% unless page.permalink == '/recherche/' or page.url == '/recherche/' %}
+    <a href="{{ site.baseurl }}/recherche/" class="fixed bottom-5 right-5 bg-primary text-white rounded-full p-4 shadow-lg hover:scale-105 hover:rotate-3 transition" title="Recherche avancée">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
+        <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd" />
+      </svg>
+    </a>
+  {% endunless %}
 
   <script>
     (function(){
