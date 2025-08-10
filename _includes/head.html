@@ -50,6 +50,17 @@
         scrollbar-width: none;  /* Firefox */
     }
 
+    /* Mobile nav smooth hide/show */
+    .mobile-nav { 
+      transition: transform 250ms ease, opacity 200ms ease; 
+      will-change: transform, opacity; 
+      background: rgba(255, 247, 237, 0.9); /* orange-50 with alpha */
+      backdrop-filter: saturate(160%) blur(10px);
+      -webkit-backdrop-filter: saturate(160%) blur(10px);
+    }
+    .mobile-nav.nav-hidden { transform: translateY(100%); opacity: 0; pointer-events: none; }
+    .mobile-nav.nav-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
   </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -105,7 +116,7 @@
 
 </head>
 
-<nav class="w-full md:w-1/4 lg:w-1/5 md:h-full bg-orange-50 fixed md:relative left-0 bottom-0 flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-8 md:gap-4 z-10 shadow-3xl md:shadow-none {% if page.url contains '/recipes/' %}md:hidden{% endif %}">
+<nav class="mobile-nav nav-visible w-full md:w-1/4 lg:w-1/5 md:h-full bg-orange-50 fixed md:relative left-0 bottom-0 flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-8 md:gap-4 z-10 shadow-3xl md:shadow-none {% if page.url contains '/recipes/' %}md:hidden{% endif %}">
       <a href="{{ site.baseurl }}/" class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/' %}text-primary{% endif %}">
         <svg class="w-12 md:w-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18 16.25H15V7.5H12V16.25H9V7.5H6V16.25C6 18.9 8.49 21.05 11.625 21.2125V32.5H15.375V21.2125C18.51 21.05 21 18.9 21 16.25V7.5H18V16.25ZM25.5 12.5V22.5H29.25V32.5H33V7.5C28.86 7.5 25.5 10.3 25.5 12.5Z" fill="currentColor" />
@@ -140,4 +151,25 @@
         });
       });
     });
+
+    // Smooth hide/show nav on scroll (mobile)
+    (function(){
+      const nav = document.querySelector('body > nav');
+      if (!nav) return;
+      let lastY = window.scrollY || 0;
+      window.addEventListener('scroll', () => {
+        if (nav.classList.contains('hidden')) return;
+        const y = window.scrollY || 0;
+        const goingDown = y > lastY && y > 8;
+        const atTop = y <= 0;
+        if (goingDown) {
+          nav.classList.add('nav-hidden');
+          nav.classList.remove('nav-visible');
+        } else if (atTop || y < lastY) {
+          nav.classList.remove('nav-hidden');
+          nav.classList.add('nav-visible');
+        }
+        lastY = y;
+      }, { passive: true });
+    })();
   </script>
