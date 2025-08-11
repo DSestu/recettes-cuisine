@@ -1126,7 +1126,7 @@ function renderForceGraph(items) {
       wrap.style.display = 'none';
       wrap.innerHTML = `
         <div class="relative rounded-xl border border-gray-300 bg-white/50 px-4 py-3 shadow">
-          <button id="fs-overlay-toggle" class="absolute right-2 top-2 p-1.5 rounded-full border border-gray-300 bg-white hover:bg-gray-50" title="Afficher/Masquer">
+          <button id="fs-overlay-toggle" class="absolute right-2 top-2 p-1.5 rounded-full border border-gray-300 bg-white hover:bg-gray-50 z-[9999]" title="Afficher/Masquer" style="pointer-events:auto;">
             <svg id="fs-overlay-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M5.47 14.53a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-1.06 1.06L12 9.06l-5.47 5.47a.75.75 0 0 1-1.06 0Z" clip-rule="evenodd"/></svg>
           </button>
           <div id="fs-overlay-body" class="flex flex-col items-center gap-2 transition-all duration-200">
