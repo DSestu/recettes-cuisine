@@ -791,6 +791,18 @@ function renderForceGraph(items) {
   window.addEventListener('resize', handleResize);
   document.addEventListener('fullscreenchange', handleResize);
 
+  // On exiting fullscreen: reset zoom and restore size
+  document.addEventListener('fullscreenchange', () => {
+    const isFs = !!document.fullscreenElement && document.fullscreenElement === container;
+    if (!isFs) {
+      try {
+        svg.call(zoom.transform, d3.zoomIdentity);
+      } catch (_) {}
+      // Wait a tick to let layout settle, then recompute size
+      setTimeout(() => { handleResize(); }, 0);
+    }
+  });
+
   // Search highlight
   const searchInput = document.getElementById('graph-search');
   function applySearch() {
