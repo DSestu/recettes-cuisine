@@ -980,6 +980,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const linkPref = params.get('links');
   const ew = params.get('edge');
   const modeParam = params.get('mode');
+  const mt = params.get('mt');
+  const hist = params.get('hist');
+  const gsParam = params.get('gs');
   const ei = params.get('impact');
   const mr = params.get('mr'); 
   const mi = params.get('mi');
@@ -997,7 +1000,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
   if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
   if (inf === '1') { state.infiniteTolerance = true; document.getElementById('infinite-tolerance').checked = true; }
-  if (viz === '0') { document.getElementById('advanced-viz-panel').classList.add('hidden'); document.getElementById('toggle-advanced-viz').textContent = 'Afficher'; }
+  if (viz === '0') {
+    const ap = document.getElementById('advanced-viz-panel');
+    const ab = document.getElementById('toggle-advanced-viz');
+    if (ap) ap.classList.add('hidden');
+    if (ab) ab.textContent = 'Afficher';
+  }
+  if (viz === '1') {
+    const ap = document.getElementById('advanced-viz-panel');
+    const ab = document.getElementById('toggle-advanced-viz');
+    if (ap) ap.classList.remove('hidden');
+    if (ab) ab.textContent = 'Masquer';
+  }
+  if (mt) { state.missingTolerance = Number(mt); const mtEl = document.getElementById('missing-tolerance'); const mtLbl = document.getElementById('tolerance-value'); if (mtEl) mtEl.value = mt; if (mtLbl) mtLbl.textContent = mt; }
   if (ew && ['uniform','freq','idf'].includes(ew)) document.getElementById('edge-weight-mode').value = ew;
   if (linkPref && ['auto','recipe-token','token-token'].includes(linkPref)) document.getElementById('link-mode').value = linkPref;
   if (ei) { document.getElementById('edge-impact').value = ei; document.getElementById('edge-impact-value').textContent = ei; }
@@ -1007,6 +1022,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (st) document.getElementById('show-tokens').checked = st === '1';
   if (sr) document.getElementById('show-recipes').checked = sr === '1';
   if (sc) document.getElementById('show-components').checked = sc === '1';
+  if (hist === '1') { const hp = document.getElementById('histograms-panel'); const hb = document.getElementById('toggle-histograms'); if (hp) hp.classList.remove('hidden'); if (hb) hb.textContent = 'Masquer'; }
+  if (hist === '0') { const hp = document.getElementById('histograms-panel'); const hb = document.getElementById('toggle-histograms'); if (hp) hp.classList.add('hidden'); if (hb) hb.textContent = 'Afficher'; }
+  if (gsParam) { const gsi = document.getElementById('graph-search'); if (gsi) gsi.value = gsParam; }
 
   updateSelectedChips();
   refresh();
@@ -1029,6 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isHidden = histPanel.classList.contains('hidden');
       histPanel.classList.toggle('hidden', isHidden ? false : true);
       toggleHist.textContent = isHidden ? 'Masquer' : 'Afficher';
+      pushControlsToUrl();
     });
   }
   const maxRec = document.getElementById('max-recipes');
@@ -1064,22 +1083,37 @@ document.addEventListener('DOMContentLoaded', () => {
     setParam('mr', document.getElementById('max-recipes').value);
     setParam('mi', document.getElementById('max-ingredients').value);
     setParam('ht', document.getElementById('hide-top-ingredients').value);
+    setParam('mt', document.getElementById('missing-tolerance').value);
+    setParam('hist', histPanel && !histPanel.classList.contains('hidden') ? '1' : '0');
     setParam('st', document.getElementById('show-tokens').checked ? '1' : '0');
     setParam('sr', document.getElementById('show-recipes').checked ? '1' : '0');
     setParam('sc', document.getElementById('show-components').checked ? '1' : '0');
     setParam('components', document.getElementById('include-components').checked ? '1' : '0');
     setParam('inf', document.getElementById('infinite-tolerance').checked ? '1' : '0');
     setParam('mode', document.getElementById('search-mode').value);
+    // dynamic filters
+    const ingVals = Array.from(state.selectedTokens);
+    const tagVals = Array.from(state.selectedTags);
+    setParam('ingredients', ingVals.length ? ingVals.join(',') : '');
+    setParam('tags', tagVals.length ? tagVals.join(',') : '');
+    const gsi = document.getElementById('graph-search');
+    setParam('gs', gsi ? gsi.value.trim() : '');
   }
-  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
+  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
   urlSyncControls.forEach(id => {
     const el = document.getElementById(id);
     const ev = el.tagName === 'SELECT' ? 'change' : 'input';
     el.addEventListener(ev, pushControlsToUrl);
   });
   toggleBtn.addEventListener('click', pushControlsToUrl);
+  document.getElementById('reset-tags').addEventListener('click', pushControlsToUrl);
+  document.getElementById('reset-ingredients').addEventListener('click', pushControlsToUrl);
+  const gsi = document.getElementById('graph-search');
+  if (gsi) gsi.addEventListener('input', pushControlsToUrl);
 
   // No undo history (supprimé)
+  // Ensure URL is filled on initial load even if advanced panel remains closed
+  pushControlsToUrl();
 });
 </script>
 
