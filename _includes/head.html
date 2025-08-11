@@ -160,7 +160,6 @@
       if (!nav) return;
       let lastY = window.scrollY || 0;
       window.addEventListener('scroll', () => {
-        if (nav.classList.contains('hidden')) return;
         const isDesktop = window.matchMedia('(min-width: 768px)').matches;
         if (isDesktop) {
           // Always keep nav visible on desktop
@@ -172,6 +171,10 @@
         const y = window.scrollY || 0;
         const goingDown = y > lastY && y > 8;
         const atTop = y <= 0;
+        // If nav was hidden (e.g., toggled or initial state on some pages), allow scroll-up to reveal
+        if (nav.classList.contains('hidden') && (atTop || y < lastY)) {
+          nav.classList.remove('hidden');
+        }
         if (goingDown) {
           nav.classList.add('nav-hidden');
           nav.classList.remove('nav-visible');
