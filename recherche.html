@@ -848,6 +848,11 @@ function renderForceGraph(items) {
         }
         updateSelectedChips();
         refresh();
+        // If in fullscreen, re-fit after refresh to preserve zoom
+        const container = document.getElementById('force-container');
+        if (typeof fitToViewport === 'function' && document.fullscreenElement && document.fullscreenElement === container) {
+          setTimeout(() => { fitToViewport(28); }, 120);
+        }
       } else if ((d.type === 'recipe' || d.type === 'component') && d.url) {
         window.location.href = d.url;
       }
@@ -867,6 +872,14 @@ function renderForceGraph(items) {
     link.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
     node.attr('transform', d => `translate(${d.x},${d.y})`);
   });
+
+  // When simulation stabilizes, fit to viewport if in fullscreen
+  const isNowFs = !!document.fullscreenElement && document.fullscreenElement === container;
+  if (typeof fitToViewport === 'function' && isNowFs) {
+    // Quick initial fit and then refine when forces end
+    setTimeout(() => { fitToViewport(28); }, 120);
+    simulation.on('end', () => { setTimeout(() => { fitToViewport(28); }, 0); });
+  }
 
   // Resize handler (including fullscreen changes)
   function handleResize() {
