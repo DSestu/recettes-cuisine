@@ -22,7 +22,7 @@ permalink: /recherche/
         <input id="include-components" type="checkbox" class="accent-primary">
         <span>Inclure les composants</span>
       </label>
-      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+      <label class="hidden flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
         <span>Mode</span>
         <select id="search-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
           <option value="tag" selected>Tags</option>
@@ -56,7 +56,7 @@ permalink: /recherche/
         <div id="tag-suggestions" class="flex flex-wrap gap-2"></div>
       </div>
 
-      <div class="flex flex-col gap-3">
+      <div class="flex flex-col gap-3 hidden">
         <label class="text-sm uppercase text-primary font-semibold">Ingrédients suggérés</label>
         <div class="flex flex-col gap-2 relative">
           <label class="text-xs uppercase text-primary/80 font-semibold">J'ai dans mon frigo…</label>
@@ -65,7 +65,7 @@ permalink: /recherche/
           <div id="selected-ingredients" class="flex flex-wrap gap-2"></div>
           <div class="text-xs text-gray-600">Sélectionnez plusieurs ingrédients à la fois. Les résultats afficheront les recettes contenant tous les ingrédients sélectionnés (selon la tolérance).</div>
         </div>
-        <div id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
+        <div  id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
       </div>
     </div>
 
@@ -75,7 +75,6 @@ permalink: /recherche/
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
             <h3 class="font-semibold">Tags histograms</h3>
-            <span class="text-xs text-gray-500">(mobile: replié par défaut)</span>
           </div>
           <button id="toggle-histograms" class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90">Afficher</button>
         </div>
@@ -87,7 +86,7 @@ permalink: /recherche/
             </div>
             <svg id="tags-chart" class="w-full" style="height: 260px"></svg>
           </div>
-          <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
+          <div class="hidden viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
             <div class="flex items-center justify-between mb-2">
               <h3 class="font-semibold">Ingrédients (Top 20)</h3>
               <button id="reset-ingredients" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
