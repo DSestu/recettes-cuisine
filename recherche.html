@@ -157,9 +157,10 @@ permalink: /recherche/
                 <label class="inline-flex items-center gap-2 text-sm">
                   <span>Poids des arêtes</span>
                   <select id="edge-weight-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
+                    <option value="select" selected>Sélection (par tags)</option>
                     <option value="freq">Fréquence</option>
                     <!-- <option value="idf">Rareté (IDF)</option> -->
-                    <option value="uniform" selected>Uniforme</option>
+                    <option value="uniform">Uniforme</option>
                   </select>
                 </label>
                 <label class="hidden inline-flex items-center gap-2 text-sm">
@@ -792,7 +793,7 @@ function renderForceGraph(items) {
   }
   const Ndocs = Math.max(1, recipes.length);
 
-  const weightMode = (document.getElementById('edge-weight-mode')?.value) || 'uniform';
+  const weightMode = (document.getElementById('edge-weight-mode')?.value) || 'select';
   const impact = Number(document.getElementById('edge-impact')?.value || 60) / 100; // 0..1
   const weightingEnabled = true; // always enabled, but mode can be 'uniform'
   const layoutMode = (document.getElementById('layout-mode')?.value) || 'force';
@@ -875,6 +876,23 @@ function renderForceGraph(items) {
   const norm = d3.scaleLinear().domain(ext[0] === ext[1] ? [0,1] : ext).range([0,1]);
   for (const l of filteredLinks) l.weight = norm(l.weightRaw);
 
+  // In selection mode, compute adjacency to selected tags and adjust link/node visuals later
+  const selectionModeActive = (weightMode === 'select');
+  const selectedSet = new Set(state.selectedTags);
+  const idToNode = new Map(filteredNodes.map(n => [n.id, n]));
+  const nodeToDegreeWithinSelection = new Map();
+  if (selectionModeActive && selectedSet.size > 0) {
+    // mark nodes adjacent to any selected tag node (only when mode===tag)
+    for (const l of filteredLinks) {
+      const a = idToNode.get(typeof l.source === 'object' ? l.source.id : l.source);
+      const b = idToNode.get(typeof l.target === 'object' ? l.target.id : l.target);
+      const aIsSel = (a?.type === 'tag' && selectedSet.has(a.label));
+      const bIsSel = (b?.type === 'tag' && selectedSet.has(b.label));
+      if (aIsSel) nodeToDegreeWithinSelection.set(b.id, (nodeToDegreeWithinSelection.get(b.id) || 0) + 1);
+      if (bIsSel) nodeToDegreeWithinSelection.set(a.id, (nodeToDegreeWithinSelection.get(a.id) || 0) + 1);
+    }
+  }
+
   // Color by type (modern palette)
   const colorByType = d => d.type === 'recipe' ? '#f97316' : (d.type === 'component' ? '#F53200' : '#22c55e');
 
@@ -930,12 +948,42 @@ function renderForceGraph(items) {
     simulation.force('charge', d3.forceManyBody().strength(-8));
   }
 
-  const linkScale = d3.scaleLinear().domain([0,1]).range([0.6, 4 + 6*impact]);
+  const linkScale = d3.scaleLinear().domain([0,1]).range([1, 4 + 6*impact]);
   const link = g.append('g').attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(filteredLinks).enter().append('line')
     .attr('stroke-width', d => {
       if (!weightingEnabled) return 1;
       if (weightMode === 'uniform') return 1;
+      if (weightMode === 'select' && selectedSet.size === 0) return 1; // no selection -> uniform width
+      if (weightMode === 'select' && selectedSet.size > 0) {
+        // boost width for edges adjacent to selected tag by degree of the selected node
+        const sa = idToNode.get(typeof d.source === 'object' ? d.source.id : d.source);
+        const sb = idToNode.get(typeof d.target === 'object' ? d.target.id : d.target);
+        const aSel = sa?.type === 'tag' && selectedSet.has(sa.label);
+        const bSel = sb?.type === 'tag' && selectedSet.has(sb.label);
+        if (aSel || bSel) {
+          const selNode = aSel ? sa : sb;
+          const adj = filteredLinks.reduce((acc, L)=>{
+            const sid = (typeof L.source === 'object') ? L.source.id : L.source;
+            const tid = (typeof L.target === 'object') ? L.target.id : L.target;
+            return acc + (sid === selNode.id || tid === selNode.id ? 1 : 0);
+          }, 0);
+          // narrow red edges: ~2-3px depending on degree
+          const extra = Math.min(1, Math.log2(1 + adj) / 3);
+          return 2 + extra;
+        }
+        return 1; // non-adjacent stay uniform
+      }
       return linkScale(d.weight);
+    })
+    .attr('stroke', d => {
+      if (selectionModeActive && selectedSet.size > 0) {
+        const sa = idToNode.get(typeof d.source === 'object' ? d.source.id : d.source);
+        const sb = idToNode.get(typeof d.target === 'object' ? d.target.id : d.target);
+        const aSel = sa?.type === 'tag' && selectedSet.has(sa.label);
+        const bSel = sb?.type === 'tag' && selectedSet.has(sb.label);
+        if (aSel || bSel) return '#F53200';
+      }
+      return 'rgba(148,163,184,0.55)';
     });
   const node = g.append('g').selectAll('g').data(filteredNodes).enter().append('g').call(d3.drag()
       .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
@@ -944,7 +992,13 @@ function renderForceGraph(items) {
     );
 
   node.append('circle')
-    .attr('r', d => d.type === 'recipe' ? 7 : 5)
+    .attr('r', d => {
+      if (selectionModeActive && selectedSet.size > 0) {
+        const deg = nodeToDegreeWithinSelection.get(d.id) || 0;
+        if (deg > 0) return (d.type === 'recipe' ? 7 : 5) + Math.min(6, 1 + Math.log2(1 + deg));
+      }
+      return d.type === 'recipe' ? 7 : 5;
+    })
     .attr('fill', d => colorByType(d))
     .attr('stroke', '#111')
     .attr('stroke-width', 0.6)
