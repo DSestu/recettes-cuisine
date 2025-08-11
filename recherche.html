@@ -127,7 +127,7 @@ permalink: /recherche/
     </div>
 
     <!-- Col 2-3: Viz + Results -->
-    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(100vh-6rem)]">
+    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(120vh-2rem)]">
 
       <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
         <div class="flex items-center justify-between">
@@ -1260,6 +1260,18 @@ function renderForceGraph(items) {
       const icon = wrap.querySelector('#fs-overlay-icon');
       const toggle = wrap.querySelector('#fs-overlay-toggle');
       let open = true;
+      // Animated stretch/collapse without forcing height: animate padding and inner opacity/translate
+      wrap.style.overflow = 'visible';
+      wrap.style.transition = 'padding 220ms ease';
+      function applyContainerOpenStyles(isOpen){
+        if (isOpen) {
+          wrap.style.paddingTop = '';
+          wrap.style.paddingBottom = '';
+        } else {
+          wrap.style.paddingTop = '0px';
+          wrap.style.paddingBottom = '0px';
+        }
+      }
       function updateCountBadge(){
         if (!countBadge) return;
         const n = (state.selectedTags && state.selectedTags.size) ? state.selectedTags.size : 0;
@@ -1283,20 +1295,25 @@ function renderForceGraph(items) {
           body.classList.remove('opacity-0','-translate-y-2','pointer-events-none','hidden');
           icon.innerHTML = '<path fill-rule="evenodd" d="M5.47 14.53a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-1.06 1.06L12 9.06l-5.47 5.47a.75.75 0 0 1-1.06 0Z" clip-rule="evenodd" />';
           updateCountBadge();
+          applyContainerOpenStyles(true);
         } else {
           body.classList.add('opacity-0','-translate-y-2','pointer-events-none');
           // after transition hide to avoid capturing clicks
           setTimeout(()=>{ if(!open) body.classList.add('hidden'); }, 180);
           icon.innerHTML = '<path fill-rule="evenodd" d="M18.53 9.47a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 0 1-1.06 0l-6-6A.75.75 0 0 1 6.47 9.47L12 15l5.53-5.53a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />';
           updateCountBadge();
+          applyContainerOpenStyles(false);
         }
       }
+      // Initialize animation state
+      applyContainerOpenStyles(true);
       setOpen(true);
       toggle.addEventListener('click', ()=> setOpen(!open));
       if (countBadge) {
         countBadge.style.cursor = 'pointer';
         countBadge.addEventListener('click', ()=> setOpen(true));
       }
+      // No height recalculation needed
 
       // Render selected tags as removable pills
       function renderFsTags(){
