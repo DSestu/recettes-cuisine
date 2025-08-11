@@ -162,7 +162,7 @@ permalink: /recherche/
               <div class="flex flex-wrap items-center gap-3 mb-3">
                 <label class="inline-flex items-center gap-2 text-sm"><span>Max recettes</span><input id="max-recipes" type="range" min="10" max="150" value="60" class="accent-primary"><span id="max-recipes-value" class="font-semibold">60</span></label>
                 <label class="inline-flex items-center gap-2 text-sm"><span>Max ingrédients</span><input id="max-ingredients" type="range" min="10" max="150" value="60" class="accent-primary"><span id="max-ingredients-value" class="font-semibold">60</span></label>
-                <label class="inline-flex items-center gap-2 text-sm"><span>Masquer top fréquents</span><input id="hide-top-ingredients" type="range" min="0" max="50" value="0" class="accent-primary"><span id="hide-top-ingredients-value" class="font-semibold">0</span></label>
+                <label class="inline-flex items-center gap-2 text-sm"><span>Masquer top fréquents</span><input id="hide-top-ingredients" type="range" min="0" max="20" value="0" class="accent-primary"><span id="hide-top-ingredients-value" class="font-semibold">0</span></label>
               </div>
               <div>
                 <div class="text-xs text-gray-600 mb-1">Ingrédients masqués (fréquents) — cliquez pour les réintégrer</div>
@@ -181,13 +181,20 @@ permalink: /recherche/
             </div>
           </div>
            <div class="relative rounded-xl outline outline-1 outline-orange-200/60 p-2 bg-gradient-to-br from-white to-orange-50" id="force-container" style="min-height: 480px;">
-             <button id="btn-fullscreen" class="absolute top-2 left-2 z-20 text-sm px-3 py-1 rounded-lg border border-primary bg-white/90 text-primary hover:bg-red-50">Plein écran</button>
+             <div class="absolute top-2 left-2 z-20 flex items-center gap-2">
+               <button id="btn-fullscreen" class="text-sm px-3 py-1 rounded-lg border border-primary bg-white/90 text-primary hover:bg-red-50" title="Plein écran">Plein écran</button>
+               <button id="btn-reset-view" class="p-2 rounded-lg border border-gray-300 bg-white/90 text-gray-700 hover:bg-gray-50" title="Recentrer la vue">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                   <path d="M12 3.75a.75.75 0 0 1 .75.75v2.19a5.25 5.25 0 0 1 5.31 5.31h2.19a.75.75 0 1 1 0 1.5h-2.19a5.25 5.25 0 0 1-5.31 5.31v2.19a.75.75 0 1 1-1.5 0v-2.19a5.25 5.25 0 0 1-5.31-5.31H3.75a.75.75 0 1 1 0-1.5h2.19a5.25 5.25 0 0 1 5.31-5.31V4.5A.75.75 0 0 1 12 3.75Zm0 3.75A3.75 3.75 0 1 0 15.75 12 3.75 3.75 0 0 0 12 7.5Z"/>
+                 </svg>
+               </button>
+             </div>
              <svg id="force-graph" class="w-full h-full"></svg>
             <div class="mt-2 text-xs text-gray-500 flex items-center gap-4">
               <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#22c55e"></span> ingrédient</span>
               <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#f97316"></span> recette</span>
               <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#ff0000"></span> composant</span>
-              <span class="inline-flex items-center gap-1"><span class="hidden inline-block w-6 h-[3px] bg-gray-400"></span> épaisseur (si activée) = poids choisi</span>
+              <span class="hidden inline-flex items-center gap-1"><span class="hidden inline-block w-6 h-[3px] bg-gray-400"></span> épaisseur (si activée) = poids choisi</span>
               <span id="link-mode-badge" class="hidden inline-flex items-center gap-2 px-2 py-1 rounded-full border border-gray-300">Liens: Auto</span>
             </div>
           </div>
@@ -369,10 +376,15 @@ const ALL_TOKENS = new Map();
 const ALL_TAGS = new Map();
 for (const it of ITEMS) {
   for (const t of it.ctokens) ALL_TOKENS.set(t, (ALL_TOKENS.get(t) || 0) + 1);
+  // Count explicit tags
   for (const tag of (it.tags || [])) {
     const clean = String(tag).trim();
     if (!clean) continue;
     ALL_TAGS.set(clean, (ALL_TAGS.get(clean) || 0) + 1);
+  }
+  // Fallback for components without tags: index their ingredient tokens as tags
+  if (it.type === 'component' && (!it.tags || (Array.isArray(it.tags) && it.tags.length === 0))) {
+    for (const t of it.ctokens) ALL_TAGS.set(t, (ALL_TAGS.get(t) || 0) + 1);
   }
 }
 
@@ -609,7 +621,12 @@ function renderForceGraph(items) {
     return { w, h };
   }
   let { w: width, h: height } = getSize();
-  const g = svg.attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio','xMidYMid meet').append('g');
+  const g = svg
+    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('width', width)
+    .attr('height', height)
+    .attr('preserveAspectRatio','xMidYMid meet')
+    .append('g');
 
   // Zoom & pan
   const zoom = d3.zoom().scaleExtent([0.3, 3]).on('zoom', (event) => { g.attr('transform', event.transform); });
@@ -855,12 +872,35 @@ function renderForceGraph(items) {
   function handleResize() {
     const size = getSize();
     width = size.w; height = size.h;
-    svg.attr('viewBox', `0 0 ${width} ${height}`);
+    svg.attr('viewBox', `0 0 ${width} ${height}`)
+       .attr('width', width)
+       .attr('height', height);
     simulation.force('center', d3.forceCenter(width/2, height/2));
     simulation.alpha(0.3).restart();
   }
   window.addEventListener('resize', handleResize);
   document.addEventListener('fullscreenchange', handleResize);
+
+  // Helper: fit graph into current viewport
+  function fitToViewport(pad = 24) {
+    try {
+      const bbox = g.node().getBBox();
+      if (!bbox || !isFinite(bbox.width) || !isFinite(bbox.height) || bbox.width === 0 || bbox.height === 0) {
+        svg.transition().duration(250).call(zoom.transform, d3.zoomIdentity);
+        return;
+      }
+      const w = width - pad * 2;
+      const h = height - pad * 2;
+      const scale = Math.max(0.1, Math.min(5, 0.95 / Math.max(bbox.width / w, bbox.height / h)));
+      const tx = (width / 2) - scale * (bbox.x + bbox.width / 2);
+      const ty = (height / 2) - scale * (bbox.y + bbox.height / 2);
+      const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+      svg.transition().duration(350).call(zoom.transform, transform);
+    } catch (_) {
+      // fallback
+      svg.transition().duration(250).call(zoom.transform, d3.zoomIdentity);
+    }
+  }
 
   // On exiting fullscreen: reset zoom and restore size
   document.addEventListener('fullscreenchange', () => {
@@ -869,8 +909,14 @@ function renderForceGraph(items) {
       try {
         svg.call(zoom.transform, d3.zoomIdentity);
       } catch (_) {}
+      // Clear any fullscreen-imposed inline sizing
+      container.style.removeProperty('width');
+      container.style.removeProperty('height');
       // Wait a tick to let layout settle, then recompute size
-      setTimeout(() => { handleResize(); }, 0);
+      setTimeout(() => { handleResize(); }, 50);
+    } else {
+      // Entering fullscreen: fit graph to viewport
+      setTimeout(() => { fitToViewport(28); }, 80);
     }
   });
 
@@ -926,6 +972,20 @@ function renderForceGraph(items) {
       container.requestFullscreen();
     }
   };
+  // Reset view (zoom to identity and re-center)
+  const resetBtn = document.getElementById('btn-reset-view');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', ()=>{
+      const isFs = !!document.fullscreenElement && document.fullscreenElement === container;
+      if (isFs) {
+        fitToViewport(28);
+      } else {
+        try { svg.transition().duration(250).call(zoom.transform, d3.zoomIdentity); } catch(_) {}
+        simulation.force('center', d3.forceCenter((getSize().w)/2, (getSize().h)/2));
+        simulation.alpha(0.3).restart();
+      }
+    });
+  }
 
   // Create fullscreen overlay for tag input and selected tags (shown only in fullscreen)
   (function createFsOverlay(){
@@ -959,12 +1019,12 @@ function renderForceGraph(items) {
         open = v;
         if (open) {
           body.classList.remove('opacity-0','-translate-y-2','pointer-events-none','hidden');
-          icon.innerHTML = '<path fill-rule="evenodd" d="M18.53 9.47a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 0 1-1.06 0l-6-6A.75.75 0 0 1 6.47 9.47L12 15l5.53-5.53a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />';
+          icon.innerHTML = '<path fill-rule="evenodd" d="M5.47 14.53a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-1.06 1.06L12 9.06l-5.47 5.47a.75.75 0 0 1-1.06 0Z" clip-rule="evenodd" />';
         } else {
           body.classList.add('opacity-0','-translate-y-2','pointer-events-none');
           // after transition hide to avoid capturing clicks
           setTimeout(()=>{ if(!open) body.classList.add('hidden'); }, 180);
-          icon.innerHTML = '<path fill-rule="evenodd" d="M5.47 14.53a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-1.06 1.06L12 9.06l-5.47 5.47a.75.75 0 0 1-1.06 0Z" clip-rule="evenodd" />';
+          icon.innerHTML = '<path fill-rule="evenodd" d="M18.53 9.47a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 0 1-1.06 0l-6-6A.75.75 0 0 1 6.47 9.47L12 15l5.53-5.53a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />';
         }
       }
       setOpen(true);
@@ -1071,6 +1131,19 @@ function renderForceGraph(items) {
     btn.style.display = document.fullscreenElement ? 'block' : 'none';
     const triggerBtn = document.getElementById('btn-fullscreen');
     if (triggerBtn) triggerBtn.style.display = document.fullscreenElement ? 'none' : 'block';
+    // Reposition and elevate the reset-view button to the right of the exit button in fullscreen
+    const resetBtn = document.getElementById('btn-reset-view');
+    if (resetBtn) {
+      if (document.fullscreenElement && document.fullscreenElement === container) {
+        resetBtn.style.marginLeft = '44px';
+        resetBtn.style.zIndex = '61';
+        resetBtn.style.position = 'relative';
+      } else {
+        resetBtn.style.marginLeft = '0px';
+        resetBtn.style.zIndex = '';
+        resetBtn.style.position = '';
+      }
+    }
   }
   document.addEventListener('fullscreenchange', ensureFsButton);
   ensureFsButton();
