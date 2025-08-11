@@ -847,11 +847,13 @@ function renderForceGraph(items) {
           if (state.selectedTokens.has(val)) state.selectedTokens.delete(val); else state.selectedTokens.add(val);
         }
         updateSelectedChips();
+        // Hint renderForceGraph to fit asap in fullscreen
+        window.__pendingFit = true;
         refresh();
-        // If in fullscreen, re-fit after refresh to preserve zoom
+        // If in fullscreen, re-fit soon to preserve zoom
         const container = document.getElementById('force-container');
         if (typeof fitToViewport === 'function' && document.fullscreenElement && document.fullscreenElement === container) {
-          setTimeout(() => { fitToViewport(28); }, 120);
+          setTimeout(() => { fitToViewport(24); }, 40);
         }
       } else if ((d.type === 'recipe' || d.type === 'component') && d.url) {
         window.location.href = d.url;
@@ -868,17 +870,27 @@ function renderForceGraph(items) {
     .attr('font-size', 10)
     .attr('fill', '#6b7280');
 
+  let __tickCount = 0;
   simulation.on('tick', () => {
     link.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
     node.attr('transform', d => `translate(${d.x},${d.y})`);
+    // Early smooth fit after a couple ticks in fullscreen when requested
+    const isFs = !!document.fullscreenElement && document.fullscreenElement === container;
+    if (isFs && window.__pendingFit) {
+      __tickCount += 1;
+      if (__tickCount === 2 && typeof fitToViewport === 'function') {
+        window.__pendingFit = false;
+        fitToViewport(24);
+      }
+    }
   });
 
   // When simulation stabilizes, fit to viewport if in fullscreen
   const isNowFs = !!document.fullscreenElement && document.fullscreenElement === container;
   if (typeof fitToViewport === 'function' && isNowFs) {
     // Quick initial fit and then refine when forces end
-    setTimeout(() => { fitToViewport(28); }, 120);
-    simulation.on('end', () => { setTimeout(() => { fitToViewport(28); }, 0); });
+    setTimeout(() => { fitToViewport(24); }, 40);
+    simulation.on('end', () => { setTimeout(() => { fitToViewport(24); }, 0); });
   }
 
   // Resize handler (including fullscreen changes)
@@ -899,7 +911,7 @@ function renderForceGraph(items) {
     try {
       const bbox = g.node().getBBox();
       if (!bbox || !isFinite(bbox.width) || !isFinite(bbox.height) || bbox.width === 0 || bbox.height === 0) {
-        svg.transition().duration(250).call(zoom.transform, d3.zoomIdentity);
+        svg.transition().duration(160).ease(d3.easeCubicOut).call(zoom.transform, d3.zoomIdentity);
         return;
       }
       const w = width - pad * 2;
@@ -908,10 +920,10 @@ function renderForceGraph(items) {
       const tx = (width / 2) - scale * (bbox.x + bbox.width / 2);
       const ty = (height / 2) - scale * (bbox.y + bbox.height / 2);
       const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
-      svg.transition().duration(350).call(zoom.transform, transform);
+      svg.transition().duration(180).ease(d3.easeCubicOut).call(zoom.transform, transform);
     } catch (_) {
       // fallback
-      svg.transition().duration(250).call(zoom.transform, d3.zoomIdentity);
+      svg.transition().duration(160).ease(d3.easeCubicOut).call(zoom.transform, d3.zoomIdentity);
     }
   }
 
