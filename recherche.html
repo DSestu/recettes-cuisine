@@ -916,6 +916,8 @@ function renderForceGraph(items) {
         updateSelectedChips();
         // Hint renderForceGraph to fit asap in fullscreen
         window.__pendingFit = true;
+        // Hide any lingering tooltip
+        (function(){ const t = document.getElementById('viz-tooltip'); if (t) t.style.display = 'none'; })();
         refresh();
         // If in fullscreen, re-fit soon to preserve zoom
         const container = document.getElementById('force-container');
@@ -923,6 +925,12 @@ function renderForceGraph(items) {
           setTimeout(() => { fitToViewport(24); }, 40);
         }
       } else if ((d.type === 'recipe' || d.type === 'component') && d.url) {
+        // If currently in fullscreen, remember to restore on return
+        const containerEl = document.getElementById('force-container');
+        const inFs = !!document.fullscreenElement && document.fullscreenElement === containerEl;
+        try { if (inFs) sessionStorage.setItem('recherche_restore_fs', '1'); } catch (_) {}
+        // Hide tooltip before navigating
+        (function(){ const t = document.getElementById('viz-tooltip'); if (t) t.style.display = 'none'; })();
         window.location.href = d.url;
       }
     })
@@ -1037,6 +1045,14 @@ function renderForceGraph(items) {
     el.style.display = 'block';
   }
   function hideTip(){ const el = document.getElementById('viz-tooltip'); if(el) el.style.display='none'; }
+
+  // Hide lingering tooltip when clicking anywhere outside the graph area
+  document.addEventListener('pointerdown', (e)=>{
+    const tip = document.getElementById('viz-tooltip');
+    if (!tip) return;
+    const withinGraph = e.target.closest && e.target.closest('#force-container');
+    if (!withinGraph) tip.style.display = 'none';
+  }, { passive: true });
 
   // Render the hidden top ingredients as removable pills
   const hiddenWrap = document.getElementById('hidden-top-ingredients');
@@ -1542,6 +1558,33 @@ document.addEventListener('DOMContentLoaded', () => {
       if (atTop || y < lastY) btn.classList.remove('btn-hidden');
       lastY = y;
     }, { passive: true });
+  })();
+
+  // If we navigated back with a request to restore fullscreen, do it (requires user gesture in many browsers)
+  (function(){
+    try {
+      const flag = sessionStorage.getItem('recherche_restore_fs');
+      if (flag === '1') {
+        sessionStorage.removeItem('recherche_restore_fs');
+        const container = document.getElementById('force-container');
+        if (!container || !container.requestFullscreen) return;
+        // Try immediately (may be blocked), then fall back to first user interaction
+        const attempt = () => {
+          if (document.fullscreenElement) return;
+          try { container.requestFullscreen().catch(()=>{}); } catch(_) {}
+        };
+        // Immediate attempt after a short delay for layout
+        setTimeout(attempt, 120);
+        // One-time gesture-based retry
+        const onInteract = () => {
+          if (!document.fullscreenElement) attempt();
+          document.removeEventListener('pointerdown', onInteract);
+          document.removeEventListener('keydown', onInteract);
+        };
+        document.addEventListener('pointerdown', onInteract, { once: true });
+        document.addEventListener('keydown', onInteract, { once: true });
+      }
+    } catch (_) {}
   })();
 });
 </script>
