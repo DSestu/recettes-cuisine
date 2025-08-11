@@ -538,6 +538,10 @@ function updateSelectedChips() {
   if (window.__renderFsTags) {
     try { window.__renderFsTags(); } catch (_) {}
   }
+  // Sync selected tags/tokens to URL so navigation back restores selections
+  if (window.pushControlsToUrl) {
+    try { window.pushControlsToUrl(); } catch (_) {}
+  }
 }
 
 // -----------------------------
@@ -1839,6 +1843,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const gsi = document.getElementById('graph-search');
     setParam('gs', gsi ? gsi.value.trim() : '');
   }
+  // Expose for external callers (chips updates, graph clicks, FS overlay)
+  window.pushControlsToUrl = pushControlsToUrl;
   const urlSyncControls = ['link-mode','layout-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
   urlSyncControls.forEach(id => {
     const el = document.getElementById(id);
