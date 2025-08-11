@@ -17,39 +17,43 @@ permalink: /recherche/
   </style>
    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
      <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary">Recherche avancée</h1>
-    <div class="flex flex-col md:flex-row items-start md:items-center gap-2 text-sm">
-      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
-        <input id="include-components" type="checkbox" class="accent-primary">
-        <span>Inclure les composants</span>
-      </label>
-      <label class="hidden flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
-        <span>Mode</span>
-        <select id="search-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
-          <option value="tag" selected>Tags</option>
-          <option value="ingredient">Ingrédients</option>
-        </select>
-      </label>
-      <div id="tolerance-group" class="w-full md:w-auto">
-        <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300 w-full md:w-auto">
-          <span>Tolérance manquants</span>
-          <input id="missing-tolerance" type="range" min="0" max="5" value="0" class="accent-primary"> 
-          <span id="tolerance-value" class="font-semibold">0</span>
-        </label>
-      </div>
-      <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
-        <input id="infinite-tolerance" type="checkbox" class="accent-primary">
-        <span>Tolérance infinie</span>
-      </label>
-    </div>
+
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
     <!-- Col 1: Inputs -->
+
     <div class="col-span-1 flex flex-col gap-4">
       <!-- Global free-text input removed per request -->
 
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-2 text-sm">
+          <label class="hidden flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+            <input id="include-components" type="checkbox" class="accent-primary">
+            <span>Inclure les composants</span>
+          </label>
+          <label class="hidden flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+            <span>Mode</span>
+            <select id="search-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
+              <option value="tag" selected>Tags</option>
+              <option value="ingredient">Ingrédients</option>
+            </select>
+          </label>
+          <div id="tolerance-group" class="w-full md:w-auto">
+            <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300 w-full md:w-auto">
+              <span>Tolérance manquants</span>
+              <input id="missing-tolerance" type="range" min="0" max="5" value="0" class="accent-primary">
+              <span id="tolerance-value" class="font-semibold">0</span>
+            </label>
+          </div>
+          <label class="flex items-center gap-2 px-3 py-2 rounded-lg bg-white outline outline-1 outline-gray-300">
+            <input id="infinite-tolerance" type="checkbox" class="accent-primary">
+            <span>Tolérance infinie</span>
+          </label>
+        </div>
+
       <div class="flex flex-col gap-2 relative">
         <label class="text-sm uppercase text-primary font-semibold">Tags</label>
+        
         <input id="tag-input" type="text" placeholder="Ajouter un tag…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
         <div id="tag-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
         <div id="selected-tags" class="flex flex-wrap gap-2"></div>
