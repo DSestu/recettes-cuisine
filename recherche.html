@@ -411,10 +411,13 @@ function chip(label, onRemove) {
   const span = document.createElement('span');
   span.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-200 text-primary text-sm';
   span.textContent = label;
+  // Allow removing by clicking anywhere on the chip
+  span.addEventListener('click', onRemove);
   const btn = document.createElement('button');
   btn.innerHTML = '&times;';
   btn.className = 'ml-1 hover:opacity-70';
-  btn.addEventListener('click', onRemove);
+  // Keep the small cross; prevent double triggering by stopping propagation
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); onRemove(); });
   span.appendChild(btn);
   return span;
 }
