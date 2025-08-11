@@ -1497,6 +1497,9 @@ function renderForceGraph(items) {
       miniControls.style.gap = '8px';
       miniControls.style.alignItems = 'flex-start';
       miniControls.style.textAlign = 'left';
+      miniControls.style.opacity = '0';
+      miniControls.style.transform = 'translateX(-16px)';
+      miniControls.style.transition = 'opacity 220ms ease, transform 220ms ease';
       miniControls.style.pointerEvents = 'auto';
       miniControls.className = 'flex flex-col';
       miniControls.innerHTML = `
@@ -1537,6 +1540,20 @@ function renderForceGraph(items) {
       if (fsRec && inRec) fsRec.addEventListener('click', ()=>{ inRec.checked = !inRec.checked; inRec.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
       if (fsComp && inComp) fsComp.addEventListener('click', ()=>{ inComp.checked = !inComp.checked; inComp.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
 
+      // Press (zoom) animation for badges/buttons
+      function addPressAnim(el){
+        if (!el) return;
+        el.style.transition = (el.style.transition ? el.style.transition + ', ' : '') + 'transform 120ms ease';
+        const reset = ()=>{ el.style.transform = 'scale(1)'; };
+        el.addEventListener('pointerdown', ()=>{ el.style.transform = 'scale(0.94)'; });
+        el.addEventListener('pointerup', reset);
+        el.addEventListener('pointerleave', reset);
+        el.addEventListener('blur', reset);
+      }
+      addPressAnim(fsTok);
+      addPressAnim(fsRec);
+      addPressAnim(fsComp);
+
       // Layout toggle (radial <-> force) button wiring
       const layoutSel = document.getElementById('layout-mode');
       const fsLayoutBtn = miniControls.querySelector('#fs-layout-toggle');
@@ -1556,6 +1573,7 @@ function renderForceGraph(items) {
           if (window.pushControlsToUrl) window.pushControlsToUrl();
         });
         updateFsLayoutButton();
+        addPressAnim(fsLayoutBtn);
       }
 
       // Tolerance controls (mirror of main controls)
@@ -1592,6 +1610,7 @@ function renderForceGraph(items) {
           updateFsToleranceControls();
           if (window.pushControlsToUrl) window.pushControlsToUrl();
         });
+        addPressAnim(fsInfBtn);
       }
       // Keep FS tolerance in sync when main controls change
       if (mainTolRange) mainTolRange.addEventListener('input', updateFsToleranceControls);
@@ -1625,8 +1644,31 @@ function renderForceGraph(items) {
       miniToggle.onclick = () => {
         if (!miniControls) return;
         const isHidden = miniControls.style.display === 'none' || miniControls.style.display === '';
-        miniControls.style.display = isHidden ? 'flex' : 'none';
+        if (isHidden) {
+          miniControls.style.display = 'flex';
+          // animate in
+          requestAnimationFrame(()=>{
+            miniControls.style.opacity = '1';
+            miniControls.style.transform = 'translateX(0)';
+            miniControls.style.pointerEvents = 'auto';
+          });
+        } else {
+          // animate out
+          miniControls.style.opacity = '0';
+          miniControls.style.transform = 'translateX(-16px)';
+          miniControls.style.pointerEvents = 'none';
+          setTimeout(()=>{ miniControls.style.display = 'none'; }, 230);
+        }
       };
+      // press animation for toggle button too
+      (function(){
+        miniToggle.style.transition = (miniToggle.style.transition ? miniToggle.style.transition + ', ' : '') + 'transform 120ms ease';
+        const reset = ()=>{ miniToggle.style.transform = 'scale(1)'; };
+        miniToggle.addEventListener('pointerdown', ()=>{ miniToggle.style.transform = 'scale(0.94)'; });
+        miniToggle.addEventListener('pointerup', reset);
+        miniToggle.addEventListener('pointerleave', reset);
+        miniToggle.addEventListener('blur', reset);
+      })();
     }
     // Show/hide based on fullscreen state and update colors
     if (miniToggle) miniToggle.style.display = inFs ? 'inline-flex' : 'none';
