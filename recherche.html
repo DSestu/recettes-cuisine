@@ -633,7 +633,7 @@ function renderForceGraph(items) {
   for (const tok of topTokens) {
     if (!showTokens) break;
     tokenId.set(tok, id++);
-    nodes.push({ id: tokenId.get(tok), label: tok, type: 'token' });
+    nodes.push({ id: tokenId.get(tok), label: tok, type: (state.mode === 'tag' ? 'tag' : 'token') });
   }
   for (const r of recipes) {
     if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
@@ -748,9 +748,13 @@ function renderForceGraph(items) {
     .attr('opacity', 0.9)
     .style('cursor', 'pointer')
     .on('click', (_, d) => {
-      if (d.type === 'token') {
-        const tok = d.label;
-        if (state.selectedTokens.has(tok)) state.selectedTokens.delete(tok); else state.selectedTokens.add(tok);
+      if (d.type === 'token' || d.type === 'tag') {
+        const val = d.label;
+        if (state.mode === 'tag') {
+          if (state.selectedTags.has(val)) state.selectedTags.delete(val); else state.selectedTags.add(val);
+        } else {
+          if (state.selectedTokens.has(val)) state.selectedTokens.delete(val); else state.selectedTokens.add(val);
+        }
         updateSelectedChips();
         refresh();
       } else if ((d.type === 'recipe' || d.type === 'component') && d.url) {
@@ -914,27 +918,27 @@ document.addEventListener('DOMContentLoaded', () => {
     textInputEl.addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
   }
    const ingInput = $('#ingredient-input');
-  const ingAuto = $('#ingredient-autocomplete');
-  ingInput.addEventListener('keydown', (e)=>{
-    if (e.key === 'Enter') {
-      const v = e.target.value.trim().toLowerCase();
-      if (v) { state.selectedTokens.add(v); e.target.value=''; updateSelectedChips(); refresh(); }
-    }
-  });
+   const ingAuto = $('#ingredient-autocomplete');
+   ingInput.addEventListener('keydown', (e)=>{
+     if (e.key === 'Enter') {
+       const v = e.target.value.trim().toLowerCase();
+       if (v) { state.selectedTokens.add(v); e.target.value=''; updateSelectedChips(); refresh(); }
+     }
+   });
    ingInput.addEventListener('input', (e)=>{
-    const q = e.target.value.trim().toLowerCase();
+     const q = e.target.value.trim().toLowerCase();
      const candidates = Array.from(ALL_TOKENS.keys()).filter(k => !state.selectedTokens.has(k) && k.includes(q)).slice(0, 20);
-    if (q && candidates.length) {
-      ingAuto.innerHTML = '';
-      for (const c of candidates) {
+     if (q && candidates.length) {
+       ingAuto.innerHTML = '';
+       for (const c of candidates) {
          ingAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTokens.add(c); ingInput.value=''; ingAuto.classList.add('hidden'); updateSelectedChips(); refresh(); }));
-      }
-      ingAuto.classList.remove('hidden');
-    } else {
-      ingAuto.classList.add('hidden');
-    }
-  });
-  document.addEventListener('click', (e)=>{ if (!ingAuto.contains(e.target) && e.target !== ingInput) ingAuto.classList.add('hidden'); });
+       }
+       ingAuto.classList.remove('hidden');
+     } else {
+       ingAuto.classList.add('hidden');
+     }
+   });
+   document.addEventListener('click', (e)=>{ if (!ingAuto.contains(e.target) && e.target !== ingInput) ingAuto.classList.add('hidden'); });
 
   const tagInput = $('#tag-input');
   const tagAuto = $('#tag-autocomplete');
