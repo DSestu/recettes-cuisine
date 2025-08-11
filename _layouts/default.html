@@ -5,13 +5,12 @@
 
   <body class="flex min-h-screen w-full font-inter bg-orange-50 text-orange-950">
 
-    <button id="toggle-sidebar" class="hidden md:block fixed top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50" title="Afficher/masquer le menu">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-        <path fill-rule="evenodd" d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
-      </svg>
-    </button>
-
-    <main class="flex-1 w-full">
+    <main class="relative flex-1 w-full">
+      <button id="toggle-sidebar" class="hidden md:block absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50" title="Afficher/masquer le menu">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+          <path fill-rule="evenodd" d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+        </svg>
+      </button>
       {{ content }}
     </main>
 
