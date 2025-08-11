@@ -864,10 +864,16 @@ function renderForceGraph(items) {
     }
   }
 
-  // Normalize link weights to [0,1]
-  const ext = d3.extent(links, d=>d.weightRaw);
+  // Remove isolated nodes: keep only nodes that participate in at least one link
+  const usedIds = new Set();
+  for (const l of links) { usedIds.add(l.source); usedIds.add(l.target); }
+  const filteredNodes = nodes.filter(n => usedIds.has(n.id));
+  const filteredLinks = links.filter(l => usedIds.has(l.source) && usedIds.has(l.target));
+
+  // Normalize link weights to [0,1] based on filtered links
+  const ext = d3.extent(filteredLinks, d=>d.weightRaw);
   const norm = d3.scaleLinear().domain(ext[0] === ext[1] ? [0,1] : ext).range([0,1]);
-  for (const l of links) l.weight = norm(l.weightRaw);
+  for (const l of filteredLinks) l.weight = norm(l.weightRaw);
 
   // Color by type (modern palette)
   const colorByType = d => d.type === 'recipe' ? '#f97316' : (d.type === 'component' ? '#F53200' : '#22c55e');
@@ -875,13 +881,13 @@ function renderForceGraph(items) {
   const minDist = 24;
   const baseDist = 80;
   const useWeighted = weightingEnabled && weightMode !== 'uniform';
-  const linkForce = d3.forceLink(links)
+  const linkForce = d3.forceLink(filteredLinks)
     .id(d => d.id)
     .distance(d => useWeighted ? (baseDist - (baseDist - minDist) * d.weight * impact) : baseDist)
     .strength(d => useWeighted ? (0.2 + 0.6 * d.weight * impact) : 0.4);
 
   // Prepare simulation
-  let simulation = d3.forceSimulation(nodes)
+  let simulation = d3.forceSimulation(filteredNodes)
     .force('link', linkForce)
     .force('charge', d3.forceManyBody().strength(-80))
     .force('center', d3.forceCenter(width/2, height/2))
@@ -894,7 +900,7 @@ function renderForceGraph(items) {
   } else if (layoutMode === 'circle') {
     const R = Math.min(width, height)/2.4;
     const cx = width/2, cy = height/2;
-    nodes.forEach((n, i)=>{ const a = (2*Math.PI*i)/nodes.length; n.fx = cx + R*Math.cos(a); n.fy = cy + R*Math.sin(a); });
+    filteredNodes.forEach((n, i)=>{ const a = (2*Math.PI*i)/filteredNodes.length; n.fx = cx + R*Math.cos(a); n.fy = cy + R*Math.sin(a); });
     simulation.force('charge', d3.forceManyBody().strength(-10));
   } else if (layoutMode === 'rings') {
     // Rings by type: ingredients outer, recipes inner, components middle
@@ -903,7 +909,7 @@ function renderForceGraph(items) {
     const rComp = Math.min(width, height) * 0.30;
     const rRec = Math.min(width, height) * 0.18;
     const byType = { token: [], recipe: [], component: [] };
-    nodes.forEach(n => byType[n.type === 'component' ? 'component' : (n.type === 'recipe' ? 'recipe' : 'token')].push(n));
+    filteredNodes.forEach(n => byType[n.type === 'component' ? 'component' : (n.type === 'recipe' ? 'recipe' : 'token')].push(n));
     const placeRing = (arr, R) => {
       arr.forEach((n, i) => { const a = (2*Math.PI*i)/Math.max(1,arr.length); n.fx = cx + R*Math.cos(a); n.fy = cy + R*Math.sin(a); });
     };
@@ -915,7 +921,7 @@ function renderForceGraph(items) {
     const cx = width/2, cy = height/2;
     const a0 = 10;
     const b = 6; // spacing factor
-    nodes.forEach((n, i) => {
+    filteredNodes.forEach((n, i) => {
       const a = 0.35 * i; // angle
       const r = a0 + b * a; // radius grows with angle
       n.fx = cx + r * Math.cos(a);
@@ -925,13 +931,13 @@ function renderForceGraph(items) {
   }
 
   const linkScale = d3.scaleLinear().domain([0,1]).range([0.6, 4 + 6*impact]);
-  const link = g.append('g').attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(links).enter().append('line')
+  const link = g.append('g').attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(filteredLinks).enter().append('line')
     .attr('stroke-width', d => {
       if (!weightingEnabled) return 1;
       if (weightMode === 'uniform') return 1;
       return linkScale(d.weight);
     });
-  const node = g.append('g').selectAll('g').data(nodes).enter().append('g').call(d3.drag()
+  const node = g.append('g').selectAll('g').data(filteredNodes).enter().append('g').call(d3.drag()
       .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
       .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
       .on('end', (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
