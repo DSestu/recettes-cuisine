@@ -3,6 +3,10 @@ layout: recipe
 title:  Sauce caramel
 image: sauce_caramel.jpg
 
+tags:
+- sucre
+- eau
+
 ingredients:
 - 100 gr sucre
 - 1/2 verre d'eau
