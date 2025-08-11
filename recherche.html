@@ -1126,6 +1126,7 @@ function renderForceGraph(items) {
       wrap.style.display = 'none';
       wrap.innerHTML = `
         <div class="relative rounded-xl border border-gray-300 bg-white/50 px-4 py-3 shadow">
+          <span id="fs-tag-count" class="absolute top-2 left-1/2 -translate-x-1/2 bg-green-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow z-[9998] border-2 border-white opacity-0 transition-opacity duration-300 ease-out"></span>
           <button id="fs-overlay-toggle" class="absolute right-2 top-2 p-1.5 rounded-full border border-gray-300 bg-white hover:bg-gray-50 z-[9999]" title="Afficher/Masquer" style="pointer-events:auto;">
             <svg id="fs-overlay-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M5.47 14.53a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-1.06 1.06L12 9.06l-5.47 5.47a.75.75 0 0 1-1.06 0Z" clip-rule="evenodd"/></svg>
           </button>
@@ -1140,23 +1141,47 @@ function renderForceGraph(items) {
       container.appendChild(wrap);
 
       const body = wrap.querySelector('#fs-overlay-body');
+      const countBadge = wrap.querySelector('#fs-tag-count');
       const icon = wrap.querySelector('#fs-overlay-icon');
       const toggle = wrap.querySelector('#fs-overlay-toggle');
       let open = true;
+      function updateCountBadge(){
+        if (!countBadge) return;
+        const n = (state.selectedTags && state.selectedTags.size) ? state.selectedTags.size : 0;
+        if (!open && n > 0) {
+          // Food icon + number overlay
+          countBadge.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 font-bold"><path d="M12 2a10 10 0 0 1 10 10c0 1.1-.2 2.1-.5 3.1l-1.4-1.4c.2-.7.3-1.4.3-2.1a8 8 0 0 0-8-8c-.7 0-1.4.1-2.1.3L8.9 2.5C9.9 2.2 10.9 2 12 2Zm-1 3h2v2h-2V5Zm0 4h2v2h-2V9Zm0 4h2v2h-2v-2Zm-7-1c0-1.1.2-2.1.5-3.1l1.4 1.4c-.2.7-.3 1.4-.3 2.1a8 8 0 0 0 8 8c.7 0 1.4-.1 2.1-.3l1.4 1.4c-1 .3-2 .5-3.1.5a10 10 0 0 1-10-10Z"/></svg>
+            <span class="absolute -bottom-1 -right-1 bg-white text-green-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold border-2 border-green-600">${n}</span>
+          `;
+          countBadge.classList.remove('opacity-0');
+          countBadge.classList.add('opacity-100');
+        } else {
+          countBadge.classList.remove('opacity-100');
+          countBadge.classList.add('opacity-0');
+          countBadge.innerHTML = '';
+        }
+      }
       function setOpen(v){
         open = v;
         if (open) {
           body.classList.remove('opacity-0','-translate-y-2','pointer-events-none','hidden');
           icon.innerHTML = '<path fill-rule="evenodd" d="M5.47 14.53a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-1.06 1.06L12 9.06l-5.47 5.47a.75.75 0 0 1-1.06 0Z" clip-rule="evenodd" />';
+          updateCountBadge();
         } else {
           body.classList.add('opacity-0','-translate-y-2','pointer-events-none');
           // after transition hide to avoid capturing clicks
           setTimeout(()=>{ if(!open) body.classList.add('hidden'); }, 180);
           icon.innerHTML = '<path fill-rule="evenodd" d="M18.53 9.47a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 0 1-1.06 0l-6-6A.75.75 0 0 1 6.47 9.47L12 15l5.53-5.53a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />';
+          updateCountBadge();
         }
       }
       setOpen(true);
       toggle.addEventListener('click', ()=> setOpen(!open));
+      if (countBadge) {
+        countBadge.style.cursor = 'pointer';
+        countBadge.addEventListener('click', ()=> setOpen(true));
+      }
 
       // Render selected tags as removable pills
       function renderFsTags(){
@@ -1195,6 +1220,7 @@ function renderForceGraph(items) {
           });
           host.appendChild(clearBtn);
         }
+        updateCountBadge();
       }
       // Expose to global for sync from updateSelectedChips
       window.__renderFsTags = renderFsTags;
