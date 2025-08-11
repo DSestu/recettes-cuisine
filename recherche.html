@@ -1213,6 +1213,12 @@ document.addEventListener('DOMContentLoaded', () => {
   updateSelectedChips();
   refresh();
 
+  // Hide navbar by default on search page (toggleable via top-left button)
+  (function(){
+    const nav = document.querySelector('body > nav');
+    if (nav) nav.classList.add('hidden');
+  })();
+
   $('#include-components').addEventListener('change', (e)=>{ state.includeComponents = e.target.checked; refresh(); });
   const modeSel = document.getElementById('search-mode');
   modeSel.addEventListener('change', ()=>{ state.mode = modeSel.value; refresh(); });
