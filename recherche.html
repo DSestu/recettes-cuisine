@@ -115,12 +115,23 @@ permalink: /recherche/
               <div class="flex flex-wrap items-center gap-3">
                 <label class="inline-flex items-center gap-2 text-sm">
                   <span>Type de liens</span>
-                  <select id="link-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
-                    <option value="auto" selected>Automatique</option>
-                    <option value="recipe-token">Recette → Ingrédient</option>
-                    <option value="token-token">Ingrédient ↔ Ingrédient</option>
-                  </select>
+                    <select id="link-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
+                      <option value="recipe-token" selected>Recette → Ingrédient</option>
+                      <option value="token-token">Ingrédient ↔ Ingrédient</option>
+                      <option value="recipe-recipe">Recette ↔ Recette</option>
+                      <option value="auto">Automatique</option>
+                    </select>
                 </label>
+                 <label class="inline-flex items-center gap-2 text-sm">
+                   <span>Disposition</span>
+                   <select id="layout-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
+                     <option value="force" selected>Force</option>
+                     <option value="radial">Radial</option>
+                     <option value="circle">Cercle</option>
+                     <option value="rings">Anneaux</option>
+                     <option value="spiral">Spirale</option>
+                   </select>
+                 </label>
                 <label class="inline-flex items-center gap-2 text-sm">
                   <span>Poids des arêtes</span>
                   <select id="edge-weight-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
@@ -129,7 +140,7 @@ permalink: /recherche/
                     <option value="uniform" selected>Uniforme</option>
                   </select>
                 </label>
-                <label class="inline-flex items-center gap-2 text-sm">
+                <label class="hidden inline-flex items-center gap-2 text-sm">
                   <span>Impact</span>
                   <input id="edge-impact" type="range" min="0" max="100" value="60" class="accent-primary">
                   <span id="edge-impact-value" class="font-semibold">60</span>
@@ -663,11 +674,13 @@ function renderForceGraph(items) {
   const weightMode = (document.getElementById('edge-weight-mode')?.value) || 'uniform';
   const impact = Number(document.getElementById('edge-impact')?.value || 60) / 100; // 0..1
   const weightingEnabled = true; // always enabled, but mode can be 'uniform'
+  const layoutMode = (document.getElementById('layout-mode')?.value) || 'force';
 
   // Build links
   const linkMode = (document.getElementById('link-mode')?.value) || 'auto';
   const useRecipeToken = linkMode === 'recipe-token' || (linkMode === 'auto' && (showRecipes || showComponents));
   const useTokenToken = linkMode === 'token-token' || (linkMode === 'auto' && !(showRecipes || showComponents));
+  const useRecipeRecipe = linkMode === 'recipe-recipe';
 
   if (useRecipeToken) {
     // Standard recipe/component → token links
@@ -712,6 +725,22 @@ function renderForceGraph(items) {
       else wRaw = 1;
       links.push({ source: tokenId.get(a), target: tokenId.get(b), weightRaw: wRaw });
     }
+  } else if (useRecipeRecipe) {
+    // Build recipe↔recipe edges based on shared ingredients (canonical tokens)
+    const recs = recipes.filter(r => (r.type === 'recipe' && showRecipes) || (r.type === 'component' && showComponents));
+    for (let i = 0; i < recs.length; i++) {
+      for (let j = i+1; j < recs.length; j++) {
+        const a = recs[i], b = recs[j];
+        const setA = a.ctokens || a.tokens;
+        const setB = b.ctokens || b.tokens;
+        let shared = 0;
+        for (const t of setA) if (setB.has(t)) shared++;
+        if (shared > 0) {
+          const wRaw = (weightMode === 'idf') ? shared : shared; // idf not meaningful here; use shared count
+          links.push({ source: recipeId.get(a.title), target: recipeId.get(b.title), weightRaw: wRaw });
+        }
+      }
+    }
   }
 
   // Normalize link weights to [0,1]
@@ -730,11 +759,49 @@ function renderForceGraph(items) {
     .distance(d => useWeighted ? (baseDist - (baseDist - minDist) * d.weight * impact) : baseDist)
     .strength(d => useWeighted ? (0.2 + 0.6 * d.weight * impact) : 0.4);
 
+  // Prepare simulation
   let simulation = d3.forceSimulation(nodes)
     .force('link', linkForce)
     .force('charge', d3.forceManyBody().strength(-80))
     .force('center', d3.forceCenter(width/2, height/2))
     .force('collide', d3.forceCollide(18));
+
+  // Apply non-directed layouts if selected
+  if (layoutMode === 'radial') {
+    const radiusByType = (d)=> d.type === 'recipe' || d.type === 'component' ? Math.min(width, height)/3 : Math.min(width, height)/2;
+    simulation.force('radial', d3.forceRadial(radiusByType, width/2, height/2).strength(0.3));
+  } else if (layoutMode === 'circle') {
+    const R = Math.min(width, height)/2.4;
+    const cx = width/2, cy = height/2;
+    nodes.forEach((n, i)=>{ const a = (2*Math.PI*i)/nodes.length; n.fx = cx + R*Math.cos(a); n.fy = cy + R*Math.sin(a); });
+    simulation.force('charge', d3.forceManyBody().strength(-10));
+  } else if (layoutMode === 'rings') {
+    // Rings by type: ingredients outer, recipes inner, components middle
+    const cx = width/2, cy = height/2;
+    const rIngr = Math.min(width, height) * 0.42;
+    const rComp = Math.min(width, height) * 0.30;
+    const rRec = Math.min(width, height) * 0.18;
+    const byType = { token: [], recipe: [], component: [] };
+    nodes.forEach(n => byType[n.type === 'component' ? 'component' : (n.type === 'recipe' ? 'recipe' : 'token')].push(n));
+    const placeRing = (arr, R) => {
+      arr.forEach((n, i) => { const a = (2*Math.PI*i)/Math.max(1,arr.length); n.fx = cx + R*Math.cos(a); n.fy = cy + R*Math.sin(a); });
+    };
+    placeRing(byType.token, rIngr);
+    placeRing(byType.component, rComp);
+    placeRing(byType.recipe, rRec);
+    simulation.force('charge', d3.forceManyBody().strength(-10));
+  } else if (layoutMode === 'spiral') {
+    const cx = width/2, cy = height/2;
+    const a0 = 10;
+    const b = 6; // spacing factor
+    nodes.forEach((n, i) => {
+      const a = 0.35 * i; // angle
+      const r = a0 + b * a; // radius grows with angle
+      n.fx = cx + r * Math.cos(a);
+      n.fy = cy + r * Math.sin(a);
+    });
+    simulation.force('charge', d3.forceManyBody().strength(-8));
+  }
 
   const linkScale = d3.scaleLinear().domain([0,1]).range([0.6, 4 + 6*impact]);
   const link = g.append('g').attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(links).enter().append('line')
@@ -1123,6 +1190,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const linkPref = params.get('links');
   const ew = params.get('edge');
   const modeParam = params.get('mode');
+  const layoutParam = params.get('layout');
   const mt = params.get('mt');
   const hist = params.get('hist');
   const gsParam = params.get('gs');
@@ -1142,6 +1210,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
   if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
   if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
+  if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
   if (inf === '1') { state.infiniteTolerance = true; document.getElementById('infinite-tolerance').checked = true; }
   if (viz === '0') {
     const ap = document.getElementById('advanced-viz-panel');
@@ -1201,7 +1270,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideTopCtrl = document.getElementById('hide-top-ingredients');
   hideTopCtrl.addEventListener('input', (e)=>{ document.getElementById('hide-top-ingredients-value').textContent = e.target.value; refresh(); });
   const linkModeSel = document.getElementById('link-mode');
-  linkModeSel.addEventListener('change', ()=>{ refresh(); });
+  linkModeSel.addEventListener('change', ()=>{
+    const val = linkModeSel.value;
+    const showRecEl = document.getElementById('show-recipes');
+    const showTokEl = document.getElementById('show-tokens');
+    if (val === 'token-token') {
+      if (showRecEl) showRecEl.checked = false;
+      if (showTokEl) showTokEl.checked = true;
+      // force edge weight to frequency for token-token
+      const ewSel = document.getElementById('edge-weight-mode');
+      if (ewSel) ewSel.value = 'freq';
+    } else if (val === 'recipe-token') {
+      if (showRecEl) showRecEl.checked = true;
+      if (showTokEl) showTokEl.checked = true;
+    }
+    if (val === 'recipe-recipe') {
+      if (showRecEl) showRecEl.checked = true;
+      if (showTokEl) showTokEl.checked = false;
+      const ewSel = document.getElementById('edge-weight-mode');
+      if (ewSel) ewSel.value = 'freq';
+    }
+    if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
+    refresh();
+  });
+  const layoutSel = document.getElementById('layout-mode');
+  layoutSel.addEventListener('change', ()=>{ refresh(); });
   document.getElementById('edge-weight-mode').addEventListener('change', ()=> refresh());
   const edgeImpact = document.getElementById('edge-impact');
   edgeImpact.addEventListener('input', (e)=>{ document.getElementById('edge-impact-value').textContent = e.target.value; refresh(); });
@@ -1234,6 +1327,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setParam('components', document.getElementById('include-components').checked ? '1' : '0');
     setParam('inf', document.getElementById('infinite-tolerance').checked ? '1' : '0');
     setParam('mode', document.getElementById('search-mode').value);
+    setParam('layout', document.getElementById('layout-mode').value);
     // dynamic filters
     const ingVals = Array.from(state.selectedTokens);
     const tagVals = Array.from(state.selectedTags);
@@ -1242,7 +1336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gsi = document.getElementById('graph-search');
     setParam('gs', gsi ? gsi.value.trim() : '');
   }
-  const urlSyncControls = ['link-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
+  const urlSyncControls = ['link-mode','layout-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
   urlSyncControls.forEach(id => {
     const el = document.getElementById(id);
     const ev = el.tagName === 'SELECT' ? 'change' : 'input';
