@@ -875,7 +875,10 @@ function renderForceGraph(items) {
             <svg id="fs-overlay-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M5.47 14.53a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-1.06 1.06L12 9.06l-5.47 5.47a.75.75 0 0 1-1.06 0Z" clip-rule="evenodd"/></svg>
           </button>
           <div id="fs-overlay-body" class="flex flex-col items-center gap-2 transition-all duration-200">
-            <input id="fs-tag-input" type="text" placeholder="Ajouter un tag…" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-sm w-full max-w-[520px] shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+            <div class="relative w-full max-w-[520px]">
+              <input id="fs-tag-input" type="text" placeholder="Ajouter un tag…" class="px-4 py-2 w-full rounded-full border border-gray-300 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+              <div id="fs-tag-autocomplete" class="absolute z-10 left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-60 overflow-auto"></div>
+            </div>
             <div id="fs-selected-tags" class="flex flex-wrap justify-center gap-2 pt-1"></div>
           </div>
         </div>`;
@@ -925,6 +928,7 @@ function renderForceGraph(items) {
 
       // Tag input handler
       const fsInput = wrap.querySelector('#fs-tag-input');
+      const fsAuto = wrap.querySelector('#fs-tag-autocomplete');
       fsInput.addEventListener('keydown', (e)=>{
         if (e.key === 'Enter') {
           const v = e.target.value.trim();
@@ -935,8 +939,39 @@ function renderForceGraph(items) {
             if (typeof refresh === 'function') refresh();
             if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
             renderFsTags();
+            if (fsAuto) fsAuto.classList.add('hidden');
           }
         }
+      });
+      fsInput.addEventListener('input', (e)=>{
+        const q = e.target.value.trim().toLowerCase();
+        const candidates = Array.from(ALL_TAGS.keys())
+          .filter(k => !state.selectedTags.has(k) && String(k).toLowerCase().includes(q))
+          .slice(0, 20);
+        if (q && candidates.length && fsAuto) {
+          fsAuto.innerHTML = '';
+          for (const c of candidates) {
+            const btn = document.createElement('button');
+            btn.className = 'w-full text-left px-3 py-2 hover:bg-red-50';
+            btn.textContent = c;
+            btn.addEventListener('click', ()=>{
+              state.selectedTags.add(c);
+              fsInput.value = '';
+              fsAuto.classList.add('hidden');
+              if (typeof updateSelectedChips === 'function') updateSelectedChips();
+              if (typeof refresh === 'function') refresh();
+              if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
+              renderFsTags();
+            });
+            fsAuto.appendChild(btn);
+          }
+          fsAuto.classList.remove('hidden');
+        } else if (fsAuto) {
+          fsAuto.classList.add('hidden');
+        }
+      });
+      document.addEventListener('click', (e)=>{
+        if (fsAuto && !fsAuto.contains(e.target) && e.target !== fsInput) fsAuto.classList.add('hidden');
       });
       // initial render
       renderFsTags();
