@@ -1495,11 +1495,12 @@ function renderForceGraph(items) {
       miniControls.style.zIndex = '9998';
       miniControls.style.display = 'none';
       miniControls.style.gap = '8px';
-      miniControls.style.alignItems = 'center';
+      miniControls.style.alignItems = 'flex-start';
+      miniControls.style.textAlign = 'left';
       miniControls.style.pointerEvents = 'auto';
       miniControls.className = 'flex flex-col';
       miniControls.innerHTML = `
-        <div class="flex items-center gap-2">
+        <div class="flex items-center justify-start gap-2 w-full">
           <button id="fs-btn-tokens" type="button" title="Afficher les ingrédients" class="inline-flex items-center justify-center w-9 h-9 rounded-full border-2 border-white text-white shadow-sm transition">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor" class="w-4 h-4"><path d="M128 352.576V352a288 288 0 0 1 491.072-204.224a192 192 0 0 1 274.24 204.48a64 64 0 0 1 57.216 74.24C921.6 600.512 850.048 710.656 736 756.992V800a96 96 0 0 1-96 96H384a96 96 0 0 1-96-96v-43.008c-114.048-46.336-185.6-156.48-214.528-330.496A64 64 0 0 1 128 352.64zm64-.576h64a160 160 0 0 1 320 0h64a224 224 0 0 0-448 0m128 0h192a96 96 0 0 0-192 0m439.424 0h68.544A128.256 128.256 0 0 0 704 192c-15.36 0-29.952 2.688-43.52 7.616c11.328 18.176 20.672 37.76 27.84 58.304A64.128 64.128 0 0 1 759.424 352M672 768H352v32a32 32 0 0 0 32 32h256a32 32 0 0 0 32-32zm-342.528-64h365.056c101.504-32.64 165.76-124.928 192.896-288"/></svg>
           </button>
@@ -1510,12 +1511,12 @@ function renderForceGraph(items) {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M10 9.255C7.606 7.958 5.08 5.715 3 2m8.616 2.419C9.58 3.084 7.097 3.642 6.069 5.666s-.211 4.747 1.824 6.083c1.842 1.209 5.874 2.459 9.107-1.004c-3.03-1.29-3.35-4.99-5.384-6.326"/><path d="M4 11c-.64.47-1 1.005-1 1.572C3 14.465 7.03 16 12 16s9-1.535 9-3.428c0-.567-.36-1.101-1-1.572"/><path d="M21 13c0 3.577-2.506 6.715-5.205 8.482c-.555.364-1.215.518-1.878.518h-3.834c-.663 0-1.323-.154-1.878-.518C5.506 19.715 3 16.577 3 13"/></g></svg>
           </button>
         </div>
-        <div class="flex items-center gap-2 mt-2">
+        <div class="flex items-center justify-start gap-2 mt-2 w-full">
           <button id="fs-layout-toggle" type="button" class="px-3 py-1 rounded-full border-2 border-white text-white shadow-sm transition"></button>
         </div>
-        <div class="flex items-center gap-2 mt-2">
-          <span class="text-white text-xs">Tolérance</span>
+        <div class="flex items-center justify-start gap-2 mt-2 w-full">
           <input id="fs-missing-tolerance" type="range" min="0" max="5" class="accent-primary w-28">
+          <span id="fs-tolerance-value" class="text-black text-base w-8 text-center"></span>
           <button id="fs-infinite-toggle" type="button" class="px-3 py-1 rounded-full border-2 border-white text-white shadow-sm transition"></button>
         </div>
       `;
@@ -1558,8 +1559,10 @@ function renderForceGraph(items) {
       const mainInfToggle = document.getElementById('infinite-tolerance');
       const fsTolRange = miniControls.querySelector('#fs-missing-tolerance');
       const fsInfBtn = miniControls.querySelector('#fs-infinite-toggle');
+      const fsTolValue = miniControls.querySelector('#fs-tolerance-value');
       function updateFsToleranceControls(){
         if (fsTolRange && mainTolRange) fsTolRange.value = String(mainTolRange.value);
+        if (fsTolValue && mainTolRange) fsTolValue.textContent = String(mainTolRange.value);
         if (fsInfBtn && mainInfToggle) {
           const active = !!mainInfToggle.checked;
           fsInfBtn.textContent = active ? 'Tolérance ∞' : 'Tolérance finie';
@@ -1571,6 +1574,7 @@ function renderForceGraph(items) {
         fsTolRange.addEventListener('input', ()=>{
           mainTolRange.value = fsTolRange.value;
           mainTolValue.textContent = fsTolRange.value;
+          if (fsTolValue) fsTolValue.textContent = fsTolRange.value;
           state.missingTolerance = Number(fsTolRange.value);
           if (typeof refresh === 'function') refresh();
           if (window.pushControlsToUrl) window.pushControlsToUrl();
