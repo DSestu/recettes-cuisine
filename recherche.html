@@ -127,7 +127,7 @@ permalink: /recherche/
     </div>
 
     <!-- Col 2-3: Viz + Results -->
-    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(120vh-2rem)]">
+    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(120vh-2rem)] relative pl-2.5 pt-0.5">
 
       <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
         <div class="flex items-center justify-between">
@@ -607,12 +607,32 @@ function renderResults(items) {
   $('#result-count').textContent = items.length;
   const grid = $('#results-grid');
   grid.innerHTML = '';
+  const selectedTagsLower = new Set(Array.from(state.selectedTags, s => String(s).toLowerCase().trim()));
+  const selectedCount = selectedTagsLower.size;
   for (const it of items) {
+    // Compute overlap when tags are selected
+    let overlap = 0;
+    let badgeColor = '';
+    if (selectedCount > 0) {
+      const itemTags = new Set((it.tags || []).map(x => String(x).toLowerCase().trim()));
+      for (const tg of selectedTagsLower) if (itemTags.has(tg)) overlap += 1;
+      if (overlap === 0) badgeColor = '#F53200'; // red
+      else if (overlap === selectedCount) badgeColor = '#22c55e'; // green
+      else badgeColor = '#f97316'; // orange
+    }
+
     const a = document.createElement('a');
     a.href = it.url;
-    a.className = 'recipe md:hover:scale-105 md:hover:rotate-1 transition';
+    a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
+
+    const outlineStyle = selectedCount > 0 ? `outline:2px solid ${badgeColor}; outline-offset: 0px;` : '';
+    const badgeHtml = selectedCount > 0
+      ? `<span class="absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full text-xs font-bold text-white border-2 border-white" style="background:${badgeColor}">${overlap}/${selectedCount}</span>`
+      : '';
+
     a.innerHTML = `
-      <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(it.image)}');"></canvas>
+      ${badgeHtml}
+      <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${outlineStyle}background-image:url('${encodeURI(it.image)}');"></canvas>
       <h1 class="font-semibold leading-tight">${it.title}</h1>
     `;
     grid.appendChild(a);
