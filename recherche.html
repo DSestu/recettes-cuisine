@@ -592,13 +592,28 @@ function renderBarChart(svgSel, data, onClick, activeSet = new Set()) {
       .attr('flood-color', '#F53200')
       .attr('flood-opacity', 0.6);
   }
+  // Diagonal hatch pattern for selected bars
+  if (defs.select('#diagHatch').empty()) {
+    const p = defs.append('pattern')
+      .attr('id', 'diagHatch')
+      .attr('patternUnits', 'userSpaceOnUse')
+      .attr('width', 6)
+      .attr('height', 6)
+      .attr('patternTransform', 'rotate(45)');
+    p.append('line')
+      .attr('x1', 0).attr('y1', 0)
+      .attr('x2', 0).attr('y2', 6)
+      .attr('stroke', '#111')
+      .attr('stroke-width', 0.5);
+  }
 
-  const bars = g.selectAll('rect').data(data).enter().append('rect')
+  const bars = g.selectAll('rect.bar').data(data).enter().append('rect')
+    .attr('class','bar')
     .attr('x', 0).attr('y', d=>y(d.key))
     .attr('height', y.bandwidth())
     .attr('width', d=>x(d.value))
     .attr('fill', d=> color(d.value))
-    .attr('opacity', 0.95)
+    .attr('opacity', d => activeSet.has(d.key) ? 0.95 : 0.7)
     .style('cursor', 'pointer')
     .on('click', (_, d) => onClick(d.key));
 
@@ -607,6 +622,16 @@ function renderBarChart(svgSel, data, onClick, activeSet = new Set()) {
     .attr('stroke', d => activeSet.has(d.key) ? '#F53200' : 'none')
     .attr('stroke-width', d => activeSet.has(d.key) ? 2 : 0)
     .attr('filter', d => activeSet.has(d.key) ? 'url(#selGlow)' : null);
+
+  // Overlay diagonal hatch only on selected bars
+  g.selectAll('rect.hatch').data(data.filter(d=>activeSet.has(d.key)))
+    .enter().append('rect')
+      .attr('class','hatch pointer-events-none')
+      .attr('x', 0).attr('y', d=>y(d.key))
+      .attr('height', y.bandwidth())
+      .attr('width', d=>x(d.value))
+      .attr('fill', 'url(#diagHatch)')
+      .attr('opacity', 0.25);
 
   // Value labels near origin on the right side (inside the chart area)
   g.selectAll('text.value').data(data).enter().append('text')
