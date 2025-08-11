@@ -946,6 +946,8 @@ function renderForceGraph(items) {
   node.append('circle')
     .attr('r', d => d.type === 'recipe' ? 7 : 5)
     .attr('fill', d => colorByType(d))
+    .attr('stroke', '#111')
+    .attr('stroke-width', 0.6)
     .attr('opacity', 0.9)
     .style('cursor', 'pointer')
     .on('click', (_, d) => {
@@ -986,7 +988,11 @@ function renderForceGraph(items) {
     .attr('x', 10)
     .attr('y', 3)
     .attr('font-size', 10)
-    .attr('fill', '#6b7280');
+    .attr('fill', '#111')
+    .attr('paint-order', 'stroke')
+    .attr('stroke', '#ffffff')
+    .attr('stroke-width', 2)
+    .attr('stroke-opacity', 0.9);
 
   let __tickCount = 0;
   simulation.on('tick', () => {
@@ -1067,7 +1073,9 @@ function renderForceGraph(items) {
   const searchInput = document.getElementById('graph-search');
   function applySearch() {
     const q = searchInput.value.trim().toLowerCase();
-    node.selectAll('circle').attr('stroke', d => q && d.label.toLowerCase().includes(q) ? '#111827' : null).attr('stroke-width', d => q && d.label.toLowerCase().includes(q) ? 2 : 0);
+    node.selectAll('circle')
+      .attr('stroke', d => (q && d.label.toLowerCase().includes(q)) ? '#111827' : '#111')
+      .attr('stroke-width', d => (q && d.label.toLowerCase().includes(q)) ? 2 : 0.6);
   }
   searchInput.addEventListener('input', applySearch);
   applySearch();
