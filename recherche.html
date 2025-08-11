@@ -128,7 +128,7 @@ permalink: /recherche/
                 <div class="text-xs text-gray-600 mb-1">Ingrédients masqués (fréquents) — cliquez pour les réintégrer</div>
                 <div class="flex items-center gap-3">
                   <div id="hidden-top-ingredients" class="flex flex-wrap gap-2"></div>
-                  <button id="btn-unhide-all" class="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-50">Tout réintégrer</button>
+                  <button id="btn-unhide-all" class="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-50">Force refresh</button>
                 </div>
               </div>
             </div>
@@ -1363,6 +1363,78 @@ function renderForceGraph(items) {
         resetBtn.style.boxShadow = '';
       }
     }
+
+    // Create/position the mini visibility toggle and horizontal controls (fullscreen only)
+    let miniToggle = document.getElementById('fs-mini-toggle');
+    if (!miniToggle) {
+      miniToggle = document.createElement('button');
+      miniToggle.id = 'fs-mini-toggle';
+      miniToggle.title = 'Afficher/Masquer les filtres de nœuds';
+      miniToggle.style.position = 'absolute';
+      miniToggle.style.top = '96px';
+      miniToggle.style.left = '8px';
+      miniToggle.style.zIndex = '9998';
+      miniToggle.style.pointerEvents = 'auto';
+      miniToggle.style.width = '36px';
+      miniToggle.style.height = '36px';
+      miniToggle.style.display = 'inline-flex';
+      miniToggle.style.alignItems = 'center';
+      miniToggle.style.justifyContent = 'center';
+      miniToggle.style.borderRadius = '8px';
+      miniToggle.style.background = 'rgba(255,255,255,0.9)';
+      miniToggle.style.border = '2px solid white';
+      miniToggle.style.boxShadow = '0 4px 10px rgba(0,0,0,0.08)';
+      miniToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-gray-700"><path d="M3 6.75A.75.75 0 0 1 3.75 6h12.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75Zm0 5.25a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Z"/></svg>';
+      container.appendChild(miniToggle);
+    }
+    let miniControls = document.getElementById('fs-mini-controls');
+    if (!miniControls) {
+      miniControls = document.createElement('div');
+      miniControls.id = 'fs-mini-controls';
+      miniControls.style.position = 'absolute';
+      miniControls.style.top = '96px';
+      miniControls.style.left = '52px';
+      miniControls.style.zIndex = '9998';
+      miniControls.style.display = 'none';
+      miniControls.style.gap = '8px';
+      miniControls.style.alignItems = 'center';
+      miniControls.style.pointerEvents = 'auto';
+      miniControls.className = 'flex';
+      miniControls.innerHTML = `
+        <button id="fs-btn-tokens" type="button" title="Afficher les ingrédients" class="inline-flex items-center justify-center w-9 h-9 rounded-full border-2 border-white text-white shadow-sm transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor" class="w-4 h-4"><path d="M128 352.576V352a288 288 0 0 1 491.072-204.224a192 192 0 0 1 274.24 204.48a64 64 0 0 1 57.216 74.24C921.6 600.512 850.048 710.656 736 756.992V800a96 96 0 0 1-96 96H384a96 96 0 0 1-96-96v-43.008c-114.048-46.336-185.6-156.48-214.528-330.496A64 64 0 0 1 128 352.64zm64-.576h64a160 160 0 0 1 320 0h64a224 224 0 0 0-448 0m128 0h192a96 96 0 0 0-192 0m439.424 0h68.544A128.256 128.256 0 0 0 704 192c-15.36 0-29.952 2.688-43.52 7.616c11.328 18.176 20.672 37.76 27.84 58.304A64.128 64.128 0 0 1 759.424 352M672 768H352v32a32 32 0 0 0 32 32h256a32 32 0 0 0 32-32zm-342.528-64h365.056c101.504-32.64 165.76-124.928 192.896-288H136.576c27.136 163.072 91.392 255.36 192.896 288"/></svg>
+        </button>
+        <button id="fs-btn-recipes" type="button" title="Afficher les recettes" class="inline-flex items-center justify-center w-9 h-9 rounded-full border-2 border-white text-white shadow-sm transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4"><path d="M6.723 1.054a.5.5 0 0 1 .265.335C7.006 1.468 7.5 3.582 7.5 5c0 .95-.442 1.797-1.13 2.346c-.25.2-.37.418-.37.6v.486q0 .035.004.066c.034.248.157 1.169.272 2.124c.113.937.224 1.959.224 2.378a2 2 0 1 1-4 0c0-.42.111-1.44.224-2.378c.115-.955.238-1.876.272-2.124L3 8.432v-.486c0-.182-.12-.4-.37-.6A3 3 0 0 1 1.5 5c0-1.413.49-3.516.512-3.61A.505.505 0 0 1 2.505 1c.28 0 .507.227.507.507v2.998A.495.495 0 1 0 4 4.5v-3a.5.5 0 0 1 1 0v3.026a.495.495 0 0 0 .99-.021v-3c0-.279.226-.505.506-.505c.022 0 .12 0 .227.054M9 5.5A4.5 4.5 0 0 1 13.5 1a.5.5 0 0 1 .5.5v5.973l.019.177a262 262 0 0 1 .229 2.24c.123 1.256.252 2.664.252 3.11a2 2 0 1 1-4 0c0-.446.129-1.854.252-3.11c.063-.637.126-1.247.173-1.699l.02-.191H10a1 1 0 0 1-1-1z"/></svg>
+        </button>
+        <button id="fs-btn-components" type="button" title="Afficher les composants" class="inline-flex items-center justify-center w-9 h-9 rounded-full border-2 border-white text-white shadow-sm transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M10 9.255C7.606 7.958 5.08 5.715 3 2m8.616 2.419C9.58 3.084 7.097 3.642 6.069 5.666s-.211 4.747 1.824 6.083c1.842 1.209 5.874 2.459 9.107-1.004c-3.03-1.29-3.35-4.99-5.384-6.326"/><path d="M4 11c-.64.47-1 1.005-1 1.572C3 14.465 7.03 16 12 16s9-1.535 9-3.428c0-.567-.36-1.101-1-1.572"/><path d="M21 13c0 3.577-2.506 6.715-5.205 8.482c-.555.364-1.215.518-1.878.518h-3.834c-.663 0-1.323-.154-1.878-.518C5.506 19.715 3 16.577 3 13"/></g></svg>
+        </button>
+      `;
+      container.appendChild(miniControls);
+      // Hook mini badges to underlying checkboxes
+      const inTok = document.getElementById('show-tokens');
+      const inRec = document.getElementById('show-recipes');
+      const inComp = document.getElementById('show-components');
+      const fsTok = miniControls.querySelector('#fs-btn-tokens');
+      const fsRec = miniControls.querySelector('#fs-btn-recipes');
+      const fsComp = miniControls.querySelector('#fs-btn-components');
+      if (fsTok && inTok) fsTok.addEventListener('click', ()=>{ inTok.checked = !inTok.checked; inTok.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
+      if (fsRec && inRec) fsRec.addEventListener('click', ()=>{ inRec.checked = !inRec.checked; inRec.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
+      if (fsComp && inComp) fsComp.addEventListener('click', ()=>{ inComp.checked = !inComp.checked; inComp.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
+    }
+    // Toggle behavior for mini accordion
+    if (miniToggle) {
+      miniToggle.onclick = () => {
+        if (!miniControls) return;
+        const isHidden = miniControls.style.display === 'none' || miniControls.style.display === '';
+        miniControls.style.display = isHidden ? 'flex' : 'none';
+      };
+    }
+    // Show/hide based on fullscreen state and update colors
+    if (miniToggle) miniToggle.style.display = inFs ? 'inline-flex' : 'none';
+    if (miniControls) miniControls.style.display = (inFs ? miniControls.style.display : 'none');
+    if (inFs && typeof window.updateNodeBadges === 'function') window.updateNodeBadges();
   }
   document.addEventListener('fullscreenchange', ensureFsButton);
   ensureFsButton();
@@ -1616,9 +1688,17 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.setAttribute('aria-pressed', checked ? 'true' : 'false');
     }
     function updateNodeBadges(){
+      // Main badges
       applyBadge(btnTok, !!inTok?.checked);
       applyBadge(btnRec, !!inRec?.checked);
       applyBadge(btnComp, !!inComp?.checked);
+      // Fullscreen-mini badges (if present)
+      const fsTok = document.getElementById('fs-btn-tokens');
+      const fsRec = document.getElementById('fs-btn-recipes');
+      const fsComp = document.getElementById('fs-btn-components');
+      applyBadge(fsTok, !!inTok?.checked);
+      applyBadge(fsRec, !!inRec?.checked);
+      applyBadge(fsComp, !!inComp?.checked);
     }
     window.updateNodeBadges = updateNodeBadges;
     if (btnTok && inTok) btnTok.addEventListener('click', ()=>{ inTok.checked = !inTok.checked; inTok.dispatchEvent(new Event('change', { bubbles: true })); updateNodeBadges(); });
