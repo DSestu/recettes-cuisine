@@ -154,13 +154,21 @@
       });
     });
 
-    // Smooth hide/show nav on scroll (mobile)
+    // Smooth hide/show nav on scroll (mobile only)
     (function(){
       const nav = document.querySelector('body > nav');
       if (!nav) return;
       let lastY = window.scrollY || 0;
       window.addEventListener('scroll', () => {
         if (nav.classList.contains('hidden')) return;
+        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+        if (isDesktop) {
+          // Always keep nav visible on desktop
+          nav.classList.remove('nav-hidden');
+          nav.classList.add('nav-visible');
+          lastY = window.scrollY || 0;
+          return;
+        }
         const y = window.scrollY || 0;
         const goingDown = y > lastY && y > 8;
         const atTop = y <= 0;
@@ -175,8 +183,11 @@
       }, { passive: true });
       // Ensure fully visible after orientation/resize
       window.addEventListener('resize', ()=>{
-        nav.classList.remove('nav-hidden');
-        nav.classList.add('nav-visible');
+        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+        if (isDesktop) {
+          nav.classList.remove('nav-hidden');
+          nav.classList.add('nav-visible');
+        }
       });
     })();
   </script>

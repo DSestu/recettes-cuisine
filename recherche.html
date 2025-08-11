@@ -53,7 +53,7 @@ permalink: /recherche/
 
       <div class="flex flex-col gap-2 relative">
         <label class="text-sm uppercase text-primary font-semibold">Tags</label>
-        
+         
         <input id="tag-input" type="text" placeholder="Ajouter un tag…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
         <div id="tag-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
         <div id="selected-tags" class="flex flex-wrap gap-2"></div>
@@ -965,7 +965,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   document.addEventListener('click', (e)=>{ if (!tagAuto.contains(e.target) && e.target !== tagInput) tagAuto.classList.add('hidden'); });
-
+ 
   $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
   $('#reset-ingredients').addEventListener('click', ()=>{ state.selectedTokens.clear(); updateSelectedChips(); refresh(); });
 
@@ -981,7 +981,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ew = params.get('edge');
   const modeParam = params.get('mode');
   const ei = params.get('impact');
-  const mr = params.get('mr');
+  const mr = params.get('mr'); 
   const mi = params.get('mi');
   const ht = params.get('ht');
   const st = params.get('st');
