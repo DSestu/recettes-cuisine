@@ -59,18 +59,16 @@ permalink: /recherche/
       <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <h3 class="font-semibold">Tags histograms</h3>
+            <h3 class="font-semibold">Tags (Top 20)</h3>
           </div>
           <button id="toggle-histograms" class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90">Afficher</button>
         </div>
-        <div id="histograms-panel" class="mt-4 hidden md:grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
-            <div class="flex items-center justify-between mb-2">
-              <h3 class="font-semibold">Tags (Top 20)</h3>
-              <button id="reset-tags" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
-            </div>
-            <svg id="tags-chart" class="w-full" style="height: 260px"></svg>
+        <div id="histograms-panel" class="mt-4 hidden md:grid grid-cols-1  gap-6">
+          <div class="flex items-center justify-between mb-2">
+            <button id="reset-tags" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
           </div>
+          <svg id="tags-chart" class="w-full" style="height: 260px"></svg>
+          <!-- This is hidden because if we remove it it won't work anymore -->
           <div class="hidden viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
             <div class="flex items-center justify-between mb-2">
               <h3 class="font-semibold">Ingrédients (Top 20)</h3>
