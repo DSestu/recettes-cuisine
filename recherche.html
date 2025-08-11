@@ -56,21 +56,6 @@ permalink: /recherche/
         <div id="tag-suggestions" class="flex flex-wrap gap-2"></div>
       </div>
 
-      <div class="flex flex-col gap-3 hidden">
-        <label class="text-sm uppercase text-primary font-semibold">Ingrédients suggérés</label>
-        <div class="flex flex-col gap-2 relative">
-          <label class="text-xs uppercase text-primary/80 font-semibold">J'ai dans mon frigo…</label>
-          <input id="ingredient-input" type="text" placeholder="Ex: carotte, ail, poulet…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
-          <div id="ingredient-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
-          <div id="selected-ingredients" class="flex flex-wrap gap-2"></div>
-          <div class="text-xs text-gray-600">Sélectionnez plusieurs ingrédients à la fois. Les résultats afficheront les recettes contenant tous les ingrédients sélectionnés (selon la tolérance).</div>
-        </div>
-        <div  id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
-      </div>
-    </div>
-
-    <!-- Col 2-3: Viz + Results -->
-    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(100vh-6rem)]">
       <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
@@ -95,6 +80,23 @@ permalink: /recherche/
           </div>
         </div>
       </div>
+      
+
+      <div class="flex flex-col gap-3 hidden">
+        <label class="text-sm uppercase text-primary font-semibold">Ingrédients suggérés</label>
+        <div class="flex flex-col gap-2 relative">
+          <label class="text-xs uppercase text-primary/80 font-semibold">J'ai dans mon frigo…</label>
+          <input id="ingredient-input" type="text" placeholder="Ex: carotte, ail, poulet…" class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary">
+          <div id="ingredient-autocomplete" class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"></div>
+          <div id="selected-ingredients" class="flex flex-wrap gap-2"></div>
+          <div class="text-xs text-gray-600">Sélectionnez plusieurs ingrédients à la fois. Les résultats afficheront les recettes contenant tous les ingrédients sélectionnés (selon la tolérance).</div>
+        </div>
+        <div  id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+
+    <!-- Col 2-3: Viz + Results -->
+    <div class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(100vh-6rem)]">
 
       <div class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
         <div class="flex items-center justify-between">
