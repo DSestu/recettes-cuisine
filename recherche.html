@@ -1513,6 +1513,11 @@ function renderForceGraph(items) {
         <div class="flex items-center gap-2 mt-2">
           <button id="fs-layout-toggle" type="button" class="px-3 py-1 rounded-full border-2 border-white text-white shadow-sm transition"></button>
         </div>
+        <div class="flex items-center gap-2 mt-2">
+          <span class="text-white text-xs">Tolérance</span>
+          <input id="fs-missing-tolerance" type="range" min="0" max="5" class="accent-primary w-28">
+          <button id="fs-infinite-toggle" type="button" class="px-3 py-1 rounded-full border-2 border-white text-white shadow-sm transition"></button>
+        </div>
       `;
       container.appendChild(miniControls);
       // Hook mini badges to underlying checkboxes
@@ -1546,6 +1551,43 @@ function renderForceGraph(items) {
         });
         updateFsLayoutButton();
       }
+
+      // Tolerance controls (mirror of main controls)
+      const mainTolRange = document.getElementById('missing-tolerance');
+      const mainTolValue = document.getElementById('tolerance-value');
+      const mainInfToggle = document.getElementById('infinite-tolerance');
+      const fsTolRange = miniControls.querySelector('#fs-missing-tolerance');
+      const fsInfBtn = miniControls.querySelector('#fs-infinite-toggle');
+      function updateFsToleranceControls(){
+        if (fsTolRange && mainTolRange) fsTolRange.value = String(mainTolRange.value);
+        if (fsInfBtn && mainInfToggle) {
+          const active = !!mainInfToggle.checked;
+          fsInfBtn.textContent = active ? 'Tolérance ∞' : 'Tolérance finie';
+          fsInfBtn.style.background = active ? '#16a34a' : '#9ca3af';
+        }
+      }
+      window.updateFsToleranceControls = updateFsToleranceControls;
+      if (fsTolRange && mainTolRange && mainTolValue) {
+        fsTolRange.addEventListener('input', ()=>{
+          mainTolRange.value = fsTolRange.value;
+          mainTolValue.textContent = fsTolRange.value;
+          state.missingTolerance = Number(fsTolRange.value);
+          if (typeof refresh === 'function') refresh();
+          if (window.pushControlsToUrl) window.pushControlsToUrl();
+        });
+      }
+      if (fsInfBtn && mainInfToggle) {
+        fsInfBtn.addEventListener('click', ()=>{
+          mainInfToggle.checked = !mainInfToggle.checked;
+          mainInfToggle.dispatchEvent(new Event('change', { bubbles: true }));
+          updateFsToleranceControls();
+          if (window.pushControlsToUrl) window.pushControlsToUrl();
+        });
+      }
+      // Keep FS tolerance in sync when main controls change
+      if (mainTolRange) mainTolRange.addEventListener('input', updateFsToleranceControls);
+      if (mainInfToggle) mainInfToggle.addEventListener('change', updateFsToleranceControls);
+      updateFsToleranceControls();
     }
     // Toggle behavior for mini accordion
     if (miniToggle) {
