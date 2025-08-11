@@ -75,14 +75,14 @@ permalink: /recherche/
           <div class="flex items-center justify-between mb-2">
             <button id="reset-tags" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
           </div>
-          <svg id="tags-chart" class="w-full" style="height: 260px"></svg>
+          <svg id="tags-chart" class="w-full" style="height: 360px"></svg>
           <!-- This is hidden because if we remove it it won't work anymore -->
           <div class="hidden viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm">
             <div class="flex items-center justify-between mb-2">
               <h3 class="font-semibold">Ingrédients (Top 20)</h3>
               <button id="reset-ingredients" class="text-sm text-primary underline underline-offset-2">Réinitialiser</button>
             </div>
-            <svg id="ingredients-chart" class="w-full" style="height: 260px"></svg>
+            <svg id="ingredients-chart" class="w-full" style="height: 360px"></svg>
           </div>
         </div>
       </div>
@@ -561,27 +561,62 @@ function renderBarChart(svgSel, data, onClick, activeSet = new Set()) {
   const svg = d3.select(svgSel);
   svg.selectAll('*').remove();
   const width = svg.node().clientWidth || 300;
-  const height = svg.node().clientHeight || 260;
-  const margin = {top: 10, right: 10, bottom: 20, left: 100};
+  const height = svg.node().clientHeight || 360;
+  const margin = {top: 10, right: 10, bottom: 0, left: 120};
   const innerW = width - margin.left - margin.right;
   const innerH = height - margin.top - margin.bottom;
 
   const g = svg.attr('viewBox', `0 0 ${width} ${height}`).append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-  const x = d3.scaleLinear().domain([0, d3.max(data, d=>d.value)||1]).range([0, innerW]);
+  const x = d3.scaleLinear().domain([0, d3.max(data, d=>d.value)||1]).nice().range([0, innerW]);
   const y = d3.scaleBand().domain(data.map(d=>d.key)).range([0, innerH]).padding(0.15);
 
-  g.append('g').attr('transform', `translate(0,${innerH})`).call(d3.axisBottom(x).ticks(4));
+  // Remove X axis for cleaner look
+  // g.append('g').attr('transform', `translate(0,${innerH})`).call(d3.axisBottom(x).ticks(4));
   g.append('g').call(d3.axisLeft(y));
 
-  g.selectAll('rect').data(data).enter().append('rect')
+  // Gradient scale matching site palette (green -> primary orange -> red)
+  const maxVal = d3.max(data, d=>d.value)||1;
+  const color = d3.scaleLinear()
+    .domain([0, maxVal*0.4, maxVal])
+    .range(['#F53200', '#f97316', '#22c55e']);
+
+  // Define a smooth red glow for selected bars
+  let defs = svg.select('defs');
+  if (defs.empty()) defs = svg.append('defs');
+  if (defs.select('#selGlow').empty()) {
+    const f = defs.append('filter').attr('id','selGlow');
+    f.append('feDropShadow')
+      .attr('dx', 0).attr('dy', 0)
+      .attr('stdDeviation', 2)
+      .attr('flood-color', '#F53200')
+      .attr('flood-opacity', 0.6);
+  }
+
+  const bars = g.selectAll('rect').data(data).enter().append('rect')
     .attr('x', 0).attr('y', d=>y(d.key))
     .attr('height', y.bandwidth())
     .attr('width', d=>x(d.value))
-    .attr('fill', d=> activeSet.has(d.key) ? '#F53200' : '#fb7a5a')
+    .attr('fill', d=> color(d.value))
     .attr('opacity', 0.95)
     .style('cursor', 'pointer')
     .on('click', (_, d) => onClick(d.key));
+
+  // Apply outline and subtle glow to selected bars
+  bars
+    .attr('stroke', d => activeSet.has(d.key) ? '#F53200' : 'none')
+    .attr('stroke-width', d => activeSet.has(d.key) ? 2 : 0)
+    .attr('filter', d => activeSet.has(d.key) ? 'url(#selGlow)' : null);
+
+  // Value labels near origin on the right side (inside the chart area)
+  g.selectAll('text.value').data(data).enter().append('text')
+    .attr('class', 'value')
+    .attr('x', 6)
+    .attr('y', d=> (y(d.key) || 0) + y.bandwidth()/2 + 3)
+    .attr('text-anchor', 'start')
+    .attr('fill', '#ffffff')
+    .attr('font-size', 11)
+    .text(d=> d.value);
 }
 
 function updateCharts(items) {
