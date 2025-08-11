@@ -147,8 +147,8 @@ permalink: /recherche/
                  <label class="inline-flex items-center gap-2 text-sm">
                    <span>Disposition</span>
                    <select id="layout-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
-                     <option value="force" selected>Force</option>
-                     <option value="radial">Radial</option>
+                     <option value="radial"selected>Radial</option>
+                     <option value="force" >Force</option>
                      <option value="circle">Cercle</option>
                      <option value="rings">Anneaux</option>
                      <option value="spiral">Spirale</option>
@@ -1002,7 +1002,7 @@ function renderForceGraph(items) {
     .attr('fill', d => colorByType(d))
     .attr('stroke', '#111')
     .attr('stroke-width', 0.6)
-    .attr('opacity', 0.9)
+    .attr('opacity', 1)
     .style('cursor', 'pointer')
     .on('click', (_, d) => {
       if (d.type === 'token' || d.type === 'tag') {
@@ -1047,6 +1047,9 @@ function renderForceGraph(items) {
     .attr('stroke', '#ffffff')
     .attr('stroke-width', 2)
     .attr('stroke-opacity', 0.9);
+
+  // Ensure labels render above circles and don't block mouse events
+  node.selectAll('text').style('pointer-events','none').raise();
 
   let __tickCount = 0;
   simulation.on('tick', () => {
