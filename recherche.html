@@ -1247,7 +1247,7 @@ function renderForceGraph(items) {
           </button>
           <div id="fs-overlay-body" class="flex flex-col items-center gap-2 transition-all duration-200">
             <div class="relative z-10 w-full max-w-[520px]">
-              <input id="fs-tag-input" type="text" placeholder="Ajouter un tag…" class="px-4 py-2 w-full rounded-full border border-gray-300 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+              <input id="fs-tag-input" type="text" placeholder="Ajouter un tag…" class="px-4 py-2 w-full rounded-full border border-gray-300 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/30 text-center">
               <div id="fs-tag-autocomplete" class="absolute z-10 left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-60 overflow-auto"></div>
             </div>
             <div id="fs-selected-tags" class="relative z-20 flex flex-wrap justify-center gap-2 pt-1"></div>
@@ -1643,21 +1643,45 @@ function renderForceGraph(items) {
     if (miniToggle) {
       miniToggle.onclick = () => {
         if (!miniControls) return;
+        const rows = Array.from(miniControls.children).filter(el => el && el.tagName === 'DIV');
         const isHidden = miniControls.style.display === 'none' || miniControls.style.display === '';
+        const transMs = 220;
+        const staggerMs = 80;
         if (isHidden) {
           miniControls.style.display = 'flex';
-          // animate in
+          // prepare rows initial state
+          rows.forEach(row => {
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(-16px)';
+            row.style.transition = `opacity ${transMs}ms ease, transform ${transMs}ms ease`;
+          });
+          // animate container and rows in sequence
           requestAnimationFrame(()=>{
             miniControls.style.opacity = '1';
             miniControls.style.transform = 'translateX(0)';
             miniControls.style.pointerEvents = 'auto';
+            rows.forEach((row, i) => {
+              setTimeout(()=>{
+                row.style.opacity = '1';
+                row.style.transform = 'translateX(0)';
+              }, i * staggerMs);
+            });
           });
         } else {
-          // animate out
-          miniControls.style.opacity = '0';
-          miniControls.style.transform = 'translateX(-16px)';
+          // animate rows out with stagger, then container
+          rows.forEach((row, i) => {
+            setTimeout(()=>{
+              row.style.opacity = '0';
+              row.style.transform = 'translateX(-16px)';
+            }, i * staggerMs);
+          });
           miniControls.style.pointerEvents = 'none';
-          setTimeout(()=>{ miniControls.style.display = 'none'; }, 230);
+          const total = transMs + (Math.max(0, rows.length - 1) * staggerMs) + 20;
+          setTimeout(()=>{
+            miniControls.style.opacity = '0';
+            miniControls.style.transform = 'translateX(-16px)';
+          }, total - transMs);
+          setTimeout(()=>{ miniControls.style.display = 'none'; }, total);
         }
       };
       // press animation for toggle button too
