@@ -1519,6 +1519,11 @@ function renderForceGraph(items) {
           <span id="fs-tolerance-value" class="text-black text-base w-8 text-center"></span>
           <button id="fs-infinite-toggle" type="button" class="px-3 py-1 rounded-full border-2 border-white text-white shadow-sm transition"></button>
         </div>
+        <div class="flex items-center justify-start gap-2 mt-2 w-full">
+          <input id="fs-hide-top" type="range" min="0" max="20" class="accent-primary w-28">
+          <span id="fs-hide-top-value" class="text-black text-base w-8 text-center"></span>
+          <span class="text-black text-base">Masquer top fréquents</span>
+        </div>
       `;
       container.appendChild(miniControls);
       // Hook mini badges to underlying checkboxes
@@ -1592,6 +1597,28 @@ function renderForceGraph(items) {
       if (mainTolRange) mainTolRange.addEventListener('input', updateFsToleranceControls);
       if (mainInfToggle) mainInfToggle.addEventListener('change', updateFsToleranceControls);
       updateFsToleranceControls();
+
+      // Hide-top-ingredients controls (mirror main controls)
+      const mainHideTop = document.getElementById('hide-top-ingredients');
+      const mainHideTopValue = document.getElementById('hide-top-ingredients-value');
+      const fsHideTop = miniControls.querySelector('#fs-hide-top');
+      const fsHideTopValue = miniControls.querySelector('#fs-hide-top-value');
+      function updateFsHideTopControls(){
+        if (fsHideTop && mainHideTop) fsHideTop.value = String(mainHideTop.value);
+        if (fsHideTopValue && mainHideTop) fsHideTopValue.textContent = String(mainHideTop.value);
+      }
+      window.updateFsHideTopControls = updateFsHideTopControls;
+      if (fsHideTop && mainHideTop && mainHideTopValue) {
+        fsHideTop.addEventListener('input', ()=>{
+          mainHideTop.value = fsHideTop.value;
+          mainHideTopValue.textContent = fsHideTop.value;
+          if (fsHideTopValue) fsHideTopValue.textContent = fsHideTop.value;
+          if (typeof refresh === 'function') refresh();
+          if (window.pushControlsToUrl) window.pushControlsToUrl();
+        });
+      }
+      if (mainHideTop) mainHideTop.addEventListener('input', updateFsHideTopControls);
+      updateFsHideTopControls();
     }
     // Toggle behavior for mini accordion
     if (miniToggle) {
