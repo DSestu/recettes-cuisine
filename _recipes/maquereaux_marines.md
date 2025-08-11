@@ -11,6 +11,15 @@ tags:
 - plat
 - froid
 - bocuse
+- sel
+- poivre
+- vin blanc
+- vinaigre
+- carotte
+- oignon
+- thym
+- laurier
+- citron
 
 ingredients:
 - 12 petits maquereaux vidés et nettoyés

@@ -12,6 +12,10 @@ tags:
 - pommes de terre
 - pain
 - bocuse
+- beurre
+- eau
+- sel
+- lait
 
 ingredients:
 - 6 endives

@@ -12,6 +12,9 @@ tags:
 - riz
 - oignons
 - sauce huitre
+- poivre
+- piment d'espelette
+- creme fraiche
 
 ingredients:
 - 300-400g de filet de poulet ou d'émincé de dinde (encore mieux)

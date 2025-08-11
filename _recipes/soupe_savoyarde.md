@@ -15,6 +15,9 @@ tags:
 - pain
 - gruyère
 - bocuse
+- lait
+- eau
+- sel
 
 ingredients:
 - 50g de lard gras

@@ -11,6 +11,17 @@ tags:
 - gruyère
 - chaud
 - bocuse
+- beurre
+- farine
+- bouillon
+- pain
+- chapelure
+- sel
+- poivre
+- jaunes d'oeufs
+- crème fraîche
+- porto
+- muscade
 
 
 ingredients:

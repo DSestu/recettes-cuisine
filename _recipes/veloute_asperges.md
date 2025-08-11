@@ -11,6 +11,12 @@ tags:
 - crème
 - chaud
 - bocuse
+- oignon
+- persil
+- fécule
+- beurre
+- sel
+- poivre
 
 ingredients:
 - 600 g d'asperges vertes

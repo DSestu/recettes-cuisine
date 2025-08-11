@@ -11,6 +11,10 @@ tags:
 - pommes de terre
 - creme
 - bocuse
+- beurre
+- sel
+- poivre
+- couennes
 
 ingredients:
 - 500 g de pommes de terre

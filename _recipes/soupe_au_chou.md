@@ -12,6 +12,17 @@ tags:
 - chaud
 - légumes
 - bocuse
+- pommes de terre
+- carottes
+- navets
+- poireaux
+- oignon
+- clou de girofle
+- eau
+- saindoux
+- sel
+- poivre
+- pain
 
 ingredients:
 - 400 g de lard demi-sel

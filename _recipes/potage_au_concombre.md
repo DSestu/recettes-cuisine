@@ -12,6 +12,11 @@ tags:
 - noix
 - froid
 - bocuse
+- ciboulette
+- ail
+- huile d'olive
+- sel
+- poivre
 
 ingredients:
 - 1 gros concombre

@@ -11,6 +11,12 @@ tags:
 - entrée
 - froid
 - bocuse
+- echalote
+- huile d'arachide
+- vinaigre de vin
+- moutarde
+- sel
+- poivre
 
 ingredients:
 - 125 g de haricots verts

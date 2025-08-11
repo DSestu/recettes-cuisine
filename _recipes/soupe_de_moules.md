@@ -12,6 +12,24 @@ tags:
 - mediterranee
 - safran
 - bocuse
+- vin blanc
+- ail
+- echalotes
+- persil
+- beurre
+- huile d'olive
+- oignons
+- poireaux
+- fenouil
+- eau
+- tomates
+- laurier
+- thym
+- crème
+- sel
+- poivre
+- pain
+- fromage
 
 ingredients:
 - 4 litres de moules de bouchot

@@ -11,6 +11,12 @@ tags:
 - entrée
 - froid
 - bocuse
+- ail
+- laurier
+- vinaigre
+- huile
+- sel
+- poivre
 
 ingredients:
 - 1 petit chou rouge

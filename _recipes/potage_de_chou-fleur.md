@@ -11,6 +11,12 @@ tags:
 - pommes de terre
 - creme
 - bocuse
+- beurre
+- lait
+- bouillon blanc
+- sel
+- cerfeuil
+- croûtons
 
 ingredients:
 - 600 g de chou-fleur

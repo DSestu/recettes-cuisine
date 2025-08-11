@@ -11,6 +11,11 @@ tags:
 - riz
 - lait
 - creme
+- oeufs
+- beurre
+- sucre
+- rhum
+- vanille
 
 ingredients:
 - 200 g de riz rond (*)

@@ -14,6 +14,10 @@ tags:
 - riz
 - basilic
 - bocuse
+- sel
+- beurre
+- eau
+- gruyère
 
 ingredients:
 - 3 blancs de poireaux

@@ -11,6 +11,13 @@ tags:
 - pommes de terre
 - creme
 - bocuse
+- beurre
+- eau
+- thym
+- persil
+- ciboulette
+- sel
+- poivre
 
 ingredients:
 - 1 kg de poireaux

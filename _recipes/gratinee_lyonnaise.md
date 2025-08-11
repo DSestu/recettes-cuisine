@@ -11,6 +11,13 @@ tags:
 - gruyere
 - pain
 - bocuse
+- beurre
+- farine
+- bouquet garni
+- sel
+- poivre
+- madere
+- jaunes d'oeufs
 
 ingredients:
 - 600g d'oignons paille
