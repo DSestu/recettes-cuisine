@@ -3,9 +3,9 @@ layout: default
 permalink: /recherche/
 ---
 
- <div class="content w-full md:w-full p-6">
+  <div class="content w-full md:w-full p-6">
    <!-- Floating back button -->
-  <a href="#" onclick="if(document.referrer){history.back();}else{window.location.href='{{ site.baseurl }}/';} return false;" class="fixed top-4 left-4 md:left-16 z-30 bg-white rounded-full p-3 shadow border border-gray-200 hover:bg-gray-50 md:hidden" title="Retour" aria-label="Retour">
+   <a id="mobile-back-btn" href="#" onclick="if(document.referrer){history.back();}else{window.location.href='{{ site.baseurl }}/';} return false;" class="fixed top-4 left-4 md:left-16 z-30 bg-white rounded-full p-3 shadow border border-gray-200 hover:bg-gray-50 md:hidden transition-all duration-300 ease-out" title="Retour" aria-label="Retour">
      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
        <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
      </svg>
@@ -14,6 +14,10 @@ permalink: /recherche/
     .viz-card{background:linear-gradient(135deg,#fff 0%,#fff6f2 60%,#ffe8e1 100%)}
     .chip{border:1px solid rgba(245,50,0,.35);background:rgba(245,50,0,.08)}
     #viz-tooltip{position:fixed;pointer-events:none;background:rgba(17,24,39,.96);color:#fff;padding:.5rem .65rem;border-radius:.5rem;font-size:.75rem;box-shadow:0 10px 20px rgba(0,0,0,.25);z-index:50;transform:translate(-50%,-120%);display:none}
+    /* Mobile back button smooth hide/show */
+    @media (max-width: 767px) {
+      #mobile-back-btn.btn-hidden { opacity: 0; transform: translateY(-140%); pointer-events: none; }
+    }
   </style>
    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
      <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary text-center w-full">Recherche avancée</h1>
@@ -1456,6 +1460,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // No undo history (supprimé)
   // Ensure URL is filled on initial load even if advanced panel remains closed
   pushControlsToUrl();
+
+  // Mobile-only: fade away back button on scroll down, show on scroll up
+  (function(){
+    const btn = document.getElementById('mobile-back-btn');
+    if (!btn) return;
+    let lastY = window.scrollY || 0;
+    window.addEventListener('scroll', ()=>{
+      const isMobile = window.matchMedia('(max-width: 767px)').matches;
+      if (!isMobile) return;
+      const y = window.scrollY || 0;
+      const goingDown = y > lastY && y > 6;
+      const atTop = y <= 0;
+      if (goingDown) btn.classList.add('btn-hidden');
+      if (atTop || y < lastY) btn.classList.remove('btn-hidden');
+      lastY = y;
+    }, { passive: true });
+  })();
 });
 </script>
 
