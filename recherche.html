@@ -29,6 +29,11 @@ permalink: /recherche/
      .tag-chip.missing{background:#F53200;color:#ffffff;border-color:#ffffff}
      .tag-chip:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(245,50,0,0.18)}
      .overlap-badge{user-select:none}
+     /* Tag suggestions tooltip and colored pills */
+     #tag-suggestions{position:relative}
+     .tag-sugg{position:relative;display:inline-block}
+     .tag-sugg .count-tip{position:absolute;top:-8px;right:-8px;border-radius:9999px;color:#fff;border:2px solid #fff;font-size:11px;line-height:1;padding:2px 6px;opacity:0;transform:translateY(-4px) scale(0.96);transition:opacity 160ms ease, transform 160ms ease;box-shadow:0 6px 12px rgba(0,0,0,0.12)}
+     .tag-sugg:hover .count-tip{opacity:1;transform:translateY(0) scale(1)}
   </style>
    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
      <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary text-center w-full">Recherche avancée</h1>
@@ -511,22 +516,50 @@ function renderSuggestions(items) {
     }
   }
 
-  // Tag suggestions: reflect remaining available tags among CURRENT filtered items
+  // Tag suggestions: compute counts across CURRENT filtered items
   const baseItems = Array.isArray(items) ? items : getFiltered();
-  const availTagSet = new Set();
+  const tagCount = new Map();
   for (const it of baseItems) {
-    for (const tg of (it.tags || [])) availTagSet.add(String(tg));
+    for (const tg of (it.tags || [])) tagCount.set(String(tg), (tagCount.get(String(tg))||0)+1);
   }
-  const selected = new Set(state.selectedTags);
-  const tagList = Array.from(availTagSet)
-    .filter(t => !selected.has(t))
-    .sort((a,b)=> String(a).localeCompare(String(b), 'fr', { sensitivity: 'base' }));
+  // Exclude already selected
+  for (const sel of state.selectedTags) tagCount.delete(sel);
+  // Sort by count desc, then alpha asc (fr locale), take top 20
+  const sorted = Array.from(tagCount.entries())
+    .sort((a,b)=>{
+      if (b[1] !== a[1]) return b[1]-a[1];
+      return String(a[0]).localeCompare(String(b[0]), 'fr', { sensitivity: 'base' });
+    })
+    .slice(0,20);
+
+  const maxVal = sorted.length ? sorted[0][1] : 1;
+  // Match bar chart gradient (green -> orange -> red) but keep pills readable
+  const colorScale = d3.scaleLinear()
+    .domain([0, maxVal*0.4, maxVal])
+    .range(['#22c55e', '#f97316', '#F53200']);
 
   const tagC = $('#tag-suggestions');
   if (tagC) {
     tagC.innerHTML = '';
-    for (const tg of tagList) {
-      tagC.appendChild(pill(tg, ()=>{ state.selectedTags.add(tg); updateSelectedChips(); refresh(); }));
+    for (const [tg, cnt] of sorted) {
+      const btn = pill(tg, ()=>{ state.selectedTags.add(tg); updateSelectedChips(); refresh(); });
+      // Wrap to add colored bubble count
+      const wrap = document.createElement('span');
+      wrap.className = 'tag-sugg';
+      // Color the pill border/text according to count
+      const color = colorScale(cnt);
+      btn.style.borderColor = color;
+      btn.style.color = color;
+      btn.style.background = '#fff';
+      // Count tooltip bubble
+      const tip = document.createElement('span');
+      tip.className = 'count-tip';
+      tip.textContent = String(cnt);
+      tip.style.background = color;
+      tip.title = `${cnt} occurrence${cnt>1?'s':''}`;
+      wrap.appendChild(btn);
+      wrap.appendChild(tip);
+      tagC.appendChild(wrap);
     }
   }
 }
