@@ -301,6 +301,19 @@ layout: default
     } catch (_) {}
   })();
 
+  // Allow scrolling the recipe pane even when the mouse is over the photo (desktop)
+  (function(){
+    const imgCol = document.querySelector('.image');
+    const recipePane = document.querySelector('.post-content');
+    if (!imgCol || !recipePane) return;
+    imgCol.addEventListener('wheel', (e)=>{
+      try {
+        recipePane.scrollBy({ top: e.deltaY, behavior: 'auto' });
+        e.preventDefault();
+      } catch(_) {}
+    }, { passive: false });
+  })();
+
 });
 
 
