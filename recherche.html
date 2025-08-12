@@ -907,7 +907,13 @@ function renderForceGraph(items) {
   // Maintain a persistent blacklist across refreshes during the session
   window.__hiddenTopBlacklist = window.__hiddenTopBlacklist || new Set();
   // Compute the currently hidden top ingredients, taking blacklist into account
-  const hiddenTop = sortedTokensArr.slice(0, hideTop).map(([k])=>k).filter(k => !window.__hiddenTopBlacklist.has(k));
+  const selectedTagSet = new Set(state.selectedTags || []);
+  const hiddenTop = sortedTokensArr
+    .slice(0, hideTop)
+    .map(([k])=>k)
+    .filter(k => !window.__hiddenTopBlacklist.has(k))
+    // Do not hide currently selected tags when nodes are tags
+    .filter(k => !(usingTagsForNodes && selectedTagSet.has(String(k))));
   const limitedTokensArr = sortedTokensArr
     .filter(([k]) => !hiddenTop.includes(k))
     .slice(0, maxIng);
