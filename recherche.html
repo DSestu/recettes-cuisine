@@ -225,7 +225,7 @@ permalink: /recherche/
               </div>
             </div>
           </div>
-           <div class="relative rounded-xl outline outline-1 outline-orange-200/60 p-2 bg-gradient-to-br from-white to-orange-50" id="force-container" style="min-height: 480px;">
+           <div class="relative rounded-xl outline outline-1 outline-orange-200/60 p-2 bg-gradient-to-br from-white to-orange-50" id="force-container" style="min-height: 480px; aspect-ratio: 16 / 9;">
              <div class="absolute top-2 left-2 z-20 flex items-center gap-2">
                <button id="btn-fullscreen" class="text-sm px-3 py-1 rounded-lg border border-primary bg-white/90 text-primary hover:bg-red-50" title="Plein écran">Plein écran</button>
                <button id="btn-reset-view" class="p-2 rounded-lg border border-gray-300 bg-white/90 text-gray-700 hover:bg-gray-50" title="Recentrer la vue">
@@ -775,8 +775,6 @@ function renderForceGraph(items) {
   let { w: width, h: height } = getSize();
   const g = svg
     .attr('viewBox', `0 0 ${width} ${height}`)
-    .attr('width', width)
-    .attr('height', height)
     .attr('preserveAspectRatio','xMidYMid meet')
     .append('g');
 
@@ -1125,9 +1123,7 @@ function renderForceGraph(items) {
   function handleResize() {
     const size = getSize();
     width = size.w; height = size.h;
-    svg.attr('viewBox', `0 0 ${width} ${height}`)
-       .attr('width', width)
-       .attr('height', height);
+    svg.attr('viewBox', `0 0 ${width} ${height}`);
     simulation.force('center', d3.forceCenter(width/2, height/2));
     simulation.alpha(0.3).restart();
   }
@@ -1165,10 +1161,18 @@ function renderForceGraph(items) {
       // Clear any fullscreen-imposed inline sizing
       container.style.removeProperty('width');
       container.style.removeProperty('height');
+      // Restore responsive aspect ratio outside fullscreen
+      try { container.style.aspectRatio = '16 / 9'; } catch(_) {}
       // Wait a tick to let layout settle, then recompute size
-      setTimeout(() => { handleResize(); }, 50);
+      setTimeout(() => {
+        handleResize();
+        // Re-render to fully reset layout and sizing after exiting fullscreen
+        try { if (typeof refresh === 'function') refresh(); } catch (_) {}
+      }, 80);
     } else {
       // Entering fullscreen: fit graph to viewport
+      // Remove aspect ratio constraint to use full screen space
+      try { container.style.removeProperty('aspect-ratio'); } catch(_) {}
       setTimeout(() => { fitToViewport(28); }, 80);
     }
   });
