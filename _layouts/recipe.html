@@ -155,6 +155,12 @@ layout: default
     <p class="clearfix">{{ site.translation[site.language].category }}: <span itemprop="recipeCategory">{{ category }}</span></p>
   {% endfor %}
 
+  <!-- Recommendations -->
+  <div class="mt-8">
+    <h2 class="uppercase text-primary font-semibold mb-2">Suggestions</h2>
+    <div id="recipe-reco-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
+  </div>
+
   </article>
 
 </div>
@@ -222,6 +228,73 @@ layout: default
       if (atTop || y < lastY) backBtn.classList.remove('back-hidden');
       lastY = y;
     }, { passive: true });
+  })();
+
+  // Recipe recommendations based on tag/ingredient overlap
+  (function(){
+    try {
+      const currentTitle = {{ page.title | jsonify }};
+      const currentTags = new Set({{ page.tags | jsonify }} || []);
+      const currentIngredients = new Set(({{ page.ingredients | jsonify }} || []).flatMap((ln)=>{
+        if (!ln) return [];
+        return String(ln).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').split(/\W+/).filter(w=>w && w.length>2);
+      }));
+      const base = {{ site.baseurl | jsonify }};
+      const grid = document.getElementById('recipe-reco-grid');
+      if (!grid) return;
+      const items = [
+        {% for r in site.recipes %}
+        {
+          type: 'recipe',
+          title: {{ r.title | jsonify }},
+          url: {{ r.url | prepend: site.baseurl | jsonify }},
+          image_field: {{ r.image | jsonify }},
+          tags: {{ r.tags | jsonify }},
+          ingredients_lines: {{ r.ingredients | jsonify }}
+        }{% if forloop.last == false %},{% endif %}
+        {% endfor %}
+      ];
+      function normalizePath(p){
+        if (!p) return null;
+        if (typeof p === 'string' && p.startsWith('http')) return p;
+        if (Array.isArray(p) && p.length>0) p = p[0];
+        p = String(p||'').trim();
+        if (!p) return null;
+        if (p.startsWith(base)) return p;
+        if (p.startsWith('/')) return base + p;
+        if (p.startsWith('images/')) return base + '/' + p;
+        return base + '/images/' + p;
+      }
+      const scored = items
+        .filter(it => it.title !== currentTitle)
+        .map(it => {
+          const tags = new Set((it.tags||[]).map(String));
+          const ings = new Set((it.ingredients_lines||[]).flatMap((ln)=>{
+            if (!ln) return [];
+            return String(ln).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').split(/\W+/).filter(w=>w && w.length>2);
+          }));
+          let s = 0;
+          for (const t of currentTags) if (tags.has(t)) s += 2;
+          for (const w of currentIngredients) if (ings.has(w)) s += 1;
+          return { it, s };
+        })
+        .filter(x => x.s > 0)
+        .sort((a,b)=> b.s - a.s || String(a.it.title).localeCompare(String(b.it.title)))
+        .slice(0,6)
+        .map(x => x.it);
+      grid.innerHTML='';
+      for (const it of scored) {
+        const a = document.createElement('a');
+        a.href = it.url;
+        a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
+        const img = normalizePath(it.image_field) || (base + '/assets/social.png');
+        a.innerHTML = `
+          <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(img)}');"></canvas>
+          <h1 class="font-semibold leading-tight">${it.title}</h1>
+        `;
+        grid.appendChild(a);
+      }
+    } catch (_) {}
   })();
 
 });

@@ -275,6 +275,12 @@ permalink: /recherche/
           <div class="text-sm text-gray-600"><span id="result-count">0</span> élément(s)</div>
         </div>
         <div id="results-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
+        <div id="reco-section" class="mt-6 hidden">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="uppercase text-primary font-semibold">Suggestions</h2>
+          </div>
+          <div id="reco-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -771,6 +777,58 @@ function renderResults(items) {
 
     grid.appendChild(a);
   }
+}
+
+// -----------------------------
+// Recommendations (simple TF count overlap on tags/ingredients)
+// -----------------------------
+function renderRecommendations(baseItems) {
+  try {
+    const host = document.getElementById('reco-section');
+    const grid = document.getElementById('reco-grid');
+    if (!host || !grid) return;
+    const selectedTags = Array.from(state.selectedTags || []);
+    const selectedTokens = Array.from(state.selectedTokens || []);
+    const hasFilters = (selectedTags.length + selectedTokens.length) > 0;
+    // Build a candidate pool (include components if enabled)
+    const pool = ITEMS.filter(it => (state.includeComponents || it.type === 'recipe'));
+    // Score by overlap with selected tags/tokens
+    function score(it){
+      let s = 0;
+      if (selectedTags.length) {
+        const tags = new Set((it.tags || []).map(x=>String(x)));
+        for (const t of selectedTags) if (tags.has(t)) s += 2; // weight tags slightly higher
+      }
+      if (selectedTokens.length) {
+        const toks = it.ctokens || it.tokens;
+        for (const tk of selectedTokens) if (toks.has(tk)) s += 1;
+      }
+      return s;
+    }
+    const ranked = pool
+      .map(it => ({ it, s: score(it) }))
+      .filter(x => x.s > 0)
+      .sort((a,b)=> b.s - a.s || String(a.it.title).localeCompare(String(b.it.title)) )
+      .slice(0, 6)
+      .map(x => x.it);
+    if (!hasFilters || ranked.length === 0) {
+      host.classList.add('hidden');
+      grid.innerHTML = '';
+      return;
+    }
+    host.classList.remove('hidden');
+    grid.innerHTML = '';
+    for (const it of ranked) {
+      const a = document.createElement('a');
+      a.href = it.url;
+      a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
+      a.innerHTML = `
+        <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(it.image)}');"></canvas>
+        <h1 class="font-semibold leading-tight">${it.title}</h1>
+      `;
+      grid.appendChild(a);
+    }
+  } catch (_) {}
 }
 
 // -----------------------------
@@ -2000,6 +2058,7 @@ function refresh() {
   renderResults(filtered);
   updateCharts(filtered);
   updateAdvancedViz(filtered);
+  renderRecommendations(filtered);
 }
 
 // -----------------------------
@@ -2301,6 +2360,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // No undo history (supprimé)
   // Ensure URL is filled on initial load even if advanced panel remains closed
   pushControlsToUrl();
+  // Initial recommendations
+  renderRecommendations(getFiltered());
+  // Initial recommendations
+  renderRecommendations(getFiltered());
 
   // Mobile-only: fade away back button on scroll down, show on scroll up
   (function(){
