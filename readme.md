@@ -1,48 +1,93 @@
-# Chowdown
+## DSestu – Recettes de cuisine
 
-A simple, plaintext recipe database for hackers
+Un site de recettes en français, propulsé par Jekyll et enrichi d’une recherche avancée et de visualisations interactives. Il s’appuie sur Chowdown mais n’est pas un simple fork : de nombreuses fonctionnalités ont été ajoutées et adaptées.
 
-[http://chowdown.io](http://chowdown.io)
+- Site: `https://dsestu.github.io/recettes-cuisine`
+- Langue: français
 
-# Getting Started
+### Fonctionnalités personnalisées majeures
 
-This is a Jekyll build. Make sure you have Jekyll [installed](https://jekyllrb.com/). To install, run this command in the terminal (or iTerm, etc):
+- Recherche avancée (`/recherche/`):
+  - Modes de recherche: Tags ou Ingrédients (avec normalisation/canonicalisation FR).
+  - Tolérance aux manquants + mode « tolérance infinie » (classement par pertinence).
+  - Autocomplete, suggestions Top 20 cliquables (histogrammes D3).
+  - Visualisation interactive (D3) avec dispositions: radial, force, cercle, anneaux, spirale.
+  - Types de liens: recette→ingrédient, ingrédient↔ingrédient, recette↔recette.
+  - Poids d’arêtes: uniforme, fréquence, basé sélection; contrôle d’impact.
+  - Plein écran avec mini‑panneau (visibilité nœuds, layout, tolérance, masquage top) + recentrage.
+  - Masquage des ingrédients trop fréquents (réduction du bruit) et réintégration rapide.
+  - Composants inclus/exclus à la demande.
+  - Synchronisation de tous les paramètres avec l’URL pour partager une vue.
 
-```gem install bundler jekyll```
+- Index ingrédients robuste:
+  - Normalisation française (accents, ligatures), singularisation, stopwords culinaires.
+  - Regroupement canonique (Levenshtein) pour rapprocher variantes et fautes communes.
 
-or to check if you've got it installed already:
+### Démarrage rapide
 
-```jekyll -v```
+Option Jekyll (local):
 
-Clone or download this repo. Navigate to the folder in terminal (or iTerm, etc), and then run:
+1. Installer Jekyll: `gem install bundler jekyll` (ou vérifier: `jekyll -v`)
+2. Lancer:
 
-```jekyll serve```
+```bash
+jekyll serve
+```
 
-With default settings, you should be able to view the site locally at `http://127.0.0.1:4000/`
+Site local: `http://127.0.0.1:4000/`
 
-# Writing a Recipe
+Option Docker Compose:
 
-The recipes are stored in the collection "Recipes" (the folder /_recipes).
+```bash
+docker compose up
+```
 
-They are written in Markdown and contain a few special sections:
+Notes:
 
-- The frontmatter, which contains:
- - Title, Image, and Layout (which is "recipe")
- - Ingredients (a list of things in the dish)
- - Directions (a list of steps for the dish)
-- Body content (for intros, stories, written detail)
+- Port hôte 80 → conteneur 4000.
+- Volumes pour externaliser `_components`, `_images`, `_posts`, `_recipes` (voir `docker-compose.yml`).
 
-If you need help with Markdown, here's a [handy cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+### Contenu et structure
 
-# Writing a component recipe
+- `/_recipes`: recettes Markdown
+- `/_components`: sous‑recettes réutilisables
+- `/images`: images
+- `/_data/nutrients.yml`: données nutritionnelles
 
-A component recipe is a special recipe made up of other recipes. To make a new component recipe:
+Front matter type:
 
-- place your smaller, single recipes into the /_components folder
-- make a new recipe like normal in the /_recipes folders
-- in the frontmatter of this new recipe, include your recipes from the /_components folder (instead of the usual Ingredeints list)
+```yaml
+title: "Ma recette"
+layout: recipe
+image: images/ma_recette.jpg
+tags: ["végétarien", "rapide"]
+ingredients:
+  - 2 carottes
+  - 1 oignon
+directions:
+  - Émincer l’oignon.
+  - Cuire 10 minutes.
+```
 
-You can an example on the Red Berry Tart recipe. 
+Pour une recette composant, placez les éléments dans `/_components` puis référencez‑les depuis la recette principale.
 
-- [example Markdown](https://raw.githubusercontent.com/clarklab/chowdown/gh-pages/_recipes/red-berry-tart.md)
-- [example recipe page](http://chowdown.io/recipes/red-berry-tart.html)
+### Page Recherche avancée – rappel
+
+- Sélection par saisie, autocomplete, histogrammes cliquables.
+- Tolérance aux manquants; mode infini pour classer toutes les recettes par pertinence.
+- Graph interactif (zoom/pan/drag) et navigation via clic sur les recettes.
+- Plein écran + mini‑commandes; bouton « recentrer » dédié.
+- Paramètres d’URL (exemples): `mode=tag|ingredient`, `tags=a,b`, `ingredients=a,b`, `mt=2`, `inf=1`, `viz=1`, `layout=force|radial|circle|rings|spiral`, `links=recipe-token|token-token|recipe-recipe`, `edge=uniform|freq|idf`, `impact=0..100`, `mr`, `mi`, `ht`, `st/sr/sc`.
+
+### Déploiement
+
+- Configuré pour GitHub Pages (`_config.yml`: `url`, `baseurl`). Un push déclenche la reconstruction.
+
+### Remerciements et licence
+
+- Basé sur Chowdown (ClarkLab) avec personnalisations majeures autour de la recherche/dataviz.
+- Voir `LICENSE` pour la licence.
+
+—
+
+English note: This is a heavily customized French fork of Chowdown featuring advanced search (tags/ingredients with tolerance and canonicalization), interactive D3 visualizations, and URL‑shareable state.
