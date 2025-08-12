@@ -1173,7 +1173,7 @@ function renderForceGraph(items) {
       .on('end', (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
     );
 
-  node.append('circle')
+  const circles = node.append('circle')
     .attr('r', d => {
       if (selectionModeActive && selectedSet.size > 0) {
         const deg = nodeToDegreeWithinSelection.get(d.id) || 0;
@@ -1215,11 +1215,11 @@ function renderForceGraph(items) {
         window.location.href = d.url;
       }
     })
-    .on('mouseover', function(event,d){ d3.select(this).attr('r', d.type==='recipe'?9:7); showTip(event, d); })
+    .on('mouseover', function(event,d){ applyHoverHighlight(d); showTip(event, d); })
     .on('mousemove', function(event,d){ showTip(event, d); })
-    .on('mouseout', function(){ d3.select(this).attr('r', d => d.type==='recipe'?7:5); hideTip(); });
+    .on('mouseout', function(){ resetHoverHighlight(); hideTip(); });
 
-  node.append('text')
+  const labels = node.append('text')
     .text(d => d.label)
     .attr('x', 10)
     .attr('y', 3)
@@ -1232,6 +1232,92 @@ function renderForceGraph(items) {
 
   // Ensure labels render above circles and don't block mouse events
   node.selectAll('text').style('pointer-events','none').raise();
+
+  // Build adjacency map for hover highlighting (id -> Set(neighbor ids))
+  const adjacency = new Map();
+  function addAdj(a, b){
+    const aid = (typeof a === 'object') ? a.id : a;
+    const bid = (typeof b === 'object') ? b.id : b;
+    if (!adjacency.has(aid)) adjacency.set(aid, new Set());
+    if (!adjacency.has(bid)) adjacency.set(bid, new Set());
+    adjacency.get(aid).add(bid);
+    adjacency.get(bid).add(aid);
+  }
+  for (const l of filteredLinks) { addAdj(l.source, l.target); }
+
+  // Helpers to preserve selection-based link coloring
+  function linkIsRed(L){
+    if (!(selectionModeActive && selectedSet.size > 0)) return false;
+    const sa = idToNode.get(typeof L.source === 'object' ? L.source.id : L.source);
+    const sb = idToNode.get(typeof L.target === 'object' ? L.target.id : L.target);
+    const aSel = sa?.type === 'tag' && selectedSet.has(sa.label);
+    const bSel = sb?.type === 'tag' && selectedSet.has(sb.label);
+    return !!(aSel || bSel);
+  }
+  function defaultLinkStroke(L){
+    return linkIsRed(L) ? '#F53200' : 'rgba(148,163,184,0.55)';
+  }
+
+  function computeDefaultRadius(n){
+    if (selectionModeActive && selectedSet.size > 0) {
+      const deg = nodeToDegreeWithinSelection.get(n.id) || 0;
+      if (deg > 0) return (n.type === 'recipe' ? 7 : 5) + Math.min(6, 1 + Math.log2(1 + deg));
+    }
+    return n.type === 'recipe' ? 7 : 5;
+  }
+
+  function applyHoverHighlight(targetNode){
+    try {
+      const targetId = targetNode.id;
+      const focus = new Set([targetId]);
+      const neigh = adjacency.get(targetId);
+      if (neigh) for (const nid of neigh) focus.add(nid);
+
+      // Circles: enlarge focus, shrink others; opacities
+      circles
+        .transition().duration(120)
+        .attr('r', n => focus.has(n.id)
+          ? (computeDefaultRadius(n) + (n.id === targetId ? 2 : 1))
+          : Math.max(3, computeDefaultRadius(n) - 1))
+        .attr('opacity', n => focus.has(n.id) ? 1 : 0.25);
+
+      // Labels: dim non-focus
+      labels
+        .transition().duration(120)
+        .attr('opacity', n => focus.has(n.id) ? 1 : 0.25);
+
+      // Links: highlight only edges directly incident to the hovered node (no n+1)
+      link
+        .transition().duration(120)
+        .attr('opacity', L => {
+          const sid = (typeof L.source === 'object') ? L.source.id : L.source;
+          const tid = (typeof L.target === 'object') ? L.target.id : L.target;
+          const adjacentDirect = (sid === targetId || tid === targetId);
+          return adjacentDirect ? 0.9 : 0.15;
+        })
+        .attr('stroke', L => {
+          const sid = (typeof L.source === 'object') ? L.source.id : L.source;
+          const tid = (typeof L.target === 'object') ? L.target.id : L.target;
+          const adjacentDirect = (sid === targetId || tid === targetId);
+          if (adjacentDirect) return linkIsRed(L) ? '#F53200' : '#111';
+          return defaultLinkStroke(L);
+        });
+    } catch (_) { /* noop */ }
+  }
+
+  function resetHoverHighlight(){
+    circles
+      .transition().duration(120)
+      .attr('r', n => computeDefaultRadius(n))
+      .attr('opacity', 1);
+    labels
+      .transition().duration(120)
+      .attr('opacity', 1);
+    link
+      .transition().duration(120)
+      .attr('opacity', 1)
+      .attr('stroke', L => defaultLinkStroke(L));
+  }
 
   let __tickCount = 0;
   simulation.on('tick', () => {
