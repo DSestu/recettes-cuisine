@@ -14,6 +14,19 @@ layout: default
       @media (min-width: 768px){
         .image .view{ width:100%; height:100%; background-size:cover; background-position:center; }
       }
+        /* Mobile: keep the image static (fixed) and let the recipe scroll over it */
+        @media (max-width: 767px){
+          .image{ position: fixed; top: 0; left: 0; width: 100%; height: 56.25vw; min-height: 240px; z-index: 0; }
+          .image .view{ width:100%; height:100%; background-size: cover; background-position: center; }
+          .post-content{ position: relative; z-index: 1; padding-top: calc(56.25vw + 16px);
+            background: linear-gradient(to bottom,
+              rgba(255,255,255,0) 0,
+              rgba(255,255,255,0) calc(56.25vw + 16px),
+              #ffffff calc(56.25vw + 16px),
+              #ffffff 100%);
+          }
+          .post-content .recipe-title{ margin-top: 12px; }
+        }
     </style>
 
     <a href="#" onclick="if(document.referrer){history.back();}else{window.location.href='{{ site.baseurl }}/';} return false;" class="back fixed top-4 left-4 md:left-16 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50">
@@ -223,6 +236,16 @@ layout: default
   (function(){
     const backBtn = document.querySelector('a.back');
     if (!backBtn) return;
+    // On mobile, lift the back button out of the image stacking context so it's always clickable
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    if (isMobile) {
+      try {
+        if (backBtn.parentElement) backBtn.parentElement.removeChild(backBtn);
+        document.body.appendChild(backBtn);
+        backBtn.style.position = 'fixed';
+        backBtn.style.zIndex = '9999';
+      } catch(_) {}
+    }
     let lastY = window.scrollY || 0;
     window.addEventListener('scroll', ()=>{
       const y = window.scrollY || 0;
