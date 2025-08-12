@@ -18,6 +18,17 @@ permalink: /recherche/
     @media (max-width: 767px) {
       #mobile-back-btn.btn-hidden { opacity: 0; transform: translateY(-140%); pointer-events: none; }
     }
+     /* Result tooltip (tags present/missing) */
+     .result-tooltip{position:absolute;top:36px;right:8px;z-index:9999;pointer-events:none;background:rgba(255,255,255,0.98);border:2px solid #ffffff;border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);padding:10px 12px;min-width:180px;max-width:280px;opacity:0;transform:translateY(-6px) scale(0.98);transition:opacity 180ms cubic-bezier(.22,.61,.36,1), transform 180ms cubic-bezier(.22,.61,.36,1);will-change:opacity,transform}
+     .recipe.tooltip-open{z-index:100;}
+     .result-tooltip.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+     .result-tooltip h5{margin:6px 0 6px 0;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#9b1c00}
+     .result-tooltip .chips{display:flex;flex-wrap:wrap;gap:6px}
+     .tag-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:9999px;font-size:12px;line-height:1;border:1.5px solid transparent;transition:transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease, color 140ms ease}
+     .tag-chip.present{background:#ffffff;color:#F53200;border-color:#F53200}
+     .tag-chip.missing{background:#F53200;color:#ffffff;border-color:#ffffff}
+     .tag-chip:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(245,50,0,0.18)}
+     .overlap-badge{user-select:none}
   </style>
    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
      <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary text-center w-full">Recherche avancée</h1>
@@ -624,10 +635,12 @@ function renderResults(items) {
     const a = document.createElement('a');
     a.href = it.url;
     a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
+    a.style.position = 'relative';
+    a.style.zIndex = 'auto';
 
     const outlineStyle = selectedCount > 0 ? `outline:2px solid ${badgeColor}; outline-offset: 0px;` : '';
     const badgeHtml = selectedCount > 0
-      ? `<span class="absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full text-xs font-bold text-white border-2 border-white" style="background:${badgeColor}">${overlap}/${selectedCount}</span>`
+      ? `<span class="overlap-badge absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full text-xs font-bold text-white border-2 border-white" style="background:${badgeColor}">${overlap}/${selectedCount}</span>`
       : '';
 
     a.innerHTML = `
@@ -635,6 +648,48 @@ function renderResults(items) {
       <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${outlineStyle}background-image:url('${encodeURI(it.image)}');"></canvas>
       <h1 class="font-semibold leading-tight">${it.title}</h1>
     `;
+    // Attach fancy tooltip with present/missing tags when tolerance is active
+    if (selectedCount > 0 && (state.infiniteTolerance || state.missingTolerance > 0)) {
+      const presentTags = [];
+      const missingTags = [];
+      const itemTags = new Set((it.tags || []).map(x => String(x).toLowerCase().trim()));
+      for (const tg of selectedTagsLower) {
+        if (itemTags.has(tg)) presentTags.push(tg); else missingTags.push(tg);
+      }
+      const tip = document.createElement('div');
+      tip.className = 'result-tooltip';
+      const chipsHtml = (arr, cls) => arr.map(t => `<span class="tag-chip ${cls}">${t}</span>`).join('');
+      tip.innerHTML = `
+        <h5>Tags présents</h5>
+        <div class="chips">${chipsHtml(presentTags, 'present')}</div>
+        <h5>Tags manquants</h5>
+        <div class="chips">${chipsHtml(missingTags, 'missing')}</div>
+      `;
+      a.appendChild(tip);
+      const badgeEl = a.querySelector('.overlap-badge');
+      let hideTimer = null;
+      function showTip(){
+        clearTimeout(hideTimer);
+        tip.classList.add('visible');
+      }
+      function hideTipSoon(){
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => { tip.classList.remove('visible'); }, 120);
+      }
+      if (badgeEl) {
+        badgeEl.addEventListener('mouseenter', ()=>{ a.classList.add('tooltip-open'); showTip(); });
+        badgeEl.addEventListener('mouseleave', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
+        badgeEl.addEventListener('focus', ()=>{ a.classList.add('tooltip-open'); showTip(); });
+        badgeEl.addEventListener('blur', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
+      }
+      // Show on whole card hover as well
+      a.addEventListener('mouseenter', ()=>{ a.classList.add('tooltip-open'); showTip(); });
+      a.addEventListener('mouseleave', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
+      // Keep tooltip open if hovered; close smoothly when leaving
+      tip.addEventListener('mouseenter', ()=>{ a.classList.add('tooltip-open'); showTip(); });
+      tip.addEventListener('mouseleave', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
+    }
+
     grid.appendChild(a);
   }
 }
