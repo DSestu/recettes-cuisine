@@ -497,20 +497,37 @@ function autocompleteItem(text, onClick) {
 // -----------------------------
 // Rendu des suggestions (Top 20)
 // -----------------------------
-function renderSuggestions() {
-  const topIngredients = Array.from(ALL_TOKENS.entries()).sort((a,b)=>b[1]-a[1]).slice(0,20).map(([k])=>k);
-  const topTags = Array.from(ALL_TAGS.entries()).sort((a,b)=>b[1]-a[1]).slice(0,20).map(([k])=>k);
-
+function renderSuggestions(items) {
+  // Ingredients suggestions: keep global top for now
+  const topIngredients = Array.from(ALL_TOKENS.entries())
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,20)
+    .map(([k])=>k);
   const ingC = $('#ingredient-suggestions');
-  ingC.innerHTML = '';
-  for (const ing of topIngredients) {
-    ingC.appendChild(pill(ing, ()=>{ state.selectedTokens.add(ing); updateSelectedChips(); refresh(); }));
+  if (ingC) {
+    ingC.innerHTML = '';
+    for (const ing of topIngredients) {
+      ingC.appendChild(pill(ing, ()=>{ state.selectedTokens.add(ing); updateSelectedChips(); refresh(); }));
+    }
   }
 
+  // Tag suggestions: reflect remaining available tags among CURRENT filtered items
+  const baseItems = Array.isArray(items) ? items : getFiltered();
+  const availTagSet = new Set();
+  for (const it of baseItems) {
+    for (const tg of (it.tags || [])) availTagSet.add(String(tg));
+  }
+  const selected = new Set(state.selectedTags);
+  const tagList = Array.from(availTagSet)
+    .filter(t => !selected.has(t))
+    .sort((a,b)=> String(a).localeCompare(String(b), 'fr', { sensitivity: 'base' }));
+
   const tagC = $('#tag-suggestions');
-  tagC.innerHTML = '';
-  for (const tg of topTags) {
-    tagC.appendChild(pill(tg, ()=>{ state.selectedTags.add(tg); updateSelectedChips(); refresh(); }));
+  if (tagC) {
+    tagC.innerHTML = '';
+    for (const tg of tagList) {
+      tagC.appendChild(pill(tg, ()=>{ state.selectedTags.add(tg); updateSelectedChips(); refresh(); }));
+    }
   }
 }
 
@@ -1818,6 +1835,7 @@ function updateAdvancedViz(items) {
 // -----------------------------
 function refresh() {
   const filtered = getFiltered();
+  renderSuggestions(filtered);
   renderResults(filtered);
   updateCharts(filtered);
   updateAdvancedViz(filtered);
@@ -1828,7 +1846,7 @@ function refresh() {
 // -----------------------------
 document.addEventListener('DOMContentLoaded', () => {
   // init suggestions
-  renderSuggestions();
+  renderSuggestions(getFiltered());
   updateSelectedChips();
   refresh();
 
