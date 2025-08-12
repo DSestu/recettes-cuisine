@@ -525,6 +525,18 @@ function renderSuggestions(items) {
   }
   // Exclude already selected
   for (const sel of state.selectedTags) tagCount.delete(sel);
+  // Compute muted keys based on hide-top slider (only in tag mode)
+  const usingTagsForNodes = (state.mode === 'tag');
+  const hideTop = Number(document.getElementById('hide-top-ingredients').value || 0);
+  const sortedByGlobal = Array.from(tagCount.entries()).sort((a,b)=>b[1]-a[1]);
+  window.__hiddenTopBlacklist = window.__hiddenTopBlacklist || new Set();
+  const selectedTagSet = new Set(state.selectedTags || []);
+  const mutedKeys = new Set(sortedByGlobal
+    .slice(0, hideTop)
+    .map(([k])=>k)
+    .filter(k => !window.__hiddenTopBlacklist.has(k))
+    .filter(k => !(usingTagsForNodes && selectedTagSet.has(String(k))))
+  );
   // Sort by count desc, then alpha asc (fr locale), take top 20
   const sorted = Array.from(tagCount.entries())
     .sort((a,b)=>{
@@ -555,17 +567,24 @@ function renderSuggestions(items) {
       btn.style.color = '#ffffff';
       btn.style.background = color;
       btn.style.boxShadow = '0 6px 14px rgba(0,0,0,0.10)';
+      if (mutedKeys.has(tg)) {
+        btn.style.background = '#e5e7eb';
+        btn.style.color = '#6b7280';
+        btn.style.boxShadow = 'none';
+      }
       // Count tooltip bubble
       const tip = document.createElement('span');
       tip.className = 'count-tip';
       tip.textContent = String(cnt);
-      tip.style.background = color;
+      tip.style.background = mutedKeys.has(tg) ? '#9ca3af' : color;
       tip.title = `${cnt} occurrence${cnt>1?'s':''}`;
       wrap.appendChild(btn);
       wrap.appendChild(tip);
       tagC.appendChild(wrap);
     }
   }
+  // Store muted keys globally so bar charts can adopt same muting
+  window.__mutedKeys = mutedKeys;
 }
 
 function updateSelectedChips() {
@@ -752,6 +771,9 @@ function renderResults(items) {
 // Dataviz (bar charts)
 // -----------------------------
 function renderBarChart(svgSel, data, onClick, activeSet = new Set()) {
+  // Allow muted keys to be passed via global or optional param (backward compat)
+  const maybeArgs = arguments;
+  const mutedSet = maybeArgs.length >= 5 ? (maybeArgs[4] || new Set()) : (window.__mutedKeys || new Set());
   const svg = d3.select(svgSel);
   svg.selectAll('*').remove();
   const width = svg.node().clientWidth || 300;
@@ -806,8 +828,8 @@ function renderBarChart(svgSel, data, onClick, activeSet = new Set()) {
     .attr('x', 0).attr('y', d=>y(d.key))
     .attr('height', y.bandwidth())
     .attr('width', d=>x(d.value))
-    .attr('fill', d=> color(d.value))
-    .attr('opacity', d => activeSet.has(d.key) ? 0.95 : 0.7)
+    .attr('fill', d=> (mutedSet && mutedSet.has(d.key)) ? '#d1d5db' : color(d.value))
+    .attr('opacity', d => (mutedSet && mutedSet.has(d.key)) ? 0.35 : (activeSet.has(d.key) ? 0.95 : 0.7))
     .style('cursor', 'pointer')
     .on('click', (_, d) => onClick(d.key));
 
