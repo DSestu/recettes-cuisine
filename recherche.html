@@ -32,8 +32,9 @@ permalink: /recherche/
      /* Tag suggestions tooltip and colored pills */
      #tag-suggestions{position:relative}
      .tag-sugg{position:relative;display:inline-block}
-     .tag-sugg .count-tip{position:absolute;top:-8px;right:-8px;border-radius:9999px;color:#fff;border:2px solid #fff;font-size:11px;line-height:1;padding:2px 6px;opacity:0;transform:translateY(-4px) scale(0.96);transition:opacity 160ms ease, transform 160ms ease;box-shadow:0 6px 12px rgba(0,0,0,0.12)}
-     .tag-sugg:hover .count-tip{opacity:1;transform:translateY(0) scale(1)}
+     .tag-sugg .count-tip{position:absolute;top:-8px;right:-8px;border-radius:9999px;color:#fff;border:2px solid #fff;font-size:11px;line-height:1;padding:2px 6px;opacity:1;transform:translateY(0) scale(1);transition:opacity 160ms ease, transform 160ms ease;box-shadow:0 6px 12px rgba(0,0,0,0.12)}
+     .sugg-pill{transition:transform 160ms cubic-bezier(.22,.61,.36,1), box-shadow 160ms ease}
+     .sugg-pill:hover{transform:translateY(-1px) scale(1.05) rotate(0.8deg); box-shadow:0 8px 16px rgba(0,0,0,0.15)}
   </style>
    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
      <h1 class="text-3xl md:text-4xl font-gelica font-bold text-primary text-center w-full">Recherche avancée</h1>
@@ -533,10 +534,10 @@ function renderSuggestions(items) {
     .slice(0,20);
 
   const maxVal = sorted.length ? sorted[0][1] : 1;
-  // Match bar chart gradient (green -> orange -> red) but keep pills readable
+  // Inverted gradient relative to charts: red (low) -> orange -> green (high)
   const colorScale = d3.scaleLinear()
     .domain([0, maxVal*0.4, maxVal])
-    .range(['#22c55e', '#f97316', '#F53200']);
+    .range(['#F53200', '#f97316', '#22c55e']);
 
   const tagC = $('#tag-suggestions');
   if (tagC) {
@@ -548,9 +549,12 @@ function renderSuggestions(items) {
       wrap.className = 'tag-sugg';
       // Color the pill border/text according to count
       const color = colorScale(cnt);
-      btn.style.borderColor = color;
-      btn.style.color = color;
-      btn.style.background = '#fff';
+      btn.classList.add('sugg-pill');
+      btn.style.borderWidth = '2px';
+      btn.style.borderColor = '#ffffff';
+      btn.style.color = '#ffffff';
+      btn.style.background = color;
+      btn.style.boxShadow = '0 6px 14px rgba(0,0,0,0.10)';
       // Count tooltip bubble
       const tip = document.createElement('span');
       tip.className = 'count-tip';
