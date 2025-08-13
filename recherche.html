@@ -751,6 +751,25 @@ function renderResults(items) {
         <div class="chips">${chipsHtml(missingTags, 'missing')}</div>
       `;
       a.appendChild(tip);
+      // Clicking a missing tag or a present tag removes it from the searched tags
+      tip.addEventListener('click', (e) => {
+        const chip = e.target && e.target.closest ? e.target.closest('.tag-chip') : null;
+        if (!chip) return;
+        if (!(chip.classList.contains('missing') || chip.classList.contains('present'))) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const label = (chip.textContent || '').trim();
+        if (!label) return;
+        // Remove matching tag from state.selectedTags (case-insensitive)
+        const toRemove = [];
+        for (const t of state.selectedTags) {
+          if (String(t).toLowerCase().trim() === label.toLowerCase().trim()) toRemove.push(t);
+        }
+        for (const t of toRemove) state.selectedTags.delete(t);
+        if (typeof updateSelectedChips === 'function') updateSelectedChips();
+        if (typeof refresh === 'function') refresh();
+        if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
+      });
       const badgeEl = a.querySelector('.overlap-badge');
       let hideTimer = null;
       function showTip(){
