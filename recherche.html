@@ -1796,6 +1796,7 @@ permalink: /recherche/
           .attr('opacity', n => focus.has(n.id) ? 1 : 0.25);
 
         // Links: highlight only edges directly incident to the hovered node (no n+1)
+        // Keep original colors; only adjust opacity
         link
           .transition().duration(120)
           .attr('opacity', L => {
@@ -1804,13 +1805,7 @@ permalink: /recherche/
             const adjacentDirect = (sid === targetId || tid === targetId);
             return adjacentDirect ? 0.9 : 0.15;
           })
-          .attr('stroke', L => {
-            const sid = (typeof L.source === 'object') ? L.source.id : L.source;
-            const tid = (typeof L.target === 'object') ? L.target.id : L.target;
-            const adjacentDirect = (sid === targetId || tid === targetId);
-            if (adjacentDirect) return linkIsRed(L) ? '#F53200' : '#111';
-            return defaultLinkStroke(L);
-          });
+          .attr('stroke', L => defaultLinkStroke(L));
       } catch (_) { /* noop */ }
     }
 
