@@ -290,16 +290,17 @@ permalink: /recherche/
             <option value="ingredient">Ingrédients</option>
           </select>
         </label>
-        <label
-          class="flex items-center gap-2 px-3 py-2 rounded-full bg-white outline outline-1 outline-gray-300"
-        >
-          <input
-            id="infinite-tolerance"
-            type="checkbox"
-            class="accent-primary"
-          />
-          <span>Tolérance infinie</span>
-        </label>
+
+        <input
+          id="infinite-tolerance"
+          type="checkbox"
+          class="accent-primary hidden"
+        />
+        <button
+          id="infinite-toggle-ui"
+          type="button"
+          class="px-3 py-1 rounded-full text-white font-bold shadow-lg transition-all outline outline-4 outline-white"
+        ></button>
       </div>
       <div id="tolerance-group" class="w-full md:w-auto">
         <label
@@ -2732,6 +2733,34 @@ permalink: /recherche/
     });
     applyToleranceVisibility();
 
+    // Stylish UI for Infinite Tolerance toggle
+    (function(){
+      const input = document.getElementById('infinite-tolerance');
+      const btn = document.getElementById('infinite-toggle-ui');
+      if (!input || !btn) return;
+      function syncUi(){
+        const on = !!input.checked;
+        btn.textContent = on ? 'Tolérance ∞' : 'Tolérance finie';
+        btn.style.background = on ? '#16a34a' : '#ef4444';
+        btn.style.transform = 'scale(1)';
+      }
+      // initial styles
+      btn.style.transition = 'transform 160ms ease, background-color 220ms ease, opacity 200ms ease';
+      syncUi();
+      btn.addEventListener('click', ()=>{
+        // zoom in-out effect
+        btn.style.transform = 'scale(0.94)';
+        setTimeout(()=>{ btn.style.transform = 'scale(1)'; }, 120);
+        input.checked = !input.checked;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        syncUi();
+        if (window.updateFsToleranceControls) window.updateFsToleranceControls();
+        if (window.pushControlsToUrl) window.pushControlsToUrl();
+      });
+      // Keep UI synced if checkbox changes from elsewhere (e.g., PJAX/FS-mini)
+      input.addEventListener('change', syncUi);
+    })();
+
     const textInputEl = document.getElementById('text-query');
     if (textInputEl) {
       textInputEl.addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
@@ -2796,7 +2825,16 @@ permalink: /recherche/
     if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
     if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
-    if (inf === '1') { state.infiniteTolerance = true; document.getElementById('infinite-tolerance').checked = true; }
+    // Apply infinite tolerance from URL and sync UI + dependent controls
+    (function(){
+      const infEl = document.getElementById('infinite-tolerance');
+      if (!infEl) return;
+      if (inf === '1' || inf === '0') {
+        infEl.checked = (inf === '1');
+        // Trigger change to update state, hide/show tolerance slider, refresh, and sync FS mini controls + styled button
+        try { infEl.dispatchEvent(new Event('change', { bubbles: true })); } catch(_) {}
+      }
+    })();
     if (viz === '0') {
       const ap = document.getElementById('advanced-viz-panel');
       const ab = document.getElementById('toggle-advanced-viz');
