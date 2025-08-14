@@ -377,34 +377,6 @@ permalink: /recherche/
           </div>
         </div>
       </div>
-
-      <div class="flex flex-col gap-3 hidden">
-        <label class="text-sm uppercase text-primary font-semibold"
-          >Ingrédients suggérés</label
-        >
-        <div class="flex flex-col gap-2 relative">
-          <label class="text-xs uppercase text-primary/80 font-semibold"
-            >J'ai dans mon frigo…</label
-          >
-          <input
-            id="ingredient-input"
-            type="text"
-            placeholder="Ex: carotte, ail, poulet…"
-            class="block w-full rounded-lg bg-white px-4 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-primary"
-          />
-          <div
-            id="ingredient-autocomplete"
-            class="absolute top-[88px] left-0 right-0 z-10 bg-white rounded-lg shadow-lg border border-gray-200 hidden max-h-64 overflow-auto"
-          ></div>
-          <div id="selected-ingredients" class="flex flex-wrap gap-2"></div>
-          <div class="text-xs text-gray-600">
-            Sélectionnez plusieurs ingrédients à la fois. Les résultats
-            afficheront les recettes contenant tous les ingrédients sélectionnés
-            (selon la tolérance).
-          </div>
-        </div>
-        <div id="ingredient-suggestions" class="flex flex-wrap gap-2"></div>
-      </div>
     </div>
 
     <!-- Col 2-3: Viz + Results -->
@@ -648,22 +620,6 @@ permalink: /recherche/
                   </svg>
                   <span>Composants</span>
                 </button>
-              </div>
-            </div>
-
-            <div
-              class="viz-card rounded-xl outline outline-1 outline-orange-200/60 p-4 hidden fixed"
-            >
-              <h4 class="text-sm font-semibold text-primary mb-3">
-                Interaction
-              </h4>
-              <div class="flex items-center gap-3">
-                <input
-                  id="graph-search"
-                  type="text"
-                  placeholder="Rechercher un nœud…"
-                  class="px-3 py-1 rounded-full border border-gray-300 bg-white text-sm w-48"
-                />
               </div>
             </div>
           </div>
@@ -991,19 +947,6 @@ permalink: /recherche/
   // Rendu des suggestions (Top 20)
   // -----------------------------
   function renderSuggestions(items) {
-    // Ingredients suggestions: keep global top for now
-    const topIngredients = Array.from(ALL_TOKENS.entries())
-      .sort((a,b)=>b[1]-a[1])
-      .slice(0,20)
-      .map(([k])=>k);
-    const ingC = $('#ingredient-suggestions');
-    if (ingC) {
-      ingC.innerHTML = '';
-      for (const ing of topIngredients) {
-        ingC.appendChild(pill(ing, ()=>{ state.selectedTokens.add(ing); updateSelectedChips(); refresh(); }));
-      }
-    }
-
     // Tag suggestions: compute counts across CURRENT filtered items
     const baseItems = Array.isArray(items) ? items : getFiltered();
     const tagCount = new Map();
@@ -1075,11 +1018,6 @@ permalink: /recherche/
   }
 
   function updateSelectedChips() {
-    const ingSel = $('#selected-ingredients');
-    ingSel.innerHTML = '';
-    for (const t of state.selectedTokens) {
-      ingSel.appendChild(chip(t, ()=>{ state.selectedTokens.delete(t); updateSelectedChips(); refresh(); }));
-    }
     const tagSel = $('#selected-tags');
     tagSel.innerHTML = '';
     for (const t of state.selectedTags) {
@@ -1282,8 +1220,7 @@ permalink: /recherche/
       const grid = document.getElementById('reco-grid');
       if (!host || !grid) return;
       const selectedTags = Array.from(state.selectedTags || []);
-      const selectedTokens = Array.from(state.selectedTokens || []);
-      const hasFilters = (selectedTags.length + selectedTokens.length) > 0;
+      const hasFilters = selectedTags.length > 0;
       // Build a candidate pool (include components if enabled)
       const pool = ITEMS.filter(it => (state.includeComponents || it.type === 'recipe'));
       // Score by overlap with selected tags/tokens
@@ -1291,11 +1228,7 @@ permalink: /recherche/
         let s = 0;
         if (selectedTags.length) {
           const tags = new Set((it.tags || []).map(x=>String(x)));
-          for (const t of selectedTags) if (tags.has(t)) s += 2; // weight tags slightly higher
-        }
-        if (selectedTokens.length) {
-          const toks = it.ctokens || it.tokens;
-          for (const tk of selectedTokens) if (toks.has(tk)) s += 1;
+          for (const t of selectedTags) if (tags.has(t)) s += 1;
         }
         return s;
       }
@@ -1962,16 +1895,7 @@ permalink: /recherche/
       }
     });
 
-    // Search highlight
-    const searchInput = document.getElementById('graph-search');
-    function applySearch() {
-      const q = searchInput.value.trim().toLowerCase();
-      node.selectAll('circle')
-        .attr('stroke', d => (q && d.label.toLowerCase().includes(q)) ? '#111827' : '#111')
-        .attr('stroke-width', d => (q && d.label.toLowerCase().includes(q)) ? 2 : 0.6);
-    }
-    searchInput.addEventListener('input', applySearch);
-    applySearch();
+    // Search highlight removed
 
     // Tooltip element
     if (!document.getElementById('viz-tooltip')) {
@@ -2592,28 +2516,7 @@ permalink: /recherche/
     if (textInputEl) {
       textInputEl.addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
     }
-     const ingInput = $('#ingredient-input');
-     const ingAuto = $('#ingredient-autocomplete');
-     ingInput.addEventListener('keydown', (e)=>{
-       if (e.key === 'Enter') {
-         const v = e.target.value.trim().toLowerCase();
-         if (v) { state.selectedTokens.add(v); e.target.value=''; updateSelectedChips(); refresh(); }
-       }
-     });
-     ingInput.addEventListener('input', (e)=>{
-       const q = e.target.value.trim().toLowerCase();
-       const candidates = Array.from(ALL_TOKENS.keys()).filter(k => !state.selectedTokens.has(k) && k.includes(q)).slice(0, 20);
-       if (q && candidates.length) {
-         ingAuto.innerHTML = '';
-         for (const c of candidates) {
-           ingAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTokens.add(c); ingInput.value=''; ingAuto.classList.add('hidden'); updateSelectedChips(); refresh(); }));
-         }
-         ingAuto.classList.remove('hidden');
-       } else {
-         ingAuto.classList.add('hidden');
-       }
-     });
-     document.addEventListener('click', (e)=>{ if (!ingAuto.contains(e.target) && e.target !== ingInput) ingAuto.classList.add('hidden'); });
+    // Removed ingredient input/autocomplete handlers
 
     const tagInput = $('#tag-input');
     const tagAuto = $('#tag-autocomplete');
@@ -2698,7 +2601,7 @@ permalink: /recherche/
     if (sc) document.getElementById('show-components').checked = sc === '1';
     if (hist === '1') { const hp = document.getElementById('histograms-panel'); const hb = document.getElementById('toggle-histograms'); if (hp) hp.classList.remove('hidden'); if (hb) hb.textContent = 'Masquer'; }
     if (hist === '0') { const hp = document.getElementById('histograms-panel'); const hb = document.getElementById('toggle-histograms'); if (hp) hp.classList.add('hidden'); if (hb) hb.textContent = 'Afficher'; }
-    if (gsParam) { const gsi = document.getElementById('graph-search'); if (gsi) gsi.value = gsParam; }
+    // graph-search param removed
 
     updateSelectedChips();
     refresh();
@@ -2834,8 +2737,7 @@ permalink: /recherche/
       const tagVals = Array.from(state.selectedTags);
       setParam('ingredients', ingVals.length ? ingVals.join(',') : '');
       setParam('tags', tagVals.length ? tagVals.join(',') : '');
-      const gsi = document.getElementById('graph-search');
-      setParam('gs', gsi ? gsi.value.trim() : '');
+      // graph-search removed
     }
     // Expose for external callers (chips updates, graph clicks, FS overlay)
     window.pushControlsToUrl = pushControlsToUrl;
@@ -2848,8 +2750,7 @@ permalink: /recherche/
     toggleBtn.addEventListener('click', pushControlsToUrl);
     document.getElementById('reset-tags').addEventListener('click', pushControlsToUrl);
     document.getElementById('reset-ingredients').addEventListener('click', pushControlsToUrl);
-    const gsi = document.getElementById('graph-search');
-    if (gsi) gsi.addEventListener('input', pushControlsToUrl);
+    // graph-search listener removed
 
     // No undo history (supprimé)
     // Ensure URL is filled on initial load even if advanced panel remains closed
