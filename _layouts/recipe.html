@@ -2,342 +2,470 @@
 layout: default
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 w-full overflow-x-hidden md:h-screen md:overflow-hidden" itemscope itemtype="http://schema.org/Recipe">
-  
-
-  <div class="image bg-red-500 relative aspect-video md:aspect-auto md:h-screen md:sticky md:top-0 md:overflow-hidden">
-
+<div
+  class="grid grid-cols-1 md:grid-cols-2 w-full overflow-x-hidden md:h-screen md:overflow-hidden"
+  itemscope
+  itemtype="http://schema.org/Recipe"
+>
+  <div
+    class="image bg-red-500 relative aspect-video md:aspect-auto md:h-screen md:sticky md:top-0 md:overflow-hidden"
+  >
     <style>
-      a.back { transition: opacity 220ms ease, transform 220ms ease; }
-      a.back.back-hidden { opacity: 0; transform: translateY(-40%); pointer-events: none; }
-      /* Desktop: make the image area fixed and fully covered */
-      @media (min-width: 768px){
-        .image .view{ width:100%; height:100%; background-size:cover; background-position:center; }
+      a.back {
+        transition: opacity 220ms ease, transform 220ms ease;
       }
-        /* Mobile: keep the image static (fixed) and let the recipe scroll over it */
-        @media (max-width: 767px){
-          .image{ position: fixed; top: 0; left: 0; width: 100%; height: 56.25vw; min-height: 240px; z-index: 0; }
-          .image .view{ width:100%; height:100%; background-size: cover; background-position: center; }
-          .post-content{ position: relative; z-index: 1; padding-top: calc(56.25vw + 16px);
-            background: linear-gradient(to bottom,
-              rgba(255,255,255,0) 0,
-              rgba(255,255,255,0) calc(56.25vw + 16px),
-              #ffffff calc(56.25vw + 16px),
-              #ffffff 100%);
-          }
-          .post-content .recipe-title{ margin-top: 12px; }
+      a.back.back-hidden {
+        opacity: 0;
+        transform: translateY(-40%);
+        pointer-events: none;
+      }
+      /* Desktop: make the image area fixed and fully covered */
+      @media (min-width: 768px) {
+        .image .view {
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: center;
         }
+      }
+      /* Mobile: keep the image static (fixed) and let the recipe scroll over it */
+      @media (max-width: 767px) {
+        .image {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 56.25vw;
+          min-height: 240px;
+          z-index: 0;
+        }
+        .image .view {
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: center;
+        }
+        .post-content {
+          position: relative;
+          z-index: 1;
+          padding-top: calc(56.25vw + 16px);
+          background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0) 0,
+            rgba(255, 255, 255, 0) calc(56.25vw + 16px),
+            #ffffff calc(56.25vw + 16px),
+            #ffffff 100%
+          );
+        }
+        .post-content .recipe-title {
+          margin-top: 12px;
+        }
+      }
     </style>
 
-    <a href="#" onclick="if(document.referrer){history.back();}else{window.location.href='{{ site.baseurl }}/';} return false;" class="back fixed top-4 left-4 md:left-16 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 md:size-8">
-        <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+    <a
+      href="#"
+      onclick="if(document.referrer){history.back();}else{window.location.href='{{ site.baseurl }}/';} return false;"
+      class="back fixed top-4 left-4 md:left-16 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="size-6 md:size-8"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+          clip-rule="evenodd"
+        />
       </svg>
     </a>
-    
+
     <!-- call up the image and image credit link -->
     {% for image in page.image %}
 
-      <canvas class="view w-full h-full bg-cover bg-center"
-        style="background-image:url({{ site.baseurl }}/images/{{ image }});">
-      </canvas>
+    <canvas
+      class="view w-full h-full bg-cover bg-center"
+      style="background-image:url({{ site.baseurl }}/images/{{ image }});"
+    >
+    </canvas>
 
-
-      {% if page.imagecredit %}
-        {% for imagecredit in page.imagecredit %}
-          <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
-            <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
-          </a>
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-
+    {% if page.imagecredit %} {% for imagecredit in page.imagecredit %}
+    <a
+      href="{{ imagecredit }}"
+      class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg"
+    >
+      <svg
+        class="js-geomicon geomicon"
+        width="14"
+        height="14"
+        data-icon="camera"
+        viewBox="0 0 32 32"
+        style="fill: currentcolor"
+      >
+        <title>camera icon</title>
+        <path
+          d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"
+        ></path>
+      </svg>
+    </a>
+    {% endfor %} {% endif %} {% endfor %}
   </div>
 
-  <article class="post-content p-8 md:p-12 flex flex-col gap-12 h-full md:overflow-y-scroll md:overflow-x-hidden mb-24">
+  <article
+    class="post-content p-8 md:p-12 flex flex-col gap-12 h-full md:overflow-y-scroll md:overflow-x-hidden mb-24"
+  >
+    <!-- call up the main recipe title and content -->
+    <header class="recipe-header flex flex-col gap-6 md:pt-16">
+      <h1
+        class="recipe-title font-gelica text-primary text-left text-5xl lg:text-7xl font-bold"
+        itemprop="name"
+      >
+        {{ page.title }}
+      </h1>
 
-<!-- call up the main recipe title and content -->
-  <header class="recipe-header flex flex-col gap-6 md:pt-16">
-    <h1 class="recipe-title font-gelica text-primary text-left text-5xl lg:text-7xl font-bold" itemprop="name">{{ page.title }}</h1>
-
-    <div class="tags flex flex-wrap gap-2">
-      {% for tag in page.tags %}
-        <a href="{{ site.baseurl }}/recherche/?tags={{ tag }}" class="tag py-1 px-3 bg-red-200 rounded-lg text-red-900 hover:scale-110 hover:rotate-2 transition hover:bg-primary hover:text-white">
+      <div class="tags flex flex-wrap gap-2">
+        {% for tag in page.tags %}
+        <a
+          href="{{ site.baseurl }}/recherche/?tags={{ tag }}"
+          class="tag py-1 px-3 bg-red-200 rounded-lg text-red-900 hover:scale-110 hover:rotate-2 transition hover:bg-primary hover:text-white"
+        >
           {{ tag | strip }}
         </a>
-      {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
 
-    <div class="text-left text-lg leading-loose [&>*]:mb-6 [&_a]:underline [&_a]:decoration-[3px] [&_a]:decoration-primary [&_a]:underline-offset-2" itemprop="description">{{page.content}}</div>
+      {% assign tag_param = page.tags | join:',' | uri_escape %}
+      <div>
+        <a
+          href="{{ site.baseurl }}/recherche/?tags={{ tag_param }}&viz=0&inf=1"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white shadow-sm hover:opacity-90 transition border-2 border-white"
+          title="Recherche similaire"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-5 h-5"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10.5 3.75a6.75 6.75 0 1 0 4.42 11.94l3.195 3.196a.75.75 0 1 0 1.06-1.06L15.98 14.63A6.75 6.75 0 0 0 10.5 3.75m-5.25 6.75a5.25 5.25 0 1 1 10.5 0a5.25 5.25 0 0 1-10.5 0"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>Search similar</span>
+        </a>
+      </div>
 
-  </header>
+      <div
+        class="text-left text-lg leading-loose [&>*]:mb-6 [&_a]:underline [&_a]:decoration-[3px] [&_a]:decoration-primary [&_a]:underline-offset-2"
+        itemprop="description"
+      >
+        {{page.content}}
+      </div>
+    </header>
 
-  {% if page.nutrition %}
-  <div class="nutrition">
-      {% include nutritional-information.html %}
-  </div>
-  {% endif %}
+    {% if page.nutrition %}
+    <div class="nutrition">{% include nutritional-information.html %}</div>
+    {% endif %}
 
-  <!-- call up recipe and directions -->
-  <div class="">
-
+    <!-- call up recipe and directions -->
     <div class="">
-      <!-- check if it's a component-based recipe -->
-      {% if page.components %}
-      <h4 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].components }}</h4>
-      <ul class="flex flex-col gap-2 mb-8">
-        <!-- list components that make up recipe -->
-        {% for component in page.components %}
-        <li class="flex items-start gap-3">{{ component | markdownify }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
-      {% if page.ingredients %}
-      <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].ingredients }}</h2>
-      <ul itemprop="ingredients" class="flex flex-col gap-2 mb-8">
-        <!-- list ingredients that make up recipe -->
-        {% for ingredient in page.ingredients %}
-        <li itemprop="recipeIngredient" class="flex items-start gap-3 text-lg leading-loose">{{ ingredient | markdownify }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
-    </div>
-
-    <div class="sm-col sm-col-6 lg-col-6">
-      <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].directions }}</h2>
-      <ul itemprop="recipeInstructions" class="flex flex-col gap-3 mb-8">
-        {% for direction in page.directions %}
-        <li class="flex gap-3 items-start text-lg leading-loose">{{ direction | markdownify }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-
-  </div>
-<!-- end recipe and directions -->
-
-<!-- check if it's a component-based recipe, render it -->
-  {% if page.components %}
-
-  <div class="components">
-    &darr; {{ site.translation[site.language].component_based }} &darr;
-  </div>
-
-  <div class="clearfix mxn2">
-  {% for component in page.components %}
-    <div class="sm-col sm-col-4 px2">
-    {% for recipe in site.components %}
-    {% if recipe.title == component %}
-      <h4 class="font-gelica text-3xl mb-8 mt-16">{{recipe.title}}</h4>
-
-      {% for image in recipe.image %}
-      <div class="image ratio bg-cover relative mb-8" style="background-image:url({{site.baseurl}}/images/{{ image }});">
-        <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" />
-        {% if recipe.imagecredit %}
-          {% for imagecredit in recipe.imagecredit %}
-            <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
-              <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
-            </a>
+      <div class="">
+        <!-- check if it's a component-based recipe -->
+        {% if page.components %}
+        <h4 class="uppercase text-primary font-semibold mb-2">
+          {{ site.translation[site.language].components }}
+        </h4>
+        <ul class="flex flex-col gap-2 mb-8">
+          <!-- list components that make up recipe -->
+          {% for component in page.components %}
+          <li class="flex items-start gap-3">{{ component | markdownify }}</li>
           {% endfor %}
+        </ul>
+        {% endif %} {% if page.ingredients %}
+        <h2 class="uppercase text-primary font-semibold mb-2">
+          {{ site.translation[site.language].ingredients }}
+        </h2>
+        <ul itemprop="ingredients" class="flex flex-col gap-2 mb-8">
+          <!-- list ingredients that make up recipe -->
+          {% for ingredient in page.ingredients %}
+          <li
+            itemprop="recipeIngredient"
+            class="flex items-start gap-3 text-lg leading-loose"
+          >
+            {{ ingredient | markdownify }}
+          </li>
+          {% endfor %}
+        </ul>
         {% endif %}
       </div>
-        
-      {% endfor %}
 
-      <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].ingredients }}</h2>
+      <div class="sm-col sm-col-6 lg-col-6">
+        <h2 class="uppercase text-primary font-semibold mb-2">
+          {{ site.translation[site.language].directions }}
+        </h2>
+        <ul itemprop="recipeInstructions" class="flex flex-col gap-3 mb-8">
+          {% for direction in page.directions %}
+          <li class="flex gap-3 items-start text-lg leading-loose">
+            {{ direction | markdownify }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <!-- end recipe and directions -->
+
+    <!-- check if it's a component-based recipe, render it -->
+    {% if page.components %}
+
+    <div class="components">
+      &darr; {{ site.translation[site.language].component_based }} &darr;
+    </div>
+
+    <div class="clearfix mxn2">
+      {% for component in page.components %}
+      <div class="sm-col sm-col-4 px2">
+        {% for recipe in site.components %} {% if recipe.title == component %}
+        <h4 class="font-gelica text-3xl mb-8 mt-16">{{recipe.title}}</h4>
+
+        {% for image in recipe.image %}
+        <div
+          class="image ratio bg-cover relative mb-8"
+          style="background-image:url({{site.baseurl}}/images/{{ image }});"
+        >
+          <img
+            class="hide"
+            itemprop="photo"
+            src="{{site.baseurl}}/images/{{ image }}"
+          />
+          {% if recipe.imagecredit %} {% for imagecredit in recipe.imagecredit
+          %}
+          <a
+            href="{{ imagecredit }}"
+            class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg"
+          >
+            <svg
+              class="js-geomicon geomicon"
+              width="14"
+              height="14"
+              data-icon="camera"
+              viewBox="0 0 32 32"
+              style="fill: currentcolor"
+            >
+              <title>camera icon</title>
+              <path
+                d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"
+              ></path>
+            </svg>
+          </a>
+          {% endfor %} {% endif %}
+        </div>
+
+        {% endfor %}
+
+        <h2 class="uppercase text-primary font-semibold mb-2">
+          {{ site.translation[site.language].ingredients }}
+        </h2>
         <ul class="ingredients flex flex-col gap-3 mb-8" itemprop="ingredients">
-        {% for item in recipe.ingredients %}
-        <li itemprop="ingredient" class="flex gap-3 items-start">{{ item | markdownify }}</li>
-        {% endfor %}
-      </ul>
+          {% for item in recipe.ingredients %}
+          <li itemprop="ingredient" class="flex gap-3 items-start">
+            {{ item | markdownify }}
+          </li>
+          {% endfor %}
+        </ul>
 
-      <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].directions }}</h2>
+        <h2 class="uppercase text-primary font-semibold mb-2">
+          {{ site.translation[site.language].directions }}
+        </h2>
         <ul itemprop="instructions" class="flex flex-col gap-3 mb-8">
-        {% for item in recipe.directions %}
-        <li class="flex gap-3 items-start">{{ item | markdownify }}</li>
-        {% endfor %}
-      </ul>
+          {% for item in recipe.directions %}
+          <li class="flex gap-3 items-start">{{ item | markdownify }}</li>
+          {% endfor %}
+        </ul>
+
+        {% endif %} {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
 
     {% endif %}
+    <!-- end components -->
+
+    {% for category in page.categories %}
+    <p class="clearfix">
+      {{ site.translation[site.language].category }}:
+      <span itemprop="recipeCategory">{{ category }}</span>
+    </p>
     {% endfor %}
+
+    <!-- Recommendations -->
+    <div class="mt-8">
+      <h2 class="uppercase text-primary font-semibold mb-2">Suggestions</h2>
+      <div
+        id="recipe-reco-grid"
+        class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+      ></div>
     </div>
-  {% endfor %}
-  </div>
-
-  {% endif %}
-<!-- end components -->
-
-  {% for category in page.categories %}
-    <p class="clearfix">{{ site.translation[site.language].category }}: <span itemprop="recipeCategory">{{ category }}</span></p>
-  {% endfor %}
-
-  <!-- Recommendations -->
-  <div class="mt-8">
-    <h2 class="uppercase text-primary font-semibold mb-2">Suggestions</h2>
-    <div id="recipe-reco-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"></div>
-  </div>
-
   </article>
-
 </div>
 
 <script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
 
-  // Define clickToggle function in vanilla JavaScript
-  function clickToggle(element, func1, func2) {
-    let toggleState = false;
-    element.addEventListener("click", function() {
-      toggleState = !toggleState;
-      if (toggleState) {
-        func1.call(this);
-      } else {
-        func2.call(this);
-      }
-    });
-  }
-
-  // Select the overflow container
-  const container = document.querySelector(".post-content");
-
-  // Select all list items in the unordered list
-  document.querySelectorAll("ul li").forEach(function(li) {
-    // Append a checkbox input to each list item
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.classList.add("mt-2.5");
-
-    li.insertBefore(checkbox, li.firstChild);
-
-    // Apply clickToggle function to each list item
-    clickToggle(li, function() {
-      // First function: Check the checkbox and scroll down within the container
-      this.querySelector("input").checked = true;
-      const height = this.offsetHeight;
-      const y = container.scrollTop;
-      container.scrollTo({
-        top: y + height + 16,
-        behavior: "smooth"
+    // Define clickToggle function in vanilla JavaScript
+    function clickToggle(element, func1, func2) {
+      let toggleState = false;
+      element.addEventListener("click", function() {
+        toggleState = !toggleState;
+        if (toggleState) {
+          func1.call(this);
+        } else {
+          func2.call(this);
+        }
       });
-    }, function() {
-      // Second function: Uncheck the checkbox and scroll up within the container
-      this.querySelector("input").checked = false;
-      const height = this.offsetHeight;
-      const y = container.scrollTop;
-      container.scrollTo({
-        top: y - height - 16,
-        behavior: "smooth"
-      });
-    });
-  });
-
-  // Smooth fade/appear of the back button on scroll direction
-  (function(){
-    const backBtn = document.querySelector('a.back');
-    if (!backBtn) return;
-    // On mobile, lift the back button out of the image stacking context so it's always clickable
-    const isMobile = window.matchMedia('(max-width: 767px)').matches;
-    if (isMobile) {
-      try {
-        if (backBtn.parentElement) backBtn.parentElement.removeChild(backBtn);
-        document.body.appendChild(backBtn);
-        backBtn.style.position = 'fixed';
-        backBtn.style.zIndex = '9999';
-      } catch(_) {}
     }
-    let lastY = window.scrollY || 0;
-    window.addEventListener('scroll', ()=>{
-      const y = window.scrollY || 0;
-      const goingDown = y > lastY && y > 6;
-      const atTop = y <= 0;
-      if (goingDown) backBtn.classList.add('back-hidden');
-      if (atTop || y < lastY) backBtn.classList.remove('back-hidden');
-      lastY = y;
-    }, { passive: true });
-  })();
 
-  // Recipe recommendations based on tag/ingredient overlap
-  (function(){
-    try {
-      const currentTitle = {{ page.title | jsonify }};
-      const currentTags = new Set({{ page.tags | jsonify }} || []);
-      const currentIngredients = new Set(({{ page.ingredients | jsonify }} || []).flatMap((ln)=>{
-        if (!ln) return [];
-        return String(ln).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').split(/\W+/).filter(w=>w && w.length>2);
-      }));
-      const base = {{ site.baseurl | jsonify }};
-      const grid = document.getElementById('recipe-reco-grid');
-      if (!grid) return;
-      const items = [
-        {% for r in site.recipes %}
-        {
-          type: 'recipe',
-          title: {{ r.title | jsonify }},
-          url: {{ r.url | prepend: site.baseurl | jsonify }},
-          image_field: {{ r.image | jsonify }},
-          tags: {{ r.tags | jsonify }},
-          ingredients_lines: {{ r.ingredients | jsonify }}
-        }{% if forloop.last == false %},{% endif %}
-        {% endfor %}
-      ];
-      function normalizePath(p){
-        if (!p) return null;
-        if (typeof p === 'string' && p.startsWith('http')) return p;
-        if (Array.isArray(p) && p.length>0) p = p[0];
-        p = String(p||'').trim();
-        if (!p) return null;
-        if (p.startsWith(base)) return p;
-        if (p.startsWith('/')) return base + p;
-        if (p.startsWith('images/')) return base + '/' + p;
-        return base + '/images/' + p;
-      }
-      const scored = items
-        .filter(it => it.title !== currentTitle)
-        .map(it => {
-          const tags = new Set((it.tags||[]).map(String));
-          const ings = new Set((it.ingredients_lines||[]).flatMap((ln)=>{
-            if (!ln) return [];
-            return String(ln).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').split(/\W+/).filter(w=>w && w.length>2);
-          }));
-          let s = 0;
-          for (const t of currentTags) if (tags.has(t)) s += 2;
-          for (const w of currentIngredients) if (ings.has(w)) s += 1;
-          return { it, s };
-        })
-        .filter(x => x.s > 0)
-        .sort((a,b)=> b.s - a.s || String(a.it.title).localeCompare(String(b.it.title)))
-        .slice(0,6)
-        .map(x => x.it);
-      grid.innerHTML='';
-      for (const it of scored) {
-        const a = document.createElement('a');
-        a.href = it.url;
-        a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
-        const img = normalizePath(it.image_field) || (base + '/assets/social.png');
-        a.innerHTML = `
-          <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(img)}');"></canvas>
-          <h1 class="font-semibold leading-tight">${it.title}</h1>
-        `;
-        grid.appendChild(a);
-      }
-    } catch (_) {}
-  })();
+    // Select the overflow container
+    const container = document.querySelector(".post-content");
 
-  // Allow scrolling the recipe pane even when the mouse is over the photo (desktop)
-  (function(){
-    const imgCol = document.querySelector('.image');
-    const recipePane = document.querySelector('.post-content');
-    if (!imgCol || !recipePane) return;
-    imgCol.addEventListener('wheel', (e)=>{
+    // Select all list items in the unordered list
+    document.querySelectorAll("ul li").forEach(function(li) {
+      // Append a checkbox input to each list item
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.classList.add("mt-2.5");
+
+      li.insertBefore(checkbox, li.firstChild);
+
+      // Apply clickToggle function to each list item
+      clickToggle(li, function() {
+        // First function: Check the checkbox and scroll down within the container
+        this.querySelector("input").checked = true;
+        const height = this.offsetHeight;
+        const y = container.scrollTop;
+        container.scrollTo({
+          top: y + height + 16,
+          behavior: "smooth"
+        });
+      }, function() {
+        // Second function: Uncheck the checkbox and scroll up within the container
+        this.querySelector("input").checked = false;
+        const height = this.offsetHeight;
+        const y = container.scrollTop;
+        container.scrollTo({
+          top: y - height - 16,
+          behavior: "smooth"
+        });
+      });
+    });
+
+    // Smooth fade/appear of the back button on scroll direction
+    (function(){
+      const backBtn = document.querySelector('a.back');
+      if (!backBtn) return;
+      // On mobile, lift the back button out of the image stacking context so it's always clickable
+      const isMobile = window.matchMedia('(max-width: 767px)').matches;
+      if (isMobile) {
+        try {
+          if (backBtn.parentElement) backBtn.parentElement.removeChild(backBtn);
+          document.body.appendChild(backBtn);
+          backBtn.style.position = 'fixed';
+          backBtn.style.zIndex = '9999';
+        } catch(_) {}
+      }
+      let lastY = window.scrollY || 0;
+      window.addEventListener('scroll', ()=>{
+        const y = window.scrollY || 0;
+        const goingDown = y > lastY && y > 6;
+        const atTop = y <= 0;
+        if (goingDown) backBtn.classList.add('back-hidden');
+        if (atTop || y < lastY) backBtn.classList.remove('back-hidden');
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    // Recipe recommendations based on tag/ingredient overlap
+    (function(){
       try {
-        recipePane.scrollBy({ top: e.deltaY, behavior: 'auto' });
-        e.preventDefault();
-      } catch(_) {}
-    }, { passive: false });
-  })();
+        const currentTitle = {{ page.title | jsonify }};
+        const currentTags = new Set({{ page.tags | jsonify }} || []);
+        const currentIngredients = new Set(({{ page.ingredients | jsonify }} || []).flatMap((ln)=>{
+          if (!ln) return [];
+          return String(ln).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').split(/\W+/).filter(w=>w && w.length>2);
+        }));
+        const base = {{ site.baseurl | jsonify }};
+        const grid = document.getElementById('recipe-reco-grid');
+        if (!grid) return;
+        const items = [
+          {% for r in site.recipes %}
+          {
+            type: 'recipe',
+            title: {{ r.title | jsonify }},
+            url: {{ r.url | prepend: site.baseurl | jsonify }},
+            image_field: {{ r.image | jsonify }},
+            tags: {{ r.tags | jsonify }},
+            ingredients_lines: {{ r.ingredients | jsonify }}
+          }{% if forloop.last == false %},{% endif %}
+          {% endfor %}
+        ];
+        function normalizePath(p){
+          if (!p) return null;
+          if (typeof p === 'string' && p.startsWith('http')) return p;
+          if (Array.isArray(p) && p.length>0) p = p[0];
+          p = String(p||'').trim();
+          if (!p) return null;
+          if (p.startsWith(base)) return p;
+          if (p.startsWith('/')) return base + p;
+          if (p.startsWith('images/')) return base + '/' + p;
+          return base + '/images/' + p;
+        }
+        const scored = items
+          .filter(it => it.title !== currentTitle)
+          .map(it => {
+            const tags = new Set((it.tags||[]).map(String));
+            const ings = new Set((it.ingredients_lines||[]).flatMap((ln)=>{
+              if (!ln) return [];
+              return String(ln).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').split(/\W+/).filter(w=>w && w.length>2);
+            }));
+            let s = 0;
+            for (const t of currentTags) if (tags.has(t)) s += 2;
+            for (const w of currentIngredients) if (ings.has(w)) s += 1;
+            return { it, s };
+          })
+          .filter(x => x.s > 0)
+          .sort((a,b)=> b.s - a.s || String(a.it.title).localeCompare(String(b.it.title)))
+          .slice(0,6)
+          .map(x => x.it);
+        grid.innerHTML='';
+        for (const it of scored) {
+          const a = document.createElement('a');
+          a.href = it.url;
+          a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
+          const img = normalizePath(it.image_field) || (base + '/assets/social.png');
+          a.innerHTML = `
+            <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(img)}');"></canvas>
+            <h1 class="font-semibold leading-tight">${it.title}</h1>
+          `;
+          grid.appendChild(a);
+        }
+      } catch (_) {}
+    })();
 
-});
+    // Allow scrolling the recipe pane even when the mouse is over the photo (desktop)
+    (function(){
+      const imgCol = document.querySelector('.image');
+      const recipePane = document.querySelector('.post-content');
+      if (!imgCol || !recipePane) return;
+      imgCol.addEventListener('wheel', (e)=>{
+        try {
+          recipePane.scrollBy({ top: e.deltaY, behavior: 'auto' });
+          e.preventDefault();
+        } catch(_) {}
+      }, { passive: false });
+    })();
 
-
+  });
 </script>
