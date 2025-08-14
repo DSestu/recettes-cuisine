@@ -1,40 +1,197 @@
 <!DOCTYPE html>
 <html class="h-full">
-
   {% include head.html %}
 
-  <body class="flex min-h-screen w-full font-inter bg-orange-50 text-orange-950">
+  <style>
+    @media (max-width: 767px) {
+      #btn-page-fullscreen.btn-hidden {
+        opacity: 0;
+        transform: translateY(-140%);
+        pointer-events: none;
+      }
+    }
+  </style>
 
+  <body
+    class="flex min-h-screen w-full font-inter bg-orange-50 text-orange-950"
+  >
     <main class="relative flex-1 w-full">
-      <button id="toggle-sidebar" class="hidden md:block absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50" title="Afficher/masquer le menu">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-          <path fill-rule="evenodd" d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+      <!-- Global fullscreen toggle (appears like back button) -->
+      <a
+        id="btn-page-fullscreen"
+        href="#"
+        class="fixed top-4 right-4 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
+        title="Plein écran"
+        aria-label="Plein écran"
+      >
+        <svg
+          id="icon-fs-enter"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6 md:size-8"
+        >
+          <path
+            d="M3 9V5a2 2 0 0 1 2-2h4a1 1 0 1 1 0 2H6a1 1 0 0 0-1 1v3a1 1 0 1 1-2 0m0 10v-4a1 1 0 1 1 2 0v3a1 1 0 0 0 1 1h3a1 1 0 1 1 0 2H5a2 2 0 0 1-2-2M21 9V6a1 1 0 0 0-1-1h-3a1 1 0 1 1 0-2h4a2 2 0 0 1 2 2v4a1 1 0 1 1-2 0m-7 12a1 1 0 1 1 0-2h3a1 1 0 0 0 1-1v-3a1 1 0 1 1 2 0v4a2 2 0 0 1-2 2Z"
+          />
+        </svg>
+        <svg
+          id="icon-fs-exit"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="hidden size-6 md:size-8"
+        >
+          <path
+            d="M6.225 4.811a1 1 0 1 0-1.414 1.414L9.586 11H6a1 1 0 1 0 0 2h6V7a1 1 0 1 0-2 0v3.586zM17.775 19.189a1 1 0 1 0 1.414-1.414L14.414 13H18a1 1 0 1 0 0-2h-6v6a1 1 0 1 0 2 0v-3.586z"
+          />
+        </svg>
+      </a>
+      <button
+        id="toggle-sidebar"
+        class="hidden md:block absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50"
+        title="Afficher/masquer le menu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z"
+            clip-rule="evenodd"
+          />
         </svg>
       </button>
       {{ content }}
     </main>
 
-
-  {% unless page.permalink == '/recherche/' or page.url == '/recherche/' %}
-    <a href="{{ site.baseurl }}/recherche/" class="fixed bottom-5 right-5 bg-primary text-white rounded-full p-4 shadow-lg hover:scale-105 hover:rotate-3 transition" title="Recherche avancée">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
-        <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd" />
+    {% unless page.permalink == '/recherche/' or page.url == '/recherche/' %}
+    <a
+      href="{{ site.baseurl }}/recherche/"
+      class="fixed bottom-5 right-5 bg-primary text-white rounded-full p-4 shadow-lg hover:scale-105 hover:rotate-3 transition"
+      title="Recherche avancée"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="size-7"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z"
+          clip-rule="evenodd"
+        />
       </svg>
     </a>
-  {% endunless %}
+    {% endunless %}
 
-  <script>
-    (function(){
-      const btn = document.getElementById('toggle-sidebar');
-      const nav = document.querySelector('body > nav');
-      if (!btn || !nav) return;
-      btn.addEventListener('click', ()=>{
-        const isHidden = nav.classList.contains('hidden');
-        nav.classList.toggle('hidden', !isHidden);
-      });
-    })();
-  </script>
-
+    <script>
+      (function () {
+        const btn = document.getElementById("toggle-sidebar");
+        const nav = document.querySelector("body > nav");
+        if (!btn || !nav) return;
+        btn.addEventListener("click", () => {
+          const isHidden = nav.classList.contains("hidden");
+          nav.classList.toggle("hidden", !isHidden);
+        });
+      })();
+    </script>
+    <script>
+      // Global Page Fullscreen + Wake Lock + scrolling retained
+      (function () {
+        const fsBtn = document.getElementById("btn-page-fullscreen");
+        if (!fsBtn) return;
+        const iconEnter = document.getElementById("icon-fs-enter");
+        const iconExit = document.getElementById("icon-fs-exit");
+        let wakeLock = null;
+        function isFs() {
+          return !!document.fullscreenElement;
+        }
+        async function requestWakeLock() {
+          try {
+            if ("wakeLock" in navigator)
+              wakeLock = await navigator.wakeLock.request("screen");
+          } catch (_) {}
+        }
+        async function releaseWakeLock() {
+          try {
+            if (wakeLock && wakeLock.release) await wakeLock.release();
+          } catch (_) {
+          } finally {
+            wakeLock = null;
+          }
+        }
+        function enterFs() {
+          const el = document.documentElement;
+          const req =
+            el.requestFullscreen ||
+            el.webkitRequestFullscreen ||
+            el.msRequestFullscreen;
+          if (req) req.call(el);
+          // Keep scrolling enabled; avoid forcing overflow hidden
+          document.body.style.overscrollBehaviorY = "none";
+          requestWakeLock();
+        }
+        function exitFs() {
+          const ex =
+            document.exitFullscreen ||
+            document.webkitExitFullscreen ||
+            document.msExitFullscreen;
+          if (ex) ex.call(document);
+          document.body.style.overscrollBehaviorY = "";
+          releaseWakeLock();
+        }
+        function updateBtn() {
+          const fs = isFs();
+          if (fs) {
+            iconEnter.classList.add("hidden");
+            iconExit.classList.remove("hidden");
+            fsBtn.title = "Quitter le plein écran";
+            fsBtn.setAttribute("aria-label", "Quitter le plein écran");
+          } else {
+            iconExit.classList.add("hidden");
+            iconEnter.classList.remove("hidden");
+            fsBtn.title = "Plein écran";
+            fsBtn.setAttribute("aria-label", "Plein écran");
+          }
+        }
+        fsBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          isFs() ? exitFs() : enterFs();
+        });
+        document.addEventListener("fullscreenchange", updateBtn);
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "visible" && isFs())
+            requestWakeLock();
+        });
+        updateBtn();
+      })();
+    </script>
+    <script>
+      // Mobile hide/show for fullscreen button (same behavior as mobile-back-btn)
+      (function () {
+        const fsBtn = document.getElementById("btn-page-fullscreen");
+        if (!fsBtn) return;
+        let lastY = window.scrollY || 0;
+        window.addEventListener(
+          "scroll",
+          () => {
+            const isMobile = window.matchMedia("(max-width: 767px)").matches;
+            if (!isMobile) return;
+            const y = window.scrollY || 0;
+            const goingDown = y > lastY && y > 6;
+            const atTop = y <= 0;
+            if (goingDown) fsBtn.classList.add("btn-hidden");
+            if (atTop || y < lastY) fsBtn.classList.remove("btn-hidden");
+            lastY = y;
+          },
+          { passive: true }
+        );
+      })();
+    </script>
   </body>
-
 </html>

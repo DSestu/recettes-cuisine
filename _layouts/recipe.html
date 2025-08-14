@@ -81,7 +81,6 @@ layout: default
         />
       </svg>
     </a>
-
     <!-- call up the image and image credit link -->
     {% for image in page.image %}
 
@@ -364,25 +363,29 @@ layout: default
 
     // Smooth fade/appear of the back button on scroll direction
     (function(){
-      const backBtn = document.querySelector('a.back');
-      if (!backBtn) return;
+    const btns = Array.from(document.querySelectorAll('a.back, #btn-page-fullscreen'));
+    if (!btns.length) return;
       // On mobile, lift the back button out of the image stacking context so it's always clickable
       const isMobile = window.matchMedia('(max-width: 767px)').matches;
-      if (isMobile) {
+    if (isMobile) {
+      btns.forEach(b=>{
         try {
-          if (backBtn.parentElement) backBtn.parentElement.removeChild(backBtn);
-          document.body.appendChild(backBtn);
-          backBtn.style.position = 'fixed';
-          backBtn.style.zIndex = '9999';
+          if (b.parentElement) b.parentElement.removeChild(b);
+          document.body.appendChild(b);
+          b.style.position = 'fixed';
+          b.style.zIndex = '9999';
         } catch(_) {}
-      }
+      });
+    }
       let lastY = window.scrollY || 0;
       window.addEventListener('scroll', ()=>{
         const y = window.scrollY || 0;
         const goingDown = y > lastY && y > 6;
         const atTop = y <= 0;
-        if (goingDown) backBtn.classList.add('back-hidden');
-        if (atTop || y < lastY) backBtn.classList.remove('back-hidden');
+      btns.forEach(b=>{
+        if (goingDown) b.classList.add('back-hidden');
+        if (atTop || y < lastY) b.classList.remove('back-hidden');
+      });
         lastY = y;
       }, { passive: true });
     })();
@@ -468,4 +471,52 @@ layout: default
     })();
 
   });
+
+  // Page Fullscreen + Wake Lock
+  (function(){
+    const fsBtn = document.getElementById('btn-page-fullscreen');
+    if (!fsBtn) return;
+    const iconEnter = document.getElementById('icon-fs-enter');
+    const iconExit = document.getElementById('icon-fs-exit');
+    let wakeLock = null;
+    function isFs(){ return !!document.fullscreenElement; }
+    async function requestWakeLock(){
+      try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch(_) {}
+    }
+    async function releaseWakeLock(){ try { if (wakeLock && wakeLock.release) await wakeLock.release(); } catch(_) {} finally { wakeLock = null; } }
+    function enterFs(){
+      const el = document.documentElement;
+      const req = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+      if (req) req.call(el);
+      // Keep scrolling enabled in fullscreen
+      document.documentElement.style.overflow = '';
+      document.body.style.overscrollBehaviorY = 'none';
+      requestWakeLock();
+    }
+    function exitFs(){
+      const ex = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if (ex) ex.call(document);
+      document.documentElement.style.overflow = '';
+      document.body.style.overscrollBehaviorY = '';
+      releaseWakeLock();
+    }
+    function updateBtn(){
+      const fs = isFs();
+      if (fs) {
+        iconEnter.classList.add('hidden');
+        iconExit.classList.remove('hidden');
+        fsBtn.title = 'Quitter le plein écran';
+        fsBtn.setAttribute('aria-label','Quitter le plein écran');
+      } else {
+        iconExit.classList.add('hidden');
+        iconEnter.classList.remove('hidden');
+        fsBtn.title = 'Plein écran';
+        fsBtn.setAttribute('aria-label','Plein écran');
+      }
+    }
+    fsBtn.addEventListener('click', (e)=>{ e.preventDefault(); isFs() ? exitFs() : enterFs(); });
+    document.addEventListener('fullscreenchange', updateBtn);
+    document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState === 'visible' && isFs()) requestWakeLock(); });
+    updateBtn();
+  })();
 </script>
