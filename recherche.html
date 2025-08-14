@@ -2284,9 +2284,17 @@ permalink: /recherche/
         const fsTok = miniControls.querySelector('#fs-btn-tokens');
         const fsRec = miniControls.querySelector('#fs-btn-recipes');
         const fsComp = miniControls.querySelector('#fs-btn-components');
-        if (fsTok && inTok) fsTok.addEventListener('click', ()=>{ inTok.checked = !inTok.checked; inTok.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
-        if (fsRec && inRec) fsRec.addEventListener('click', ()=>{ inRec.checked = !inRec.checked; inRec.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
-        if (fsComp && inComp) fsComp.addEventListener('click', ()=>{ inComp.checked = !inComp.checked; inComp.dispatchEvent(new Event('change', { bubbles: true })); if (window.updateNodeBadges) window.updateNodeBadges(); });
+        const linkModeSel = document.getElementById('link-mode');
+        function setLinkMode(val){
+          if (!linkModeSel) return;
+          linkModeSel.value = val;
+          linkModeSel.dispatchEvent(new Event('change', { bubbles: true }));
+          if (window.pushControlsToUrl) window.pushControlsToUrl();
+          if (window.updateFsLinkButtons) window.updateFsLinkButtons();
+        }
+        if (fsTok) fsTok.addEventListener('click', ()=> setLinkMode('recipe-token'));
+        if (fsRec) fsRec.addEventListener('click', ()=> setLinkMode('recipe-recipe'));
+        if (fsComp) fsComp.addEventListener('click', ()=> setLinkMode('token-token'));
 
         // Press (zoom) animation for badges/buttons
         function addPressAnim(el){
@@ -2323,6 +2331,19 @@ permalink: /recherche/
           updateFsLayoutButton();
           addPressAnim(fsLayoutBtn);
         }
+
+        // FS link-mode buttons coloring based on the selected link mode
+        function updateFsLinkButtons(){
+          const val = linkModeSel ? linkModeSel.value : '';
+          function setGreen(btn){ if (!btn) return; btn.classList.remove('bg-red-600'); btn.classList.add('bg-green-600'); }
+          function setRed(btn){ if (!btn) return; btn.classList.remove('bg-green-600'); btn.classList.add('bg-red-600'); }
+          if (val === 'recipe-token') { setGreen(fsTok); setRed(fsRec); setRed(fsComp); }
+          else if (val === 'recipe-recipe') { setGreen(fsRec); setRed(fsTok); setRed(fsComp); }
+          else if (val === 'token-token') { setGreen(fsComp); setRed(fsTok); setRed(fsRec); }
+          else { setRed(fsTok); setRed(fsRec); setRed(fsComp); }
+        }
+        window.updateFsLinkButtons = updateFsLinkButtons;
+        updateFsLinkButtons();
 
         // Tolerance controls (mirror of main controls)
         const mainTolRange = document.getElementById('missing-tolerance');
@@ -2691,9 +2712,7 @@ permalink: /recherche/
         const fsTok = document.getElementById('fs-btn-tokens');
         const fsRec = document.getElementById('fs-btn-recipes');
         const fsComp = document.getElementById('fs-btn-components');
-        applyBadge(fsTok, !!inTok?.checked);
-        applyBadge(fsRec, !!inRec?.checked);
-        applyBadge(fsComp, !!inComp?.checked);
+        if (window.updateFsLinkButtons) window.updateFsLinkButtons();
       }
       window.updateNodeBadges = updateNodeBadges;
       if (btnTok && inTok) btnTok.addEventListener('click', ()=>{ inTok.checked = !inTok.checked; inTok.dispatchEvent(new Event('change', { bubbles: true })); updateNodeBadges(); });
