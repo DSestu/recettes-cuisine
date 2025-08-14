@@ -93,6 +93,15 @@ layout: default
         transition: transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
         pointer-events: none;
       }
+      /* Extend fill to cover inter-row gaps created by Tailwind gap utilities */
+      .post-content ul.gap-2 > li::before {
+        top: -4px;
+        bottom: -4px;
+      }
+      .post-content ul.gap-3 > li::before {
+        top: -6px;
+        bottom: -6px;
+      }
       .post-content li.row-checked::before {
         transform: scaleX(1);
       }
