@@ -2702,15 +2702,19 @@ permalink: /recherche/
     updateSelectedChips();
     refresh();
 
-    // Hide navbar by default on search page (mobile only) with transition-ready class
+    // Hide navbar by default on search page (mobile + desktop)
     (function(){
       const nav = document.querySelector('body > nav');
       if (!nav) return;
       const isMobile = window.matchMedia('(max-width: 767px)').matches;
-      if (!isMobile) return;
-      // Ensure we start hidden via transition class, not display:none
-      nav.classList.remove('nav-visible');
-      nav.classList.add('nav-hidden');
+      if (isMobile) {
+        // Mobile: start hidden via transition-friendly classes
+        nav.classList.remove('nav-visible');
+        nav.classList.add('nav-hidden');
+      } else {
+        // Desktop: start hidden; still togglable via the sidebar button (inline display override)
+        nav.style.display = 'none';
+      }
     })();
 
     $('#include-components').addEventListener('change', (e)=>{ state.includeComponents = e.target.checked; refresh(); });
