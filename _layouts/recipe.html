@@ -405,9 +405,9 @@ layout: default
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
 
-    // Define clickToggle function in vanilla JavaScript
-    function clickToggle(element, func1, func2) {
-      let toggleState = false;
+    // Define clickToggle function in vanilla JavaScript with initial state support
+    function clickToggle(element, func1, func2, initialState) {
+      let toggleState = !!initialState;
       element.addEventListener("click", function() {
         toggleState = !toggleState;
         if (toggleState) {
@@ -421,8 +421,28 @@ layout: default
     // Select the overflow container
     const container = document.querySelector(".post-content");
 
+    // Parse URL param for pre-checked rows (cb=0,2,5)
+    const cbParam = new URLSearchParams(location.search).get('cb');
+    const cbSet = new Set((cbParam ? cbParam.split(',') : []).map(v => {
+      const n = Number(v); return Number.isFinite(n) ? n : null;
+    }).filter(v => v !== null));
+
+    function updateUrlCheckedRows(){
+      try {
+        const indices = [];
+        document.querySelectorAll('ul li').forEach((node, idx)=>{
+          if (node.classList.contains('row-checked')) indices.push(idx);
+        });
+        const params = new URLSearchParams(location.search);
+        if (indices.length) params.set('cb', indices.join(',')); else params.delete('cb');
+        const qs = params.toString();
+        const newUrl = location.pathname + (qs ? ('?' + qs) : '');
+        history.replaceState(null, '', newUrl);
+      } catch(_) {}
+    }
+
     // Select all list items in the unordered list
-    document.querySelectorAll("ul li").forEach(function(li) {
+    document.querySelectorAll("ul li").forEach(function(li, idx) {
       // Append a checkbox input (hidden) and a bubble UI to each list item
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
@@ -432,6 +452,12 @@ layout: default
       bubble.className = 'row-check-bubble mt-1.5';
       bubble.innerHTML = ``;
       li.insertBefore(bubble, checkbox.nextSibling);
+
+      // Initialize from URL state
+      if (cbSet.has(idx)) {
+        checkbox.checked = true;
+        li.classList.add('row-checked');
+      }
 
       // Apply clickToggle function to each list item
       clickToggle(li, function() {
@@ -444,6 +470,7 @@ layout: default
         const height = this.offsetHeight;
         const y = container.scrollTop;
         container.scrollTo({ top: y + height + 16, behavior: "smooth" });
+        updateUrlCheckedRows();
       }, function() {
         // Second function: Uncheck the checkbox and scroll up within the container
         const cb = this.querySelector("input");
@@ -454,8 +481,12 @@ layout: default
         const height = this.offsetHeight;
         const y = container.scrollTop;
         container.scrollTo({ top: y - height - 16, behavior: "smooth" });
-      });
+        updateUrlCheckedRows();
+      }, li.classList.contains('row-checked'));
     });
+
+    // Normalize URL on load to reflect initial state (optional)
+    updateUrlCheckedRows();
 
     // Smooth fade/appear of the back button on scroll direction
     (function(){
