@@ -112,6 +112,16 @@ permalink: /recherche/
       flex-wrap: wrap;
       gap: 6px;
     }
+    #selected-tags .inline-flex:hover {
+      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+      transform: scale(1.05) rotate(1deg);
+    }
+    #selected-tags .inline-flex:active {
+      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+
     .tag-chip {
       display: inline-flex;
       align-items: center;
@@ -2128,7 +2138,7 @@ permalink: /recherche/
       }
     })();
 
-    // Add exit fullscreen button inside container when in fullscreen
+    // Add exit fullscreen button inside container; also show desktop controls always
     function ensureFsButton(){
       const container = document.getElementById('force-container');
       let btn = document.getElementById('fs-exit-btn');
@@ -2157,13 +2167,15 @@ permalink: /recherche/
         container.appendChild(btn);
       }
       const inFs = !!document.fullscreenElement && document.fullscreenElement === container;
+      const isMobile = window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
+      const showControls = inFs || !isMobile; // always show controls on desktop
       btn.style.display = inFs ? 'block' : 'none';
       const triggerBtn = document.getElementById('btn-fullscreen');
       if (triggerBtn) triggerBtn.style.display = inFs ? 'none' : 'block';
       // Reposition and elevate the reset-view button under the exit button in fullscreen
       const resetBtn = document.getElementById('btn-reset-view');
       if (resetBtn) {
-        if (inFs) {
+        if (showControls) {
           // Reparent into container to avoid being under overlay stacking context
           if (!window.__resetParent) window.__resetParent = resetBtn.parentElement;
           if (resetBtn.parentElement !== container) container.appendChild(resetBtn);
@@ -2431,20 +2443,24 @@ permalink: /recherche/
         })();
       }
       // Show/hide based on fullscreen state and update colors
-      if (miniToggle) miniToggle.style.display = inFs ? 'inline-flex' : 'none';
-      if (miniControls) miniControls.style.display = (inFs ? miniControls.style.display : 'none');
-      if (inFs && typeof window.updateNodeBadges === 'function') window.updateNodeBadges();
-      if (inFs && typeof window.updateFsLayoutButton === 'function') window.updateFsLayoutButton();
+      if (miniToggle) miniToggle.style.display = showControls ? 'inline-flex' : 'none';
+      if (miniControls) miniControls.style.display = (showControls ? miniControls.style.display : 'none');
+      if (showControls && typeof window.updateNodeBadges === 'function') window.updateNodeBadges();
+      if (showControls && typeof window.updateFsLayoutButton === 'function') window.updateFsLayoutButton();
     }
     document.addEventListener('fullscreenchange', ensureFsButton);
+    window.addEventListener('resize', ensureFsButton);
     ensureFsButton();
-    // Show/hide overlay on fullscreen changes
-    document.addEventListener('fullscreenchange', ()=>{
+    // Show/hide overlay: only show in fullscreen (both desktop and mobile)
+    function updateFsOverlayVisibility(){
       const wrap = document.getElementById('fs-overlay');
       const container = document.getElementById('force-container');
       const inFs = !!document.fullscreenElement && document.fullscreenElement === container;
       if (wrap) wrap.style.display = inFs ? 'block' : 'none';
-    });
+    }
+    document.addEventListener('fullscreenchange', updateFsOverlayVisibility);
+    window.addEventListener('resize', updateFsOverlayVisibility);
+    updateFsOverlayVisibility();
   }
 
   function updateAdvancedViz(items) {
@@ -2481,8 +2497,6 @@ permalink: /recherche/
     })();
 
     $('#include-components').addEventListener('change', (e)=>{ state.includeComponents = e.target.checked; refresh(); });
-    const modeSel = document.getElementById('search-mode');
-    modeSel.addEventListener('change', ()=>{ state.mode = modeSel.value; refresh(); });
     const range = $('#missing-tolerance');
     const tolLabel = $('#tolerance-value');
     range.addEventListener('input', (e)=>{ state.missingTolerance = Number(e.target.value); tolLabel.textContent = e.target.value; refresh(); });
@@ -2735,7 +2749,6 @@ permalink: /recherche/
     });
     toggleBtn.addEventListener('click', pushControlsToUrl);
     document.getElementById('reset-tags').addEventListener('click', pushControlsToUrl);
-    document.getElementById('reset-ingredients').addEventListener('click', pushControlsToUrl);
     // graph-search listener removed
 
     // No undo history (supprimé)
