@@ -152,6 +152,12 @@ layout: default
       .post-content li.row-checked .row-check-bubble .icon-cross {
         opacity: 0;
       }
+
+      /* Rounded edges for component photos */
+      .component-image {
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
     </style>
 
     <a
@@ -319,11 +325,9 @@ layout: default
       {% for component in page.components %}
       <div class="sm-col sm-col-4 px2">
         {% for recipe in site.components %} {% if recipe.title == component %}
-        <h4 class="font-gelica text-3xl mb-8 mt-16">{{recipe.title}}</h4>
-
         {% for image in recipe.image %}
         <div
-          class="image ratio bg-cover relative mb-8"
+          class="component-image ratio bg-cover relative mb-4"
           style="background-image:url({{site.baseurl}}/images/{{ image }});"
         >
           <img
@@ -353,8 +357,9 @@ layout: default
           </a>
           {% endfor %} {% endif %}
         </div>
-
         {% endfor %}
+
+        <h4 class="font-gelica text-3xl mb-6 mt-4">{{recipe.title}}</h4>
 
         <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].ingredients }}
