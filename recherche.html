@@ -2701,6 +2701,18 @@ permalink: /recherche/
     renderSuggestions(getFiltered());
     updateSelectedChips();
     refresh();
+    // If coming from a recipe on mobile and requested, scroll to results
+    (function(){
+      const isMobile = window.matchMedia('(max-width: 767px)').matches;
+      const params = new URLSearchParams(location.search);
+      if (!isMobile) return;
+      if (params.get('autoScroll') === '1' || params.get('reco') === '1') {
+        const target = document.getElementById('result-count');
+        if (!target) return;
+        // Wait a frame to ensure layout is ready
+        setTimeout(()=>{ try { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(_) {} }, 60);
+      }
+    })();
 
     // Hide navbar by default on search page (mobile + desktop)
     (function(){

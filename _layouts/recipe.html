@@ -235,7 +235,7 @@ layout: default
       {% assign tag_param = page.tags | join:',' | uri_escape %}
       <div>
         <a
-          href="{{ site.baseurl }}/recherche/?tags={{ tag_param }}&viz=0&inf=1"
+          href="{{ site.baseurl }}/recherche/?tags={{ tag_param }}&viz=0&inf=1&autoScroll=1"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white shadow-sm hover:opacity-90 transition border-2 border-white"
           title="Recherche similaire"
         >
@@ -251,7 +251,7 @@ layout: default
               clip-rule="evenodd"
             />
           </svg>
-          <span>Recherche similaires</span>
+          <span><strong>Recherche similaires</strong></span>
         </a>
       </div>
 
