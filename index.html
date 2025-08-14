@@ -2,111 +2,305 @@
 layout: default
 ---
 
-  <div class="content w-full md:w-full h-full overflow-scroll">
-      
-      <div class="px-6 pt-6">
-        <div class="w-full rounded-2xl bg-gradient-to-r from-red-200 to-orange-100 p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div>
-            <h2 class="font-gelica text-2xl md:text-3xl text-primary">Pas d'idée ? Essayez la recherche avancée</h2>
-            <p class="text-sm text-red-900/80">Filtrez par ingrédients disponibles, tags, et explorez visuellement le catalogue.</p>
-          </div>
-          <a class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:scale-105 hover:rotate-1 transition" href="{{ site.baseurl }}/recherche/">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5"><path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd" /></svg>
-            Recherche avancée
-          </a>
-        </div>
+<div class="content w-full md:w-full h-full overflow-scroll">
+  <div class="px-6 pt-6">
+    <div
+      class="w-full rounded-2xl bg-gradient-to-r from-red-200 to-orange-100 p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+    >
+      <div>
+        <h2 class="font-gelica text-2xl md:text-3xl text-primary">
+          Pas d'idée ? Essayez la recherche avancée
+        </h2>
+        <p class="text-sm text-red-900/80">
+          Filtrez par ingrédients disponibles, tags, et explorez visuellement le
+          catalogue.
+        </p>
       </div>
-
-      <div class="recipes mb-24 py-8">
-          <h2 class="text-red-950 md:text-primary uppercase font-semibold mb-2 px-6">Most Recent</h2>
-
-          <div class="flex overflow-scroll md:overflow-visible snap-x md:grid px-6 md:h-full md:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6">
-            <!-- First 3 Recipes -->
-            {% assign first_recipes = site.recipes | sort:"date" %}
-            {% for post in first_recipes limit:3 %}
-              <a class="recipe w-3/4 md:w-auto flex-shrink-0 block snap-center md:hover:scale-105 md:hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
-                <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"{% for image in post.image %} style="background-image:url({{site.baseurl}}/images/{{ image }});"{% endfor %}>
-                </canvas>
-                <h1 class="font-semibold leading-tight text-2xl text-primary font-gelica md:text-base md:text-orange-950 md:font-inter pr-16 md:pr-0">{{ post.title }}</h1>
-              </a>
-            {% endfor %}
-          </div>
-
-
-          <div class="grid px-6 h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-
-
-            {% assign sorted = site.recipes | sort:"date" %}
-              {% for post in sorted offset:3 %}
-                <a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
-                    <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"{% for image in post.image %} style="background-image:url({{site.baseurl}}/images/{{ image }});"{% endfor %}
-                    >
-                    </canvas>
-                    <h1 class="font-semibold leading-tight">{{ post.title }}</h1>
-                </a>
-            {% endfor %}
-               
-            
-          </div>
-      </div>
-
-      <div class="components mb-24 py-8">
-          <div class="flex items-center justify-between px-6 mb-2">
-            <h2 class="text-red-950 md:text-primary uppercase font-semibold">{{ site.translation[site.language].components }}</h2>
-            <a class="text-primary underline decoration-[3px] decoration-primary underline-offset-2 hover:opacity-80" href="{{ site.baseurl }}/components/">Voir tous</a>
-          </div>
-
-          <div class="grid px-6 h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {% assign sorted_components = site.components | sort: "title" %}
-            {% for component in sorted_components limit:6 %}
-              <a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{{ component.url | prepend: site.baseurl }}">
-                <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"{% for image in component.image %} style="background-image:url({{site.baseurl}}/images/{{ image }});"{% endfor %}></canvas>
-                <h1 class="font-semibold leading-tight">{{ component.title }}</h1>
-              </a>
-            {% endfor %}
-          </div>
-      </div>
-
-      <div class="px-6 mt-2 mb-20">
-        <div class="flex flex-col gap-6">
-          <div>
-            <h3 class="text-primary uppercase font-semibold mb-2">Ingrédients suggérés</h3>
-            {% assign ingredient_suggestions = "ail,oignon,carotte,poulet,beurre,fromage,lentilles,patate" | split: "," %}
-            <div class="flex flex-wrap gap-2">
-              {% for ing in ingredient_suggestions %}
-                <a class="px-3 py-1 rounded-full border text-sm bg-white text-primary border-primary hover:bg-red-50"
-                   href="{{ site.baseurl }}/recherche/?ingredients={{ ing | url_encode }}">
-                  {{ ing }}
-                </a>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div>
-            <h3 class="text-primary uppercase font-semibold mb-2">Tags suggérés</h3>
-            {% assign all_tags = "" %}
-            {% for recipe in site.recipes %}
-              {% for tag in recipe.tags %}
-                {% assign tag = tag | strip %}
-                {% unless all_tags contains tag %}
-                  {% assign all_tags = all_tags | append: tag | append: "," %}
-                {% endunless %}
-              {% endfor %}
-            {% endfor %}
-            {% assign tag_array = all_tags | split: "," %}
-            <div class="flex flex-wrap gap-2">
-              {% for tag in tag_array limit:8 %}
-                {% if tag != "" %}
-                  <a class="px-3 py-1 rounded-full border text-sm bg-primary text-white border-primary hover:opacity-90"
-                     href="{{ site.baseurl }}/recherche/?tags={{ tag | url_encode }}">
-                    {{ tag }}
-                  </a>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <a
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:scale-105 hover:rotate-1 transition"
+        href="{{ site.baseurl }}/recherche/"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Recherche avancée
+      </a>
+    </div>
   </div>
 
+  <div class="px-6 mt-4">
+    <label for="home-search" class="sr-only">Rechercher une recette</label>
+    <div class="relative max-w-xl">
+      <input
+        id="home-search"
+        type="search"
+        inputmode="search"
+        autocomplete="off"
+        placeholder="Rechercher une recette…"
+        class="w-full rounded-xl border border-red-200/60 bg-white/80 backdrop-blur px-4 py-2 pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+      />
+      <button
+        id="home-search-clear"
+        type="button"
+        class="absolute right-2 top-1/2 -translate-y-1/2 text-red-900/60 hover:text-primary/90 hidden"
+        aria-label="Effacer la recherche"
+      >
+        ✕
+      </button>
+    </div>
+    <p
+      id="home-search-count"
+      class="text-sm text-red-900/70 mt-2"
+      style="display: none"
+    ></p>
+  </div>
+
+  <div class="recipes mb-24 py-8">
+    <h2 class="text-red-950 md:text-primary uppercase font-semibold mb-2 px-6">
+      Most Recent
+    </h2>
+
+    <div
+      class="flex overflow-scroll md:overflow-visible snap-x md:grid px-6 md:h-full md:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6"
+    >
+      <!-- First 3 Recipes -->
+      {% assign first_recipes = site.recipes | sort:"date" %} {% for post in
+      first_recipes limit:3 %}
+      <a
+        class="recipe w-3/4 md:w-auto flex-shrink-0 block snap-center md:hover:scale-105 md:hover:rotate-1 transition"
+        href="{{ post.url | prepend: site.baseurl }}"
+      >
+        <canvas
+          class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"
+          {%
+          for
+          image
+          in
+          post.image
+          %}
+          style="background-image:url({{site.baseurl}}/images/{{ image }});"
+          {%
+          endfor
+          %}
+        >
+        </canvas>
+        <h1
+          class="font-semibold leading-tight text-2xl text-primary font-gelica md:text-base md:text-orange-950 md:font-inter pr-16 md:pr-0"
+        >
+          {{ post.title }}
+        </h1>
+      </a>
+      {% endfor %}
+    </div>
+
+    <div class="grid px-6 h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+      {% assign sorted = site.recipes | sort:"date" %} {% for post in sorted
+      offset:3 %}
+      <a
+        class="recipe md:hover:scale-105 md:hover:rotate-1 transition"
+        href="{{ post.url | prepend: site.baseurl }}"
+      >
+        <canvas
+          class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"
+          {%
+          for
+          image
+          in
+          post.image
+          %}
+          style="background-image:url({{site.baseurl}}/images/{{ image }});"
+          {%
+          endfor
+          %}
+        >
+        </canvas>
+        <h1 class="font-semibold leading-tight">{{ post.title }}</h1>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="components mb-24 py-8">
+    <div class="flex items-center justify-between px-6 mb-2">
+      <h2 class="text-red-950 md:text-primary uppercase font-semibold">
+        {{ site.translation[site.language].components }}
+      </h2>
+      <a
+        class="text-primary underline decoration-[3px] decoration-primary underline-offset-2 hover:opacity-80"
+        href="{{ site.baseurl }}/components/"
+        >Voir tous</a
+      >
+    </div>
+
+    <div class="grid px-6 h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+      {% assign sorted_components = site.components | sort: "title" %} {% for
+      component in sorted_components limit:6 %}
+      <a
+        class="recipe md:hover:scale-105 md:hover:rotate-1 transition"
+        href="{{ component.url | prepend: site.baseurl }}"
+      >
+        <canvas
+          class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"
+          {%
+          for
+          image
+          in
+          component.image
+          %}
+          style="background-image:url({{site.baseurl}}/images/{{ image }});"
+          {%
+          endfor
+          %}
+        ></canvas>
+        <h1 class="font-semibold leading-tight">{{ component.title }}</h1>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="px-6 mt-2 mb-20">
+    <div class="flex flex-col gap-6">
+      <div>
+        <h3 class="text-primary uppercase font-semibold mb-2">
+          Ingrédients suggérés
+        </h3>
+        {% assign ingredient_suggestions =
+        "ail,oignon,carotte,poulet,beurre,fromage,lentilles,patate" | split: ","
+        %}
+        <div class="flex flex-wrap gap-2">
+          {% for ing in ingredient_suggestions %}
+          <a
+            class="px-3 py-1 rounded-full border text-sm bg-white text-primary border-primary hover:bg-red-50"
+            href="{{ site.baseurl }}/recherche/?ingredients={{ ing | url_encode }}"
+          >
+            {{ ing }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-primary uppercase font-semibold mb-2">Tags suggérés</h3>
+        {% assign all_tags = "" %} {% for recipe in site.recipes %} {% for tag
+        in recipe.tags %} {% assign tag = tag | strip %} {% unless all_tags
+        contains tag %} {% assign all_tags = all_tags | append: tag | append:
+        "," %} {% endunless %} {% endfor %} {% endfor %} {% assign tag_array =
+        all_tags | split: "," %}
+        <div class="flex flex-wrap gap-2">
+          {% for tag in tag_array limit:8 %} {% if tag != "" %}
+          <a
+            class="px-3 py-1 rounded-full border text-sm bg-primary text-white border-primary hover:opacity-90"
+            href="{{ site.baseurl }}/recherche/?tags={{ tag | url_encode }}"
+          >
+            {{ tag }}
+          </a>
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    function normalize(str) {
+      return (str || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9 ]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+    function isSubsequence(query, text) {
+      if (!query) return true;
+      let i = 0,
+        j = 0;
+      while (i < query.length && j < text.length) {
+        if (query[i] === text[j]) i++;
+        j++;
+      }
+      return i === query.length;
+    }
+    function setupHomeSearch() {
+      const input = document.getElementById("home-search");
+      if (!input) return;
+      const clearBtn = document.getElementById("home-search-clear");
+      const countEl = document.getElementById("home-search-count");
+      const cards = Array.from(document.querySelectorAll(".recipes a.recipe"));
+      const items = cards.map((card) => {
+        const titleEl = card.querySelector("h1");
+        const title = titleEl ? titleEl.textContent.trim() : "";
+        return { card, title, norm: normalize(title) };
+      });
+      function applyFilter() {
+        const qRaw = input.value || "";
+        const q = normalize(qRaw);
+        let matches = 0;
+        // Toggle clear button
+        if (clearBtn) clearBtn.classList.toggle("hidden", q.length === 0);
+        if (q.length < 2) {
+          // Show all when query is too short
+          for (const it of items) it.card.style.display = "";
+          if (countEl) countEl.style.display = "none";
+          return;
+        }
+        const words = q.split(" ").filter(Boolean);
+        for (const it of items) {
+          const norm = it.norm;
+          let ok = true;
+          for (const w of words) {
+            if (norm.includes(w)) continue;
+            if (!isSubsequence(w, norm)) {
+              ok = false;
+              break;
+            }
+          }
+          if (ok) {
+            it.card.style.display = "";
+            matches++;
+          } else {
+            it.card.style.display = "none";
+          }
+        }
+        if (countEl) {
+          countEl.textContent =
+            matches + " résultat" + (matches > 1 ? "s" : "");
+          countEl.style.display = "";
+        }
+      }
+      input.addEventListener("input", applyFilter);
+      if (clearBtn)
+        clearBtn.addEventListener("click", function () {
+          input.value = "";
+          applyFilter();
+          input.focus();
+        });
+      // Prefill from URL (?q= or ?query=)
+      try {
+        const params = new URLSearchParams(location.search);
+        const q0 = params.get("q") || params.get("query");
+        if (q0) {
+          input.value = q0;
+        }
+      } catch (e) {}
+      applyFilter();
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupHomeSearch, {
+        once: true,
+      });
+    } else {
+      setupHomeSearch();
+    }
+  })();
+</script>
