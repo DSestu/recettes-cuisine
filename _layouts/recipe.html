@@ -105,6 +105,53 @@ layout: default
       .post-content li.row-checked::before {
         transform: scaleX(1);
       }
+
+      /* Hide native checkboxes; use custom bubble control */
+      .post-content li > input[type="checkbox"] {
+        display: none;
+      }
+      .row-check-bubble {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 15px;
+        height: 15px;
+        border-radius: 9999px;
+        border: 2px solid #ffffff;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        background-color: #9ca3af; /* gray-400 */
+        color: #ffffff;
+        flex: 0 0 auto;
+        align-self: flex-start;
+        margin-top: 0.6rem;
+        line-height: 0;
+        transition: background-color 220ms ease, transform 140ms ease,
+          box-shadow 220ms ease, opacity 200ms ease;
+        cursor: pointer;
+      }
+      .row-check-bubble svg {
+        width: 16px;
+        height: 16px;
+        display: block;
+      }
+      .row-check-bubble .icon-check {
+        opacity: 0;
+        transition: opacity 180ms ease;
+      }
+      .row-check-bubble .icon-cross {
+        opacity: 1;
+        transition: opacity 180ms ease;
+        font-weight: 900;
+      }
+      .post-content li.row-checked .row-check-bubble {
+        background-color: #16a34a; /* green-600 */
+      }
+      .post-content li.row-checked .row-check-bubble .icon-check {
+        opacity: 1;
+      }
+      .post-content li.row-checked .row-check-bubble .icon-cross {
+        opacity: 0;
+      }
     </style>
 
     <a
@@ -376,12 +423,15 @@ layout: default
 
     // Select all list items in the unordered list
     document.querySelectorAll("ul li").forEach(function(li) {
-      // Append a checkbox input to each list item
+      // Append a checkbox input (hidden) and a bubble UI to each list item
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.classList.add("mt-2.5");
-
       li.insertBefore(checkbox, li.firstChild);
+
+      const bubble = document.createElement('span');
+      bubble.className = 'row-check-bubble mt-1.5';
+      bubble.innerHTML = ``;
+      li.insertBefore(bubble, checkbox.nextSibling);
 
       // Apply clickToggle function to each list item
       clickToggle(li, function() {
@@ -389,6 +439,8 @@ layout: default
         const cb = this.querySelector("input");
         if (cb) cb.checked = true;
         this.classList.add('row-checked');
+        const bub = this.querySelector('.row-check-bubble');
+        if (bub) { bub.style.transform = 'scale(0.96)'; setTimeout(()=>{ bub.style.transform = 'scale(1)'; }, 120); }
         const height = this.offsetHeight;
         const y = container.scrollTop;
         container.scrollTo({ top: y + height + 16, behavior: "smooth" });
@@ -397,6 +449,8 @@ layout: default
         const cb = this.querySelector("input");
         if (cb) cb.checked = false;
         this.classList.remove('row-checked');
+        const bub = this.querySelector('.row-check-bubble');
+        if (bub) { bub.style.transform = 'scale(0.96)'; setTimeout(()=>{ bub.style.transform = 'scale(1)'; }, 120); }
         const height = this.offsetHeight;
         const y = container.scrollTop;
         container.scrollTo({ top: y - height - 16, behavior: "smooth" });
