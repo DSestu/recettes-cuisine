@@ -1994,6 +1994,14 @@ permalink: /recherche/
         // Entering fullscreen: fit graph to viewport
         // Remove aspect ratio constraint to use full screen space
         try { container.style.removeProperty('aspect-ratio'); } catch(_) {}
+        // Decide overlay expansion based on number of selected tags
+        try {
+          if (typeof window.__fsOverlaySetOpen === 'function') {
+            const n = (state.selectedTags && state.selectedTags.size) ? state.selectedTags.size : 0;
+            // Expand if 0 or 1 tag, collapse if more than 1
+            window.__fsOverlaySetOpen(n <= 1);
+          }
+        } catch(_) {}
         setTimeout(() => { fitToViewport(28); }, 80);
       }
     });
@@ -2141,6 +2149,8 @@ permalink: /recherche/
             applyContainerOpenStyles(false);
           }
         }
+        // Expose programmatic control for other modules
+        window.__fsOverlaySetOpen = setOpen;
         // Initialize animation state
         applyContainerOpenStyles(true);
         setOpen(true);
