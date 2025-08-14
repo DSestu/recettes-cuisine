@@ -2596,10 +2596,15 @@ permalink: /recherche/
     updateSelectedChips();
     refresh();
 
-    // Hide navbar by default on search page (toggleable via top-left button)
+    // Hide navbar by default on search page (mobile only) with transition-ready class
     (function(){
       const nav = document.querySelector('body > nav');
-      if (nav) nav.classList.add('hidden');
+      if (!nav) return;
+      const isMobile = window.matchMedia('(max-width: 767px)').matches;
+      if (!isMobile) return;
+      // Ensure we start hidden via transition class, not display:none
+      nav.classList.remove('nav-visible');
+      nav.classList.add('nav-hidden');
     })();
 
     $('#include-components').addEventListener('change', (e)=>{ state.includeComponents = e.target.checked; refresh(); });
