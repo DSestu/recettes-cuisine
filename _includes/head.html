@@ -1,89 +1,156 @@
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <title>
+    {% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}
+  </title>
+  <meta
+    name="description"
+    content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}"
+  />
 
-  
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl }}" />
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="{{ site.baseurl }}/icons/favicon-512x512.png">
-  <link rel="manifest" href="{{ site.baseurl }}/manifest.json">
-  <link rel="shortcut icon" href="{{ site.baseurl }}/icons/favicon.ico">
-  <meta name="msapplication-TileColor" content="#F53200">
-  <meta name="msapplication-config" content="{{ site.baseurl }}/icons/browserconfig.xml">
-  <meta name="theme-color" content="#F53200">
+  <link
+    rel="canonical"
+    href="{{ page.url | replace:'index.html','' | prepend: site.baseurl }}"
+  />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}"
+  href="{{ "/feed.xml" | prepend: site.baseurl }}" />
+  <script
+    type="text/javascript"
+    src="https://code.jquery.com/jquery-2.1.4.min.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"
+  ></script>
 
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="{{ site.baseurl }}/icons/apple-touch-icon.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="{{ site.baseurl }}/icons/favicon-32x32.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="{{ site.baseurl }}/icons/favicon-512x512.png"
+  />
+  <link rel="manifest" href="{{ site.baseurl }}/manifest.json" />
+  <link rel="shortcut icon" href="{{ site.baseurl }}/icons/favicon.ico" />
+  <meta name="msapplication-TileColor" content="#F53200" />
+  <meta
+    name="msapplication-config"
+    content="{{ site.baseurl }}/icons/browserconfig.xml"
+  />
+  <meta name="theme-color" content="#F53200" />
 
   <!-- Facebook Meta Tags -->
-  <meta property="og:url" content="{% if page.title %}{{ page.url | replace:'index.html','' | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-  <meta property="og:image" content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}">
+  <meta
+    property="og:url"
+    content="{% if page.title %}{{ page.url | replace:'index.html','' | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}"
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:title"
+    content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}"
+  />
+  <meta
+    property="og:description"
+    content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}"
+  />
+  <meta
+    property="og:image"
+    content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}"
+  />
 
   <!-- Twitter Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta property="twitter:domain" content="chowdown.io">
-  <meta property="twitter:url" content="{% if page.title %}{{ page.url | replace:'index.html','' | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}">
-  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-  <meta name="twitter:image" content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}">
-
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="chowdown.io" />
+  <meta
+    property="twitter:url"
+    content="{% if page.title %}{{ page.url | replace:'index.html','' | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}"
+  />
+  <meta
+    name="twitter:title"
+    content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}"
+  />
+  <meta
+    name="twitter:description"
+    content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}"
+  />
+  <meta
+    name="twitter:image"
+    content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}"
+  />
 
   <style>
-    html, body { max-width: 100%; overflow-x: hidden; }
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
     @view-transition {
       navigation: auto;
     }
     .overflow-scroll::-webkit-scrollbar {
-        display: none;
+      display: none;
     }
     .overflow-scroll {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
     }
 
     /* Mobile nav smooth hide/show */
-    .mobile-nav { 
-      transition: transform 250ms ease, opacity 200ms ease; 
-      will-change: transform, opacity; 
+    .mobile-nav {
+      transition: transform 250ms ease, opacity 200ms ease;
+      will-change: transform, opacity;
       background: rgba(255, 247, 237, 0.9); /* orange-50 with alpha */
       backdrop-filter: saturate(160%) blur(10px);
       -webkit-backdrop-filter: saturate(160%) blur(10px);
       padding-bottom: env(safe-area-inset-bottom);
     }
-    .mobile-nav.nav-hidden { transform: translateY(100%); opacity: 0; pointer-events: none; }
-    .mobile-nav.nav-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
-
+    .mobile-nav.nav-hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mobile-nav.nav-visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
   </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+  />
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#F53200', // Add your primary color
+            primary: "#F53200", // Add your primary color
           },
           boxShadow: {
-            '3xl': '0 0px 60px -15px rgba(0, 0, 0, 0.5)',
+            "3xl": "0 0px 60px -15px rgba(0, 0, 0, 0.5)",
           },
           fontFamily: {
-            gelica: ['gelica', 'sans-serif'], // Add your custom font
-            inter: ['inter', 'sans-serif'], // Add your custom font
+            gelica: ["gelica", "sans-serif"], // Add your custom font
+            inter: ["inter", "sans-serif"], // Add your custom font
           },
         },
       },
@@ -92,79 +159,145 @@
 
   <script>
     if ("serviceWorker" in navigator) {
-    if (navigator.serviceWorker.controller) {
-      console.log("An active service worker found, no need to register");
-    } else {
-      // Register the service worker
-      navigator.serviceWorker
-        .register("{{ site.baseurl }}/serviceworker.js", {
-          scope: "./"
-        })
-        .then(function (reg) {
-          console.log("Service worker has been registered for scope: " + reg.scope);
-        });
+      if (navigator.serviceWorker.controller) {
+        console.log("An active service worker found, no need to register");
+      } else {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("{{ site.baseurl }}/serviceworker.js", {
+            scope: "./",
+          })
+          .then(function (reg) {
+            console.log(
+              "Service worker has been registered for scope: " + reg.scope
+            );
+          });
+      }
     }
-  }
   </script>
-  
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@chowdownapp">
-  <meta name="twitter:creator" content="@clarklab">
-  {% if page.title %}<meta name="twitter:title" content="{{ page.title }}">{% else %}<meta name="twitter:title" content="Chowdown">{% endif %}
-  {% if page.url %}<meta name="twitter:url" content="{{ site.baseurl }}{{ page.url }}">{% endif %}
-  {% if page.directions %}<meta name="twitter:description" content="{{ page.content | strip_html }}">{% else %}<meta name="twitter:description" content="Chowdown">{% endif %}
-  {% if page.image %}<meta name="twitter:image:src" content="{{site.baseurl}}/images/{{ page.image }}">{% else %}<meta name="twitter:image:src" content="{{site.baseurl}}/images/crockpot-buffalo-chicken.jpg">{% endif %}
 
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@chowdownapp" />
+  <meta name="twitter:creator" content="@clarklab" />
+  {% if page.title %}
+  <meta name="twitter:title" content="{{ page.title }}" />
+  {% else %}
+  <meta name="twitter:title" content="Chowdown" />
+  {% endif %} {% if page.url %}
+  <meta name="twitter:url" content="{{ site.baseurl }}{{ page.url }}" />
+  {% endif %} {% if page.directions %}
+  <meta name="twitter:description" content="{{ page.content | strip_html }}" />
+  {% else %}
+  <meta name="twitter:description" content="Chowdown" />
+  {% endif %} {% if page.image %}
+  <meta
+    name="twitter:image:src"
+    content="{{site.baseurl}}/images/{{ page.image }}"
+  />
+  {% else %}
+  <meta
+    name="twitter:image:src"
+    content="{{site.baseurl}}/images/crockpot-buffalo-chicken.jpg"
+  />
+  {% endif %}
 </head>
 
-<nav class="mobile-nav nav-visible w-screen md:w-1/4 lg:w-1/5 md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-8 md:gap-4 z-[9999] shadow-3xl md:shadow-none {% if page.url contains '/recipes/' %}md:hidden{% endif %}">
-      <a href="{{ site.baseurl }}/" class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/' %}text-primary{% endif %}">
-        <svg class="w-12 md:w-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 16.25H15V7.5H12V16.25H9V7.5H6V16.25C6 18.9 8.49 21.05 11.625 21.2125V32.5H15.375V21.2125C18.51 21.05 21 18.9 21 16.25V7.5H18V16.25ZM25.5 12.5V22.5H29.25V32.5H33V7.5C28.86 7.5 25.5 10.3 25.5 12.5Z" fill="currentColor" />
-        </svg>
-        <span class="text-sm md:text-2xl font-medium md:font-gelica">Acceuil</span>
-      </a>
+<nav
+  class="mobile-nav nav-visible w-screen md:w-1/4 lg:w-1/5 md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-8 md:gap-4 z-[9999] shadow-3xl md:shadow-none {% if page.url contains '/recipes/' %}md:hidden{% endif %}"
+>
+  <a
+    href="{{ site.baseurl }}/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/' %}text-primary{% endif %}"
+  >
+    <svg
+      class="w-12 md:w-10"
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M18 16.25H15V7.5H12V16.25H9V7.5H6V16.25C6 18.9 8.49 21.05 11.625 21.2125V32.5H15.375V21.2125C18.51 21.05 21 18.9 21 16.25V7.5H18V16.25ZM25.5 12.5V22.5H29.25V32.5H33V7.5C28.86 7.5 25.5 10.3 25.5 12.5Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-2xl font-medium md:font-gelica">Acceuil</span>
+  </a>
 
-      <a href="{{ site.baseurl }}/recherche/" class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/recherche/' %}text-primary{% endif %}">
-        <svg class="w-12 md:w-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M13 21.5C13 16.8056 16.8056 13 21.5 13C26.1944 13 30 16.8056 30 21.5C30 23.8248 29.0667 25.9315 27.5544 27.4661C27.5392 27.4801 27.5241 27.4946 27.5093 27.5093C27.4946 27.5241 27.4801 27.5392 27.4661 27.5544C25.9315 29.0667 23.8248 30 21.5 30C16.8056 30 13 26.1944 13 21.5ZM28.502 30.6233C26.5628 32.1139 24.1349 33 21.5 33C15.1487 33 10 27.8513 10 21.5C10 15.1487 15.1487 10 21.5 10C27.8513 10 33 15.1487 33 21.5C33 24.1349 32.1139 26.5628 30.6233 28.502L37.5607 35.4393C38.1464 36.0251 38.1464 36.9749 37.5607 37.5607C36.9749 38.1465 36.0251 38.1465 35.4393 37.5607L28.502 30.6233Z" fill="currentColor" />
-        </svg>
-        <span class="text-sm md:text-2xl font-medium md:font-gelica">Recherche</span>
-      </a>
-      <a href="https://github.com/DSestu/recettes-cuisine" class="flex flex-col md:flex-row items-center gap-0 md:gap-2" target="_blank">
-        <svg class="w-12 md:w-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M24 8C17.9256 8 13 12.9256 13 19V28.5C13 29.8816 11.8816 31 10.5 31C9.67157 31 9 31.6716 9 32.5C9 33.3284 9.67157 34 10.5 34H37.5C38.3284 34 39 33.3284 39 32.5C39 31.6716 38.3284 31 37.5 31C36.1184 31 35 29.8816 35 28.5V19C35 12.9256 30.0744 8 24 8ZM32 28.5C32 29.4003 32.2161 30.25 32.5994 31H15.4006C15.7839 30.25 16 29.4003 16 28.5V19C16 14.5824 19.5824 11 24 11C28.4176 11 32 14.5824 32 19V28.5ZM26.4 36C26.702 36 26.986 36.136 27.176 36.37C27.366 36.604 27.442 36.912 27.38 37.206C27.034 38.85 25.644 40 24.002 40C22.36 40 20.97 38.85 20.624 37.206C20.562 36.912 20.636 36.604 20.826 36.37C21.016 36.136 21.3 36 21.602 36H26.4Z" fill="#212121"/></svg>
-        <span class="text-sm md:text-2xl font-medium md:font-gelica" >Repository</span>
-      </a>
-  </nav>
+  <a
+    href="{{ site.baseurl }}/recherche/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/recherche/' %}text-primary{% endif %}"
+  >
+    <svg
+      class="w-12 md:w-10"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M13 21.5C13 16.8056 16.8056 13 21.5 13C26.1944 13 30 16.8056 30 21.5C30 23.8248 29.0667 25.9315 27.5544 27.4661C27.5392 27.4801 27.5241 27.4946 27.5093 27.5093C27.4946 27.5241 27.4801 27.5392 27.4661 27.5544C25.9315 29.0667 23.8248 30 21.5 30C16.8056 30 13 26.1944 13 21.5ZM28.502 30.6233C26.5628 32.1139 24.1349 33 21.5 33C15.1487 33 10 27.8513 10 21.5C10 15.1487 15.1487 10 21.5 10C27.8513 10 33 15.1487 33 21.5C33 24.1349 32.1139 26.5628 30.6233 28.502L37.5607 35.4393C38.1464 36.0251 38.1464 36.9749 37.5607 37.5607C36.9749 38.1465 36.0251 38.1465 35.4393 37.5607L28.502 30.6233Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-2xl font-medium md:font-gelica"
+      >Recherche</span
+    >
+  </a>
+  <a
+    href="https://github.com/DSestu/recettes-cuisine"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2"
+    target="_blank"
+  >
+    <svg
+      class="w-12 md:w-10"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M24 8C17.9256 8 13 12.9256 13 19V28.5C13 29.8816 11.8816 31 10.5 31C9.67157 31 9 31.6716 9 32.5C9 33.3284 9.67157 34 10.5 34H37.5C38.3284 34 39 33.3284 39 32.5C39 31.6716 38.3284 31 37.5 31C36.1184 31 35 29.8816 35 28.5V19C35 12.9256 30.0744 8 24 8ZM32 28.5C32 29.4003 32.2161 30.25 32.5994 31H15.4006C15.7839 30.25 16 29.4003 16 28.5V19C16 14.5824 19.5824 11 24 11C28.4176 11 32 14.5824 32 19V28.5ZM26.4 36C26.702 36 26.986 36.136 27.176 36.37C27.366 36.604 27.442 36.912 27.38 37.206C27.034 38.85 25.644 40 24.002 40C22.36 40 20.97 38.85 20.624 37.206C20.562 36.912 20.636 36.604 20.826 36.37C21.016 36.136 21.3 36 21.602 36H26.4Z"
+        fill="#212121"
+      />
+    </svg>
+    <span class="text-sm md:text-2xl font-medium md:font-gelica"
+      >Repository</span
+    >
+  </a>
+</nav>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Select all links with the .coming-soon class
-      document.querySelectorAll('.coming-soon').forEach(link => {
-        link.addEventListener('click', function(event) {
-          event.preventDefault(); // Prevent the default link behavior
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Select all links with the .coming-soon class
+    document.querySelectorAll(".coming-soon").forEach((link) => {
+      link.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent the default link behavior
 
-          // Find the inner element with the .label class
-          const label = this.querySelector('.label');
-          if (label) {
-            label.textContent = 'Soon'; // Change the text content to "Soon"
-          }
-        });
+        // Find the inner element with the .label class
+        const label = this.querySelector(".label");
+        if (label) {
+          label.textContent = "Soon"; // Change the text content to "Soon"
+        }
       });
     });
+  });
 
-    // Smooth hide/show nav on scroll (mobile only)
-    (function(){
-      const nav = document.querySelector('body > nav');
-      if (!nav) return;
-      let lastY = window.scrollY || 0;
-      window.addEventListener('scroll', () => {
-        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+  // Smooth hide/show nav on scroll (mobile only)
+  (function () {
+    const nav = document.querySelector("body > nav");
+    if (!nav) return;
+    let lastY = window.scrollY || 0;
+    window.addEventListener(
+      "scroll",
+      () => {
+        const isDesktop = window.matchMedia("(min-width: 768px)").matches;
         if (isDesktop) {
           // Always keep nav visible on desktop
-          nav.classList.remove('nav-hidden');
-          nav.classList.add('nav-visible');
+          nav.classList.remove("nav-hidden");
+          nav.classList.add("nav-visible");
           lastY = window.scrollY || 0;
           return;
         }
@@ -172,25 +305,45 @@
         const goingDown = y > lastY && y > 8;
         const atTop = y <= 0;
         // If nav was hidden (e.g., toggled or initial state on some pages), allow scroll-up to reveal
-        if (nav.classList.contains('hidden') && (atTop || y < lastY)) {
-          nav.classList.remove('hidden');
+        if (nav.classList.contains("hidden") && (atTop || y < lastY)) {
+          nav.classList.remove("hidden");
         }
         if (goingDown) {
-          nav.classList.add('nav-hidden');
-          nav.classList.remove('nav-visible');
+          nav.classList.add("nav-hidden");
+          nav.classList.remove("nav-visible");
         } else if (atTop || y < lastY) {
-          nav.classList.remove('nav-hidden');
-          nav.classList.add('nav-visible');
+          nav.classList.remove("nav-hidden");
+          nav.classList.add("nav-visible");
         }
         lastY = y;
-      }, { passive: true });
-      // Ensure fully visible after orientation/resize
-      window.addEventListener('resize', ()=>{
-        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
-        if (isDesktop) {
-          nav.classList.remove('nav-hidden');
-          nav.classList.add('nav-visible');
-        }
-      });
-    })();
-  </script>
+      },
+      { passive: true }
+    );
+    // Ensure fully visible after orientation/resize
+    window.addEventListener("resize", () => {
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      if (isDesktop) {
+        nav.classList.remove("nav-hidden");
+        nav.classList.add("nav-visible");
+      }
+    });
+  })();
+
+  // Disable context menu on mobile (prevent long-press right-click behavior)
+  (function () {
+    const isMobile =
+      window.matchMedia("(max-width: 767px)").matches ||
+      "ontouchstart" in window ||
+      (navigator.maxTouchPoints || 0) > 0;
+    if (!isMobile) return;
+    document.addEventListener(
+      "contextmenu",
+      function (e) {
+        try {
+          e.preventDefault();
+        } catch (_) {}
+      },
+      { capture: true }
+    );
+  })();
+</script>

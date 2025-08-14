@@ -28,7 +28,7 @@ layout: default
           background-position: center;
         }
       }
-      /* Mobile: keep the image static (fixed) and let the recipe scroll over it */
+      /* Mobile: keep the image static (fixed) and ensure the article scrolls on top of it */
       @media (max-width: 767px) {
         .image {
           position: fixed;
@@ -37,7 +37,7 @@ layout: default
           width: 100%;
           height: 56.25vw;
           min-height: 240px;
-          z-index: 0;
+          z-index: 0; /* stays behind */
         }
         .image .view {
           width: 100%;
@@ -47,7 +47,7 @@ layout: default
         }
         .post-content {
           position: relative;
-          z-index: 1;
+          z-index: 10; /* render above the fixed photo */
           padding-top: calc(56.25vw + 16px);
           background: linear-gradient(
             to bottom,
