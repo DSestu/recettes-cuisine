@@ -65,12 +65,14 @@ layout: default
   </div>
 
   <div class="recipes mb-24 py-8">
-    <h2 class="text-red-950 md:text-primary uppercase font-semibold mb-2 px-6">
+    <h2
+      class="hidden md:block text-red-950 md:text-primary uppercase font-semibold mb-2 px-6"
+    >
       Most Recent
     </h2>
 
     <div
-      class="flex overflow-scroll md:overflow-visible snap-x md:grid px-6 md:h-full md:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6"
+      class="hidden md:grid px-6 md:h-full md:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6"
     >
       <!-- First 3 Recipes -->
       {% assign first_recipes = site.recipes | sort:"date" %} {% for post in
@@ -102,7 +104,7 @@ layout: default
       {% endfor %}
     </div>
 
-    <div class="grid px-6 h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+    <div class="hidden md:grid px-6 h-full md:grid-cols-3 gap-4 md:gap-6">
       {% assign sorted = site.recipes | sort:"date" %} {% for post in sorted
       offset:3 %}
       <a
@@ -123,6 +125,32 @@ layout: default
           %}
         >
         </canvas>
+        <h1 class="font-semibold leading-tight">{{ post.title }}</h1>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Mobile-only full grid (shows all recipes) -->
+    <div class="grid px-6 h-full grid-cols-2 gap-4 md:hidden">
+      {% assign sorted_mobile = site.recipes | sort:"date" %} {% for post in
+      sorted_mobile %}
+      <a
+        class="recipe md:hover:scale-105 md:hover:rotate-1 transition"
+        href="{{ post.url | prepend: site.baseurl }}"
+      >
+        <canvas
+          class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"
+          {%
+          for
+          image
+          in
+          post.image
+          %}
+          style="background-image:url({{site.baseurl}}/images/{{ image }});"
+          {%
+          endfor
+          %}
+        ></canvas>
         <h1 class="font-semibold leading-tight">{{ post.title }}</h1>
       </a>
       {% endfor %}
@@ -164,48 +192,6 @@ layout: default
         <h1 class="font-semibold leading-tight">{{ component.title }}</h1>
       </a>
       {% endfor %}
-    </div>
-  </div>
-
-  <div class="px-6 mt-2 mb-20">
-    <div class="flex flex-col gap-6">
-      <div>
-        <h3 class="text-primary uppercase font-semibold mb-2">
-          Ingrédients suggérés
-        </h3>
-        {% assign ingredient_suggestions =
-        "ail,oignon,carotte,poulet,beurre,fromage,lentilles,patate" | split: ","
-        %}
-        <div class="flex flex-wrap gap-2">
-          {% for ing in ingredient_suggestions %}
-          <a
-            class="px-3 py-1 rounded-full border text-sm bg-white text-primary border-primary hover:bg-red-50"
-            href="{{ site.baseurl }}/recherche/?ingredients={{ ing | url_encode }}"
-          >
-            {{ ing }}
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div>
-        <h3 class="text-primary uppercase font-semibold mb-2">Tags suggérés</h3>
-        {% assign all_tags = "" %} {% for recipe in site.recipes %} {% for tag
-        in recipe.tags %} {% assign tag = tag | strip %} {% unless all_tags
-        contains tag %} {% assign all_tags = all_tags | append: tag | append:
-        "," %} {% endunless %} {% endfor %} {% endfor %} {% assign tag_array =
-        all_tags | split: "," %}
-        <div class="flex flex-wrap gap-2">
-          {% for tag in tag_array limit:8 %} {% if tag != "" %}
-          <a
-            class="px-3 py-1 rounded-full border text-sm bg-primary text-white border-primary hover:opacity-90"
-            href="{{ site.baseurl }}/recherche/?tags={{ tag | url_encode }}"
-          >
-            {{ tag }}
-          </a>
-          {% endif %} {% endfor %}
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -267,9 +253,17 @@ layout: default
           }
           if (ok) {
             it.card.style.display = "";
-            matches++;
           } else {
             it.card.style.display = "none";
+          }
+        }
+        // Count only actually visible cards (not hidden by CSS breakpoints)
+        for (const it of items) {
+          if (
+            it.card.style.display !== "none" &&
+            it.card.offsetParent !== null
+          ) {
+            matches++;
           }
         }
         if (countEl) {
