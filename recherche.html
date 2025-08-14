@@ -1623,7 +1623,8 @@ permalink: /recherche/
       .domain([0, 0.5, 1])
       .range(['#93c5fd', '#6366f1', '#7e22ce']);
     const colorizeByWeight = (useTokenToken || useRecipeRecipe) && weightingEnabled && weightMode !== 'uniform';
-    const link = g.append('g').attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(filteredLinks).enter().append('line')
+    const linkLayer = g.append('g').attr('class','link-layer');
+    const link = linkLayer.attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(filteredLinks).enter().append('line')
       .attr('stroke-width', d => {
         if (!weightingEnabled) return 1;
         if (weightMode === 'uniform') return 1;
@@ -1641,23 +1642,25 @@ permalink: /recherche/
               const tid = (typeof L.target === 'object') ? L.target.id : L.target;
               return acc + (sid === selNode.id || tid === selNode.id ? 1 : 0);
             }, 0);
-            // narrow red edges: ~2-3px depending on degree
-            const extra = Math.min(1, Math.log2(1 + adj) / 3);
-            return 2 + extra;
+            // slightly thicker red edges in selection mode: ~3-4px depending on degree
+            const extra = Math.min(1, Math.log2(1 + adj) / 2);
+            return 3 + extra;
           }
           return 1; // non-adjacent stay uniform
         }
         return linkScale(d.weight);
       })
       .attr('stroke', d => {
-        // In recipe-recipe or token-token modes, color edges by intensity
-        if (colorizeByWeight) {
+        // In selection mode or in recipe-recipe/token-token with weighted coloring,
+        // color edges by intensity, then override with red for selected-tag adjacency
+        const useIntensityColor = selectionModeActive || colorizeByWeight;
+        if (useIntensityColor) {
           const c = edgeColorScale(d.weight);
-          // cache base color on datum for later restoration after hover
-          d.baseColor = c;
-          return c;
+          d.baseColor = c; // cache for hover restore
+        } else {
+          d.baseColor = null;
         }
-        // Otherwise preserve selection-based styling
+        // Preserve selection-based red for edges adjacent to selected tags
         if (selectionModeActive && selectedSet.size > 0) {
           const sa = idToNode.get(typeof d.source === 'object' ? d.source.id : d.source);
           const sb = idToNode.get(typeof d.target === 'object' ? d.target.id : d.target);
@@ -1665,11 +1668,31 @@ permalink: /recherche/
           const bSel = sb?.type === 'tag' && selectedSet.has(sb.label);
           if (aSel || bSel) return '#F53200';
         }
+        if (useIntensityColor && d.baseColor) return d.baseColor;
         return 'rgba(148,163,184,0.55)';
       });
-    // Draw wider (stronger) edges last so they appear on top
+    // Draw wider (stronger) edges last so they appear on top (but still under nodes)
     if (colorizeByWeight) {
       try { link.sort((a, b) => (a.weight - b.weight)); } catch (_) {}
+    }
+    // In selection mode, ensure red edges are on top of other edges (still behind nodes)
+    if (selectionModeActive && selectedSet.size > 0) {
+      try {
+        const redEdges = [];
+        const otherEdges = [];
+        link.each(function(d){
+          const sa = idToNode.get(typeof d.source === 'object' ? d.source.id : d.source);
+          const sb = idToNode.get(typeof d.target === 'object' ? d.target.id : d.target);
+          const aSel = sa?.type === 'tag' && selectedSet.has(sa.label);
+          const bSel = sb?.type === 'tag' && selectedSet.has(sb.label);
+          ((aSel || bSel) ? redEdges : otherEdges).push(this);
+        });
+        // Append red edges at end of the same layer to bring them to the top (under nodes)
+        otherEdges.forEach(el => linkLayer.node().appendChild(el));
+        redEdges.forEach(el => linkLayer.node().appendChild(el));
+        // Ensure node layer is above links
+        node.raise();
+      } catch (_) {}
     }
     const node = g.append('g').selectAll('g').data(filteredNodes).enter().append('g').call(d3.drag()
         .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
@@ -1806,6 +1829,26 @@ permalink: /recherche/
             return adjacentDirect ? 0.9 : 0.15;
           })
           .attr('stroke', L => defaultLinkStroke(L));
+        // Bring adjacent red edges to top during hover in selection mode
+        if (selectionModeActive && selectedSet.size > 0) {
+          try {
+            const reds = [];
+            link.each(function(d){
+              const sid = (typeof d.source === 'object') ? d.source.id : d.source;
+              const tid = (typeof d.target === 'object') ? d.target.id : d.target;
+              const adjacentDirect = (sid === targetId || tid === targetId);
+              if (!adjacentDirect) return;
+              const sa = idToNode.get(typeof d.source === 'object' ? d.source.id : d.source);
+              const sb = idToNode.get(typeof d.target === 'object' ? d.target.id : d.target);
+              const aSel = sa?.type === 'tag' && selectedSet.has(sa.label);
+              const bSel = sb?.type === 'tag' && selectedSet.has(sb.label);
+              if (aSel || bSel) reds.push(this);
+            });
+            const layer = linkLayer && linkLayer.node ? linkLayer.node() : g.node();
+            reds.forEach(el => layer.appendChild(el));
+            node.raise();
+          } catch (_) {}
+        }
       } catch (_) { /* noop */ }
     }
 
