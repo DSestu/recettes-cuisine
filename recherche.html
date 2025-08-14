@@ -1538,8 +1538,30 @@ permalink: /recherche/
     // Remove isolated nodes: keep only nodes that participate in at least one link
     const usedIds = new Set();
     for (const l of links) { usedIds.add(l.source); usedIds.add(l.target); }
-    const filteredNodes = nodes.filter(n => usedIds.has(n.id));
-    const filteredLinks = links.filter(l => usedIds.has(l.source) && usedIds.has(l.target));
+    let filteredNodes = nodes.filter(n => usedIds.has(n.id));
+    let filteredLinks = links.filter(l => usedIds.has(l.source) && usedIds.has(l.target));
+    // Optional: filter out terminal nodes (degree == 1) when toggle is on
+    const hideTerminal = !!window.__hideTerminalNodes;
+    if (hideTerminal) {
+      const deg = new Map();
+      for (const l of filteredLinks) {
+        const a = (typeof l.source === 'object') ? l.source.id : l.source;
+        const b = (typeof l.target === 'object') ? l.target.id : l.target;
+        deg.set(a, (deg.get(a) || 0) + 1);
+        deg.set(b, (deg.get(b) || 0) + 1);
+      }
+      const keep = new Set(filteredNodes.filter(n => (deg.get(n.id) || 0) > 1).map(n=>n.id));
+      filteredNodes = filteredNodes.filter(n => keep.has(n.id));
+      filteredLinks = filteredLinks.filter(l => keep.has((typeof l.source === 'object') ? l.source.id : l.source) && keep.has((typeof l.target === 'object') ? l.target.id : l.target));
+      // After removing terminals, recipes/components that lost all edges should also be removed
+      const usedAfter = new Set();
+      for (const l of filteredLinks) {
+        const sa = (typeof l.source === 'object') ? l.source.id : l.source;
+        const sb = (typeof l.target === 'object') ? l.target.id : l.target;
+        usedAfter.add(sa); usedAfter.add(sb);
+      }
+      filteredNodes = filteredNodes.filter(n => usedAfter.has(n.id));
+    }
 
     // Normalize link weights to [0,1] based on filtered links
     const ext = d3.extent(filteredLinks, d=>d.weightRaw);
@@ -2349,6 +2371,7 @@ permalink: /recherche/
           </div>
           <div class="flex items-center justify-start gap-2 mt-2 w-full">
             <button id="fs-layout-toggle" type="button" class="px-3 py-1 rounded-full border-2 border-white text-white shadow-sm transition"></button>
+            <button id="fs-terminal-toggle" type="button" class="px-3 py-1 rounded-full border-2 border-white text-white shadow-sm transition" title="Masquer les terminaux"></button>
           </div>
           <div class="flex items-center justify-start gap-2 mt-2 w-full">
             <input id="fs-missing-tolerance" type="range" min="0" max="5" class="accent-primary w-28">
@@ -2415,6 +2438,24 @@ permalink: /recherche/
           });
           updateFsLayoutButton();
           addPressAnim(fsLayoutBtn);
+        }
+
+        // Terminal nodes toggle
+        const fsTermBtn = miniControls.querySelector('#fs-terminal-toggle');
+        function updateFsTerminalButton(){
+          const on = !!window.__hideTerminalNodes;
+          fsTermBtn.textContent = on ? '∴ on' : '∴ off';
+          fsTermBtn.style.background = on ? '#16a34a' : '#9ca3af';
+        }
+        if (fsTermBtn) {
+          fsTermBtn.addEventListener('click', ()=>{
+            window.__hideTerminalNodes = !window.__hideTerminalNodes;
+            updateFsTerminalButton();
+            if (typeof refresh === 'function') refresh();
+            if (window.pushControlsToUrl) window.pushControlsToUrl();
+          });
+          updateFsTerminalButton();
+          addPressAnim(fsTermBtn);
         }
 
         // FS link-mode buttons coloring based on the selected link mode
