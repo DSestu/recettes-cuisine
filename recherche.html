@@ -956,7 +956,7 @@ permalink: /recherche/
     const usingTagsForNodes = (state.mode === 'tag');
     const hideTop = Number(document.getElementById('hide-top-ingredients').value || 0);
     const sortedByGlobal = Array.from(tagCount.entries()).sort((a,b)=>{
-      if (b[1] !== a[1]) return b[1]-a[1];
+      if (a[1] !== b[1]) return a[1]-b[1];
       return String(a[0]).localeCompare(String(b[0]), 'fr', { sensitivity: 'base' });
     });
     window.__hiddenTopBlacklist = window.__hiddenTopBlacklist || new Set();
@@ -1417,7 +1417,7 @@ permalink: /recherche/
     const pruneRare = false;
     const hideTop = Number(document.getElementById('hide-top-ingredients').value || 0);
     const sortedTokensArr = Array.from(tokCount.entries()).sort((a,b)=>{
-      if (b[1] !== a[1]) return b[1]-a[1];
+      if (a[1] !== b[1]) return a[1]-b[1];
       return String(a[0]).localeCompare(String(b[0]), 'fr', { sensitivity: 'base' });
     });
     // Maintain a persistent blacklist across refreshes during the session
@@ -1432,7 +1432,7 @@ permalink: /recherche/
       .filter(k => !(usingTagsForNodes && selectedTagSet.has(String(k))));
     const limitedTokensArr = sortedTokensArr
       .filter(([k]) => !hiddenTop.includes(k))
-      .slice(0, maxIng);
+      .slice(-maxIng);
     const topTokens = new Set(limitedTokensArr.map(([k])=>k));
     const tokenWeight = new Map(limitedTokensArr.map(([k,v])=>[k, v]));
     const recipes = items.slice(0, maxRec); // limit
