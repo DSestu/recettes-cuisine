@@ -127,6 +127,26 @@
       opacity: 1;
       pointer-events: auto;
     }
+    /* Mobile-only compaction for navbar: smaller bar, icons, and labels */
+    @media (max-width: 767px) {
+      .mobile-nav {
+        padding: 4px 8px;
+        gap: 6px;
+        /* ensure safe-area preserved but tighter */
+        padding-bottom: calc(env(safe-area-inset-bottom) + 4px);
+      }
+      .mobile-nav a {
+        gap: 2px;
+      }
+      .mobile-nav a svg {
+        width: 1.25rem !important; /* ~20px */
+        height: 1.25rem !important;
+      }
+      .mobile-nav a span {
+        font-size: 0.75rem !important; /* ~12px */
+        line-height: 1.05;
+      }
+    }
   </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
