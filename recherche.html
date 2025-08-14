@@ -1624,6 +1624,16 @@ permalink: /recherche/
       .range(['#93c5fd', '#6366f1', '#7e22ce']);
     const colorizeByWeight = (useTokenToken || useRecipeRecipe) && weightingEnabled && weightMode !== 'uniform';
     const linkLayer = g.append('g').attr('class','link-layer');
+    // Precompute tag degrees for selection mode coloring by originating tag degree
+    const tagDegree = new Map();
+    if (selectionModeActive) {
+      for (const l of filteredLinks) {
+        const a = idToNode.get(typeof l.source === 'object' ? l.source.id : l.source);
+        const b = idToNode.get(typeof l.target === 'object' ? l.target.id : l.target);
+        if (a && a.type === 'tag') tagDegree.set(a.id, (tagDegree.get(a.id) || 0) + 1);
+        if (b && b.type === 'tag') tagDegree.set(b.id, (tagDegree.get(b.id) || 0) + 1);
+      }
+    }
     const link = linkLayer.attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(filteredLinks).enter().append('line')
       .attr('stroke-width', d => {
         if (!weightingEnabled) return 1;
@@ -1651,12 +1661,26 @@ permalink: /recherche/
         return linkScale(d.weight);
       })
       .attr('stroke', d => {
-        // In selection mode or in recipe-recipe/token-token with weighted coloring,
-        // color edges by intensity, then override with red for selected-tag adjacency
-        const useIntensityColor = selectionModeActive || colorizeByWeight;
-        if (useIntensityColor) {
+        // In selection mode: color by originating tag degree (proportional, independent from width)
+        // Otherwise (recipe-recipe / token-token): color by link weight
+        let useIntensityColor = colorizeByWeight;
+        if (selectionModeActive) {
+          useIntensityColor = true;
+          // pick the tag endpoint (if any) and use its degree; fallback to link weight
+          const a = idToNode.get(typeof d.source === 'object' ? d.source.id : d.source);
+          const b = idToNode.get(typeof d.target === 'object' ? d.target.id : d.target);
+          let degree = 0;
+          if (a && a.type === 'tag') degree = tagDegree.get(a.id) || 0;
+          else if (b && b.type === 'tag') degree = tagDegree.get(b.id) || 0;
+          // normalize degree to [0,1] locally based on current edges involving tags
+          let maxDeg = 1;
+          for (const v of tagDegree.values()) if (v > maxDeg) maxDeg = v;
+          const normDeg = Math.max(0, Math.min(1, degree / maxDeg));
+          const c = edgeColorScale(normDeg);
+          d.baseColor = c;
+        } else if (useIntensityColor) {
           const c = edgeColorScale(d.weight);
-          d.baseColor = c; // cache for hover restore
+          d.baseColor = c;
         } else {
           d.baseColor = null;
         }
