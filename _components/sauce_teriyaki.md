@@ -5,12 +5,13 @@ image: sauce_terriyaki.jpg
 
 tags:
 - japon
-- terriyaki
 - marinnade
-- sucre
-- sauce soja claire
 - saké
+- sauce soja claire
 - sauce soja foncée
+- sauce soja
+- sucre
+- terriyaki
 
 
 ingredients:

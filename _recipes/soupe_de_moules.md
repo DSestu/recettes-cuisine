@@ -18,7 +18,7 @@ tags:
 - persil
 - beurre
 - huile d'olive
-- oignons
+- oignon
 - poireaux
 - fenouil
 - eau

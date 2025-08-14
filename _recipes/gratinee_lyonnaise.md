@@ -7,7 +7,7 @@ image: gratinee_lyonnaise.webp
 tags:
 - repas
 - soupe
-- oignons
+- oignon
 - gruyere
 - pain
 - bocuse

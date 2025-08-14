@@ -10,7 +10,7 @@ tags:
 - poulet
 - curry
 - riz
-- oignons
+- oignon
 - sauce huitre
 - poivre
 - piment d'espelette
