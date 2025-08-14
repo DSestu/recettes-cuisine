@@ -3,7 +3,7 @@
 layout: recipe
 title: "Tiramisu (classique au café)"
 image: tiramisu.jpg
-imagecredit: _
+
 
 tags:
 - amaretto

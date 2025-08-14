@@ -2,7 +2,7 @@
 layout: recipe
 title: "Soupe savoyarde"
 image: soupe_savoyarde.webp
-imagecredit: _
+
 
 tags:
 - repas

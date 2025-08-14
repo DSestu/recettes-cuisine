@@ -2,7 +2,7 @@
 layout: recipe
 title: "Soupe de poireaux et pommes de terre"
 image: soupe_poireau_pommes_de_terres.jpg
-imagecredit: _
+
 
 tags:
 - repas

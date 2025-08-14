@@ -2,7 +2,7 @@
 layout: recipe
 title: "Maquereaux marinés"
 image: maquereaux_marines.jpg
-imagecredit: _
+
 
 tags:
 - poisson

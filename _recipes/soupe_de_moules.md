@@ -2,7 +2,7 @@
 layout: recipe
 title: "Soupe de moules"
 image: soupe_de_moules.jpeg
-imagecredit: _
+
 
 tags:
 - repas

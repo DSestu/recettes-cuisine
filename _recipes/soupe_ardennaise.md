@@ -2,7 +2,7 @@
 layout: recipe
 title: "Soupe ardennaise"
 image: soupe_ardennaise.webp
-imagecredit: _
+
 
 tags:
 - repas

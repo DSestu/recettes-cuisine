@@ -3,7 +3,7 @@
 layout: recipe
 title:  "Gateau de riz"
 image: gateau_de_riz.jpg
-imagecredit: _
+
 
 tags:
 - sestu

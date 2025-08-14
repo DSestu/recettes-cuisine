@@ -3,7 +3,7 @@
 layout: recipe
 title:  "Poulet curry"
 image: poulet_curry.jpg
-imagecredit: _
+
 
 tags:
 - repas

@@ -2,7 +2,7 @@
 layout: recipe
 title: "Velouté d'asperges"
 image: veloute_asperges.jpeg
-imagecredit: _
+
 
 tags:
 - repas

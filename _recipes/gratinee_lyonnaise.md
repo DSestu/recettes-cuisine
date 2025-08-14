@@ -2,7 +2,7 @@
 layout: recipe
 title: "Gratinée lyonnaise"
 image: gratinee_lyonnaise.webp
-imagecredit: _
+
 
 tags:
 - repas

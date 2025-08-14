@@ -2,7 +2,7 @@
 layout: recipe
 title: "Soupe nîmoise"
 image: soupe_nimoise.jpg
-imagecredit: _
+
 
 tags:
 - repas

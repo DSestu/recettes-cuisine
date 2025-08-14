@@ -2,7 +2,7 @@
 layout: recipe
 title: "Champignons en salade"
 image: champignons_en_salade.jpg
-imagecredit: _
+
 
 tags:
 - salade

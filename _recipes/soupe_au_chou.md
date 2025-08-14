@@ -2,7 +2,7 @@
 layout: recipe
 title: "Soupe au chou"
 image: soupe_au_chou.webp
-imagecredit: _
+
 
 tags:
 - repas

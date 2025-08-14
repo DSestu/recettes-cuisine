@@ -3,7 +3,7 @@
 layout: recipe
 title: "Pounchkis (beignets fourrés)"
 image: pounchkis.jpg
-imagecredit: _
+
 
 tags:
 - beignets

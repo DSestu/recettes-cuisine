@@ -2,7 +2,7 @@
 layout: recipe
 title: "Soupe à l'oignon"
 image: soupe_a_loignon.jpeg
-imagecredit: _
+
 
 tags:
 - repas

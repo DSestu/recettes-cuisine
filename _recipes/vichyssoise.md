@@ -2,7 +2,7 @@
 layout: recipe
 title: "Vichyssoise"
 image: vichyssoise.webp
-imagecredit: _
+
 
 tags:
 - repas
