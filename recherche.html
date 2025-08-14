@@ -1618,6 +1618,11 @@ permalink: /recherche/
     }
 
     const linkScale = d3.scaleLinear().domain([0,1]).range([1, 4 + 6*impact]);
+    // Edge color scale (colorblind-friendly, no red/green): soft → blue, medium → indigo, strong → deep purple
+    const edgeColorScale = d3.scaleLinear()
+      .domain([0, 0.5, 1])
+      .range(['#93c5fd', '#6366f1', '#7e22ce']);
+    const colorizeByWeight = (useTokenToken || useRecipeRecipe) && weightingEnabled && weightMode !== 'uniform';
     const link = g.append('g').attr('stroke', 'rgba(148,163,184,0.55)').selectAll('line').data(filteredLinks).enter().append('line')
       .attr('stroke-width', d => {
         if (!weightingEnabled) return 1;
@@ -1645,6 +1650,14 @@ permalink: /recherche/
         return linkScale(d.weight);
       })
       .attr('stroke', d => {
+        // In recipe-recipe or token-token modes, color edges by intensity
+        if (colorizeByWeight) {
+          const c = edgeColorScale(d.weight);
+          // cache base color on datum for later restoration after hover
+          d.baseColor = c;
+          return c;
+        }
+        // Otherwise preserve selection-based styling
         if (selectionModeActive && selectedSet.size > 0) {
           const sa = idToNode.get(typeof d.source === 'object' ? d.source.id : d.source);
           const sb = idToNode.get(typeof d.target === 'object' ? d.target.id : d.target);
@@ -1654,6 +1667,10 @@ permalink: /recherche/
         }
         return 'rgba(148,163,184,0.55)';
       });
+    // Draw wider (stronger) edges last so they appear on top
+    if (colorizeByWeight) {
+      try { link.sort((a, b) => (a.weight - b.weight)); } catch (_) {}
+    }
     const node = g.append('g').selectAll('g').data(filteredNodes).enter().append('g').call(d3.drag()
         .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
         .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
@@ -1742,7 +1759,12 @@ permalink: /recherche/
       return !!(aSel || bSel);
     }
     function defaultLinkStroke(L){
-      return linkIsRed(L) ? '#F53200' : 'rgba(148,163,184,0.55)';
+      // Preserve selection-based red when active
+      if (linkIsRed(L)) return '#F53200';
+      // Otherwise, restore the link's base color if available (e.g., intensity color)
+      if (L && L.baseColor) return L.baseColor;
+      // Fallback default
+      return 'rgba(148,163,184,0.55)';
     }
 
     function computeDefaultRadius(n){
