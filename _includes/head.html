@@ -224,14 +224,14 @@
 </head>
 
 <nav
-  class="mobile-nav nav-visible w-screen md:w-1/4 lg:w-1/5 md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-8 md:gap-4 z-[9999] shadow-3xl md:shadow-none {% if page.url contains '/recipes/' %}md:hidden{% endif %}"
+  class="mobile-nav nav-visible w-screen md:w-48 lg:w-56 md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-5 md:gap-3 z-[9999] shadow-3xl md:shadow-none {% if page.url contains '/recipes/' %}md:hidden{% endif %}"
 >
   <a
     href="{{ site.baseurl }}/"
     class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/' %}text-primary{% endif %}"
   >
     <svg
-      class="w-12 md:w-10"
+      class="w-12 md:w-8"
       viewBox="0 0 40 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -241,7 +241,7 @@
         fill="currentColor"
       />
     </svg>
-    <span class="text-sm md:text-2xl font-medium md:font-gelica">Acceuil</span>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Acceuil</span>
   </a>
 
   <a
@@ -249,7 +249,7 @@
     class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/recherche/' %}text-primary{% endif %}"
   >
     <svg
-      class="w-12 md:w-10"
+      class="w-12 md:w-8"
       viewBox="0 0 48 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -261,9 +261,7 @@
         fill="currentColor"
       />
     </svg>
-    <span class="text-sm md:text-2xl font-medium md:font-gelica"
-      >Recherche</span
-    >
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Recherche</span>
   </a>
   <a
     href="https://github.com/DSestu/recettes-cuisine"
@@ -271,7 +269,7 @@
     target="_blank"
   >
     <svg
-      class="w-12 md:w-10"
+      class="w-12 md:w-8"
       viewBox="0 0 48 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -283,7 +281,7 @@
         fill="#212121"
       />
     </svg>
-    <span class="text-sm md:text-2xl font-medium md:font-gelica"
+    <span class="text-sm md:text-xl font-medium md:font-gelica"
       >Repository</span
     >
   </a>
