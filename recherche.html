@@ -2672,6 +2672,9 @@ permalink: /recherche/
         if (showRecEl) showRecEl.checked = true;
         if (showTokEl) showTokEl.checked = true;
         if (showCompEl) showCompEl.checked = true; // show components otherwise
+        // force edge weight to selection (par tags) for recipe-token
+        const ewSel = document.getElementById('edge-weight-mode');
+        if (ewSel) ewSel.value = 'select';
       }
       if (val === 'recipe-recipe') {
         if (showRecEl) showRecEl.checked = true;
