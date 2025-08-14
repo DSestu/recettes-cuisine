@@ -356,25 +356,11 @@ permalink: /recherche/
             </button>
           </div>
           <svg id="tags-chart" class="w-full" style="height: 360px"></svg>
-          <!-- This is hidden because if we remove it it won't work anymore -->
-          <div
-            class="hidden viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm"
-          >
-            <div class="flex items-center justify-between mb-2">
-              <h3 class="font-semibold">Ingrédients (Top 20)</h3>
-              <button
-                id="reset-ingredients"
-                class="text-sm text-primary underline underline-offset-2"
-              >
-                Réinitialiser
-              </button>
-            </div>
-            <svg
-              id="ingredients-chart"
-              class="w-full"
-              style="height: 360px"
-            ></svg>
-          </div>
+          <svg
+            id="ingredients-chart"
+            class="hidden w-full"
+            style="height: 360px"
+          ></svg>
         </div>
       </div>
     </div>
@@ -2542,7 +2528,7 @@ permalink: /recherche/
     document.addEventListener('click', (e)=>{ if (!tagAuto.contains(e.target) && e.target !== tagInput) tagAuto.classList.add('hidden'); });
 
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
-    $('#reset-ingredients').addEventListener('click', ()=>{ state.selectedTokens.clear(); updateSelectedChips(); refresh(); });
+    // reset-ingredients button was removed with hidden wrapper
 
     // Paramètres URL (?q= & ingredients=a,b & tags=x,y & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
     const params = new URLSearchParams(window.location.search);
