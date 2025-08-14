@@ -2399,6 +2399,16 @@ permalink: /recherche/
             <span id="fs-hide-top-value" class="text-black text-base w-8 text-center"></span>
             <span class="text-black text-base">Masquer top fréquents</span>
           </div>
+          <div class="flex items-center justify-start gap-2 mt-2 w-full">
+            <input id="fs-max-recipes" type="range" min="10" max="150" class="accent-primary w-28">
+            <span id="fs-max-recipes-value" class="text-black text-base w-8 text-center"></span>
+            <span class="text-black text-base">Max recettes</span>
+          </div>
+          <div class="flex items-center justify-start gap-2 mt-2 w-full">
+            <input id="fs-max-ingredients" type="range" min="10" max="150" class="accent-primary w-28">
+            <span id="fs-max-ingredients-value" class="text-black text-base w-8 text-center"></span>
+            <span class="text-black text-base">Max ingrédients</span>
+          </div>
         `;
         container.appendChild(miniControls);
         // Hook mini badges to underlying checkboxes
@@ -2533,6 +2543,10 @@ permalink: /recherche/
         const mainHideTopValue = document.getElementById('hide-top-ingredients-value');
         const fsHideTop = miniControls.querySelector('#fs-hide-top');
         const fsHideTopValue = miniControls.querySelector('#fs-hide-top-value');
+        const fsMaxRec = miniControls.querySelector('#fs-max-recipes');
+        const fsMaxRecValue = miniControls.querySelector('#fs-max-recipes-value');
+        const fsMaxIng = miniControls.querySelector('#fs-max-ingredients');
+        const fsMaxIngValue = miniControls.querySelector('#fs-max-ingredients-value');
         function updateFsHideTopControls(){
           if (fsHideTop && mainHideTop) fsHideTop.value = String(mainHideTop.value);
           if (fsHideTopValue && mainHideTop) fsHideTopValue.textContent = String(mainHideTop.value);
@@ -2549,6 +2563,41 @@ permalink: /recherche/
         }
         if (mainHideTop) mainHideTop.addEventListener('input', updateFsHideTopControls);
         updateFsHideTopControls();
+
+        // Max recipes / ingredients controls (mirror main controls)
+        const mainMaxRec = document.getElementById('max-recipes');
+        const mainMaxRecValue = document.getElementById('max-recipes-value');
+        const mainMaxIng = document.getElementById('max-ingredients');
+        const mainMaxIngValue = document.getElementById('max-ingredients-value');
+
+        function updateFsMaxControls(){
+          if (fsMaxRec && mainMaxRec) fsMaxRec.value = String(mainMaxRec.value);
+          if (fsMaxRecValue && mainMaxRec) fsMaxRecValue.textContent = String(mainMaxRec.value);
+          if (fsMaxIng && mainMaxIng) fsMaxIng.value = String(mainMaxIng.value);
+          if (fsMaxIngValue && mainMaxIng) fsMaxIngValue.textContent = String(mainMaxIng.value);
+        }
+        window.updateFsMaxControls = updateFsMaxControls;
+        if (fsMaxRec && mainMaxRec && mainMaxRecValue) {
+          fsMaxRec.addEventListener('input', ()=>{
+            mainMaxRec.value = fsMaxRec.value;
+            mainMaxRecValue.textContent = fsMaxRec.value;
+            if (fsMaxRecValue) fsMaxRecValue.textContent = fsMaxRec.value;
+            if (typeof refresh === 'function') refresh();
+            if (window.pushControlsToUrl) window.pushControlsToUrl();
+          });
+        }
+        if (fsMaxIng && mainMaxIng && mainMaxIngValue) {
+          fsMaxIng.addEventListener('input', ()=>{
+            mainMaxIng.value = fsMaxIng.value;
+            mainMaxIngValue.textContent = fsMaxIng.value;
+            if (fsMaxIngValue) fsMaxIngValue.textContent = fsMaxIng.value;
+            if (typeof refresh === 'function') refresh();
+            if (window.pushControlsToUrl) window.pushControlsToUrl();
+          });
+        }
+        if (mainMaxRec) mainMaxRec.addEventListener('input', updateFsMaxControls);
+        if (mainMaxIng) mainMaxIng.addEventListener('input', updateFsMaxControls);
+        updateFsMaxControls();
       }
       // Toggle behavior for mini accordion
       if (miniToggle) {
