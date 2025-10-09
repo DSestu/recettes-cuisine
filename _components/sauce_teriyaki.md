@@ -5,6 +5,7 @@ image: sauce_teriyaki.jpg
 
 tags:
 - japon
+- voyage
 - soja
 - sauce soja foncée
 - teriyaki
