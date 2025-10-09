@@ -7,6 +7,7 @@ image: 0_TBD.jpg
 tags:
 - entrée
 - japon
+- voyage
 - carrot
 - burdock root
 - sesame oil
