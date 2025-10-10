@@ -1,6 +1,6 @@
 ---
 layout: recipe
-title:  "Sauce Ankake aux champignons"
+title:  "Sauce ankake aux champignons"
 image: ankake_sauce.jpg
 
 tags:

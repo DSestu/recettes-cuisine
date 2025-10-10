@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Okonomiyaki"
-image: 0_TBD.jpg
+image: okonomiyaki.webp
 
 
 tags:

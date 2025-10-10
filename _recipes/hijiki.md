@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Salade de racine de lotus et algue hijiki au miso"
-image: 0_TBD.jpg
+image: hijiki.jpg
 
 
 tags:

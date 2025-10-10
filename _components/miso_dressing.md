@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title:  "Vinaigrette miso"
-image: 0_TBD.jpg
+image: vinaigrette_miso.jpg
 
 tags:
 - japon
