@@ -12,6 +12,9 @@ tags:
 - sauce soja
 - sucre
 - teriyaki
+- sauce
+- assaisonnement
+- condiment
 
 
 ingredients:

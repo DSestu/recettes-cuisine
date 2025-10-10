@@ -1,6 +1,6 @@
 ---
 layout: recipe
-title: "Kinpira Gobo - Stir-fried Burdock root and carrot"
+title: "Kinpira Gobo - Racine de bardane et carotte sautées"
 image: 0_TBD.jpg
 
 
@@ -8,27 +8,30 @@ tags:
 - entrée
 - japon
 - voyage
-- carrot
-- burdock root
-- sesame oil
-- sesame
+- carotte
+- racine de bardane
+- huile de sésame
+- sésame
 - teriyaki
-- fried
+- sauté
+- sauce teriyaki
+- légumes
+- poêle
 
 ingredients:
-- 10g carrot
-- 15g burdock root
-- 1tsp sesame oil
-- 1/2tsp sesame
-- 2tsp teriyaki sauce
+- 10g de carotte
+- 15g de racine de bardane
+- 1 c. à café d'huile de sésame
+- 1/2 c. à café de sésame
+- 2 c. à café de sauce teriyaki
 
 directions:
-- Put Teriyaki sauce in a bowl
-- Shred carrot and burdock root
-- Put into a heated frying pan with sesame oil
-- Stir-fry until slightly cooked, then add teriyaki sauce to the pan
-- Stir everything together until the liquid is reduced
-- Sprinkle sesame and stir
+- Mettre la sauce teriyaki dans un bol
+- Râper la carotte et la racine de bardane
+- Mettre dans une poêle chauffée avec l'huile de sésame
+- Sauter jusqu'à ce que ce soit légèrement cuit, puis ajouter la sauce teriyaki dans la poêle
+- Tout mélanger jusqu'à ce que le liquide soit réduit
+- Saupoudrer de sésame et mélanger
 
 components:
 - Sauce teriyaki

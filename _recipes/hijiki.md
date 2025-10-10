@@ -1,6 +1,6 @@
 ---
 layout: recipe
-title: "Hijiki seaweed and lotus root Miso salad"
+title: "Salade de racine de lotus et algue hijiki au miso"
 image: 0_TBD.jpg
 
 
@@ -8,30 +8,35 @@ tags:
 - entrée
 - japon
 - voyage
-- lotus root
-- hijiki seaweend
-- tomato
+- salade
+- racine de lotus
+- algue hijiki
+- tomate
 - edamame
-- green soybeans
+- fèves de soja vertes
 - dashi
+- sésame
+- miso
+- tomate cerise
+- casserole
 
 ingredients:
-- 20g Lotus root
-- 1tsp Hijiki seaweed
-- 1 cherry tomato
-- 5g green soybeans
-- 50ml dashi
+- 20g de racine de lotus
+- 1 c. à café d'algue hijiki
+- 1 tomate cerise
+- 5g de fèves de soja vertes
+- 50ml de dashi
 
 directions:
-- Soak hijiki seaweed in water for 15 minutes, then drain
-- Slice lotus root thinly, and cut cherry tomatoes into small pieces
-- Add the lotus root, hijiki, and dashi to a bot and cook until the dashi is absorbed
-- Grind sesame to about 70% are crashed. Combine the miso dressing in a bowl
-- Add the cooked ingredients to the miso dressing, then add the cherry tomatoes and green soybeans, and mix everything together.
+- Faire tremper l'algue hijiki dans l'eau pendant 15 minutes, puis égoutter
+- Couper la racine de lotus en fines tranches, et couper les tomates cerises en petits morceaux
+- Ajouter la racine de lotus, l'hijiki et le dashi dans une casserole et cuire jusqu'à ce que le dashi soit absorbé
+- Moudre le sésame à environ 70% de broyage. Mélanger la vinaigrette miso dans un bol
+- Ajouter les ingrédients cuits à la vinaigrette miso, puis ajouter les tomates cerises et les fèves de soja vertes, et tout mélanger ensemble.
 
 components:
 - Dashi
-- Miso dressing
+- Vinaigrette miso
 ---
 
 Pour 1 personne.

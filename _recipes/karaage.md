@@ -1,6 +1,6 @@
 ---
 layout: recipe
-title: "Karaage - Japanese fried chicken with aromatic sauce"
+title: "Karaage - Poulet frit japonais avec sauce aromatique"
 image: 0_TBD.jpg
 
 
@@ -8,36 +8,39 @@ tags:
 - entrée
 - japon
 - voyage
-- fried
-- chicken
-- dark soy sauce
-- soy sauce
-- sake
-- ginger
-- potato starch
-- vinegar
+- frit
+- poulet
+- sauce soja foncée
+- sauce soja
+- saké
+- gingembre
+- fécule de pomme de terre
+- vinaigre
 - mirin
 - dashi
-- salted plum
-- radish
-- radish sprouts
+- prune salée
+- radis
+- pousses de radis
 - shiso
+- cuisse de poulet
+- marinade
+- friture
 
 ingredients:
-- 80g chicken thigh
-- 1tsp dark soy sauce
-- 1tsp sake
-- small amount ginger
-- 1-2tsp potato starch 
+- 80g de cuisse de poulet
+- 1 c. à café de sauce soja foncée
+- 1 c. à café de saké
+- petite quantité de gingembre
+- 1-2 c. à café de fécule de pomme de terre
 
 directions:
-- Marinate chicken with dark soy sauce, sake, and grated ginger, and let sit for about 20 minutes to season
-- Add potato starch to marinated chicken and mix.
-- Deep fry in heated oil (180°C) until cooked through.
-- Place on a plate and pour the aromatic sauce over the top
+- Mariner le poulet avec la sauce soja foncée, le saké et le gingembre râpé, et laisser reposer environ 20 minutes pour assaisonner
+- Ajouter la fécule de pomme de terre au poulet mariné et mélanger.
+- Faire frire dans l'huile chauffée (180°C) jusqu'à ce que ce soit cuit.
+- Placer sur une assiette et verser la sauce aromatique par-dessus
 
 components:
-- Aromatic sauce for Karaage
+- Sauce aromatique pour karaage
 - Dashi
 ---
 

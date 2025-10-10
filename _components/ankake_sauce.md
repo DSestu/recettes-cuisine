@@ -1,36 +1,40 @@
 ---
 layout: recipe
-title:  "Mushroom Ankake sauce"
-image: 0_TBD.jpg
+title:  "Sauce Ankake aux champignons"
+image: ankake_sauce.jpg
 
 tags:
 - japon
 - voyage
 - sauce
 - shimeji
-- ginger
+- gingembre
 - dashi
-- light soy sauce
-- soy sauce
+- sauce soja claire
+- sauce soja
 - mirin
-- sake
-- potato starch
-- water
+- saké
+- fécule de pomme de terre
+- eau
+- assaisonnement
+- condiment
+- ankake
+- champignons
 
 ingredients:
-- 10g Shimeji
-- 3g Ginger
-- 50ml Dashi
+- 10g de shimeji
+- 3g de gingembre
+- 50ml de dashi
 
 directions:
-- Separate shimeji by hand in half in the long side and and shred ginger.
-- Combine Dashi, light soy sauce, mirin, sake in a frying pan.
-- Once it starts boiling, add the shimeji, add optional meat.
-- Cover and simmer until the shimeji is cooked.
-- Mix potato starch and water well, then gradually add it, tirring constantly until the sauce thickens.
+- Séparer les shimeji à la main dans le sens de la longueur, râper le gingembre.
+- Mélanger le dashi, la sauce soja claire, le mirin et le saké dans une poêle.
+- Lorsque le mélange commence à bouillir, ajouter les shimeji, puis éventuellement de la viande.
+- Couvrir et laisser mijoter jusqu'à ce que les shimeji soient cuits.
+- Mélanger la fécule de pomme de terre et l'eau, puis l’ajouter progressivement en remuant constamment jusqu'à ce que la sauce épaississe.
 
 components:
 - Dashi
 ---
 
-Quantity for 1 person tofu meatball.
+Quantité pour 1 personne (boulette de tofu).

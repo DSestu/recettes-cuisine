@@ -1,34 +1,38 @@
 ---
 layout: recipe
-title: "Tofu meatball with mushroom Ankake sauce"
-image: 0_TBD.jpg
-
+title: "Boulettes de tofu avec sauce Ankake aux champignons"
+image:  tofu_meatball_with_mushroom_ankake_sauce.png
 
 tags:
 - entrée
 - japon
 - voyage
-- chicken
+- poulet
 - tofu
-- japanese leek
-- potato starch
+- poireau japonais
+- fécule de pomme de terre
+- sel
+- saké
+- boulettes
+- poêle
+- vapeur
 
 ingredients:
-- 40g ground chicken
-- 20g tofu
-- japanese leek
-- one pinch salt
-- 1/2tsp potato starch
+- 40g de poulet haché
+- 20g de tofu
+- poireau japonais
+- une pincée de sel
+- 1/2 c. à café de fécule de pomme de terre
 
 directions:
-- Wrap tofu in paper towels and lightly weight tofu down to drain
-- Finely chock leek. Combine ground chicken, tofu, leek, salt, and potato starch to a bowl and mix well. Divide into two equal portions and shape them into ovals.
-- Put into a heated frying pan with oil. Flip once one side is golden brown.
-- Pour in sake. Cover and steam until the sake evaporates, then remove the meatballs.
-- Add the Ankake sauce.
+- Enveloppez le tofu dans du papier absorbant et posez un poids léger dessus pour l'égoutter.
+- Hachez finement le poireau. Mélangez dans un bol le poulet haché, le tofu, le poireau, le sel et la fécule de pomme de terre. Divisez la préparation en deux et façonnez des ovales.
+- Faites chauffer de l'huile dans une poêle et faites revenir les boulettes. Retournez-les lorsqu'un côté est bien doré.
+- Versez du saké. Couvrez et laissez cuire à la vapeur jusqu'à évaporation du saké, puis retirez les boulettes.
+- Ajoutez la sauce Ankake.
 
 components:
-- Mushroom Ankake sauce
+- Sauce ankake aux champignons
 - Dashi
 ---
 

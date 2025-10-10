@@ -9,31 +9,35 @@ tags:
 - japon
 - voyage
 - repas
-- shrimp
-- cabbage
+- crevettes
+- chou
 - dashi
-- egg
-- cake flour
-- tempura flakes
-- red ginger
-- okonomiyaki sauce
+- œuf
+- farine à gâteau
+- flocons de tempura
+- gingembre rouge
+- sauce okonomiyaki
+- algue séchée
+- aonori
+- frit
+- poêle
 
 ingredients:
-- 10g shirmp
-- 25g cabbage
-- 15ml (1tsp) Dashi
-- 3/2tsp egg
-- 15g cake flour
-- 1tsp tempura flakes
-- 1/2tsp red ginger
-- 1tsp okonomiyaki sauce
-- A little Aonori (Dried green seaweed)
+- 10g de crevettes
+- 25g de chou
+- 15ml (1 c. à café) de Dashi
+- 3/2 c. à café d'œuf
+- 15g de farine à gâteau
+- 1 c. à café de flocons de tempura
+- 1/2 c. à café de gingembre rouge
+- 1 c. à café de sauce okonomiyaki
+- Un peu d'Aonori (algue verte séchée)
 
 directions:
-- Roughly chop cabbage into <5mm squares
-- In a bowl, mix dashi, egg, and cake flour, then add cabbagen shrimp, tempoura flakes, red ginger, and mix well
-- In a frying pan, heat oil and spread the mixture into a circle
-- Cover and cook one side over medium heat. Flip it over, cover again, cook until fully cooked through
+- Hacher grossièrement le chou en carrés de <5mm
+- Dans un bol, mélanger le dashi, l'œuf et la farine à gâteau, puis ajouter le chou, les crevettes, les flocons de tempura, le gingembre rouge, et bien mélanger
+- Dans une poêle, chauffer l'huile et étaler le mélange en cercle
+- Couvrir et cuire un côté à feu moyen. Retourner, couvrir à nouveau, cuire jusqu'à ce que ce soit entièrement cuit
 
 components:
 - Dashi

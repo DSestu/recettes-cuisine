@@ -6,27 +6,30 @@ image: 0_TBD.jpg
 tags:
 - japon
 - voyage
-- soup stock
+- bouillon
 - dashi
 - konbu
-- bushi
+- bonite
 - niban
+- base
+- fond
+- algue
 
 ingredients:
-- 1L filtered water
-- 10g Konbu, dried kelp seaweed (~1% of the weight of water)
-- 20g Katsuo bushi, dried bonito flakes (~2% of the weight of water)
+- 1L d'eau filtrée
+- 10g de Konbu, algue séchée (~1% du poids de l'eau)
+- 20g de Katsuo bushi, flocons de bonite séchée (~2% du poids de l'eau)
 
 directions:
-- Soak the kombu in cold water and leave for a while (about 30min at least)
-- Heat the water with konbu with low heat and bring it to simmer. But don't boil it!
-- Take out the kombu from the water then remove from the heat
-- Add the bonito flakes to the heated water and wait until it sinks.
-- Filter out the bonito flakes (avec un tamis), but don't squeeze it. Go very slowly so the Dashi stays vert clear.
+- Faire tremper le kombu dans l'eau froide et laisser reposer un moment (au moins 30min)
+- Chauffer l'eau avec le konbu à feu doux et porter à frémissement. Mais ne pas faire bouillir !
+- Retirer le kombu de l'eau puis retirer du feu
+- Ajouter les flocons de bonite à l'eau chauffée et attendre qu'ils coulent.
+- Filtrer les flocons de bonite (avec un tamis), mais ne pas les presser. Procéder très lentement pour que le Dashi reste bien clair.
 ---
 
-For around 800-900ml.
+Pour environ 800-900ml.
 
-This is the basis of a lot of Japanese dishes, fundamental to many things.
+C'est la base de beaucoup de plats japonais, fondamental pour beaucoup de choses.
 
-If you want to make **Niban dashi, the second dashi**, mix both the konbu and bonito flakes from the first dashi in 1/3 amount of water and boil it for about 15 minutes. Then filter it.
+Si vous voulez faire du **Niban dashi, le second dashi**, mélanger le konbu et les flocons de bonite du premier dashi dans 1/3 de la quantité d'eau et faire bouillir environ 15 minutes. Puis filtrer.

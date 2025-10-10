@@ -1,28 +1,31 @@
 ---
 layout: recipe
-title:  "Miso dressing"
+title:  "Vinaigrette miso"
 image: 0_TBD.jpg
 
 tags:
 - japon
 - voyage
-- entree
-- sesame
-- soy sauce
-- dark soy sauce
-- vinegar
+- entrée
+- sésame
+- sauce soja
+- sauce soja foncée
+- vinaigre
 - mirin
-- white miso
+- miso blanc
+- vinaigrette
+- sauce
+- assaisonnement
 
 ingredients:
-- 1tsp sesame
-- 1tsp dark soy sauce
-- 1tsp vinegar
-- 1tsp mirin
-- 1tsp white miso
+- 1 c. à café de sésame
+- 1 c. à café de sauce soja foncée
+- 1 c. à café de vinaigre
+- 1 c. à café de mirin
+- 1 c. à café de miso blanc
 
 directions:
-- mix ingredients
+- mélanger les ingrédients
 ---
 
-For 5tsp of sauce, which is enough for Hijiki salad for 1 person.
+Pour 5 c. à café de sauce, ce qui est suffisant pour la salade Hijiki pour 1 personne.

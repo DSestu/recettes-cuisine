@@ -6,6 +6,11 @@ image: sauce_caramel.jpg
 tags:
 - sucre
 - eau
+- sauce
+- caramel
+- dessert
+- assaisonnement
+- condiment
 
 ingredients:
 - 100 gr sucre

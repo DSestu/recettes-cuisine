@@ -11,6 +11,8 @@ tags:
 - teriyaki
 - sauce
 - mirin
+- assaisonnement
+- condiment
 
 
 ingredients:
