@@ -22,10 +22,11 @@ tags:
 - tomates
 - traditionnel
 - viande
+- emilia
 
 ingredients:
-- 1kg de viande (e.g. langue de boeuf)
-- Gros plus avec plusieurs os à moelle
+- 1kg de viande (e.g. plat de côte, jarret de bœuf, langue de boeuf). Le jarret contient des os à moelle.
+- Gros plus avec plusieurs os à moelle potentiellement à rajouter
 - 500g de carottes
 - 3-4 poireaux
 - 1 oignon
