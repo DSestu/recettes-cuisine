@@ -8,7 +8,7 @@ tags:
 - repas
 - soupe
 - oignon
-- gruyère
+- gruyere
 - chaud
 - bocuse
 - beurre
@@ -18,8 +18,8 @@ tags:
 - chapelure
 - sel
 - poivre
-- jaunes d'œufs
-- crème fraîche
+- jaunes d'oeufs
+- creme fraiche
 - porto
 - muscade
 

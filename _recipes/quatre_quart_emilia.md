@@ -10,7 +10,7 @@ tags:
 - dessert
 - sucre
 - farine
-- œufs
+- oeufs
 - huile
 - sucre vanillé
 - levure

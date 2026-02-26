@@ -7,7 +7,7 @@ tags:
 - japon
 - voyage
 - soja
-- sauce soja foncée
+- sauce soja foncee
 - teriyaki
 - sauce
 - mirin

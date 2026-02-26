@@ -19,13 +19,17 @@ alwaysApply: true
 
 **Registry:** The canonical tag list is in `_data/recipe_tags.yml`. Before writing or editing tags in any file under `_recipes/` or `_components/`, read the registry.
 
+**Spelling:** Use easy-to-type (ASCII) spellings for tags: e.g. `oeufs` not `œufs`, `creme` not `crème`, `huitre` not `huître`, `gateau` not `gâteau`. The registry stores canonical tags in this form so tags are quick to type and consistent. When matching variants, treat accented and ASCII forms as the same tag and write the registry form (ASCII).
+
+**One form per concept:** For each tag concept, the registry must list only one canonical form. Do not keep both singular and plural (e.g. use `oeufs` only, not both `oeuf` and `oeufs`). Same for other concepts: one canonical form per idea (e.g. one of `oignon`/`oignons`, one of `tomate`/`tomates`). When matching, treat singular/plural as the same concept and use the single registry form. When adding a new tag, if a singular or plural of that concept already exists in the registry, use it and do not add the other form.
+
 **Rules when adding or modifying a recipe or component:**
 
-1. Use only tags that exist in the registry. For each tag you want to add: normalize it (trim, lowercase), then check if it matches a registry tag. Treat as the same tag: accent variants (e.g. `gateau` → `gâteau`, `creme` → `crème`), plural/singular (e.g. `gâteaux` → `gâteau`), obvious typos. If it matches an existing canonical tag, use that exact form from the registry in the file.
-2. If after normalization the tag does not match any registry entry, add it to `_data/recipe_tags.yml` (one line `- new_tag`, alphabetically or at the end) and use it in the recipe/component. Do not create near-duplicates (e.g. both "ramen" and "Ramen", or "crème" and "creme").
-3. When editing an existing file, replace any tag that is a variant of a registry tag with the canonical form from the registry, and add any genuinely new tags to the registry.
+1. Use only tags that exist in the registry. For each tag you want to add: normalize it (trim, lowercase), then check if it matches a registry tag. Treat as the same tag: accent/ligature variants (e.g. `œufs`/`oeufs`, `crème`/`creme`, `huître`/`huitre`) and singular/plural of the same concept (e.g. `oeuf`/`oeufs`). If it matches an existing canonical tag, use that exact form from the registry in the file (prefer easy-to-type ASCII).
+2. If after normalization the tag does not match any registry entry, add it to `_data/recipe_tags.yml` in easy-to-type form (one line `- new_tag`) and use it in the recipe/component. Do not create near-duplicates or both singular and plural for the same concept.
+3. When editing an existing file, replace any tag that is a variant of a registry tag (including singular/plural) with the canonical form from the registry, and add any genuinely new tags to the registry in ASCII form, one form per concept.
 
-**Cold pass:** On user request, the agent may run a full tag normalization pass: (1) Read `_data/recipe_tags.yml` (create with empty list if missing). (2) For each `.md` in `_recipes/` and `_components/`, parse frontmatter and read the `tags:` list. (3) For each tag: normalize (trim, lowercase, match accent/plural variants to existing registry entries); if no match, add to registry; record the canonical tag for that file. (4) Replace the `tags:` block in each file with the list of canonical tags (preserve order or sort, consistently). (5) Write back `_data/recipe_tags.yml` with the full deduplicated canonical list (e.g. sorted alphabetically).
+**Cold pass:** On user request, the agent may run a full tag normalization pass: (1) Read `_data/recipe_tags.yml` (create with empty list if missing). (2) For each `.md` in `_recipes/` and `_components/`, parse frontmatter and read the `tags:` list. (3) For each tag: normalize (trim, lowercase, match accent and singular/plural variants to existing registry entries); if no match, add to registry in easy-to-type form (one form per concept); record the canonical tag for that file. (4) Replace the `tags:` block in each file with the list of canonical tags (registry form, easy-to-type). (5) Write back `_data/recipe_tags.yml` with the full deduplicated canonical list (one form per concept, easy-to-type, e.g. sorted alphabetically).
 
 ## Components
 

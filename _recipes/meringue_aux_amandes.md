@@ -7,7 +7,7 @@ image: meringue_aux_amandes.png
 tags:
 - dessert
 - amandes
-- œufs
+- oeufs
 - sucre
 - classique
 - facile

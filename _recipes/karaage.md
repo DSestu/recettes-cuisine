@@ -17,7 +17,6 @@ tags:
 - fécule de pomme de terre
 - vinaigre
 - mirin
-- dashi
 - prune salée
 - radis
 - pousses de radis
@@ -25,6 +24,7 @@ tags:
 - cuisse de poulet
 - marinade
 - friture
+- dashi
 
 ingredients:
 - 80g de cuisse de poulet
@@ -40,7 +40,7 @@ directions:
 - Placer sur une assiette et verser la sauce aromatique par-dessus
 
 components:
-- Sauce aromatique pour karaage
+- Sauce aromatique pour Karaage
 - Dashi
 ---
 

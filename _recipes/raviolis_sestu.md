@@ -6,14 +6,14 @@ image: raviolis_sestu.jpg
 
 tags:
 - plat principal
-- pâtes
+- pates
 - ricotta
 - pommes de terre
 - parmesan
 - sestu
 - noix de muscade
 - oignons
-- échalotes
+- echalotes
 - gourmand
 
 ingredients:

@@ -6,8 +6,8 @@ image: pates_fraiches_raviolis.jpg
 
 tags:
 - farine
-- œufs
-- pâtes
+- oeufs
+- pates
 - base
 - facile
 - sestu

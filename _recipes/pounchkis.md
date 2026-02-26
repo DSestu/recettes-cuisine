@@ -15,12 +15,12 @@ tags:
 - farine
 - friture
 - huile de friture
-- jaunes d'œufs
+- jaunes d'oeufs
 - lait
 - levure
 - levure de boulanger déshydratée
 - margarine
-- œuf
+- oeufs
 - pâte levée
 - sel
 - sestu

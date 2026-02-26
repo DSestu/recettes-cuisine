@@ -10,8 +10,8 @@ tags:
 - dessert
 - riz
 - lait
-- crème
-- œufs
+- creme
+- oeufs
 - beurre
 - sucre
 - rhum

@@ -5,22 +5,22 @@ image: okonomiyaki.webp
 
 
 tags:
-- entrée
+- entree
 - japon
 - voyage
 - repas
 - crevettes
 - chou
 - dashi
-- œuf
-- farine à gâteau
+- oeufs
+- farine a gateau
 - flocons de tempura
 - gingembre rouge
 - sauce okonomiyaki
-- algue séchée
+- algue sechee
 - aonori
 - frit
-- poêle
+- poele
 
 ingredients:
 - 10g de crevettes

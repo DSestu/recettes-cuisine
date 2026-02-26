@@ -10,9 +10,9 @@ tags:
 - framboises
 - sestu
 - mascarpone
-- spéculoos
+- speculoos
 - pistaches
-- œufs
+- oeufs
 - sucre en poudre
 - sucre
 - pistaches natures

@@ -9,7 +9,7 @@ tags:
 - soupe
 - poireaux
 - chou
-- céleri
+- celeri
 - orge
 - riz
 - basilic
@@ -17,7 +17,7 @@ tags:
 - sel
 - beurre
 - eau
-- gruyère
+- gruyere
 
 ingredients:
 - 3 blancs de poireaux

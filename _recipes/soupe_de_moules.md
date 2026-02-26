@@ -9,12 +9,12 @@ tags:
 - soupe
 - moules
 - poisson
-- méditerranée
+- mediterranee
 - safran
 - bocuse
 - vin blanc
 - ail
-- échalotes
+- echalotes
 - persil
 - beurre
 - huile d'olive
@@ -25,7 +25,7 @@ tags:
 - tomates
 - laurier
 - thym
-- crème
+- creme
 - sel
 - poivre
 - pain

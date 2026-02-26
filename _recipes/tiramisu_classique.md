@@ -13,7 +13,7 @@ tags:
 - dessert
 - marsala
 - mascarpone
-- œufs
+- oeufs
 - sestu
 - sucre
 - tiramisu

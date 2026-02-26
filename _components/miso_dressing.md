@@ -6,10 +6,10 @@ image: vinaigrette_miso.jpg
 tags:
 - japon
 - voyage
-- entrée
-- sésame
+- entree
+- sesame
 - sauce soja
-- sauce soja foncée
+- sauce soja foncee
 - vinaigre
 - mirin
 - miso blanc

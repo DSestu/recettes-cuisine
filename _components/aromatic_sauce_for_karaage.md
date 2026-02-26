@@ -8,11 +8,11 @@ tags:
 - voyage
 - sauce
 - sauce soja
-- sauce soja foncée
+- sauce soja foncee
 - vinaigre
 - mirin
 - dashi
-- prune salée
+- prune salee
 - radis
 - pousses de radis
 - shiso

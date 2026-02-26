@@ -9,17 +9,17 @@ tags:
 - poitrine de porc
 - char siu
 - viande
-- cuiseur à riz
+- cuiseur a riz
 - chalumeau
 - japon
 - voyage
-- saké
+- sake
 - sauce soja
 - sucre
 - ail
 - mayonnaise
 - assaisonnement
-- sucré-salé
+- sucre-sale
 
 ingredients:
 - 160 g de poitrine de porc en bloc

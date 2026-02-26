@@ -12,7 +12,7 @@ tags:
 - fondant
 - gâteau
 - gourmand
-- œufs
+- oeufs
 - rapide
 - sestu
 - sucre

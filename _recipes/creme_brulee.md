@@ -9,9 +9,9 @@ tags:
 - dessert
 - classique
 - vanille
-- crème
+- creme
 - sestu
-- œufs
+- oeufs
 - sucre
 - cassonade
 

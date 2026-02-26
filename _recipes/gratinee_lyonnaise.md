@@ -8,7 +8,7 @@ tags:
 - repas
 - soupe
 - oignon
-- gruyère
+- gruyere
 - pain
 - bocuse
 - beurre
@@ -16,8 +16,8 @@ tags:
 - bouquet garni
 - sel
 - poivre
-- madère
-- jaunes d'œufs
+- madere
+- jaunes d'oeufs
 
 ingredients:
 - 600g d'oignons paille

@@ -9,7 +9,7 @@ tags:
 - soupe
 - poireaux
 - pommes de terre
-- crème
+- creme
 - bocuse
 - beurre
 - sel

@@ -6,9 +6,9 @@ image: sauce_teriyaki.jpg
 tags:
 - japon
 - marinade
-- saké
+- sake
 - sauce soja claire
-- sauce soja foncée
+- sauce soja foncee
 - sauce soja
 - sucre
 - teriyaki

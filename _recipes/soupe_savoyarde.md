@@ -9,11 +9,11 @@ tags:
 - soupe
 - poireaux
 - oignon
-- céleri
+- celeri
 - pommes de terre
 - lard
 - pain
-- gruyère
+- gruyere
 - bocuse
 - lait
 - eau

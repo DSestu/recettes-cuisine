@@ -10,7 +10,7 @@ tags:
 - mascarpone
 - citron
 - limoncello
-- œufs
+- oeufs
 - sucre
 - classique
 - gourmand

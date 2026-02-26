@@ -13,8 +13,8 @@ tags:
 - sauce soja claire
 - sauce soja
 - mirin
-- saké
-- fécule de pomme de terre
+- sake
+- fecule de pomme de terre
 - eau
 - assaisonnement
 - condiment

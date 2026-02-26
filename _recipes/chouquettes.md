@@ -7,7 +7,7 @@ image: chouquettes.jpg
 tags:
 - dessert
 - beurre
-- œufs
+- oeufs
 - farine
 - sucre
 - classique

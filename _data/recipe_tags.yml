@@ -1,15 +1,15 @@
-# Canonical recipe/component tags. Agent must only use tags from this list.
+# Canonical recipe/component tags (easy-to-type: ASCII, e.g. oeufs not œufs, creme not crème).
 # When adding a tag: if a similar tag exists (accent, plural, typo), use it; else append here.
 - ail
 - alcool
 - algue
 - algue hijiki
-- algue séchée
+- algue sechee
 - amandes
 - amaretto
 - ankake
 - aonori
-- apéritif
+- aperitif
 - asiatique
 - asperges
 - assaisonnement
@@ -18,8 +18,8 @@
 - basilic
 - beignets
 - beurre
-- biscuits cuillère
-- blanc d'œuf
+- biscuits cuillere
+- blanc d'oeuf
 - bocuse
 - boeuf
 - boisson
@@ -29,7 +29,7 @@
 - boulettes
 - bouquet garni
 - cacao
-- café
+- cafe
 - caramel
 - carotte
 - carottes
@@ -45,8 +45,8 @@
 - chorizo
 - chou
 - chou-fleur
-- choux de Bruxelles
-- chèvre
+- choux de bruxelles
+- chevre
 - ciboulette
 - citron
 - classique
@@ -59,13 +59,13 @@
 - confiture
 - couennes
 - crevettes
-- croûtons
-- crème
-- crème fraîche
-- cuiseur à riz
+- croutons
+- creme
+- creme fraiche
+- cuiseur a riz
 - cuisse de poulet
 - curry
-- céleri
+- celeri
 - dashi
 - dessert
 - eau
@@ -73,12 +73,12 @@
 - emilia
 - emmental
 - endives
-- entrée
+- entree
 - facile
 - fait maison
 - farine
-- farine à gâteau
-- farine à pain
+- farine a gateau
+- farine a pain
 - fenouil
 - flocons de tempura
 - fond
@@ -92,15 +92,15 @@
 - froid
 - fromage
 - fruits
-- fèves de soja vertes
-- fécule
-- fécule de pomme de terre
+- feves de soja vertes
+- fecule
+- fecule de pomme de terre
 - gingembre
 - gingembre rouge
 - gourmand
 - gratin
-- gruyère
-- gâteau
+- gruyere
+- gateau
 - haricots verts
 - herbes aromatiques
 - hiver
@@ -108,9 +108,9 @@
 - huile d'arachide
 - huile d'olive
 - huile de friture
-- huile de sésame
+- huile de sesame
 - japon
-- jaunes d'œufs
+- jaunes d'oeufs
 - jus d'ananas
 - jus d'orange
 - jus de banane
@@ -123,12 +123,12 @@
 - laurier
 - lentilles corail
 - levure
-- levure de boulanger déshydratée
+- levure de boulanger deshydratee
 - limoncello
-- légumes
-- madère
+- legumes
+- madere
 - maquereau
-- marbré
+- marbre
 - margarine
 - marinade
 - marmiton
@@ -136,7 +136,7 @@
 - marsala
 - mascarpone
 - mayonnaise
-- méditerranée
+- mediterranee
 - miel
 - mirin
 - miso
@@ -152,7 +152,7 @@
 - oignon
 - oignons
 - orge
-- orge perlé
+- orge perle
 - pain
 - parmesan
 - persil
@@ -174,13 +174,13 @@
 - poulet
 - pousses de radis
 - pousses de soja
-- poêle
-- prune salée
+- poele
+- prune salee
 - pulpe de tomate
 - punch
-- pâte levée
-- pâtes
-- pâtes fraîches
+- pate levee
+- pates
+- pates fraiches
 - quatre-quarts
 - racine de bardane
 - racine de lotus
@@ -193,32 +193,32 @@
 - riz
 - safran
 - saindoux
-- saké
+- sake
 - salade
 - sauce
-- sauce huître
+- sauce huitre
 - sauce okonomiyaki
 - sauce soja
 - sauce soja claire
-- sauce soja foncée
+- sauce soja foncee
 - sauce teriyaki
 - saucisse de morteau
 - saumon
-- sauté
+- saute
 - sel
 - sestu
 - shimeji
 - shiso
 - soja
 - soupe
-- spéculoos
+- speculoos
 - sucre
 - sucre de canne
 - sucre en poudre
 - sucre semoule
-- sucre vanillé
-- sucré-salé
-- sésame
+- sucre vanille
+- sucre-sale
+- sesame
 - tartinade
 - teriyaki
 - thym
@@ -227,25 +227,24 @@
 - tomate
 - tomate cerise
 - tomates
-- tomates fraîches
+- tomates fraiches
 - traditionnel
 - vanille
 - vanille liquide
 - vapeur
-- velouté
+- veloute
 - viande
-- viande de bœuf hachée
+- viande de boeuf hachee
 - vin blanc
 - vinaigre
 - vinaigre de vin
 - vinaigrette
 - voyage
-- végétarien
+- vegetarien
 - yakitori
 - yaourt
-- échalotes
-- épeautre
-- épices
-- été
-- œuf
-- œufs
+- echalotes
+- epeautre
+- epices
+- ete
+- oeufs
