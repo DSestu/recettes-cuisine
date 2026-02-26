@@ -15,9 +15,17 @@ alwaysApply: true
 - **directions:** Each direction must be a clear, simple point (no large chunks of text). Avoid the use of ":" in direction steps; reformulate to use full sentences or split steps as needed.
 - **After `---`:** Add a short description. Optionally add: "Pour X personnes", "Temps de préparation : …", "Temps de cuisson : …".
 
-## Tags
+## Tag management
 
-Reuse existing tag vocabulary from other recipes. Stick to the same granularity: dish type (`repas`, `dessert`, `entrée`, `soupe`, `plat principal`, `apéritif`, `boisson`), category (`gratin`, `velouté`, `frit`, `marinade`, `gâteau`, `bouillon`), main ingredients (`beurre`, `chocolat`, `œufs`, `poulet`, `oignon`, `crème`), origins (`bocuse`, `sestu`, `emilia`, `marmiton`, `japon`, `voyage`), traits (`facile`, `rapide`, `chaud`, `gourmand`, `classique`, `traditionnel`). All tags must be lowercase; avoid creating near-duplicates.
+**Registry:** The canonical tag list is in `_data/recipe_tags.yml`. Before writing or editing tags in any file under `_recipes/` or `_components/`, read the registry.
+
+**Rules when adding or modifying a recipe or component:**
+
+1. Use only tags that exist in the registry. For each tag you want to add: normalize it (trim, lowercase), then check if it matches a registry tag. Treat as the same tag: accent variants (e.g. `gateau` → `gâteau`, `creme` → `crème`), plural/singular (e.g. `gâteaux` → `gâteau`), obvious typos. If it matches an existing canonical tag, use that exact form from the registry in the file.
+2. If after normalization the tag does not match any registry entry, add it to `_data/recipe_tags.yml` (one line `- new_tag`, alphabetically or at the end) and use it in the recipe/component. Do not create near-duplicates (e.g. both "ramen" and "Ramen", or "crème" and "creme").
+3. When editing an existing file, replace any tag that is a variant of a registry tag with the canonical form from the registry, and add any genuinely new tags to the registry.
+
+**Cold pass:** On user request, the agent may run a full tag normalization pass: (1) Read `_data/recipe_tags.yml` (create with empty list if missing). (2) For each `.md` in `_recipes/` and `_components/`, parse frontmatter and read the `tags:` list. (3) For each tag: normalize (trim, lowercase, match accent/plural variants to existing registry entries); if no match, add to registry; record the canonical tag for that file. (4) Replace the `tags:` block in each file with the list of canonical tags (preserve order or sort, consistently). (5) Write back `_data/recipe_tags.yml` with the full deduplicated canonical list (e.g. sorted alphabetically).
 
 ## Components
 

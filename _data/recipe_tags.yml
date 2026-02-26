@@ -1,0 +1,251 @@
+# Canonical recipe/component tags. Agent must only use tags from this list.
+# When adding a tag: if a similar tag exists (accent, plural, typo), use it; else append here.
+- ail
+- alcool
+- algue
+- algue hijiki
+- algue séchée
+- amandes
+- amaretto
+- ankake
+- aonori
+- apéritif
+- asiatique
+- asperges
+- assaisonnement
+- automne
+- base
+- basilic
+- beignets
+- beurre
+- biscuits cuillère
+- blanc d'œuf
+- bocuse
+- boeuf
+- boisson
+- bonite
+- bouillon
+- bouillon blanc
+- boulettes
+- bouquet garni
+- cacao
+- café
+- caramel
+- carotte
+- carottes
+- casserole
+- cassonade
+- cerfeuil
+- chalumeau
+- champignons
+- chapelure
+- char siu
+- chaud
+- chocolat
+- chorizo
+- chou
+- chou-fleur
+- choux de Bruxelles
+- chèvre
+- ciboulette
+- citron
+- classique
+- clou de girofle
+- clous de girofle
+- cocktail
+- composant
+- concombre
+- condiment
+- confiture
+- couennes
+- crevettes
+- croûtons
+- crème
+- crème fraîche
+- cuiseur à riz
+- cuisse de poulet
+- curry
+- céleri
+- dashi
+- dessert
+- eau
+- edamame
+- emilia
+- emmental
+- endives
+- entrée
+- facile
+- fait maison
+- farine
+- farine à gâteau
+- farine à pain
+- fenouil
+- flocons de tempura
+- fond
+- fond chinois
+- fondant
+- four
+- frais
+- framboises
+- frit
+- friture
+- froid
+- fromage
+- fruits
+- fèves de soja vertes
+- fécule
+- fécule de pomme de terre
+- gingembre
+- gingembre rouge
+- gourmand
+- gratin
+- gruyère
+- gâteau
+- haricots verts
+- herbes aromatiques
+- hiver
+- huile
+- huile d'arachide
+- huile d'olive
+- huile de friture
+- huile de sésame
+- japon
+- jaunes d'œufs
+- jus d'ananas
+- jus d'orange
+- jus de banane
+- jus de citron vert
+- jus de goyave
+- konbu
+- lait
+- lard
+- lardons
+- laurier
+- lentilles corail
+- levure
+- levure de boulanger déshydratée
+- limoncello
+- légumes
+- madère
+- maquereau
+- marbré
+- margarine
+- marinade
+- marmiton
+- marrons
+- marsala
+- mascarpone
+- mayonnaise
+- méditerranée
+- miel
+- mirin
+- miso
+- miso blanc
+- moules
+- moutarde
+- muscade
+- navets
+- niban
+- noix
+- noix de muscade
+- nouilles
+- oignon
+- oignons
+- orge
+- orge perlé
+- pain
+- parmesan
+- persil
+- piment d'espelette
+- pistaches
+- pistaches natures
+- plat
+- plat principal
+- poireau
+- poireau japonais
+- poireaux
+- poisson
+- poitrine de porc
+- poivre
+- pommes de terre
+- porc
+- porto
+- potiron
+- poulet
+- pousses de radis
+- pousses de soja
+- poêle
+- prune salée
+- pulpe de tomate
+- punch
+- pâte levée
+- pâtes
+- pâtes fraîches
+- quatre-quarts
+- racine de bardane
+- racine de lotus
+- radis
+- ramen
+- rapide
+- repas
+- rhum
+- ricotta
+- riz
+- safran
+- saindoux
+- saké
+- salade
+- sauce
+- sauce huître
+- sauce okonomiyaki
+- sauce soja
+- sauce soja claire
+- sauce soja foncée
+- sauce teriyaki
+- saucisse de morteau
+- saumon
+- sauté
+- sel
+- sestu
+- shimeji
+- shiso
+- soja
+- soupe
+- spéculoos
+- sucre
+- sucre de canne
+- sucre en poudre
+- sucre semoule
+- sucre vanillé
+- sucré-salé
+- sésame
+- tartinade
+- teriyaki
+- thym
+- tiramisu
+- tofu
+- tomate
+- tomate cerise
+- tomates
+- tomates fraîches
+- traditionnel
+- vanille
+- vanille liquide
+- vapeur
+- velouté
+- viande
+- viande de bœuf hachée
+- vin blanc
+- vinaigre
+- vinaigre de vin
+- vinaigrette
+- voyage
+- végétarien
+- yakitori
+- yaourt
+- échalotes
+- épeautre
+- épices
+- été
+- œuf
+- œufs
