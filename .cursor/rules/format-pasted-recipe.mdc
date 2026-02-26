@@ -1,5 +1,5 @@
 ---
-description: When the user pastes a raw recipe and asks to format it, or when creating/editing recipe/component markdown in _recipes/ or _components/, format like existing _recipes/ and _components/ files, fix French spelling, align tags and components. Do not modify the recipe content (quantities, steps, intent).
+description: When the user pastes a raw recipe and asks to format it, or when creating/editing recipe/component markdown in _recipes/ or _components/, format like existing _recipes/ and _components/ files, fix French spelling, align tags and components. Do not modify the recipe content (quantities, steps, intent). In the directions block, do not use ":" and split into clear steps (one action or thought per bullet, no large text blocks).
 alwaysApply: true
 ---
 
@@ -7,26 +7,27 @@ alwaysApply: true
 
 **When this applies:** User pastes a raw recipe (plain text) and asks to format it, or user creates/edits a file in `_recipes/` or `_components/`.
 
-**Do not change** the recipe itself: only structure, spelling, and conventions. All text stays in French.
+**Do not change** the recipe content itself: only apply structure, spelling, and conventions. All text stays in French.
 
 ## Recipe structure
 
 - **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug.ext` (filename only). Then `tags:`, `ingredients:`, `directions:` as lists (one item per line, hyphen + space). Optional `components:` list (component titles).
-- **After `---`:** Short description. Optionally: "Pour X personnes", "Temps de préparation : …", "Temps de cuisson : …".
+- **directions:** Each direction must be a clear, simple point (no large chunks of text). Avoid the use of ":" in direction steps; reformulate to use full sentences or split steps as needed.
+- **After `---`:** Add a short description. Optionally add: "Pour X personnes", "Temps de préparation : …", "Temps de cuisson : …".
 
 ## Tags
 
-Reuse existing tag vocabulary from other recipes. Same granularity: dish type (`repas`, `dessert`, `entrée`, `soupe`, `plat principal`, `apéritif`, `boisson`), category (`gratin`, `velouté`, `frit`, `marinade`, `gâteau`, `bouillon`), main ingredients (`beurre`, `chocolat`, `œufs`, `poulet`, `oignon`, `crème`), origins (`bocuse`, `sestu`, `emilia`, `marmiton`, `japon`, `voyage`), traits (`facile`, `rapide`, `chaud`, `gourmand`, `classique`, `traditionnel`). Lowercase; avoid new near-duplicates.
+Reuse existing tag vocabulary from other recipes. Stick to the same granularity: dish type (`repas`, `dessert`, `entrée`, `soupe`, `plat principal`, `apéritif`, `boisson`), category (`gratin`, `velouté`, `frit`, `marinade`, `gâteau`, `bouillon`), main ingredients (`beurre`, `chocolat`, `œufs`, `poulet`, `oignon`, `crème`), origins (`bocuse`, `sestu`, `emilia`, `marmiton`, `japon`, `voyage`), traits (`facile`, `rapide`, `chaud`, `gourmand`, `classique`, `traditionnel`). All tags must be lowercase; avoid creating near-duplicates.
 
 ## Components
 
-If the recipe has sub-recipes (sauce, bouillon, etc.): create `_components/nom_composant.md` with the same frontmatter/body format. Reference in the main recipe by **exact title** under `components:` (e.g. `- Dashi`, `- Sauce aromatique pour Karaage`). Component filename = snake_case from title (e.g. `aromatic_sauce_for_karaage.md`).
+If the recipe includes sub-recipes (sauce, bouillon, etc.): create a corresponding `_components/nom_composant.md` with the same frontmatter/body format. List components in the main recipe by **exact title** under `components:` (e.g. `- Dashi`, `- Sauce aromatique pour Karaage`). Component filenames must be snake_case from their title (e.g. `aromatic_sauce_for_karaage.md`).
 
 ## French and spelling
 
-Fix spelling only (e.g. "Céléri" → "Céleri", "souce" → "sauce"). Do not alter quantities, steps, or intent.
+Correct only French spelling (e.g. "Céléri" → "Céleri", "souce" → "sauce"). Do not change any quantities, cooking steps, or intent.
 
-## Example (frontmatter)
+## Example (frontmatter & directions)
 
 ```yaml
 ---
@@ -46,11 +47,16 @@ ingredients:
 - 1 oignon moyen
 
 directions:
-- Eplucher les asperges, les laver. Couper les pointes en lamelles.
-- Mettre à bouillir 1 litre d'eau salée ; y mettre les asperges. Laisser cuire 15 à 20 minutes.
+- Eplucher les asperges et les laver.
+- Couper les pointes en lamelles.
+- Faire bouillir 1 litre d'eau salée.
+- Ajouter les asperges dans l'eau bouillante.
+- Laisser cuire de 15 à 20 minutes.
 ---
 ```
 
+> Note: Each direction is a clear, separate step and does not contain ":".
+
 ## Example (components)
 
-In recipe: `components:` list with exact titles, e.g. `- Dashi`, `- Sauce aromatique pour Karaage`. Each component lives in `_components/` with same structure (e.g. `_components/dashi.md`, `_components/aromatic_sauce_for_karaage.md`).
+In the recipe, use a `components:` list with exact titles, e.g. `- Dashi`, `- Sauce aromatique pour Karaage`. Each component is stored in `_components/` with the same structure (e.g. `_components/dashi.md`, `_components/aromatic_sauce_for_karaage.md`).
