@@ -1,0 +1,1 @@
+Top-down angled view of red cabbage salad on a worn rustic wooden table. Fine julienne of pickled red cabbage with garlic and bay, glossy and deep purple. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

@@ -1,0 +1,1 @@
+Top-down angled view of goat cheese and chorizo spread on a worn rustic wooden table. Rillettes-style spread in a bowl with toasted sesame and chive wrap strips. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

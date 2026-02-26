@@ -1,0 +1,1 @@
+Top-down angled view of French onion soup in a bowl on a worn rustic wooden table. Deep onion soup with gratinéed bread and melted Gruyère. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

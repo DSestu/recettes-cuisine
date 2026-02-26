@@ -1,0 +1,1 @@
+Top-down angled view of chocolate fondant cake on a worn rustic wooden table. Dark, glossy chocolate cake, possibly a slice showing a soft, melting centre. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

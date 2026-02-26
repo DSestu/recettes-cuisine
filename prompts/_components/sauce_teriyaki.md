@@ -1,0 +1,1 @@
+Top-down angled view of teriyaki sauce in a small bowl on a worn rustic wooden table. Dark, glossy sauce with soy and mirin. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

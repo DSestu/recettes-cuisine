@@ -1,0 +1,1 @@
+Top-down angled view of Savoy-style soup in a bowl on a worn rustic wooden table. Soup with lard, leek, onion, celery, potato, milk and bread, with grated Gruyère or Parmesan. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

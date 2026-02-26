@@ -1,0 +1,1 @@
+Top-down angled view of limoncello in a small glass or carafe on a worn rustic wooden table. Pale yellow lemon liqueur, possibly with lemon peel, ice or a slice. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

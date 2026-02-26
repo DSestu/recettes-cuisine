@@ -1,0 +1,1 @@
+Top-down angled view of mushroom ankake sauce in a small bowl on a worn rustic wooden table. Glossy, thickened sauce with shimeji mushrooms and ginger, soy and dashi. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

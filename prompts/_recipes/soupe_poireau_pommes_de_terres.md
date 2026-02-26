@@ -1,0 +1,1 @@
+Top-down angled view of leek and potato soup in a bowl on a worn rustic wooden table. Creamy soup with leeks and potato, swirl of cream. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

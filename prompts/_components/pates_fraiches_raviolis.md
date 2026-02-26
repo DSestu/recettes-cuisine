@@ -1,0 +1,1 @@
+Top-down angled view of fresh pasta dough on a worn rustic wooden table. Smooth, rested dough for ravioli, possibly with a rolling pin or cutter. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

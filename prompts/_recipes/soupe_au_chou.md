@@ -1,0 +1,1 @@
+Top-down angled view of cabbage soup in a bowl on a worn rustic wooden table. Hearty soup with green cabbage, potato, carrot, turnip, leek, salt pork and bread. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

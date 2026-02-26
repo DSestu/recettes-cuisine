@@ -1,0 +1,1 @@
+Top-down angled view of ravioli on a plate on a worn rustic wooden table. Fresh pasta parcels filled with potato, ricotta and parmesan, possibly with a light sauce or butter. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

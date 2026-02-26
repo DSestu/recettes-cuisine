@@ -1,0 +1,1 @@
+Top-down angled view of almond meringues on a worn rustic wooden table. Pale, crisp meringue puffs with slivered almonds. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

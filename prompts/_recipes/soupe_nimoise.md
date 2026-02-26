@@ -1,0 +1,1 @@
+Top-down angled view of Nîmes-style soup in a bowl on a worn rustic wooden table. Vegetable soup with leek, cabbage, celery and pearl barley, served with Gruyère. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

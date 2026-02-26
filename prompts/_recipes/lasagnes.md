@@ -1,0 +1,1 @@
+Top-down angled view of lasagne on a worn rustic wooden table. Layered pasta with beef ragù, béchamel and melted cheese, golden gratinéed surface. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

@@ -1,0 +1,1 @@
+Top-down angled view of Japanese karaage on a plate on a worn rustic wooden table. Golden, crispy fried chicken pieces glazed with aromatic sauce, fresh radish and shiso. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

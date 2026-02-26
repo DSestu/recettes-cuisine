@@ -1,0 +1,1 @@
+Top-down angled view of dashi in a small bowl or cup on a worn rustic wooden table. Clear, amber Japanese stock, possibly with a piece of kombu or a hint of bonito. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

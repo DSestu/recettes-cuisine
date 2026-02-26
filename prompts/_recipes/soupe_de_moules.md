@@ -1,0 +1,1 @@
+Top-down angled view of mussel soup in a large bowl on a worn rustic wooden table. Mussels in white wine broth with saffron, garlic, shallots, tomato and cream. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

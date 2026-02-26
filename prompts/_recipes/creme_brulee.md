@@ -1,0 +1,1 @@
+Top-down angled view of crème brûlée in a ramekin on a worn rustic wooden table. Vanilla custard with a crisp, caramelized sugar crust. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.

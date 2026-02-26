@@ -1,0 +1,1 @@
+Top-down angled view of caramel sauce in a small jug or bowl on a worn rustic wooden table. Glossy amber caramel sauce. Shallow depth of field, warm natural light. Background out of frame or heavily blurred cozy home interior. Professional food photography, highly appetizing, French touch, urge to eat. No people, no hands.
