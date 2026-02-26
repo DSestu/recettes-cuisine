@@ -12,7 +12,7 @@ tags:
 - lait
 - levure
 - marbré
-- oeufs
+- œufs
 - sestu
 - sucre
 

@@ -11,10 +11,10 @@ tags:
 - curry
 - riz
 - oignon
-- sauce huitre
+- sauce huître
 - poivre
 - piment d'espelette
-- creme fraiche
+- crème fraîche
 
 ingredients:
 - 300-400g de filet de poulet ou d'émincé de dinde (encore mieux)

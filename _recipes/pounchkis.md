@@ -20,7 +20,7 @@ tags:
 - levure
 - levure de boulanger déshydratée
 - margarine
-- oeuf
+- œuf
 - pâte levée
 - sel
 - sestu

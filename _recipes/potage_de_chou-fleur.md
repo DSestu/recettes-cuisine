@@ -9,7 +9,7 @@ tags:
 - soupe
 - chou-fleur
 - pommes de terre
-- creme
+- crème
 - bocuse
 - beurre
 - lait

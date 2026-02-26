@@ -9,12 +9,12 @@ tags:
 - soupe
 - moules
 - poisson
-- mediterranee
+- méditerranée
 - safran
 - bocuse
 - vin blanc
 - ail
-- echalotes
+- échalotes
 - persil
 - beurre
 - huile d'olive

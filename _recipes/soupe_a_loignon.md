@@ -18,7 +18,7 @@ tags:
 - chapelure
 - sel
 - poivre
-- jaunes d'oeufs
+- jaunes d'œufs
 - crème fraîche
 - porto
 - muscade

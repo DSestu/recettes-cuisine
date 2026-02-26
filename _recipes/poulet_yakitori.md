@@ -6,7 +6,6 @@ image: poulet_yakitori.jpg
 
 tags:
 - chapelure
-- chapelure
 - japon
 - oignon
 - poulet

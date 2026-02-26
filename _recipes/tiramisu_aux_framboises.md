@@ -15,9 +15,7 @@ tags:
 - œufs
 - sucre en poudre
 - sucre
-- framboises
 - pistaches natures
-- pistaches
 - tiramisu
 
 ingredients:
