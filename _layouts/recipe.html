@@ -158,6 +158,37 @@ layout: default
         border-radius: 0.75rem;
         overflow: hidden;
       }
+      /* Tag pills with count bubble (match advanced search) */
+      #recipe-tags {
+        position: relative;
+      }
+      .tag-sugg {
+        position: relative;
+        display: inline-block;
+      }
+      .tag-sugg .count-tip {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        border-radius: 9999px;
+        color: #fff;
+        border: 2px solid #fff;
+        font-size: 11px;
+        line-height: 1;
+        padding: 2px 6px;
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        transition: opacity 160ms ease, transform 160ms ease;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+      .sugg-pill {
+        transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
+          box-shadow 160ms ease;
+      }
+      .sugg-pill:hover {
+        transform: translateY(-1px) scale(1.05) rotate(0.8deg);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
     </style>
 
     <a
@@ -221,16 +252,121 @@ layout: default
         {{ page.title }}
       </h1>
 
-      <div class="tags flex flex-wrap gap-2">
-        {% for tag in page.tags %}
-        <a
-          href="{{ site.baseurl }}/recherche/?tags={{ tag }}"
-          class="tag py-1 px-3 bg-red-200 rounded-lg text-red-900 hover:scale-110 hover:rotate-2 transition hover:bg-primary hover:text-white"
-        >
-          {{ tag | strip }}
-        </a>
-        {% endfor %}
-      </div>
+      <div
+        id="recipe-tags"
+        class="tags flex flex-wrap gap-2"
+        data-baseurl="{{ site.baseurl }}"
+      ></div>
+      <noscript>
+        <div class="tags flex flex-wrap gap-2">
+          {% for tag in page.tags %}
+          <a
+            href="{{ site.baseurl }}/recherche/?tags={{ tag }}"
+            class="tag py-1 px-3 bg-red-200 rounded-lg text-red-900 hover:scale-110 hover:rotate-2 transition hover:bg-primary hover:text-white"
+          >
+            {{ tag | strip }}
+          </a>
+          {% endfor %}
+        </div>
+      </noscript>
+      <script>
+        (function () {
+          const container = document.getElementById('recipe-tags');
+          if (!container) return;
+          const baseUrl = container.getAttribute('data-baseurl') || '';
+
+          const DATA = [
+            {% for recipe in site.recipes %}
+            {
+              type: 'recipe',
+              title: {{ recipe.title | jsonify }},
+              url: {{ recipe.url | prepend: site.baseurl | jsonify }},
+              tags: {{ recipe.tags | jsonify }}
+            }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            {% assign has_components = site.components | size %}
+            {% assign recipe_count = site.recipes | size %}
+            {% if has_components > 0 and recipe_count > 0 %}
+            ,
+            {% endif %}
+            {% if has_components > 0 %}
+            {% for c in site.components %}
+            {
+              type: 'component',
+              title: {{ c.title | jsonify }},
+              url: {{ c.url | prepend: site.baseurl | jsonify }},
+              tags: {{ c.tags | jsonify }}
+            }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            {% endif %}
+          ];
+
+          const ALL_TAGS = new Map();
+          for (const it of DATA) {
+            for (const tag of (it.tags || [])) {
+              const clean = String(tag).trim();
+              if (!clean) continue;
+              ALL_TAGS.set(clean, (ALL_TAGS.get(clean) || 0) + 1);
+            }
+          }
+
+          const pageTags = {{ page.tags | jsonify }} || [];
+          const sortedTags = pageTags.slice().sort((a, b) => {
+            const cntA = ALL_TAGS.get(String(a).trim()) || 0;
+            const cntB = ALL_TAGS.get(String(b).trim()) || 0;
+            if (cntB !== cntA) return cntB - cntA;
+            return String(a).localeCompare(String(b), 'fr', { sensitivity: 'base' });
+          });
+
+          const maxVal = ALL_TAGS.size ? Math.max(...ALL_TAGS.values()) : 1;
+          const d1 = maxVal * 0.4;
+          const d2 = maxVal;
+          const hex = (r, g, b) => '#' + [r, g, b].map(x => Math.round(x).toString(16).padStart(2, '0')).join('');
+          const parseHex = (h) => {
+            const n = parseInt(h.slice(1), 16);
+            return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+          };
+          const lerp = (a, b, t) => a + (b - a) * t;
+          function colorScale(val) {
+            const [r0, g0, b0] = parseHex('#F53200');
+            const [r1, g1, b1] = parseHex('#f97316');
+            const [r2, g2, b2] = parseHex('#22c55e');
+            if (val <= d1) {
+              const t = d1 ? val / d1 : 0;
+              return hex(lerp(r0, r1, t), lerp(g0, g1, t), lerp(b0, b1, t));
+            }
+            const t = d2 === d1 ? 1 : (val - d1) / (d2 - d1);
+            return hex(lerp(r1, r2, t), lerp(g1, g2, t), lerp(b1, b2, t));
+          }
+
+          for (const tag of sortedTags) {
+            const t = String(tag).trim();
+            if (!t) continue;
+            const cnt = ALL_TAGS.get(t) || 0;
+            const color = colorScale(cnt);
+
+            const wrap = document.createElement('span');
+            wrap.className = 'tag-sugg';
+
+            const a = document.createElement('a');
+            a.href = baseUrl + '/recherche/?tags=' + encodeURIComponent(t);
+            a.className = 'sugg-pill px-3 py-1 rounded-full border-2 border-white text-sm text-white';
+            a.style.background = color;
+            a.style.boxShadow = '0 6px 14px rgba(0,0,0,0.10)';
+            a.textContent = t;
+
+            const tip = document.createElement('span');
+            tip.className = 'count-tip';
+            tip.textContent = String(cnt);
+            tip.style.background = color;
+            tip.title = cnt + ' occurrence' + (cnt !== 1 ? 's' : '');
+
+            wrap.appendChild(a);
+            wrap.appendChild(tip);
+            container.appendChild(wrap);
+          }
+        })();
+      </script>
 
       {% assign tag_param = page.tags | join:',' | uri_escape %}
       <div>
