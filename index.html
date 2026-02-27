@@ -161,7 +161,21 @@ layout: default
       if (!recipesRoot) return;
 
       const BASES_ID = "bases";
+
+      // Initial state from URL
+      let initialCategoryId = null;
       let showComponentsInMain = true;
+      try {
+        const params = new URLSearchParams(location.search);
+        const catParam = params.get("cat");
+        if (catParam) initialCategoryId = catParam;
+        const basesParam = params.get("bases");
+        if (basesParam === "0") showComponentsInMain = false;
+        const urlQ = params.get("q") || params.get("query");
+        if (urlQ) {
+          input.value = urlQ;
+        }
+      } catch (e) {}
 
       // Build sections per category (plus an "Autres" section)
       const categorySections = new Map();
@@ -380,6 +394,48 @@ layout: default
 
         // Expose so clear button can reset category styles
         setupHomeCategories._buttons = allButtons;
+
+        // Apply initial category from URL if present
+        if (initialCategoryId) {
+          allButtons.forEach((btn, index) => {
+            const cat = HOME_CATEGORIES[index];
+            if (cat && cat.id === initialCategoryId) {
+              activeCategoryIds.add(cat.id);
+              setButtonActive(btn);
+            }
+          });
+        }
+      }
+
+      function getSelectedCategoryId() {
+        for (const id of activeCategoryIds) return id;
+        return null;
+      }
+
+      function syncUrlState(hasTextFilter, hasCategoryFilter, matches) {
+        try {
+          const params = new URLSearchParams(location.search);
+          const catId = hasCategoryFilter ? getSelectedCategoryId() : null;
+          if (catId) {
+            params.set("cat", catId);
+          } else {
+            params.delete("cat");
+          }
+          params.set("bases", showComponentsInMain ? "1" : "0");
+          const qRaw = input.value || "";
+          if (qRaw && qRaw.length >= 2) {
+            params.set("q", qRaw);
+          } else {
+            params.delete("q");
+          }
+          const query = params.toString();
+          const newUrl = location.pathname + (query ? "?" + query : "");
+          history.replaceState(
+            { matches, cat: catId, bases: showComponentsInMain, q: qRaw },
+            "",
+            newUrl,
+          );
+        } catch (e) {}
       }
 
       function applyFilter() {
@@ -494,6 +550,8 @@ layout: default
             countEl.style.display = "";
           }
         }
+
+        syncUrlState(hasTextFilter, hasCategoryFilter, matches);
       }
 
       setupHomeCategories();
