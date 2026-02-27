@@ -312,9 +312,24 @@ layout: default
         for (const cat of HOME_CATEGORIES) {
           const btn = document.createElement("button");
           btn.type = "button";
-          btn.textContent = cat.label;
           btn.className =
             "px-3 py-1 rounded-full border border-red-200 bg-white text-red-900 hover:bg-red-50 transition";
+
+          const labelSpan = document.createElement("span");
+          labelSpan.textContent = cat.label;
+          btn.appendChild(labelSpan);
+
+          // Compute total recipes/components assigned to this category
+          const count = items.filter(
+            (it) => it.categoryId === cat.id,
+          ).length;
+          if (count > 0) {
+            const badge = document.createElement("span");
+            badge.className =
+              "ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/90 text-red-900 border border-red-200 w-5 h-5";
+            badge.textContent = String(count);
+            btn.appendChild(badge);
+          }
 
           btn.addEventListener("click", () => {
             const isOther = cat.mode === "other";
