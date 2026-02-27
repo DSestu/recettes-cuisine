@@ -2,6 +2,13 @@
 layout: default
 ---
 
+{% assign home_cats_page = site.pages | where: "name", "home_categories.md" | first %}
+{% if home_cats_page %}
+  {% assign home_categories = home_cats_page.categories %}
+{% else %}
+  {% assign home_categories = nil %}
+{% endif %}
+
 <div class="content w-full md:w-full h-full overflow-scroll">
   <div class="px-6 pt-6">
     <div
@@ -62,6 +69,12 @@ layout: default
       class="text-sm text-red-900/70 mt-2"
       style="display: none"
     ></p>
+    <div class="mt-3">
+      <div
+        id="home-categories"
+        class="flex flex-wrap gap-2 items-center text-sm"
+      ></div>
+    </div>
   </div>
 
   <div class="recipes mb-24 py-8">
@@ -197,6 +210,32 @@ layout: default
 </div>
 
 <script>
+  const HOME_CATEGORIES = [
+    {% if home_categories %}
+      {% for cat in home_categories %}
+      {
+        id: {{ cat.id | jsonify }},
+        label: {{ cat.label | jsonify }},
+        tags: {{ cat.tags | jsonify }},
+        mode: {{ cat.mode | default: "" | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    {% endif %}
+  ];
+
+  const HOME_RECIPES = [
+    {% assign sorted_all = site.recipes | sort: "date" %}
+    {% for post in sorted_all %}
+    {
+      title: {{ post.title | jsonify }},
+      url: {{ post.url | prepend: site.baseurl | jsonify }},
+      tags: {{ post.tags | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+</script>
+
+<script>
   (function () {
     function normalize(str) {
       return (str || "")
@@ -223,41 +262,213 @@ layout: default
       const clearBtn = document.getElementById("home-search-clear");
       const countEl = document.getElementById("home-search-count");
       const cards = Array.from(document.querySelectorAll(".recipes a.recipe"));
+
       const items = cards.map((card) => {
         const titleEl = card.querySelector("h1");
         const title = titleEl ? titleEl.textContent.trim() : "";
-        return { card, title, norm: normalize(title) };
+        const href = card.getAttribute("href") || "";
+        const meta =
+          (HOME_RECIPES || []).find((r) => r.url === href) || { tags: [] };
+        return {
+          card,
+          title,
+          norm: normalize(title),
+          tags: meta.tags || [],
+          isOther: false,
+        };
       });
+
+      // Compute which tags are covered by at least one non-"other" category
+      const COVERED_TAGS = new Set();
+      for (const cat of HOME_CATEGORIES || []) {
+        if (cat.mode === "other") continue;
+        for (const t of cat.tags || []) {
+          if (!t) continue;
+          COVERED_TAGS.add(String(t));
+        }
+      }
+
+      // Mark recipes that belong to "Autres" (no covered tags)
+      for (const it of items) {
+        const tags = new Set((it.tags || []).map(String));
+        let covered = false;
+        for (const t of COVERED_TAGS) {
+          if (tags.has(t)) {
+            covered = true;
+            break;
+          }
+        }
+        it.isOther = !covered;
+      }
+
+      const activeCategoryIds = new Set();
+
+      function setupHomeCategories() {
+        const container = document.getElementById("home-categories");
+        if (!container || !HOME_CATEGORIES || !HOME_CATEGORIES.length) return;
+
+        const allButtons = [];
+
+        function setButtonActive(btn) {
+          btn.classList.remove(
+            "bg-white",
+            "border-red-200",
+            "text-red-900",
+            "hover:bg-red-50",
+          );
+          btn.classList.add(
+            "bg-green-600",
+            "border-green-600",
+            "text-white",
+          );
+        }
+
+        function setButtonInactive(btn) {
+          btn.classList.remove(
+            "bg-green-600",
+            "border-green-600",
+            "text-white",
+          );
+          if (
+            !btn.classList.contains("bg-white") &&
+            !btn.classList.contains("border-red-200")
+          ) {
+            btn.classList.add(
+              "bg-white",
+              "border-red-200",
+              "text-red-900",
+              "hover:bg-red-50",
+            );
+          }
+        }
+
+        for (const cat of HOME_CATEGORIES) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = cat.label;
+          btn.className =
+            "px-3 py-1 rounded-full border border-red-200 bg-white text-red-900 hover:bg-red-50 transition";
+
+          btn.addEventListener("click", () => {
+            const isOther = cat.mode === "other";
+            const isActive = activeCategoryIds.has(cat.id);
+
+            if (isOther) {
+              if (isActive) {
+                // Toggle off \"Autres\" if it's already active
+                activeCategoryIds.delete(cat.id);
+                setButtonInactive(btn);
+                applyFilter();
+                return;
+              }
+              // Activate \"Autres\" exclusively (clear other categories)
+              activeCategoryIds.clear();
+              for (const b of allButtons) {
+                setButtonInactive(b);
+              }
+            }
+
+            if (isActive) {
+              activeCategoryIds.delete(cat.id);
+              setButtonInactive(btn);
+            } else {
+              activeCategoryIds.add(cat.id);
+              setButtonActive(btn);
+            }
+
+            applyFilter();
+          });
+
+          allButtons.push(btn);
+          container.appendChild(btn);
+        }
+
+        // Expose so clear button can reset category styles
+        setupHomeCategories._buttons = allButtons;
+      }
+
       function applyFilter() {
         const qRaw = input.value || "";
         const q = normalize(qRaw);
-        let matches = 0;
-        // Toggle clear button
-        if (clearBtn) clearBtn.classList.toggle("hidden", q.length === 0);
-        if (q.length < 2) {
-          // Show all when query is too short
+        const words = q.split(" ").filter(Boolean);
+
+        const selectedCats = (HOME_CATEGORIES || []).filter((c) =>
+          activeCategoryIds.has(c.id),
+        );
+        const otherCatSelected = selectedCats.some(
+          (c) => c.mode === "other",
+        );
+        const normalCats = selectedCats.filter((c) => c.mode !== "other");
+
+        // Flatten required tags from selected normal categories
+        const requiredTags = new Set();
+        for (const cat of normalCats) {
+          for (const t of cat.tags || []) {
+            if (!t) continue;
+            requiredTags.add(String(t));
+          }
+        }
+
+        const hasTextFilter = q.length >= 2;
+        const hasTagFilter = requiredTags.size > 0 || otherCatSelected;
+
+        // Toggle clear button based on any active filter
+        if (clearBtn) {
+          clearBtn.classList.toggle(
+            "hidden",
+            !hasTextFilter && !hasTagFilter,
+          );
+        }
+
+        if (!hasTextFilter && !hasTagFilter) {
           for (const it of items) it.card.style.display = "";
           if (countEl) countEl.style.display = "none";
           return;
         }
-        const words = q.split(" ").filter(Boolean);
+
+        let matches = 0;
+
         for (const it of items) {
-          const norm = it.norm;
           let ok = true;
-          for (const w of words) {
-            if (norm.includes(w)) continue;
-            if (!isSubsequence(w, norm)) {
-              ok = false;
-              break;
+
+          // 1) Text filter (same logic as before)
+          if (hasTextFilter) {
+            const norm = it.norm;
+            for (const w of words) {
+              if (norm.includes(w)) continue;
+              if (!isSubsequence(w, norm)) {
+                ok = false;
+                break;
+              }
             }
           }
+
+          // 2) Category filter
+          if (ok && hasTagFilter) {
+            if (otherCatSelected && !normalCats.length) {
+              // Only \"Autres\" selected
+              if (!it.isOther) ok = false;
+            } else if (requiredTags.size) {
+              const tags = new Set((it.tags || []).map(String));
+              let anyMatch = false;
+              for (const t of requiredTags) {
+                if (tags.has(t)) {
+                  anyMatch = true;
+                  break;
+                }
+              }
+              if (!anyMatch) ok = false;
+            }
+          }
+
           if (ok) {
             it.card.style.display = "";
           } else {
             it.card.style.display = "none";
           }
         }
-        // Count only actually visible cards (not hidden by CSS breakpoints)
+
+        // Count only visible cards (respecting layout visibility)
         for (const it of items) {
           if (
             it.card.style.display !== "none" &&
@@ -266,16 +477,51 @@ layout: default
             matches++;
           }
         }
+
         if (countEl) {
-          countEl.textContent =
-            matches + " résultat" + (matches > 1 ? "s" : "");
-          countEl.style.display = "";
+          if (!hasTextFilter && !hasTagFilter) {
+            countEl.style.display = "none";
+          } else {
+            const activeLabels = selectedCats
+              .map((c) => c.label)
+              .filter(Boolean);
+            let suffix = "";
+            if (activeLabels.length) {
+              suffix = " (catégories : " + activeLabels.join(", ") + ")";
+            }
+            countEl.textContent =
+              matches + " résultat" + (matches > 1 ? "s" : "") + suffix;
+            countEl.style.display = "";
+          }
         }
       }
+
+      setupHomeCategories();
+
       input.addEventListener("input", applyFilter);
       if (clearBtn)
         clearBtn.addEventListener("click", function () {
           input.value = "";
+          activeCategoryIds.clear();
+          const buttons = setupHomeCategories._buttons || [];
+          for (const btn of buttons) {
+            btn.classList.remove(
+              "bg-green-600",
+              "border-green-600",
+              "text-white",
+            );
+            if (
+              !btn.classList.contains("bg-white") &&
+              !btn.classList.contains("border-red-200")
+            ) {
+              btn.classList.add(
+                "bg-white",
+                "border-red-200",
+                "text-red-900",
+                "hover:bg-red-50",
+              );
+            }
+          }
           applyFilter();
           input.focus();
         });

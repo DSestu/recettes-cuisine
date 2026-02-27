@@ -1,0 +1,261 @@
+---
+description: Keep homepage categories in home_categories.md aligned with canonical tags in _data/recipe_tags.yml whenever editing recipes/components, and support a cold run that syncs all categories from existing content.
+alwaysApply: true
+---
+
+# Homepage categories and tag sync
+
+**When this applies:** Whenever the agent:
+
+- Creates or edits a recipe in `_recipes/` or a component in `_components/`.
+- Creates or edits `home_categories.md`.
+- Is explicitly asked to "mettre à jour les catégories d'accueil", "synchroniser les catégories", or to run a **cold pass / cold run** on categories and tags.
+
+This rule complements `format-pasted-recipe.mdc` and reuses the same tag
+normalisation conventions. It only concerns:
+
+- The canonical tag registry: `_data/recipe_tags.yml`.
+- The homepage category catalogue: `home_categories.md` (frontmatter
+  `categories:`).
+
+It does **not** change the layout of the site or how tags are used inside
+individual recipes beyond normalising tags.
+
+## Concepts and files
+
+- **Tag registry:** `_data/recipe_tags.yml` is the single source of truth for
+  tag strings. Tags must be:
+  - Easy to type (ASCII, e.g. `oeufs`, `creme`, `gateau`).
+  - One canonical form per concept (no duplicate singular/plural or accented
+    variants).
+- **Homepage categories:** `home_categories.md` defines the ordered list of
+  categories displayed on the homepage. Its frontmatter contains:
+
+  ```yaml
+  ---
+  layout: null
+  categories:
+    - id: "soups"
+      label: "Soupes & veloutés"
+      description: "Toutes les soupes, potages et veloutés."
+      tags:
+        - soupe
+        - potage
+        - veloute
+    # ...
+    - id: "others"
+      label: "Autres"
+      description: "Recettes qui ne rentrent dans aucune catégorie ci-dessus."
+      mode: "other"
+      tags: []
+  ---
+  ```
+
+  - The **order of items in `categories:`** is the exact display order on the
+    homepage. Do not reorder categories unless the user asks.
+  - Each category's `tags:` list must contain canonical tags that also appear
+    in `_data/recipe_tags.yml` (same spelling, same case).
+  - The special category with `id: "others"` and `mode: "other"` is used
+    **only as a filter flag** in the UI; its `tags:` list normally stays empty.
+
+## General principles
+
+- **Single source of truth:**
+  - `_data/recipe_tags.yml` defines allowed tag strings.
+  - `home_categories.md` defines how those tags are grouped into homepage
+    categories.
+- **No surprise categories:**
+  - Do **not** create, delete, rename or reorder categories in
+    `home_categories.md` unless the user explicitly asks for it.
+  - By default, only adjust the `tags:` arrays inside existing categories.
+- **Respect recipe content:**
+  - As in `format-pasted-recipe.mdc`, do not change quantities, directions or
+    intent of recipes/components. Only touch `tags:` and category metadata.
+
+## Tag normalisation (shared with format-pasted-recipe)
+
+Whenever you read or write tags in `_recipes/`, `_components/`,
+`_data/recipe_tags.yml` or `home_categories.md`:
+
+1. **Normalise for matching:**
+   - Trim whitespace.
+   - Lowercase.
+   - Treat accents/ligatures and ASCII equivalents as equal:
+     - `œufs` ↔ `oeufs`
+     - `crème` ↔ `creme`
+     - `gâteau` ↔ `gateau`
+   - Treat singular/plural of the same concept as the same tag:
+     - `tomate` ↔ `tomates`
+     - `oignon` ↔ `oignons`
+     - `poisson` ↔ `poissons`
+
+2. **Use canonical registry form on write:**
+   - If the normalised tag matches an entry in `_data/recipe_tags.yml`, write
+     that exact registry spelling in:
+     - recipe/component frontmatter `tags:`
+     - category `tags:` in `home_categories.md`.
+   - If there is no match in `_data/recipe_tags.yml`, add a new canonical tag
+     there (ASCII, one form per concept), then use that new value everywhere.
+
+3. **Avoid near-duplicates:**
+   - Never keep both singular and plural forms as separate tags for the same
+     concept.
+   - Never introduce accented and ASCII variants for the same word; always pick
+     the ASCII form in the registry.
+
+## Mapping tags to categories
+
+When you add or edit a recipe/component and touch its `tags:` list, you must
+decide whether some tags should also be added to one or more homepage
+categories.
+
+### 1. Exact matches (already covered)
+
+For each canonical tag used in the recipe/component:
+
+- If that tag already appears in any category's `tags:` list in
+  `home_categories.md`, do **nothing** for this tag. It is already covered.
+
+### 2. Candidate tags ("close and related")
+
+If a canonical tag from the recipe/component does **not** appear in any
+category's `tags:` list:
+
+1. Look for a **semantically related category**:
+   - Same ingredient family or lexical root:
+     - e.g. `saumon`, `maquereau`, `poisson` all belong to a "Poisson" /
+       "Plats principaux" style category if it has such tags.
+     - e.g. `tiramisu`, `gateau`, `creme` belong with a "Desserts" category.
+   - Same type of dish:
+     - e.g. `soupe`, `potage`, `veloute` → "Soupes & veloutés".
+     - e.g. `plat`, `plat principal`, `repas` → main dish category.
+   - Same origin or cuisine:
+     - e.g. `japon`, `asiatique`, `ramen`, `yakitori` → "Japon" category.
+
+2. If there is **exactly one clearly best category**, you **may** append the
+   tag once to that category's `tags:` list.
+
+3. If there are several plausible categories or no clear match:
+   - Prefer to **do nothing** and leave the tag uncategorised.
+   - The recipe will then fall into the "Autres" bucket in the UI (because its
+     tags are not registered in any normal category).
+
+4. Never add a tag to the `"others"` category:
+   - That category is computed in the UI based on the absence of tags in other
+     categories.
+
+### 3. Where to insert new tags inside a category
+
+When you decide to add a tag to a category's `tags:` list:
+
+- Preserve the existing order of tags.
+- Add the new tag once, usually **at the end** of that category's `tags:`
+  array, unless there is an obvious nearby sibling (same base word) where
+  grouping makes the YAML more readable.
+
+## Behaviour when editing or creating a recipe/component
+
+Whenever you create or modify a recipe in `_recipes/` or a component in
+`_components/`, follow this checklist **after** applying
+`format-pasted-recipe.mdc` rules:
+
+1. **Normalise the file's tags:**
+   - Ensure its `tags:` list only contains canonical values from
+     `_data/recipe_tags.yml` (adding any genuinely new tags to the registry if
+     needed).
+
+2. **Open `home_categories.md`:**
+   - Read frontmatter `categories:`.
+   - Do not reorder categories or change their `id`/`label` without an
+     explicit user request.
+
+3. **For each canonical tag used in the file:**
+   - Check if it already exists in any category's `tags:`:
+     - If yes: do nothing for this tag.
+     - If no: evaluate whether it should be attached to one category using the
+       mapping rules above.
+   - If a category is a good fit, append the tag (once) to that category's
+     `tags:` list, using the canonical spelling from `_data/recipe_tags.yml`.
+
+4. **Do not edit the `"others"` category:**
+   - Its `mode: "other"` flag is used by the homepage JavaScript to select
+     recipes whose tags are not present in other categories.
+   - Leave its `tags:` list empty unless the user explicitly instructs
+     otherwise.
+
+5. **Save with minimal diffs:**
+   - Keep comments and text after the frontmatter `---` in `home_categories.md`
+     intact.
+   - Only modify the relevant `tags:` arrays.
+
+## Cold run on categories and tags
+
+On explicit user request (e.g. "fais un cold run des catégories", "synchronise
+les catégories avec toutes les recettes"), you may perform a **cold pass**
+similar in spirit to the tag normalisation cold pass in
+`format-pasted-recipe.mdc`, but extended to homepage categories.
+
+### Step 1 – Preparation
+
+1. Read `_data/recipe_tags.yml`. If it does not exist, create it with an empty
+   list.
+2. Read `home_categories.md` and parse its frontmatter `categories:`.
+3. Enumerate all `.md` files in `_recipes/` and `_components/`.
+
+### Step 2 – Collect canonical tags per file
+
+For each recipe/component file:
+
+1. Parse frontmatter and read its `tags:` list (if present).
+2. For each tag in that list:
+   - Normalise and canonicalise it against `_data/recipe_tags.yml` using the
+     rules above.
+   - If there is no match in the registry, add a new canonical entry there and
+     use it as the tag's value.
+3. Record the final canonical tags for that file in memory, and, if needed,
+   update the file's `tags:` block so it only contains canonical registry
+   values.
+
+### Step 3 – Extend category tag lists
+
+Now extend category `tags:` lists based on all tags seen across recipes and
+components:
+
+1. For each category in `home_categories.md` **except** the one with
+   `mode: "other"`:
+   - Treat the existing `tags:` list as a manual seed that must be preserved.
+2. For each canonical tag observed in Step 2:
+   - If the tag already appears in any category's `tags:`, skip it.
+   - Otherwise, decide whether it is clearly related to one of the existing
+     categories (using the mapping rules):
+     - If yes, append it to that category's `tags:` list.
+     - If not, leave it uncategorised; it will naturally fall into "Autres".
+3. Ensure that:
+   - Category `tags:` lists contain only canonical registry tags.
+   - Each tag appears at most once per category.
+
+Do **not**:
+
+- Create new categories during a cold run unless the user explicitly requests
+  it.
+- Remove existing tags from categories unless the user asks for a cleanup.
+
+### Step 4 – Write back
+
+1. Update `_data/recipe_tags.yml` with the full deduplicated set of canonical
+   tags encountered (preserving its existing easy-to-type conventions).
+2. Update `home_categories.md` frontmatter `categories:` with the new `tags:`
+   lists, keeping:
+   - The original order of categories unchanged.
+   - Comments and body text below `---` intact.
+
+### Step 5 – Report to the user
+
+After a cold run, summarise changes back to the user, for example:
+
+- How many new tags were added to `_data/recipe_tags.yml`.
+- For each category, how many tags were added (and optionally list them).
+
+This allows the user to quickly review and, if needed, request adjustments
+("enlève `X` de la catégorie `Desserts`", etc.).
+
