@@ -264,6 +264,7 @@ layout: default
           norm: normalize(r.title),
           tags: r.tags || [],
           isOther: !targetCatId,
+          categoryId: targetCatId || (othersCat ? othersCat.id : null),
         });
       }
 
@@ -361,34 +362,38 @@ layout: default
         const selectedCats = (HOME_CATEGORIES || []).filter((c) =>
           activeCategoryIds.has(c.id),
         );
-        const otherCatSelected = selectedCats.some(
-          (c) => c.mode === "other",
-        );
-        const normalCats = selectedCats.filter((c) => c.mode !== "other");
-
-        // Flatten required tags from selected normal categories
-        const requiredTags = new Set();
-        for (const cat of normalCats) {
-          for (const t of cat.tags || []) {
-            if (!t) continue;
-            requiredTags.add(String(t));
-          }
-        }
+        const selectedIds = new Set(selectedCats.map((c) => c.id));
 
         const hasTextFilter = q.length >= 2;
-        const hasTagFilter = requiredTags.size > 0 || otherCatSelected;
+        const hasCategoryFilter = selectedIds.size > 0;
 
         // Toggle clear button based on any active filter
         if (clearBtn) {
           clearBtn.classList.toggle(
             "hidden",
-            !hasTextFilter && !hasTagFilter,
+            !hasTextFilter && !hasCategoryFilter,
           );
         }
 
-        if (!hasTextFilter && !hasTagFilter) {
-          for (const it of items) it.card.style.display = "";
-          if (countEl) countEl.style.display = "none";
+        if (!hasTextFilter && !hasCategoryFilter) {
+          // No active filters: show all recipes and all sections
+          for (const it of items) {
+            it.card.style.display = "";
+          }
+          if (countEl) {
+            countEl.style.display = "none";
+          }
+          // Ensure all category sections are visible again
+          for (const { section } of [
+            ...categorySections.values(),
+            ...(othersSection ? [othersSection] : []),
+          ]) {
+            section.style.display = "";
+          }
+          // Also hide the clear button when nothing is filtered
+          if (clearBtn) {
+            clearBtn.classList.add("hidden");
+          }
           return;
         }
 
@@ -410,20 +415,9 @@ layout: default
           }
 
           // 2) Category filter
-          if (ok && hasTagFilter) {
-            if (otherCatSelected && !normalCats.length) {
-              // Only \"Autres\" selected
-              if (!it.isOther) ok = false;
-            } else if (requiredTags.size) {
-              const tags = new Set((it.tags || []).map(String));
-              let anyMatch = false;
-              for (const t of requiredTags) {
-                if (tags.has(t)) {
-                  anyMatch = true;
-                  break;
-                }
-              }
-              if (!anyMatch) ok = false;
+          if (ok && hasCategoryFilter) {
+            if (!selectedIds.has(it.categoryId)) {
+              ok = false;
             }
           }
 
@@ -457,7 +451,7 @@ layout: default
         }
 
         if (countEl) {
-          if (!hasTextFilter && !hasTagFilter) {
+          if (!hasTextFilter && !hasCategoryFilter) {
             countEl.style.display = "none";
           } else {
             const activeLabels = selectedCats
