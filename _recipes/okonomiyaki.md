@@ -5,7 +5,6 @@ image: okonomiyaki.webp
 
 
 tags:
-- entree
 - japon
 - voyage
 - repas
