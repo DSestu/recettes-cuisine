@@ -383,35 +383,20 @@ layout: default
           );
         }
 
-        if (!hasTextFilter && !hasCategoryFilter) {
-          // No active filters: show all recipes and all sections
-          for (const it of items) {
-            it.card.style.display = "";
-          }
-          if (countEl) {
-            countEl.style.display = "none";
-          }
-          // Ensure all category sections are visible again
-          for (const { section } of [
-            ...categorySections.values(),
-            ...(othersSection ? [othersSection] : []),
-          ]) {
-            section.style.display = "";
-          }
-          // Also hide the clear button when nothing is filtered
-          if (clearBtn) {
-            clearBtn.classList.add("hidden");
-          }
-          return;
-        }
-
         let matches = 0;
 
         for (const it of items) {
           let ok = true;
 
-          // 1) Text filter (same logic as before)
-          if (hasTextFilter) {
+          // 1) Category filter (single active category acts like a tab)
+          if (hasCategoryFilter && it.categoryId && selectedId) {
+            if (it.categoryId !== selectedId) {
+              ok = false;
+            }
+          }
+
+          // 2) Text filter (applied within the current category view or across all)
+          if (ok && hasTextFilter) {
             const norm = it.norm;
             for (const w of words) {
               if (norm.includes(w)) continue;
@@ -422,11 +407,7 @@ layout: default
             }
           }
 
-          if (ok) {
-            it.card.style.display = "";
-          } else {
-            it.card.style.display = "none";
-          }
+          it.card.style.display = ok ? "" : "none";
         }
 
         // Count only visible cards (respecting layout visibility)
@@ -442,12 +423,13 @@ layout: default
         // Show/hide category sections
         for (const [catId, { section, grid }] of categorySections.entries()) {
           if (hasCategoryFilter) {
+            // In category mode, only the selected category's section is shown
             section.style.display = catId === selectedId ? "" : "none";
           } else {
-            // When no category filter, hide sections that have no visible recipes
+            // No category selected: show sections that have any recipes that pass
+            // the current text filter, ignoring previous section visibility.
             const hasVisible = Array.from(grid.children).some(
-              (el) =>
-                el.style.display !== "none" && el.offsetParent !== null,
+              (el) => el.style.display !== "none",
             );
             section.style.display = hasVisible ? "" : "none";
           }
@@ -459,8 +441,7 @@ layout: default
               othersId && othersId === selectedId ? "" : "none";
           } else {
             const hasVisible = Array.from(othersSection.grid.children).some(
-              (el) =>
-                el.style.display !== "none" && el.offsetParent !== null,
+              (el) => el.style.display !== "none",
             );
             othersSection.section.style.display = hasVisible ? "" : "none";
           }
