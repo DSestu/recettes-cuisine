@@ -1,29 +1,21 @@
 ---
 layout: null
 categories:
-  - id: "soups"
-    label: "Soupes & veloutés"
-    description: "Toutes les soupes, potages et veloutés."
-    tags:
-      - soupe
-      - potage
-      - veloute
 
-  - id: "winter"
-    label: "Hiver"
-    description: "Recettes réconfortantes pour les jours froids."
+  - id: "starters"
+    label: "Entrées"
+    description: "Recettes d'entrées."
     tags:
-      - hiver
+      - entree
 
-  - id: "quick_easy"
-    label: "Rapide & facile"
-    description: "Recettes rapides ou simples à préparer."
+  - id: "pates"
+    label: "Pâtes"
+    description: "Recettes de pates."
     tags:
-      - rapide
-      - facile
+      - pates
 
   - id: "japan"
-    label: "Japon"
+    label: "Japon & Asie"
     description: "Recettes japonaises ou inspirées du Japon."
     tags:
       - japon
@@ -37,14 +29,32 @@ categories:
       - plat principal
       - repas
 
+  - id: "soups"
+    label: "Soupes & veloutés"
+    description: "Toutes les soupes, potages et veloutés."
+    tags:
+      - soupe
+      - potage
+      - veloute
+
+
   - id: "desserts"
     label: "Desserts"
     description: "Gâteaux, crèmes, entremets et autres douceurs."
     tags:
       - dessert
       - gateau
-      - creme
       - tiramisu
+
+  - id: "drinks"
+    label: "Boissons"
+    description: "Recettes de boissons."
+    tags:
+      - boisson
+      - cocktail
+      - apéritif
+      - digestif
+      - vin
 
   - id: "bases"
     label: "Bases & composants"
@@ -71,4 +81,3 @@ Ce fichier définit les catégories utilisées sur la page d'accueil.
 - La catégorie avec `id: "others"` et `mode: "other"` sert à regrouper, côté
   interface, les recettes qui n'ont aucun tag présent dans les autres
   catégories ; sa liste `tags:` reste normalement vide.
-

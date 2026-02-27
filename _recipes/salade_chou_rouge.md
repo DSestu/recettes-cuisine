@@ -17,6 +17,7 @@ tags:
 - huile
 - sel
 - poivre
+- entree
 
 ingredients:
 - 1 petit chou rouge

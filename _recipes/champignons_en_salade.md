@@ -17,6 +17,7 @@ tags:
 - moutarde
 - sel
 - poivre
+- entree
 
 ingredients:
 - 125 g de haricots verts
