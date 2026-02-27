@@ -236,36 +236,47 @@ layout: default
 
       for (const r of HOME_RECIPES || []) {
         const tags = new Set((r.tags || []).map(String));
-        let targetCatId = null;
+
+        // Determine all matching category IDs for this recipe/component
+        let matchedCatIds = [];
 
         if (r.kind === "component") {
           // Components are always shown under the \"bases\" category if it exists
-          targetCatId = BASES_ID;
+          const basesSection = categorySections.get(BASES_ID);
+          if (basesSection) {
+            matchedCatIds = [BASES_ID];
+          }
         } else {
           for (const cat of HOME_CATEGORIES || []) {
             if (cat.mode === "other") continue;
             if ((cat.tags || []).some((t) => tags.has(String(t)))) {
-              targetCatId = cat.id;
-              break;
+              matchedCatIds.push(cat.id);
             }
           }
         }
 
-        const target =
-          (targetCatId && categorySections.get(targetCatId)) || othersSection;
-        if (!target) continue;
+        // If no category matched, fall back to \"Autres\" if available
+        if (matchedCatIds.length === 0 && othersCat) {
+          matchedCatIds = [othersCat.id];
+        }
 
-        const card = createRecipeCard(r);
-        target.grid.appendChild(card);
+        for (const catId of matchedCatIds) {
+          const targetSection =
+            categorySections.get(catId) ||
+            (othersCat && othersCat.id === catId ? othersSection : null);
+          if (!targetSection) continue;
 
-        items.push({
-          card,
-          title: r.title,
-          norm: normalize(r.title),
-          tags: r.tags || [],
-          isOther: !targetCatId,
-          categoryId: targetCatId || (othersCat ? othersCat.id : null),
-        });
+          const card = createRecipeCard(r);
+          targetSection.grid.appendChild(card);
+
+          items.push({
+            card,
+            title: r.title,
+            norm: normalize(r.title),
+            tags: r.tags || [],
+            categoryId: catId,
+          });
+        }
       }
 
       const activeCategoryIds = new Set();

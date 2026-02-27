@@ -59,11 +59,7 @@ categories:
   - id: "bases"
     label: "Bases & composants"
     description: "Bouillons, sauces et préparations de base."
-    tags:
-      - base
-      - composant
-      - bouillon
-      - sauce
+    tags: []
 
   - id: "others"
     label: "Autres"
