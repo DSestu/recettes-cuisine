@@ -332,28 +332,20 @@ layout: default
           }
 
           btn.addEventListener("click", () => {
-            const isOther = cat.mode === "other";
             const isActive = activeCategoryIds.has(cat.id);
 
-            if (isOther) {
-              if (isActive) {
-                // Toggle off \"Autres\" if it's already active
-                activeCategoryIds.delete(cat.id);
-                setButtonInactive(btn);
-                applyFilter();
-                return;
-              }
-              // Activate \"Autres\" exclusively (clear other categories)
+            if (isActive) {
+              // Clicking an active category clears all category filters
               activeCategoryIds.clear();
               for (const b of allButtons) {
                 setButtonInactive(b);
               }
-            }
-
-            if (isActive) {
-              activeCategoryIds.delete(cat.id);
-              setButtonInactive(btn);
             } else {
+              // Only one category can be active at a time
+              activeCategoryIds.clear();
+              for (const b of allButtons) {
+                setButtonInactive(b);
+              }
               activeCategoryIds.add(cat.id);
               setButtonActive(btn);
             }
@@ -378,6 +370,7 @@ layout: default
           activeCategoryIds.has(c.id),
         );
         const selectedIds = new Set(selectedCats.map((c) => c.id));
+        const selectedId = selectedCats.length > 0 ? selectedCats[0].id : null;
 
         const hasTextFilter = q.length >= 2;
         const hasCategoryFilter = selectedIds.size > 0;
@@ -429,13 +422,6 @@ layout: default
             }
           }
 
-          // 2) Category filter
-          if (ok && hasCategoryFilter) {
-            if (!selectedIds.has(it.categoryId)) {
-              ok = false;
-            }
-          }
-
           if (ok) {
             it.card.style.display = "";
           } else {
@@ -453,16 +439,31 @@ layout: default
           }
         }
 
-        // Hide category sections that have no visible recipes
-        for (const { section, grid } of [
-          ...categorySections.values(),
-          ...(othersSection ? [othersSection] : []),
-        ]) {
-          const hasVisible = Array.from(grid.children).some(
-            (el) =>
-              el.style.display !== "none" && el.offsetParent !== null,
-          );
-          section.style.display = hasVisible ? "" : "none";
+        // Show/hide category sections
+        for (const [catId, { section, grid }] of categorySections.entries()) {
+          if (hasCategoryFilter) {
+            section.style.display = catId === selectedId ? "" : "none";
+          } else {
+            // When no category filter, hide sections that have no visible recipes
+            const hasVisible = Array.from(grid.children).some(
+              (el) =>
+                el.style.display !== "none" && el.offsetParent !== null,
+            );
+            section.style.display = hasVisible ? "" : "none";
+          }
+        }
+        if (othersSection) {
+          if (hasCategoryFilter) {
+            const othersId = othersCat ? othersCat.id : null;
+            othersSection.section.style.display =
+              othersId && othersId === selectedId ? "" : "none";
+          } else {
+            const hasVisible = Array.from(othersSection.grid.children).some(
+              (el) =>
+                el.style.display !== "none" && el.offsetParent !== null,
+            );
+            othersSection.section.style.display = hasVisible ? "" : "none";
+          }
         }
 
         if (countEl) {
