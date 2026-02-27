@@ -4,16 +4,23 @@
 
   <style>
     @media (max-width: 767px) {
-      #btn-page-fullscreen.btn-hidden {
+      #btn-page-fullscreen.btn-hidden,
+      #btn-qr-modal.btn-hidden {
         opacity: 0;
         transform: translateY(-140%);
         pointer-events: none;
       }
     }
     @media (min-width: 768px) {
-      #btn-page-fullscreen {
+      #btn-page-fullscreen,
+      #btn-qr-modal {
         display: none;
       }
+    }
+
+    #qr-modal.qr-modal-open {
+      opacity: 1;
+      pointer-events: auto;
     }
   </style>
 
@@ -52,6 +59,24 @@
           />
         </svg>
       </a>
+      <button
+        id="btn-qr-modal"
+        type="button"
+        class="fixed top-4 right-20 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
+        title="Afficher le QR code"
+        aria-label="Afficher le QR code"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6 md:size-8"
+        >
+          <path
+            d="M3 3h4v4H3V3zm2 2v0h0zm6-2h4v4h-4V3zm2 2v0h0zM3 11h4v4H3v-4zm2 2v0h0zm8-2h4v2h-2v2h2v2h-4v-6zm-4 0h2v2h-2v-2zm0 4h2v2h-2v-2zm8-4h2v2h-2v-2zm0 4h2v4h-4v-2h2v-2z"
+          />
+        </svg>
+      </button>
       <button
         id="toggle-sidebar"
         class="hidden md:block absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50"
@@ -93,6 +118,27 @@
       </svg>
     </a>
     {% endunless %}
+
+    <div
+      id="qr-modal"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-200"
+      aria-hidden="true"
+    >
+      <div
+        data-qr-modal-panel
+        class="relative bg-white rounded-2xl p-4 md:p-6 shadow-3xl max-w-sm w-[90%] flex flex-col items-center gap-4"
+      >
+        <h2 class="text-lg font-semibold text-center text-orange-950">
+          Scanner ce QR code pour accéder au site
+        </h2>
+        <img
+          src="{{ site.baseurl }}/qr-code.jpg"
+          alt="QR code vers Recettes Cuisine"
+          class="w-full h-auto max-h-[70vh] object-contain rounded-xl border border-gray-200 bg-white"
+          loading="lazy"
+        />
+      </div>
+    </div>
 
     <script>
       (function () {
@@ -192,11 +238,59 @@
       })();
     </script>
     <script>
-      // Mobile hide/show for fullscreen button (same behavior as mobile-back-btn)
+      // QR modal open/close behavior
+      (function () {
+        const qrBtn = document.getElementById("btn-qr-modal");
+        const modal = document.getElementById("qr-modal");
+        if (!qrBtn || !modal) return;
+
+        function openModal() {
+          modal.classList.add("qr-modal-open");
+          document.documentElement.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+          modal.classList.remove("qr-modal-open");
+          document.documentElement.style.overflow = "";
+        }
+
+        qrBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          openModal();
+        });
+
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            closeModal();
+          }
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && modal.classList.contains("qr-modal-open")) {
+            closeModal();
+          }
+        });
+      })();
+    </script>
+    <script>
+      // Mobile hide/show for top-right buttons (fullscreen + QR)
       (function () {
         const fsBtn = document.getElementById("btn-page-fullscreen");
-        if (!fsBtn) return;
+        const qrBtn = document.getElementById("btn-qr-modal");
+        if (!fsBtn && !qrBtn) return;
         let lastY = window.scrollY || 0;
+
+        function setHidden(hidden) {
+          [fsBtn, qrBtn].forEach((btn) => {
+            if (!btn) return;
+            if (hidden) {
+              btn.classList.add("btn-hidden");
+            } else {
+              btn.classList.remove("btn-hidden");
+            }
+          });
+        }
+
         window.addEventListener(
           "scroll",
           () => {
@@ -205,8 +299,8 @@
             const y = window.scrollY || 0;
             const goingDown = y > lastY && y > 6;
             const atTop = y <= 0;
-            if (goingDown) fsBtn.classList.add("btn-hidden");
-            if (atTop || y < lastY) fsBtn.classList.remove("btn-hidden");
+            if (goingDown) setHidden(true);
+            if (atTop || y < lastY) setHidden(false);
             lastY = y;
           },
           { passive: true }
