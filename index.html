@@ -69,11 +69,19 @@ layout: default
       class="text-sm text-red-900/70 mt-2"
       style="display: none"
     ></p>
-    <div class="mt-3">
+    <div class="mt-3 flex flex-wrap items-center gap-3">
       <div
         id="home-categories"
         class="flex flex-wrap gap-2 items-center text-sm"
       ></div>
+      <button
+        id="components-toggle"
+        type="button"
+        class="text-xs px-2 py-1 rounded-full border border-primary/40 bg-primary/5 text-primary hover:bg-primary/10 transition whitespace-nowrap"
+        title="Afficher ou masquer les bases dans les autres catégories"
+      >
+        Bases visibles partout
+      </button>
     </div>
   </div>
 
@@ -151,6 +159,9 @@ layout: default
       const countEl = document.getElementById("home-search-count");
       const recipesRoot = document.getElementById("recipes-by-category");
       if (!recipesRoot) return;
+
+      const BASES_ID = "bases";
+      let showComponentsInMain = true;
 
       // Build sections per category (plus an "Autres" section)
       const categorySections = new Map();
@@ -232,26 +243,24 @@ layout: default
 
       const items = [];
 
-      const BASES_ID = "bases";
-
       for (const r of HOME_RECIPES || []) {
         const tags = new Set((r.tags || []).map(String));
 
         // Determine all matching category IDs for this recipe/component
         let matchedCatIds = [];
 
-        if (r.kind === "component") {
-          // Components are always shown under the \"bases\" category if it exists
-          const basesSection = categorySections.get(BASES_ID);
-          if (basesSection) {
-            matchedCatIds = [BASES_ID];
+        // Allow multiple category matches based on tags
+        for (const cat of HOME_CATEGORIES || []) {
+          if (cat.mode === "other") continue;
+          if ((cat.tags || []).some((t) => tags.has(String(t)))) {
+            matchedCatIds.push(cat.id);
           }
-        } else {
-          for (const cat of HOME_CATEGORIES || []) {
-            if (cat.mode === "other") continue;
-            if ((cat.tags || []).some((t) => tags.has(String(t)))) {
-              matchedCatIds.push(cat.id);
-            }
+        }
+
+        // Ensure components also always appear in the \"bases\" category if it exists
+        if (r.kind === "component" && categorySections.has(BASES_ID)) {
+          if (!matchedCatIds.includes(BASES_ID)) {
+            matchedCatIds.push(BASES_ID);
           }
         }
 
@@ -275,6 +284,7 @@ layout: default
             norm: normalize(r.title),
             tags: r.tags || [],
             categoryId: catId,
+            kind: r.kind,
           });
         }
       }
@@ -406,6 +416,16 @@ layout: default
             }
           }
 
+          // 1b) Optional: hide components in non-bases categories when toggle is off
+          if (
+            ok &&
+            !showComponentsInMain &&
+            it.kind === "component" &&
+            it.categoryId !== BASES_ID
+          ) {
+            ok = false;
+          }
+
           // 2) Text filter (applied within the current category view or across all)
           if (ok && hasTextFilter) {
             const norm = it.norm;
@@ -477,6 +497,22 @@ layout: default
       }
 
       setupHomeCategories();
+
+      // Toggle to show/hide components in non-bases categories
+      const componentsToggle = document.getElementById("components-toggle");
+      if (componentsToggle) {
+        function updateComponentsToggleLabel() {
+          componentsToggle.textContent = showComponentsInMain
+            ? "Bases visibles partout"
+            : "Bases seulement dans leur section";
+        }
+        updateComponentsToggleLabel();
+        componentsToggle.addEventListener("click", () => {
+          showComponentsInMain = !showComponentsInMain;
+          updateComponentsToggleLabel();
+          applyFilter();
+        });
+      }
 
       input.addEventListener("input", applyFilter);
       if (clearBtn)
