@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Pâtes fraîches / à raviolis"
-image: pates_fraiches_raviolis.jpg
+image: pates_fraiches_raviolis.png
 
 tags:
 - farine
