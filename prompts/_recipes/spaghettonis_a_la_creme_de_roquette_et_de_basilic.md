@@ -1,0 +1,6 @@
+Photographie culinaire réaliste d'une assiette de spaghettonis dressée sur une table en bois rustique, vue en légère plongée. Les pâtes longues et épaisses sont enrobées d'une crème onctueuse de couleur vert pâle, à base de roquette, de basilic, de brousse de brebis, de mascarpone et de parmesan. La sauce adhère bien aux spaghettonis, créant un effet crémeux homogène, sans excès de liquide dans le fond de l'assiette.
+
+Sur le dessus, quelques feuilles de roquette fraîches apportent un vert plus vif et une touche de relief, et l'on distingue une petite quenelle de crème plus épaisse non détendue déposée au sommet du dôme de pâtes. Des copeaux ou une fine pluie de parmesan complètent le dressage. Un filet d'huile d'olive vierge extra brille légèrement à la surface, et quelques grains de poivre noir fraîchement moulu ajoutent de petites touches sombres.
+
+La lumière est douce et naturelle, venant d'un côté, avec des ombres légères et des reflets subtils sur la sauce et l'huile. L'ambiance générale est chaleureuse et simple, typique d'un repas de pâtes préparé à la maison, sans éléments modernes ni personnes dans le cadre. L'arrière-plan est flou, ne laissant voir que la texture du bois ou un linge de table discret, pour garder toute l'attention sur les spaghettonis à la crème de roquette et de basilic.
+
