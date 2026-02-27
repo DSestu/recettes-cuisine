@@ -1,0 +1,6 @@
+Photographie culinaire réaliste d'une assiette de linguines dressée sur une table en bois rustique, vue en légère plongée. Les linguines sont enrobées d'une sauce crémeuse à base de ricotta et de pecorino, de couleur ivoire, qui adhère bien aux pâtes. De nombreux petits lardons de guanciale grillés sont répartis sur le dessus, bien dorés, légèrement croustillants, avec quelques zones plus foncées correspondant à la graisse fondue.
+
+Des copeaux ou une fine couche de pecorino râpé recouvrent une partie des pâtes, et des feuilles de basilic pourpre fraîchement effeuillées apportent des touches de violet profond et de vert sombre sur le plat. Un filet d'huile d'olive vierge extra ajoute un léger brillant à la surface, et l'on distingue des grains de poivre noir fraîchement moulu.
+
+La lumière est douce, provenant d'une fenêtre latérale, créant des ombres légères et naturelles. L'ambiance générale est chaleureuse et simple, comme un repas de pâtes préparé à la maison, sans éléments superflus ni personnages dans l'image. L'arrière-plan est flou, laissant juste deviner la texture du bois ou un linge de table discret, pour garder toute l'attention sur les linguines ricotta, pecorino et guanciale.
+
