@@ -51,10 +51,7 @@ categories:
     description: "Recettes de boissons."
     tags:
       - boisson
-      - cocktail
-      - apéritif
-      - digestif
-      - vin
+
 
   - id: "bases"
     label: "Bases & composants"
