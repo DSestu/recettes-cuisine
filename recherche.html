@@ -3562,6 +3562,7 @@ permalink: /recherche/
       } else {
         setParam('open', '');
       }
+      if (typeof window.updateQrCode === 'function') window.updateQrCode();
       // graph-search removed
     }
     // Expose for external callers (chips updates, graph clicks, FS overlay)

@@ -217,13 +217,14 @@
     <script>
       // Dynamic QR generation for desktop sidebar and mobile modal
       (function () {
-        function initQr() {
+        function refreshQr() {
           if (typeof QRCode === "undefined") return;
           var url = window.location.href || document.location.href;
 
           try {
             var desktopEl = document.getElementById("desktop-qr");
-            if (desktopEl && !desktopEl.dataset.qrGenerated) {
+            if (desktopEl) {
+              desktopEl.innerHTML = "";
               var dSize = Math.floor(
                 Math.min(
                   desktopEl.clientWidth || 0,
@@ -236,7 +237,6 @@
                 width: dSize,
                 height: dSize,
               });
-              desktopEl.dataset.qrGenerated = "1";
             }
           } catch (e) {
             // ignore
@@ -244,7 +244,8 @@
 
           try {
             var modalEl = document.getElementById("modal-qr");
-            if (modalEl && !modalEl.dataset.qrGenerated) {
+            if (modalEl) {
+              modalEl.innerHTML = "";
               var mSize = Math.floor(
                 Math.min(
                   modalEl.clientWidth || 0,
@@ -257,12 +258,17 @@
                 width: mSize,
                 height: mSize,
               });
-              modalEl.dataset.qrGenerated = "1";
             }
           } catch (e) {
             // ignore
           }
         }
+
+        function initQr() {
+          refreshQr();
+        }
+
+        window.updateQrCode = refreshQr;
 
         if (document.readyState === "loading") {
           document.addEventListener("DOMContentLoaded", initQr, { once: true });
