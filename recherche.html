@@ -3265,13 +3265,10 @@ permalink: /recherche/
         body.classList.toggle('mobile-accordion-body--closed', !open);
         trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
         if (typeof refresh === 'function') refresh();
+        syncMobileAccordionUI();
       }
       function syncMobileAccordionUI() {
         if (!isMobile()) return;
-        var nameA = nameActive(), catA = categoriesActive(), tagA = tagsActive();
-        if (nameA) mobileAccordionOpen.name = true;
-        if (catA) mobileAccordionOpen.categories = true;
-        if (tagA) mobileAccordionOpen.tags = true;
         var triggers = [
           { id: 'name', active: mobileAccordionOpen.name },
           { id: 'categories', active: mobileAccordionOpen.categories },
