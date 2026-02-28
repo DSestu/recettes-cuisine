@@ -2,6 +2,12 @@
 layout: default
 permalink: /recherche/
 ---
+{% assign home_cats_page = site.pages | where: "name", "home_categories.md" | first %}
+{% if home_cats_page %}
+  {% assign home_categories = home_cats_page.categories %}
+{% else %}
+  {% assign home_categories = nil %}
+{% endif %}
 
 <div class="content w-full md:w-full p-6">
   <!-- Floating back button -->
@@ -197,7 +203,35 @@ permalink: /recherche/
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
     <!-- Col 1: Inputs -->
     <div class="col-span-1 flex flex-col gap-4">
-      <!-- Global free-text input removed per request -->
+      <!-- Title search -->
+      <div class="flex flex-col gap-2">
+        <label for="title-search" class="text-sm uppercase text-primary font-semibold">Recherche par titre</label>
+        <div class="relative">
+          <input
+            id="title-search"
+            type="search"
+            inputmode="search"
+            autocomplete="off"
+            placeholder="Rechercher par titre…"
+            class="block w-full rounded-xl border border-red-200/60 bg-white px-4 py-2 pr-10 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+          />
+          <button
+            id="title-search-clear"
+            type="button"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-red-900/60 hover:text-primary/90 hidden"
+            aria-label="Effacer la recherche"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Categories filter -->
+      <div class="flex flex-col gap-2">
+        <span class="text-sm uppercase text-primary font-semibold">Catégories</span>
+        <div id="adv-categories" class="flex flex-wrap gap-2 items-center"></div>
+      </div>
+
       <div
         class="mb-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200"
       >
@@ -302,7 +336,11 @@ permalink: /recherche/
           class="px-3 py-1 rounded-full text-white font-bold shadow-lg transition-all outline outline-4 outline-white"
         ></button>
       </div>
-      <div id="tolerance-group" class="w-full md:w-auto">
+    
+
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm uppercase text-primary font-semibold">Tags</label>
+  <div id="tolerance-group" class="w-full md:w-auto">
         <label
           class="flex items-center gap-2 px-3 py-2 rounded-full bg-white outline outline-1 outline-gray-300 w-full md:w-auto"
         >
@@ -318,10 +356,6 @@ permalink: /recherche/
           <span id="tolerance-value" class="font-semibold">0</span>
         </label>
       </div>
-
-      <div class="flex flex-col gap-2 relative">
-        <label class="text-sm uppercase text-primary font-semibold">Tags</label>
-
         <input
           id="tag-input"
           type="text"
@@ -717,6 +751,22 @@ permalink: /recherche/
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script>
   // -----------------------------
+  // Catégories d'accueil (Jekyll)
+  // -----------------------------
+  const HOME_CATEGORIES = [
+    {% if home_categories %}
+      {% for cat in home_categories %}
+      {
+        id: {{ cat.id | jsonify }},
+        label: {{ cat.label | jsonify }},
+        tags: {{ cat.tags | jsonify }},
+        mode: {{ cat.mode | default: "" | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    {% endif %}
+  ];
+
+  // -----------------------------
   // Données générées côté Jekyll
   // -----------------------------
   const DATA = [
@@ -765,6 +815,26 @@ permalink: /recherche/
       .replace(/[^a-z0-9\-\s']/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+  }
+
+  // For title search (same as main page)
+  function normalize(str) {
+    return (str || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9 ]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  function isSubsequence(query, text) {
+    if (!query) return true;
+    let i = 0, j = 0;
+    while (i < query.length && j < text.length) {
+      if (query[i] === text[j]) i++;
+      j++;
+    }
+    return i === query.length;
   }
 
   function singularize(frWord) {
@@ -891,6 +961,26 @@ permalink: /recherche/
   }
 
   // -----------------------------
+  // categoryIds per item (from HOME_CATEGORIES)
+  // -----------------------------
+  const BASES_ID = 'bases';
+  const othersCat = (HOME_CATEGORIES || []).find(c => c.mode === 'other');
+  for (const it of ITEMS) {
+    const tags = new Set((it.tags || []).map(String));
+    const categoryIds = [];
+    for (const cat of HOME_CATEGORIES || []) {
+      if (cat.mode === 'other') continue;
+      if ((cat.tags || []).some(t => tags.has(String(t)))) categoryIds.push(cat.id);
+    }
+    if (it.type === 'component' && categoryIds.indexOf(BASES_ID) === -1) {
+      const hasBases = (HOME_CATEGORIES || []).some(c => c.id === BASES_ID);
+      if (hasBases) categoryIds.push(BASES_ID);
+    }
+    if (categoryIds.length === 0 && othersCat) categoryIds.push(othersCat.id);
+    it.categoryIds = categoryIds;
+  }
+
+  // -----------------------------
   // Etat UI
   // -----------------------------
   const state = {
@@ -899,6 +989,8 @@ permalink: /recherche/
     infiniteTolerance: false,
     mode: 'tag', // 'tag' | 'ingredient'
     query: '',
+    titleQuery: '',
+    activeCategoryIds: new Set(),
     selectedTokens: new Set(),
     selectedTags: new Set(),
   };
@@ -1058,10 +1150,21 @@ permalink: /recherche/
   // -----------------------------
   function itemMatches(it) {
     if (!state.includeComponents && it.type !== 'recipe') return false;
-    // text query
-    if (state.query) {
-      const q = state.query.toLowerCase();
-      if (!it.textBlob.includes(q)) return false;
+    // Category filter (multi-select: item must match at least one selected category)
+    if (state.activeCategoryIds && state.activeCategoryIds.size > 0) {
+      const catIds = it.categoryIds || [];
+      const hasMatch = Array.from(state.activeCategoryIds).some(id => catIds.indexOf(id) !== -1);
+      if (!hasMatch) return false;
+    }
+    // Title search: each word of query must match (subsequence or includes) in normalized title
+    if (state.titleQuery) {
+      const q = normalize(state.titleQuery);
+      const words = q.split(' ').filter(Boolean);
+      const normTitle = normalize(it.title || '');
+      for (const w of words) {
+        if (normTitle.includes(w)) continue;
+        if (!isSubsequence(w, normTitle)) return false;
+      }
     }
     if (state.mode === 'tag') {
       // Tag-based matching with tolerance
@@ -2682,12 +2785,86 @@ permalink: /recherche/
   }
 
   // -----------------------------
+  // Catégories (chips + counts)
+  // -----------------------------
+  function getFilteredWithoutCategoryFilter() {
+    const prev = state.activeCategoryIds;
+    state.activeCategoryIds = new Set();
+    const result = ITEMS.filter(itemMatches);
+    state.activeCategoryIds = prev;
+    return result;
+  }
+
+  function renderCategoryChips() {
+    const container = $('#adv-categories');
+    if (!container || !HOME_CATEGORIES || !HOME_CATEGORIES.length) return;
+    const baseFiltered = getFilteredWithoutCategoryFilter();
+    const categoriesForUi = HOME_CATEGORIES.filter(c => c.mode !== 'other');
+    const countByCat = new Map();
+    for (const cat of categoriesForUi) countByCat.set(cat.id, 0);
+    for (const it of baseFiltered) {
+      for (const cid of (it.categoryIds || [])) {
+        if (countByCat.has(cid)) countByCat.set(cid, countByCat.get(cid) + 1);
+      }
+    }
+    const sorted = categoriesForUi.slice().sort((a, b) => (countByCat.get(b.id) || 0) - (countByCat.get(a.id) || 0));
+    container.innerHTML = '';
+    if (state.activeCategoryIds && state.activeCategoryIds.size > 0) {
+      const clearBtn = document.createElement('button');
+      clearBtn.type = 'button';
+      clearBtn.title = 'Effacer les catégories';
+      clearBtn.setAttribute('aria-label', 'Effacer les catégories');
+      clearBtn.className = 'inline-flex items-center justify-center w-8 h-8 rounded-full border border-primary text-white bg-primary shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40';
+      clearBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-4 h-4"><path d="M6 6l12 12M18 6l-12 12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      clearBtn.addEventListener('click', () => {
+        state.activeCategoryIds.clear();
+        renderCategoryChips();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+      });
+      container.appendChild(clearBtn);
+      const spacer = document.createElement('span');
+      spacer.className = 'w-2';
+      container.appendChild(spacer);
+    }
+    for (const cat of sorted) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const active = state.activeCategoryIds && state.activeCategoryIds.has(cat.id);
+      btn.className = active
+        ? 'px-3 py-1 rounded-full border border-primary bg-primary text-white text-sm transition'
+        : 'px-3 py-1 rounded-full border border-red-200 bg-white text-red-900 hover:bg-red-50 text-sm transition';
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = cat.label;
+      btn.appendChild(labelSpan);
+      const cnt = countByCat.get(cat.id) || 0;
+      if (cnt > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/90 text-red-900 border border-red-200 w-5 h-5';
+        if (active) badge.className = 'ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/20 text-white border border-white w-5 h-5';
+        badge.textContent = String(cnt);
+        btn.appendChild(badge);
+      }
+      btn.addEventListener('click', () => {
+        if (!state.activeCategoryIds) state.activeCategoryIds = new Set();
+        if (state.activeCategoryIds.has(cat.id)) state.activeCategoryIds.delete(cat.id);
+        else state.activeCategoryIds.add(cat.id);
+        renderCategoryChips();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+      });
+      container.appendChild(btn);
+    }
+  }
+
+  // -----------------------------
   // Rafraîchissement global
   // -----------------------------
   function refresh() {
     const filtered = getFiltered();
     renderSuggestions(filtered);
     renderResults(filtered);
+    renderCategoryChips();
     updateCharts(filtered);
     updateAdvancedViz(filtered);
     renderRecommendations(filtered);
@@ -2773,10 +2950,32 @@ permalink: /recherche/
       input.addEventListener('change', syncUi);
     })();
 
-    const textInputEl = document.getElementById('text-query');
-    if (textInputEl) {
-      textInputEl.addEventListener('input', (e)=>{ state.query = e.target.value.trim(); refresh(); });
+    // Title search
+    const titleSearchEl = document.getElementById('title-search');
+    const titleSearchClearEl = document.getElementById('title-search-clear');
+    function updateTitleSearchClearVisibility() {
+      const v = titleSearchEl ? titleSearchEl.value.trim() : '';
+      if (titleSearchClearEl) titleSearchClearEl.classList.toggle('hidden', !v);
     }
+    if (titleSearchEl) {
+      titleSearchEl.addEventListener('input', () => {
+        state.titleQuery = titleSearchEl.value.trim();
+        updateTitleSearchClearVisibility();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+      });
+    }
+    if (titleSearchClearEl) {
+      titleSearchClearEl.addEventListener('click', () => {
+        if (titleSearchEl) titleSearchEl.value = '';
+        state.titleQuery = '';
+        updateTitleSearchClearVisibility();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+        if (titleSearchEl) titleSearchEl.focus();
+      });
+    }
+    updateTitleSearchClearVisibility();
     // Removed ingredient input/autocomplete handlers
 
     const tagInput = $('#tag-input');
@@ -2828,12 +3027,15 @@ permalink: /recherche/
     const sr = params.get('sr');
     const sc = params.get('sc');
     if (q) {
+      state.titleQuery = q;
       state.query = q;
-      const ti = document.getElementById('text-query');
+      const ti = document.getElementById('title-search');
       if (ti) ti.value = q;
     }
     if (ing) { ing.split(',').forEach(t=>state.selectedTokens.add(t)); }
     if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
+    const catParam = params.get('cat');
+    if (catParam) { catParam.split(',').filter(Boolean).forEach(id=>state.activeCategoryIds.add(id.trim())); }
     if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
     if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
@@ -3008,6 +3210,8 @@ permalink: /recherche/
       const tagVals = Array.from(state.selectedTags);
       setParam('ingredients', ingVals.length ? ingVals.join(',') : '');
       setParam('tags', tagVals.length ? tagVals.join(',') : '');
+      setParam('q', state.titleQuery || '');
+      setParam('cat', (state.activeCategoryIds && state.activeCategoryIds.size) ? Array.from(state.activeCategoryIds).join(',') : '');
       // graph-search removed
     }
     // Expose for external callers (chips updates, graph clicks, FS overlay)
