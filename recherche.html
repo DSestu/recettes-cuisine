@@ -1296,6 +1296,9 @@ permalink: /recherche/
   function getFiltered() {
     const filtered = ITEMS.filter(itemMatches);
     var sectionEnabled = (typeof window.isMobileSectionEnabled === 'function') ? window.isMobileSectionEnabled : function() { return true; };
+    if (!sectionEnabled('name') && !sectionEnabled('categories') && !sectionEnabled('tags')) {
+      return filtered;
+    }
     if (sectionEnabled('tags') && state.mode === 'what_i_have') {
       const sel = new Set(Array.from(state.selectedTags).map(s => String(s).toLowerCase().trim()));
       filtered.sort((a, b) => {
@@ -1335,8 +1338,10 @@ permalink: /recherche/
     $('#result-count').textContent = items.length;
     const grid = $('#results-grid');
     grid.innerHTML = '';
+    var sectionEnabled = (typeof window.isMobileSectionEnabled === 'function') ? window.isMobileSectionEnabled : function() { return true; };
+    const allSectionsCollapsed = !sectionEnabled('name') && !sectionEnabled('categories') && !sectionEnabled('tags');
     const selectedTagsLower = new Set(Array.from(state.selectedTags, s => String(s).toLowerCase().trim()));
-    const selectedCount = selectedTagsLower.size;
+    const selectedCount = allSectionsCollapsed ? 0 : selectedTagsLower.size;
     const isWhatIHave = (state.mode === 'what_i_have');
     for (const it of items) {
       const itemIngTags = (isWhatIHave ? (it.ingredientTags || []) : (it.tags || [])).map(x => String(x).toLowerCase().trim());
