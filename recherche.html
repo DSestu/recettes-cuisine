@@ -248,7 +248,6 @@ permalink: /recherche/
           <label class="text-sm uppercase text-primary font-semibold">Tags</label>
           <select id="search-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm text-gray-900">
             <option value="tag" selected>Filtrer par tags</option>
-            <option value="ingredient">Ingrédients (tokens)</option>
             <option value="what_i_have">J'ai ces ingrédients</option>
           </select>
         </div>
@@ -1002,11 +1001,10 @@ permalink: /recherche/
     includeComponents: true,
     missingTolerance: 0,
     infiniteTolerance: false,
-    mode: 'tag', // 'tag' | 'ingredient' | 'what_i_have'
+    mode: 'tag', // 'tag' | 'what_i_have'
     query: '',
     titleQuery: '',
     activeCategoryIds: new Set(),
-    selectedTokens: new Set(),
     selectedTags: new Set(),
   };
 
@@ -1061,8 +1059,7 @@ permalink: /recherche/
     }
     // Exclude already selected
     for (const sel of state.selectedTags) tagCount.delete(sel);
-    // Compute muted keys based on hide-top slider (only in tag mode)
-    const usingTagsForNodes = (state.mode === 'tag');
+    // Compute muted keys based on hide-top slider; do not mute selected tags
     const hideTop = Number(document.getElementById('hide-top-ingredients').value || 0);
     const sortedByGlobal = Array.from(tagCount.entries()).sort((a,b)=>{
       if (a[1] !== b[1]) return a[1]-b[1];
@@ -1074,7 +1071,7 @@ permalink: /recherche/
       .slice(0, hideTop)
       .map(([k])=>k)
       .filter(k => !window.__hiddenTopBlacklist.has(k))
-      .filter(k => !(usingTagsForNodes && selectedTagSet.has(String(k))))
+      .filter(k => !selectedTagSet.has(String(k)))
     );
     // Sort by count desc, then alpha asc (fr locale), take top 20
     const sorted = Array.from(tagCount.entries())
@@ -1195,14 +1192,6 @@ permalink: /recherche/
         for (const tg of state.selectedTags) if (!itTags.has(String(tg).toLowerCase())) missing += 1;
         if (missing > state.missingTolerance) return false;
       }
-    } else {
-      // Ingredient-based matching with tolerance (token mode)
-      if (!state.infiniteTolerance) {
-        let missing = 0;
-        const setToks = it.ctokens || it.tokens;
-        for (const tok of state.selectedTokens) if (!setToks.has(tok)) missing += 1;
-        if (missing > state.missingTolerance) return false;
-      }
     }
     return true;
   }
@@ -1221,24 +1210,15 @@ permalink: /recherche/
       });
       return filtered;
     }
-    // Sorting with tolerance for current mode
-    const usingTokens = state.mode === 'ingredient';
-    const sel = usingTokens ? Array.from(state.selectedTokens) : Array.from(state.selectedTags).map(s=>String(s).toLowerCase());
+    // Sorting with tolerance (tag mode)
+    const sel = Array.from(state.selectedTags).map(s=>String(s).toLowerCase());
     if (sel.length > 0 && (state.infiniteTolerance || state.missingTolerance > 0)) {
       filtered.sort((a, b) => {
-        if (usingTokens) {
-          const setA = a.ctokens || a.tokens;
-          const setB = b.ctokens || b.tokens;
-          const ma = sel.reduce((acc, t) => acc + (setA.has(t) ? 1 : 0), 0);
-          const mb = sel.reduce((acc, t) => acc + (setB.has(t) ? 1 : 0), 0);
-          if (mb !== ma) return mb - ma;
-        } else {
-          const tagsA = new Set((a.tags || []).map(x=>String(x).toLowerCase().trim()));
-          const tagsB = new Set((b.tags || []).map(x=>String(x).toLowerCase().trim()));
-          const ma = sel.reduce((acc, t) => acc + (tagsA.has(t) ? 1 : 0), 0);
-          const mb = sel.reduce((acc, t) => acc + (tagsB.has(t) ? 1 : 0), 0);
-          if (mb !== ma) return mb - ma;
-        }
+        const tagsA = new Set((a.tags || []).map(x=>String(x).toLowerCase().trim()));
+        const tagsB = new Set((b.tags || []).map(x=>String(x).toLowerCase().trim()));
+        const ma = sel.reduce((acc, t) => acc + (tagsA.has(t) ? 1 : 0), 0);
+        const mb = sel.reduce((acc, t) => acc + (tagsB.has(t) ? 1 : 0), 0);
+        if (mb !== ma) return mb - ma;
         return String(a.title).localeCompare(String(b.title));
       });
     }
@@ -1514,18 +1494,11 @@ permalink: /recherche/
     const tagData = Array.from(tagCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
     renderBarChart('#tags-chart', tagData, (key)=>{ if (state.selectedTags.has(key)) state.selectedTags.delete(key); else state.selectedTags.add(key); updateSelectedChips(); refresh(); }, state.selectedTags);
 
-    // Ingredients chart
+    // Second chart: tag distribution (same as tags-chart but for the "ingredients-chart" panel)
     const tokCount = new Map();
-    if (state.mode === 'ingredient') {
-      for (const it of items) for (const tok of (it.ctokens || it.tokens)) tokCount.set(tok, (tokCount.get(tok)||0)+1);
-      const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
-      renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTokens.has(key)) state.selectedTokens.delete(key); else state.selectedTokens.add(key); updateSelectedChips(); refresh(); }, state.selectedTokens);
-    } else {
-      // In tag mode, show tag distribution instead
-      for (const it of items) for (const tg of (it.tags || [])) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
-      const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
-      renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTags.has(key)) state.selectedTags.delete(key); else state.selectedTags.add(key); updateSelectedChips(); refresh(); }, state.selectedTags);
-    }
+    for (const it of items) for (const tg of (it.tags || [])) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
+    const tokData = Array.from(tokCount.entries()).map(([key,value])=>({key,value})).sort((a,b)=>b.value-a.value).slice(0,20);
+    renderBarChart('#ingredients-chart', tokData, (key)=>{ if (state.selectedTags.has(key)) state.selectedTags.delete(key); else state.selectedTags.add(key); updateSelectedChips(); refresh(); }, state.selectedTags);
   }
 
   // -----------------------------
@@ -1558,15 +1531,10 @@ permalink: /recherche/
     const zoom = d3.zoom().scaleExtent([0.3, 3]).on('zoom', (event) => { g.attr('transform', event.transform); });
     svg.call(zoom);
 
-    // Select top ingredients (or tags; in "what I have" mode use ingredient tags only)
+    // Select top tags (or ingredient tags in "what I have" mode)
     const tokCount = new Map();
-    const usingTagsForNodes = (state.mode === 'tag' || state.mode === 'what_i_have');
-    if (usingTagsForNodes) {
-      const tagsToCount = (state.mode === 'what_i_have') ? function(it) { return it.ingredientTags || []; } : function(it) { return it.tags || []; };
-      for (const it of items) for (const tg of tagsToCount(it)) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
-    } else {
-      for (const it of items) for (const tok of (it.ctokens || it.tokens)) tokCount.set(tok, (tokCount.get(tok)||0)+1);
-    }
+    const tagsToCount = (state.mode === 'what_i_have') ? function(it) { return it.ingredientTags || []; } : function(it) { return it.tags || []; };
+    for (const it of items) for (const tg of tagsToCount(it)) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
     let maxIng = Number(document.getElementById('max-ingredients').value || 60);
     let maxRec = Number(document.getElementById('max-recipes').value || 60);
     const pruneRare = false;
@@ -1583,8 +1551,7 @@ permalink: /recherche/
       .slice(0, hideTop)
       .map(([k])=>k)
       .filter(k => !window.__hiddenTopBlacklist.has(k))
-      // Do not hide currently selected tags when nodes are tags
-      .filter(k => !(usingTagsForNodes && selectedTagSet.has(String(k))));
+      .filter(k => !selectedTagSet.has(String(k)));
     const limitedTokensArr = sortedTokensArr
       .filter(([k]) => !hiddenTop.includes(k))
       .slice(-maxIng);
@@ -1604,24 +1571,19 @@ permalink: /recherche/
     for (const tok of topTokens) {
       if (!showTokens) break;
       tokenId.set(tok, id++);
-      nodes.push({ id: tokenId.get(tok), label: tok, type: (usingTagsForNodes ? 'tag' : 'token') });
+      nodes.push({ id: tokenId.get(tok), label: tok, type: 'tag' });
     }
     for (const r of recipes) {
       if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
       recipeId.set(r.title, id++);
       nodes.push({ id: recipeId.get(r.title), label: r.title, url: r.url, type: r.type });
     }
-    const tagsForRecipe = usingTagsForNodes ? (state.mode === 'what_i_have' ? function(r) { return (r.ingredientTags || []).map(String); } : function(r) { return (r.tags || []).map(String); }) : null;
-    // Document frequency for tokens among selected recipes/components
+    const tagsForRecipe = (state.mode === 'what_i_have') ? function(r) { return (r.ingredientTags || []).map(String); } : function(r) { return (r.tags || []).map(String); };
+    // Document frequency for tags among selected recipes/components
     const df = new Map();
     for (const r of recipes) {
-      if (usingTagsForNodes) {
-        const rtags = new Set(tagsForRecipe(r));
-        for (const tg of rtags) if (topTokens.has(tg)) df.set(tg, (df.get(tg)||0)+1);
-      } else {
-        const rset = r.ctokens || r.tokens;
-        for (const tok of rset) if (topTokens.has(tok)) df.set(tok, (df.get(tok)||0)+1);
-      }
+      const rtags = new Set(tagsForRecipe(r));
+      for (const tg of rtags) if (topTokens.has(tg)) df.set(tg, (df.get(tg)||0)+1);
     }
     const Ndocs = Math.max(1, recipes.length);
 
@@ -1640,7 +1602,7 @@ permalink: /recherche/
       // Standard recipe/component → token links
       for (const r of recipes) {
         if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
-        const setForLinks = usingTagsForNodes ? new Set(tagsForRecipe(r)) : (r.ctokens || r.tokens);
+        const setForLinks = new Set(tagsForRecipe(r));
         for (const tok of setForLinks) if (topTokens.has(tok) && showTokens) {
           const freq = df.get(tok) || 1;
           const idf = Math.log(1 + Ndocs / freq);
@@ -1655,7 +1617,7 @@ permalink: /recherche/
       // No recipes/components displayed: infer token↔token edges via hidden recipes/components
       const pairCount = new Map(); // key: "a||b" where a<b
       for (const r of recipes) {
-        const toks = usingTagsForNodes ? Array.from(new Set(tagsForRecipe(r).filter(t => topTokens.has(t)))) : Array.from(new Set(Array.from((r.ctokens || r.tokens)).filter(t => topTokens.has(t))));
+        const toks = Array.from(new Set(tagsForRecipe(r).filter(t => topTokens.has(t))));
         for (let i = 0; i < toks.length; i++) {
           for (let j = i + 1; j < toks.length; j++) {
             const a = toks[i] < toks[j] ? toks[i] : toks[j];
@@ -1680,13 +1642,13 @@ permalink: /recherche/
         links.push({ source: tokenId.get(a), target: tokenId.get(b), weightRaw: wRaw });
       }
     } else if (useRecipeRecipe) {
-      // Build recipe↔recipe edges based on shared ingredients (canonical tokens)
+      // Build recipe↔recipe edges based on shared tags (or ingredient tags in "what I have" mode)
       const recs = recipes.filter(r => (r.type === 'recipe' && showRecipes) || (r.type === 'component' && showComponents));
       for (let i = 0; i < recs.length; i++) {
         for (let j = i+1; j < recs.length; j++) {
           const a = recs[i], b = recs[j];
-          const setA = a.ctokens || a.tokens;
-          const setB = b.ctokens || b.tokens;
+          const setA = new Set(tagsForRecipe(a));
+          const setB = new Set(tagsForRecipe(b));
           let shared = 0;
           for (const t of setA) if (setB.has(t)) shared++;
           if (shared > 0) {
@@ -1925,11 +1887,7 @@ permalink: /recherche/
       .on('click', (_, d) => {
         if (d.type === 'token' || d.type === 'tag') {
           const val = d.label;
-          if (state.mode === 'tag') {
-            if (state.selectedTags.has(val)) state.selectedTags.delete(val); else state.selectedTags.add(val);
-          } else {
-            if (state.selectedTokens.has(val)) state.selectedTokens.delete(val); else state.selectedTokens.add(val);
-          }
+          if (state.selectedTags.has(val)) state.selectedTags.delete(val); else state.selectedTags.add(val);
           updateSelectedChips();
           // Hint renderForceGraph to fit asap in fullscreen
           window.__pendingFit = true;
@@ -3137,10 +3095,9 @@ permalink: /recherche/
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
     // reset-ingredients button was removed with hidden wrapper
 
-    // Paramètres URL (?q= & ingredients=a,b & tags=x,y & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
+    // Paramètres URL (?q= & tags=x,y & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
     const params = new URLSearchParams(window.location.search);
     const q = params.get('q');
-    const ing = params.get('ingredients');
     const tags = params.get('tags');
     const comp = params.get('components');
     const viz = params.get('viz');
@@ -3165,12 +3122,11 @@ permalink: /recherche/
       const ti = document.getElementById('title-search');
       if (ti) ti.value = q;
     }
-    if (ing) { ing.split(',').forEach(t=>state.selectedTokens.add(t)); }
     if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
     const catParam = params.get('cat');
     if (catParam) { catParam.split(',').filter(Boolean).forEach(id=>state.activeCategoryIds.add(id.trim())); }
     if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
-    if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient' || modeParam === 'what_i_have')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
+    if (modeParam && (modeParam === 'tag' || modeParam === 'what_i_have')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
     // Apply infinite tolerance from URL and sync UI + dependent controls
     (function(){
@@ -3248,7 +3204,7 @@ permalink: /recherche/
       if (val === 'token-token') {
         if (showRecEl) showRecEl.checked = false;
         if (showTokEl) showTokEl.checked = true;
-        if (showCompEl) showCompEl.checked = false; // hide components in ingredient<->ingredient mode
+        if (showCompEl) showCompEl.checked = false; // hide components in tag-token-only link mode
         // force edge weight to frequency for token-token
         const ewSel = document.getElementById('edge-weight-mode');
         if (ewSel) ewSel.value = 'freq';
@@ -3339,9 +3295,7 @@ permalink: /recherche/
       setParam('mode', document.getElementById('search-mode').value);
       setParam('layout', document.getElementById('layout-mode').value);
       // dynamic filters
-      const ingVals = Array.from(state.selectedTokens);
       const tagVals = Array.from(state.selectedTags);
-      setParam('ingredients', ingVals.length ? ingVals.join(',') : '');
       setParam('tags', tagVals.length ? tagVals.join(',') : '');
       setParam('q', state.titleQuery || '');
       setParam('cat', (state.activeCategoryIds && state.activeCategoryIds.size) ? Array.from(state.activeCategoryIds).join(',') : '');
