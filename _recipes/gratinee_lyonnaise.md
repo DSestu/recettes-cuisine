@@ -17,6 +17,7 @@ tags:
 - sel
 - poivre
 - madere
+- oeufs
 - jaunes d'oeufs
 
 ingredients:

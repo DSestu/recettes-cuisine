@@ -8,7 +8,7 @@ tags:
 - repas
 - soupe
 - asperges
-- creme
+- creme fraiche
 - chaud
 - bocuse
 - oignon

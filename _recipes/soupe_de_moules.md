@@ -5,31 +5,31 @@ image: soupe_de_moules.jpeg
 
 
 tags:
-- repas
-- soupe
-- moules
-- poisson
-- mediterranee
-- safran
-- bocuse
-- vin blanc
 - ail
-- echalotes
-- persil
 - beurre
-- huile d'olive
-- oignon
-- poireaux
-- fenouil
+- bocuse
+- creme fraiche
 - eau
-- tomates
-- laurier
-- thym
-- creme
-- sel
-- poivre
-- pain
+- echalotes
+- fenouil
 - fromage
+- huile d'olive
+- laurier
+- mediterranee
+- moules
+- oignon
+- pain
+- persil
+- poireaux
+- poisson
+- poivre
+- repas
+- safran
+- sel
+- soupe
+- thym
+- tomates
+- vin blanc
 
 ingredients:
 - 4 litres de moules de bouchot

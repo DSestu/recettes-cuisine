@@ -9,7 +9,7 @@ tags:
 - dessert
 - classique
 - vanille
-- creme
+- creme fraiche
 - sestu
 - oeufs
 - sucre
