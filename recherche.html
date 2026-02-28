@@ -251,6 +251,7 @@ permalink: /recherche/
             <option value="what_i_have">J'ai ces ingrédients</option>
           </select>
         </div>
+        <div id="tolerance-controls-for-tag-mode">
         <div class="flex items-center gap-2">
           <input
             id="infinite-tolerance"
@@ -356,6 +357,7 @@ permalink: /recherche/
           <span id="tolerance-value" class="font-semibold">0</span>
         </label>
       </div>
+        </div>
         <input
           id="tag-input"
           type="text"
@@ -369,7 +371,7 @@ permalink: /recherche/
         <div id="selected-tags" class="flex flex-wrap gap-2"></div>
         <div id="tag-suggestions" class="flex flex-wrap gap-2"></div>
         <div id="add-ingredient-suggestions" class="mt-4 hidden">
-          <h4 class="text-sm uppercase text-primary font-semibold mb-2">Ajoutez un ingrédient pour plus de recettes</h4>
+          <h4 class="text-sm uppercase text-primary font-semibold mb-2">Ajoutez un ingrédient pour terminer une recette</h4>
           <div id="add-ingredient-list" class="flex flex-wrap gap-2"></div>
         </div>
       </div>
@@ -3100,13 +3102,32 @@ permalink: /recherche/
     });
     document.addEventListener('click', (e)=>{ if (!tagAuto.contains(e.target) && e.target !== tagInput) tagAuto.classList.add('hidden'); });
 
+    function applyModeBasedUI() {
+      const isWhatIHave = (state.mode === 'what_i_have');
+      const wrapper = document.getElementById('tolerance-controls-for-tag-mode');
+      const tagInputEl = document.getElementById('tag-input');
+      if (wrapper) wrapper.classList.toggle('hidden', isWhatIHave);
+      if (tagInputEl) tagInputEl.placeholder = isWhatIHave ? 'Ajouter un ingrédient possédé' : 'Ajouter un tag de filtre';
+      if (isWhatIHave) {
+        const accordion = document.getElementById('tolerance-help-accordion');
+        const helpToggle = document.getElementById('tolerance-help-toggle');
+        if (accordion) accordion.classList.remove('open');
+        if (helpToggle) {
+          helpToggle.classList.remove('bg-green-600', 'text-white', 'hover:bg-green-500');
+          helpToggle.classList.add('bg-gray-300', 'text-gray-600', 'hover:bg-gray-400');
+        }
+      }
+    }
+
     const searchModeEl = document.getElementById('search-mode');
     if (searchModeEl) searchModeEl.addEventListener('change', function() {
       state.mode = this.value;
+      applyModeBasedUI();
       updateSelectedChips();
       refresh();
       if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
     });
+    applyModeBasedUI();
 
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
     // reset-ingredients button was removed with hidden wrapper
