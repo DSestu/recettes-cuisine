@@ -7,8 +7,10 @@ layout: default
   itemscope
   itemtype="http://schema.org/Recipe"
 >
+  {% if page.image.first %}{% assign hero_img = page.image.first %}{% else %}{% assign hero_img = page.image %}{% endif %}
   <div
     class="image bg-red-500 relative aspect-video md:aspect-auto md:h-screen md:sticky md:top-0 md:overflow-hidden"
+    {% if hero_img %}data-hero-image="{{ site.baseurl }}/images/{{ hero_img }}"{% endif %}
   >
     <style>
       a.back {
@@ -16,10 +18,19 @@ layout: default
       }
       a.back.back-hidden,
       #btn-page-fullscreen.back-hidden,
-      #btn-qr-modal.back-hidden {
+      #btn-qr-modal.back-hidden,
+      #btn-recipe-image-zoom.lens-btn-hidden {
         opacity: 0;
         transform: translateY(-40%);
         pointer-events: none;
+      }
+      #btn-recipe-image-zoom {
+        transition: opacity 220ms ease, transform 220ms ease;
+      }
+      @media (min-width: 768px) {
+        #btn-recipe-image-zoom {
+          display: none;
+        }
       }
       /* Desktop: make the image area fixed and fully covered */
       @media (min-width: 768px) {
@@ -191,6 +202,12 @@ layout: default
         transform: translateY(-1px) scale(1.05) rotate(0.8deg);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
       }
+
+      /* Recipe image overlay: fade in/out only */
+      .recipe-image-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
     </style>
 
     <a
@@ -223,7 +240,7 @@ layout: default
     {% if page.imagecredit %} {% for imagecredit in page.imagecredit %}
     <a
       href="{{ imagecredit }}"
-      class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg"
+      class="absolute bottom-3 right-14 p-3 bg-white bg-opacity-50 rounded-lg"
     >
       <svg
         class="js-geomicon geomicon"
@@ -240,6 +257,28 @@ layout: default
       </svg>
     </a>
     {% endfor %} {% endif %} {% endfor %}
+    {% if page.image %}
+    <button
+      type="button"
+      id="btn-recipe-image-zoom"
+      class="md:hidden absolute bottom-3 right-3 z-10 bg-white rounded-full p-3 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
+      title="Agrandir l'image"
+      aria-label="Agrandir l'image"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="size-6"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </button>
+    {% endif %}
   </div>
 
   <article
@@ -543,6 +582,44 @@ layout: default
       ></div>
     </div>
   </article>
+
+  {% if page.image %}
+  <div
+    id="recipe-image-overlay"
+    class="recipe-image-overlay fixed inset-0 z-[10001] flex items-center justify-center bg-black/85 opacity-0 pointer-events-none transition-opacity duration-300 ease-out"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image en plein écran"
+  >
+    <div
+      id="recipe-image-overlay-card"
+      class="fixed inset-0 overflow-hidden bg-transparent flex items-center justify-center"
+    >
+      <div id="recipe-image-overlay-zoom-wrap" class="w-full h-full touch-pan-y flex items-center justify-center" style="touch-action: pinch-zoom;">
+        <img
+          id="recipe-image-overlay-img"
+          src=""
+          alt=""
+          class="max-w-full max-h-full w-auto h-auto object-contain select-none"
+          draggable="false"
+        />
+      </div>
+    </div>
+    <button
+      type="button"
+      id="recipe-image-overlay-close"
+      class="absolute top-4 right-4 z-[10002] inline-flex items-center justify-center rounded-full p-3 shadow border border-gray-200 bg-white text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+      title="Fermer"
+      aria-label="Fermer"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06 6.53 18.53a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+  {% endif %}
+
 </div>
 
 <script type="text/javascript">
@@ -634,10 +711,10 @@ layout: default
     // Smooth fade/appear of the back button and top-right controls on scroll direction
     (function(){
     const btns = Array.from(
-      document.querySelectorAll('a.back, #btn-page-fullscreen, #btn-qr-modal')
+      document.querySelectorAll('a.back, #btn-page-fullscreen, #btn-qr-modal, #btn-recipe-image-zoom')
     );
     if (!btns.length) return;
-      // On mobile, lift the back button out of the image stacking context so it's always clickable
+      // On mobile, lift the back button and lens out of the image stacking context so they're always clickable
       const isMobile = window.matchMedia('(max-width: 767px)').matches;
     if (isMobile) {
       btns.forEach(b=>{
@@ -646,15 +723,38 @@ layout: default
           document.body.appendChild(b);
           b.style.position = 'fixed';
           b.style.zIndex = '9999';
+          if (b.id === 'btn-recipe-image-zoom') {
+            b.style.bottom = 'calc(100vh - 56.25vw - 12px)';
+            b.style.right = '12px';
+            b.style.top = 'auto';
+            b.style.left = 'auto';
+          }
         } catch(_) {}
       });
     }
+      const lensBtn = document.getElementById('btn-recipe-image-zoom');
+      const lensHiddenClass = 'lens-btn-hidden';
+      if (lensBtn) {
+        if (window.scrollY > 0) lensBtn.classList.add(lensHiddenClass);
+      }
+      btns.forEach(b=>{
+        if (b.id === 'btn-recipe-image-zoom') {
+          if (window.scrollY > 0) b.classList.add(lensHiddenClass);
+          return;
+        }
+        if (window.scrollY > 0 && window.scrollY > 6) b.classList.add('back-hidden');
+      });
       let lastY = window.scrollY || 0;
       window.addEventListener('scroll', ()=>{
         const y = window.scrollY || 0;
         const goingDown = y > lastY && y > 6;
         const atTop = y <= 0;
       btns.forEach(b=>{
+        if (b.id === 'btn-recipe-image-zoom') {
+          if (goingDown) b.classList.add(lensHiddenClass);
+          if (atTop || y < lastY) b.classList.remove(lensHiddenClass);
+          return;
+        }
         if (goingDown) b.classList.add('back-hidden');
         if (atTop || y < lastY) b.classList.remove('back-hidden');
       });
@@ -740,6 +840,123 @@ layout: default
           e.preventDefault();
         } catch(_) {}
       }, { passive: false });
+    })();
+
+    // Recipe image overlay (mobile lens fullscreen)
+    (function(){
+      const overlay = document.getElementById('recipe-image-overlay');
+      const overlayImg = document.getElementById('recipe-image-overlay-img');
+      const zoomWrap = document.getElementById('recipe-image-overlay-zoom-wrap');
+      const closeBtn = document.getElementById('recipe-image-overlay-close');
+      const lensBtn = document.getElementById('btn-recipe-image-zoom');
+      const imageEl = document.querySelector('.image');
+      if (!overlay || !overlayImg || !imageEl) return;
+
+      function openOverlay() {
+        const heroSrc = imageEl.getAttribute('data-hero-image');
+        if (!heroSrc) return;
+        overlayImg.src = heroSrc;
+        overlayImg.alt = {{ page.title | jsonify }} || 'Image de la recette';
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+        resetZoom();
+        closeBtn.focus();
+        const focusables = overlay.querySelectorAll('button, [href], input');
+        const firstFocus = focusables[0];
+        const lastFocus = focusables[focusables.length - 1];
+        overlay.addEventListener('keydown', trapFocus);
+        function trapFocus(e) {
+          if (e.key !== 'Tab') return;
+          if (e.shiftKey) {
+            if (document.activeElement === firstFocus) { e.preventDefault(); lastFocus.focus(); }
+          } else {
+            if (document.activeElement === lastFocus) { e.preventDefault(); firstFocus.focus(); }
+          }
+        }
+        overlay._trapFocus = trapFocus;
+      }
+
+      function closeOverlay() {
+        overlay.removeEventListener('keydown', overlay._trapFocus);
+        overlay.classList.remove('open');
+        overlay.addEventListener('transitionend', function onEnd(e) {
+          if (e.target !== overlay) return;
+          overlay.removeEventListener('transitionend', onEnd);
+          overlay.setAttribute('aria-hidden', 'true');
+          overlayImg.src = '';
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+          if (lensBtn) lensBtn.focus();
+        }, { once: true });
+      }
+
+      function resetZoom() {
+        if (!zoomWrap) return;
+        zoomWrap.style.transform = 'scale(1) translate(0, 0)';
+        zoomWrap._scale = 1;
+        zoomWrap._tx = 0;
+        zoomWrap._ty = 0;
+      }
+
+      if (lensBtn) {
+        lensBtn.addEventListener('click', function(e){ e.preventDefault(); openOverlay(); });
+      }
+      closeBtn.addEventListener('click', function(e){ e.preventDefault(); closeOverlay(); });
+      overlay.addEventListener('click', function(e){
+        if (e.target !== overlayImg) closeOverlay();
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && overlay.classList.contains('open')) closeOverlay();
+      });
+
+      var touchZoom = (function(){
+        var scale = 1, tx = 0, ty = 0;
+        var lastDist = 0, lastCx = 0, lastCy = 0;
+        var lastTouches = [];
+        function dist(a, b){ return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY); }
+        function center(touches){ return { x: (touches[0].clientX + touches[1].clientX) / 2, y: (touches[0].clientY + touches[1].clientY) / 2 }; }
+        zoomWrap.addEventListener('touchstart', function(e){
+          if (typeof zoomWrap._scale === 'number') { scale = zoomWrap._scale; tx = zoomWrap._tx; ty = zoomWrap._ty; }
+          if (e.touches.length === 2) {
+            lastDist = dist(e.touches[0], e.touches[1]);
+            var c = center(e.touches);
+            lastCx = c.x; lastCy = c.y;
+            lastTouches = [ { x: e.touches[0].clientX, y: e.touches[0].clientY }, { x: e.touches[1].clientX, y: e.touches[1].clientY } ];
+          } else if (e.touches.length === 1) {
+            lastTouches = [{ x: e.touches[0].clientX, y: e.touches[0].clientY }];
+          }
+        }, { passive: true });
+        zoomWrap.addEventListener('touchmove', function(e){
+          if (e.touches.length === 2) {
+            e.preventDefault();
+            var d = dist(e.touches[0], e.touches[1]);
+            var c = center(e.touches);
+            var s = (d / lastDist) * scale;
+            s = Math.max(0.5, Math.min(4, s));
+            tx += c.x - lastCx;
+            ty += c.y - lastCy;
+            lastDist = d; lastCx = c.x; lastCy = c.y;
+            scale = s;
+            zoomWrap.style.transform = 'scale(' + scale + ') translate(' + (tx/scale) + 'px, ' + (ty/scale) + 'px)';
+            zoomWrap._scale = scale; zoomWrap._tx = tx; zoomWrap._ty = ty;
+          } else if (e.touches.length === 1) {
+            e.preventDefault();
+            tx += e.touches[0].clientX - lastTouches[0].x;
+            ty += e.touches[0].clientY - lastTouches[0].y;
+            lastTouches[0] = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            zoomWrap.style.transform = 'scale(' + scale + ') translate(' + (tx/scale) + 'px, ' + (ty/scale) + 'px)';
+            zoomWrap._scale = scale; zoomWrap._tx = tx; zoomWrap._ty = ty;
+          }
+        }, { passive: false });
+        zoomWrap.addEventListener('touchend', function(e){
+          if (e.touches.length === 2) lastDist = dist(e.touches[0], e.touches[1]);
+          if (e.touches.length === 1) lastTouches[0] = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }, { passive: true });
+        zoomWrap._scale = 1; zoomWrap._tx = 0; zoomWrap._ty = 0;
+      })();
+
     })();
 
   });
