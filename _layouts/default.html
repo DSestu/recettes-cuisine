@@ -377,6 +377,11 @@
         const fsBtn = document.getElementById("btn-page-fullscreen");
         const qrBtn = document.getElementById("btn-qr-modal");
         if (!fsBtn && !qrBtn) return;
+        // On recipe pages, the layout script (_layouts/recipe.html) controls
+        // scroll-based hide/show for the back + fullscreen + QR buttons.
+        // Avoid double-toggling here to keep behavior in sync.
+        const isRecipePage = !!document.querySelector(".post-content");
+        if (isRecipePage) return;
         let lastY = window.scrollY || 0;
 
         function setHidden(hidden) {

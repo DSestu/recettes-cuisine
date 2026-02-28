@@ -14,7 +14,9 @@ layout: default
       a.back {
         transition: opacity 220ms ease, transform 220ms ease;
       }
-      a.back.back-hidden {
+      a.back.back-hidden,
+      #btn-page-fullscreen.back-hidden,
+      #btn-qr-modal.back-hidden {
         opacity: 0;
         transform: translateY(-40%);
         pointer-events: none;
