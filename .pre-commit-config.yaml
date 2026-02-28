@@ -1,0 +1,9 @@
+# See https://pre-commit.com for configuration
+repos:
+  - repo: local
+    hooks:
+      - id: generate-card-thumbnails
+        name: Generate card thumbnails
+        entry: uv run python scripts/generate_card_thumbnails.py
+        language: system
+        files: ^images/(?!cards/)|^scripts/generate_card_thumbnails\.py

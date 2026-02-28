@@ -1,0 +1,9 @@
+[project]
+name = "recettes-cuisine"
+version = "0.1.0"
+description = "Build-time card thumbnails for recipe images"
+requires-python = ">=3.10"
+dependencies = [
+    "pillow>=10",
+]
+

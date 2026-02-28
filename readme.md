@@ -47,6 +47,15 @@ Notes:
 - Port hôte 80 → conteneur 4000.
 - Volumes pour externaliser `_components`, `_images`, `_posts`, `_recipes` (voir `docker-compose.yml`).
 
+### Images cartes (thumbnails) et build
+
+Les vignettes des recettes (cartes sur l’accueil, la recherche et la recherche avancée) utilisent des images redimensionnées dans `images/cards/` pour réduire le poids des pages.
+
+- **Prérequis:** [uv](https://docs.astral.sh/uv/) pour Python.
+- **Une fois:** à la racine du dépôt, exécuter `uv sync` puis `pre-commit install`.
+- **À chaque commit:** si vous modifiez des fichiers dans `images/` (hors `images/cards/`) ou le script `scripts/generate_card_thumbnails.py`, le hook pre-commit régénère les miniatures. Si des fichiers dans `images/cards/` sont créés ou modifiés, ajoutez-les au commit (`git add images/cards/`) et recommitez.
+- **Build manuel des thumbnails:** `uv run python scripts/generate_card_thumbnails.py`, puis `jekyll build` (ou `jekyll serve`).
+
 ### Contenu et structure
 
 - `/_recipes`: recettes Markdown

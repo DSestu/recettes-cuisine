@@ -1026,10 +1026,26 @@ permalink: /recherche/
     return `${BASE}/assets/social.png`;
   }
 
+  function resolveCardImageUrl(imageField) {
+    try {
+      let filename = null;
+      if (Array.isArray(imageField) && imageField.length > 0) {
+        filename = String(imageField[0]).trim();
+      } else if (typeof imageField === 'string' && imageField.trim().length > 0) {
+        filename = imageField.trim();
+      }
+      if (filename) {
+        const basename = filename.replace(/^.*[/\\]/, '');
+        return `${BASE}/images/cards/${basename}`;
+      }
+    } catch (_) {}
+    return `${BASE}/assets/social.png`;
+  }
+
   const ITEMS = DATA.map(item => {
     const tokens = new Set((item.ingredients_lines || []).flatMap(tokenizeIngredient));
     const textBlob = [item.title, ...(item.ingredients_lines || [])].join(' ').toLowerCase();
-    const image = resolveImageUrl(item.image_field);
+    const image = resolveCardImageUrl(item.image_field);
     // also create a mutable ctokens placeholder that we will fill after canonical map is built
     return { ...item, image, tokens, ctokens: new Set(), textBlob };
   });
