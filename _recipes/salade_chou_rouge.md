@@ -14,7 +14,7 @@ tags:
 - ail
 - laurier
 - vinaigre
-- huile
+- huile d'olive
 - sel
 - poivre
 - entree
@@ -24,7 +24,7 @@ ingredients:
 - 1 gousse d'ail
 - 1 feuille de laurier
 - 2 dl de vinaigre
-- 3 cuillères à soupe d'huile
+- 3 cuillères à soupe d'huile d'olive
 - Sel fin
 - Poivre du moulin
 

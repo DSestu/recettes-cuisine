@@ -491,8 +491,6 @@
   ingredient: true
 - id: epeautre
   ingredient: true
-- id: epices
-  ingredient: true
 - id: ete
   ingredient: false
 - id: oeufs

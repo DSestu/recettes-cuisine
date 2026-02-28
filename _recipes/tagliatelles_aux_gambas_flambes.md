@@ -14,10 +14,9 @@ tags:
 - parmesan
 - huile d'olive
 - alcool
-- sauce
-- epices
 - chaud
 - facile
+- whisky
 
 ingredients:
 - 28 gambas crues
