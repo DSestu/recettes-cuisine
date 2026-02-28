@@ -9,6 +9,10 @@
         opacity: 0;
         transform: translateY(-140%);
       }
+      /* Hide QR modal close button on mobile */
+      #qr-modal [data-qr-modal-close] {
+        display: none !important;
+      }
     }
     @media (min-width: 768px) {
       #btn-page-fullscreen,
