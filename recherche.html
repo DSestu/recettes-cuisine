@@ -1203,9 +1203,13 @@ permalink: /recherche/
       filtered.sort((a, b) => {
         const ingA = a.ingredientTags || [];
         const ingB = b.ingredientTags || [];
+        const totalA = ingA.length;
+        const totalB = ingB.length;
         const missA = ingA.filter(function(t) { return !sel.has(String(t).toLowerCase().trim()); }).length;
         const missB = ingB.filter(function(t) { return !sel.has(String(t).toLowerCase().trim()); }).length;
-        if (missA !== missB) return missA - missB;
+        const pctA = totalA === 0 ? 100 : Math.round(((totalA - missA) / totalA) * 100);
+        const pctB = totalB === 0 ? 100 : Math.round(((totalB - missB) / totalB) * 100);
+        if (pctA !== pctB) return pctB - pctA;
         return String(a.title).localeCompare(String(b.title));
       });
       return filtered;
@@ -1244,10 +1248,12 @@ permalink: /recherche/
       if (selectedCount > 0) {
         if (isWhatIHave) {
           for (const tg of selectedTagsLower) if (itemTagSet.has(tg)) overlap += 1;
-          const missingCount = itemIngTags.length - overlap;
-          badgeText = missingCount === 0 ? '0 manquant' : (missingCount === 1 ? '1 manquant' : missingCount + ' manquants');
-          if (missingCount === 0) badgeColor = '#22c55e';
-          else if (missingCount <= 2) badgeColor = '#f97316';
+          const totalIng = itemIngTags.length;
+          const missingCount = totalIng - overlap;
+          const pct = totalIng === 0 ? 100 : Math.round((overlap / totalIng) * 100);
+          badgeText = pct + '%';
+          if (pct >= 100) badgeColor = '#22c55e';
+          else if (pct >= 50) badgeColor = '#f97316';
           else badgeColor = '#F53200';
         } else {
           const itemTags = new Set((it.tags || []).map(x => String(x).toLowerCase().trim()));
@@ -1294,8 +1300,13 @@ permalink: /recherche/
         const tip = document.createElement('div');
         tip.className = 'result-tooltip';
         const chipsHtml = (arr, cls) => arr.map(t => `<span class="tag-chip ${cls}">${t}</span>`).join('');
+        const missingCountTip = isWhatIHave ? (itemIngTags.length - presentTags.length) : 0;
+        const pctTip = isWhatIHave && itemIngTags.length > 0 ? Math.round((presentTags.length / itemIngTags.length) * 100) : 0;
+        const summaryLine = isWhatIHave
+          ? `<p class="text-sm font-semibold mb-2">${pctTip}% - <i>${missingCountTip === 0 ? '0 manquant' : (missingCountTip === 1 ? '1 manquant' : missingCountTip + ' manquants')}</i></p>`
+          : '';
         tip.innerHTML = isWhatIHave
-          ? `<h5>Ingrédients que vous avez</h5><div class="chips">${chipsHtml(presentTags, 'present')}</div><h5>Ingrédients manquants</h5><div class="chips">${chipsHtml(missingTags, 'missing')}</div>`
+          ? summaryLine + `<h5>Ingrédients que vous avez</h5><div class="chips">${chipsHtml(presentTags, 'present')}</div><h5>Ingrédients manquants</h5><div class="chips">${chipsHtml(missingTags, 'missing')}</div>`
           : `<h5>Tags présents</h5><div class="chips">${chipsHtml(presentTags, 'present')}</div><h5>Tags manquants</h5><div class="chips">${chipsHtml(missingTags, 'missing')}</div>`;
         a.appendChild(tip);
         // Clicking a missing tag or a present tag removes it from the searched tags
@@ -3090,6 +3101,7 @@ permalink: /recherche/
       state.mode = this.value;
       updateSelectedChips();
       refresh();
+      if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
     });
 
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
