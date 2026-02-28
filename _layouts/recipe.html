@@ -629,9 +629,11 @@ layout: default
     // Normalize URL on load to reflect initial state (optional)
     updateUrlCheckedRows();
 
-    // Smooth fade/appear of the back button on scroll direction
+    // Smooth fade/appear of the back button and top-right controls on scroll direction
     (function(){
-    const btns = Array.from(document.querySelectorAll('a.back, #btn-page-fullscreen'));
+    const btns = Array.from(
+      document.querySelectorAll('a.back, #btn-page-fullscreen, #btn-qr-modal')
+    );
     if (!btns.length) return;
       // On mobile, lift the back button out of the image stacking context so it's always clickable
       const isMobile = window.matchMedia('(max-width: 767px)').matches;

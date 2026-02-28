@@ -8,7 +8,6 @@
       #btn-qr-modal.btn-hidden {
         opacity: 0;
         transform: translateY(-140%);
-        pointer-events: none;
       }
     }
     @media (min-width: 768px) {
@@ -16,6 +15,10 @@
       #btn-qr-modal {
         display: none;
       }
+    }
+
+    #qr-modal {
+      z-index: 9999; /* ensure overlay is above recipe content and image */
     }
 
     #qr-modal.qr-modal-open {
@@ -128,6 +131,25 @@
         data-qr-modal-panel
         class="relative bg-white rounded-2xl p-4 md:p-6 shadow-3xl w-[95%] md:w-[80%] max-w-3xl max-h-[90vh] flex flex-col items-center gap-4"
       >
+        <button
+          type="button"
+          data-qr-modal-close
+          class="absolute top-3 right-3 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-gray-700 hover:bg-gray-50 w-8 h-8 md:w-9 md:h-9 shadow-sm"
+          aria-label="Fermer le QR code"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-4 h-4 md:w-5 md:h-5"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
         <h2 class="text-lg font-semibold text-center text-orange-950">
           Scanner ce QR code pour accéder au site
         </h2>
@@ -248,15 +270,19 @@
       (function () {
         const modal = document.getElementById("qr-modal");
         if (!modal) return;
+        const modalCloseButtons =
+          modal.querySelectorAll("[data-qr-modal-close]");
 
         function openModal() {
           modal.classList.add("qr-modal-open");
           document.documentElement.style.overflow = "hidden";
+          modal.setAttribute("aria-hidden", "false");
         }
 
         function closeModal() {
           modal.classList.remove("qr-modal-open");
           document.documentElement.style.overflow = "";
+          modal.setAttribute("aria-hidden", "true");
         }
 
         ["btn-qr-modal", "btn-qr-modal-desktop"].forEach((id) => {
@@ -272,6 +298,13 @@
           if (e.target === modal) {
             closeModal();
           }
+        });
+
+        modalCloseButtons.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            closeModal();
+          });
         });
 
         document.addEventListener("keydown", (e) => {
