@@ -4,7 +4,6 @@
 
   <style>
     @media (max-width: 767px) {
-      #btn-page-fullscreen.btn-hidden,
       #btn-qr-modal.btn-hidden {
         opacity: 0;
         transform: translateY(-140%);
@@ -15,7 +14,6 @@
       }
     }
     @media (min-width: 768px) {
-      #btn-page-fullscreen,
       #btn-qr-modal {
         display: none;
       }
@@ -35,41 +33,10 @@
     class="flex min-h-screen w-full font-inter bg-orange-50 text-orange-950"
   >
     <main class="relative flex-1 w-full">
-      <!-- Global fullscreen toggle (appears like back button) -->
-      <a
-        id="btn-page-fullscreen"
-        href="#"
-        class="fixed top-4 right-4 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
-        title="Plein écran"
-        aria-label="Plein écran"
-      >
-        <svg
-          id="icon-fs-enter"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="size-6 md:size-8"
-        >
-          <path
-            d="M3 9V5a2 2 0 0 1 2-2h4a1 1 0 1 1 0 2H6a1 1 0 0 0-1 1v3a1 1 0 1 1-2 0m0 10v-4a1 1 0 1 1 2 0v3a1 1 0 0 0 1 1h3a1 1 0 1 1 0 2H5a2 2 0 0 1-2-2M21 9V6a1 1 0 0 0-1-1h-3a1 1 0 1 1 0-2h4a2 2 0 0 1 2 2v4a1 1 0 1 1-2 0m-7 12a1 1 0 1 1 0-2h3a1 1 0 0 0 1-1v-3a1 1 0 1 1 2 0v4a2 2 0 0 1-2 2Z"
-          />
-        </svg>
-        <svg
-          id="icon-fs-exit"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="hidden size-6 md:size-8"
-        >
-          <path
-            d="M6.225 4.811a1 1 0 1 0-1.414 1.414L9.586 11H6a1 1 0 1 0 0 2h6V7a1 1 0 1 0-2 0v3.586zM17.775 19.189a1 1 0 1 0 1.414-1.414L14.414 13H18a1 1 0 1 0 0-2h-6v6a1 1 0 1 0 2 0v-3.586z"
-          />
-        </svg>
-      </a>
       <button
         id="btn-qr-modal"
         type="button"
-        class="fixed top-4 right-20 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
+        class="fixed top-4 right-4 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
         title="Afficher le QR code"
         aria-label="Afficher le QR code"
       >
@@ -199,77 +166,6 @@
       })();
     </script>
     <script>
-      // Global Page Fullscreen + Wake Lock + scrolling retained
-      (function () {
-        const fsBtn = document.getElementById("btn-page-fullscreen");
-        if (!fsBtn) return;
-        const iconEnter = document.getElementById("icon-fs-enter");
-        const iconExit = document.getElementById("icon-fs-exit");
-        let wakeLock = null;
-        function isFs() {
-          return !!document.fullscreenElement;
-        }
-        async function requestWakeLock() {
-          try {
-            if ("wakeLock" in navigator)
-              wakeLock = await navigator.wakeLock.request("screen");
-          } catch (_) {}
-        }
-        async function releaseWakeLock() {
-          try {
-            if (wakeLock && wakeLock.release) await wakeLock.release();
-          } catch (_) {
-          } finally {
-            wakeLock = null;
-          }
-        }
-        function enterFs() {
-          const el = document.documentElement;
-          const req =
-            el.requestFullscreen ||
-            el.webkitRequestFullscreen ||
-            el.msRequestFullscreen;
-          if (req) req.call(el);
-          // Keep scrolling enabled; avoid forcing overflow hidden
-          document.body.style.overscrollBehaviorY = "none";
-          requestWakeLock();
-        }
-        function exitFs() {
-          const ex =
-            document.exitFullscreen ||
-            document.webkitExitFullscreen ||
-            document.msExitFullscreen;
-          if (ex) ex.call(document);
-          document.body.style.overscrollBehaviorY = "";
-          releaseWakeLock();
-        }
-        function updateBtn() {
-          const fs = isFs();
-          if (fs) {
-            iconEnter.classList.add("hidden");
-            iconExit.classList.remove("hidden");
-            fsBtn.title = "Quitter le plein écran";
-            fsBtn.setAttribute("aria-label", "Quitter le plein écran");
-          } else {
-            iconExit.classList.add("hidden");
-            iconEnter.classList.remove("hidden");
-            fsBtn.title = "Plein écran";
-            fsBtn.setAttribute("aria-label", "Plein écran");
-          }
-        }
-        fsBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          isFs() ? exitFs() : enterFs();
-        });
-        document.addEventListener("fullscreenchange", updateBtn);
-        document.addEventListener("visibilitychange", () => {
-          if (document.visibilityState === "visible" && isFs())
-            requestWakeLock();
-        });
-        updateBtn();
-      })();
-    </script>
-    <script>
       // QR modal open/close behavior
       (function () {
         const modal = document.getElementById("qr-modal");
@@ -376,27 +272,22 @@
       })();
     </script>
     <script>
-      // Mobile hide/show for top-right buttons (fullscreen + QR)
+      // Mobile hide/show for top-right button (QR)
       (function () {
-        const fsBtn = document.getElementById("btn-page-fullscreen");
         const qrBtn = document.getElementById("btn-qr-modal");
-        if (!fsBtn && !qrBtn) return;
+        if (!qrBtn) return;
         // On recipe pages, the layout script (_layouts/recipe.html) controls
-        // scroll-based hide/show for the back + fullscreen + QR buttons.
-        // Avoid double-toggling here to keep behavior in sync.
+        // scroll-based hide/show for the back + QR + image zoom buttons.
         const isRecipePage = !!document.querySelector(".post-content");
         if (isRecipePage) return;
         let lastY = window.scrollY || 0;
 
         function setHidden(hidden) {
-          [fsBtn, qrBtn].forEach((btn) => {
-            if (!btn) return;
-            if (hidden) {
-              btn.classList.add("btn-hidden");
-            } else {
-              btn.classList.remove("btn-hidden");
-            }
-          });
+          if (hidden) {
+            qrBtn.classList.add("btn-hidden");
+          } else {
+            qrBtn.classList.remove("btn-hidden");
+          }
         }
 
         window.addEventListener(

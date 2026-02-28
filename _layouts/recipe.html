@@ -13,19 +13,17 @@ layout: default
     {% if hero_img %}data-hero-image="{{ site.baseurl }}/images/{{ hero_img }}"{% endif %}
   >
     <style>
-      a.back {
+      a.back,
+      #btn-qr-modal,
+      #btn-recipe-image-zoom {
         transition: opacity 220ms ease, transform 220ms ease;
       }
       a.back.back-hidden,
-      #btn-page-fullscreen.back-hidden,
       #btn-qr-modal.back-hidden,
       #btn-recipe-image-zoom.back-hidden {
         opacity: 0;
         transform: translateY(-40%);
         pointer-events: none;
-      }
-      #btn-recipe-image-zoom {
-        transition: opacity 220ms ease, transform 220ms ease;
       }
       @media (min-width: 768px) {
         #btn-recipe-image-zoom {
@@ -711,7 +709,7 @@ layout: default
     // Smooth fade/appear of the back button and top-right controls on scroll direction
     (function(){
     const btns = Array.from(
-      document.querySelectorAll('a.back, #btn-page-fullscreen, #btn-qr-modal, #btn-recipe-image-zoom')
+      document.querySelectorAll('a.back, #btn-qr-modal, #btn-recipe-image-zoom')
     );
     if (!btns.length) return;
       // On mobile, lift the back button and lens out of the image stacking context so they're always clickable
@@ -725,7 +723,7 @@ layout: default
           b.style.zIndex = '9999';
           if (b.id === 'btn-recipe-image-zoom') {
             b.style.top = '1rem';
-            b.style.right = '1rem';
+            b.style.right = '4.5rem';  /* left of QR button (right-4) so they sit side by side */
             b.style.bottom = 'auto';
             b.style.left = 'auto';
           }
@@ -946,52 +944,4 @@ layout: default
     })();
 
   });
-
-  // Page Fullscreen + Wake Lock
-  (function(){
-    const fsBtn = document.getElementById('btn-page-fullscreen');
-    if (!fsBtn) return;
-    const iconEnter = document.getElementById('icon-fs-enter');
-    const iconExit = document.getElementById('icon-fs-exit');
-    let wakeLock = null;
-    function isFs(){ return !!document.fullscreenElement; }
-    async function requestWakeLock(){
-      try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch(_) {}
-    }
-    async function releaseWakeLock(){ try { if (wakeLock && wakeLock.release) await wakeLock.release(); } catch(_) {} finally { wakeLock = null; } }
-    function enterFs(){
-      const el = document.documentElement;
-      const req = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-      if (req) req.call(el);
-      // Keep scrolling enabled in fullscreen
-      document.documentElement.style.overflow = '';
-      document.body.style.overscrollBehaviorY = 'none';
-      requestWakeLock();
-    }
-    function exitFs(){
-      const ex = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
-      if (ex) ex.call(document);
-      document.documentElement.style.overflow = '';
-      document.body.style.overscrollBehaviorY = '';
-      releaseWakeLock();
-    }
-    function updateBtn(){
-      const fs = isFs();
-      if (fs) {
-        iconEnter.classList.add('hidden');
-        iconExit.classList.remove('hidden');
-        fsBtn.title = 'Quitter le plein écran';
-        fsBtn.setAttribute('aria-label','Quitter le plein écran');
-      } else {
-        iconExit.classList.add('hidden');
-        iconEnter.classList.remove('hidden');
-        fsBtn.title = 'Plein écran';
-        fsBtn.setAttribute('aria-label','Plein écran');
-      }
-    }
-    fsBtn.addEventListener('click', (e)=>{ e.preventDefault(); isFs() ? exitFs() : enterFs(); });
-    document.addEventListener('fullscreenchange', updateBtn);
-    document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState === 'visible' && isFs()) requestWakeLock(); });
-    updateBtn();
-  })();
 </script>
