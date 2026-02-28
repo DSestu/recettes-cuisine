@@ -19,7 +19,7 @@ layout: default
       a.back.back-hidden,
       #btn-page-fullscreen.back-hidden,
       #btn-qr-modal.back-hidden,
-      #btn-recipe-image-zoom.lens-btn-hidden {
+      #btn-recipe-image-zoom.back-hidden {
         opacity: 0;
         transform: translateY(-40%);
         pointer-events: none;
@@ -261,7 +261,7 @@ layout: default
     <button
       type="button"
       id="btn-recipe-image-zoom"
-      class="md:hidden absolute bottom-3 right-3 z-10 bg-white rounded-full p-3 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
+      class="md:hidden absolute top-4 right-4 z-10 bg-white rounded-full p-3 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
       title="Agrandir l'image"
       aria-label="Agrandir l'image"
     >
@@ -724,24 +724,15 @@ layout: default
           b.style.position = 'fixed';
           b.style.zIndex = '9999';
           if (b.id === 'btn-recipe-image-zoom') {
-            b.style.bottom = 'calc(100vh - 56.25vw - 12px)';
-            b.style.right = '12px';
-            b.style.top = 'auto';
+            b.style.top = '1rem';
+            b.style.right = '1rem';
+            b.style.bottom = 'auto';
             b.style.left = 'auto';
           }
         } catch(_) {}
       });
     }
-      const lensBtn = document.getElementById('btn-recipe-image-zoom');
-      const lensHiddenClass = 'lens-btn-hidden';
-      if (lensBtn) {
-        if (window.scrollY > 0) lensBtn.classList.add(lensHiddenClass);
-      }
       btns.forEach(b=>{
-        if (b.id === 'btn-recipe-image-zoom') {
-          if (window.scrollY > 0) b.classList.add(lensHiddenClass);
-          return;
-        }
         if (window.scrollY > 0 && window.scrollY > 6) b.classList.add('back-hidden');
       });
       let lastY = window.scrollY || 0;
@@ -749,15 +740,10 @@ layout: default
         const y = window.scrollY || 0;
         const goingDown = y > lastY && y > 6;
         const atTop = y <= 0;
-      btns.forEach(b=>{
-        if (b.id === 'btn-recipe-image-zoom') {
-          if (goingDown) b.classList.add(lensHiddenClass);
-          if (atTop || y < lastY) b.classList.remove(lensHiddenClass);
-          return;
-        }
-        if (goingDown) b.classList.add('back-hidden');
-        if (atTop || y < lastY) b.classList.remove('back-hidden');
-      });
+        btns.forEach(b=>{
+          if (goingDown) b.classList.add('back-hidden');
+          if (atTop || y < lastY) b.classList.remove('back-hidden');
+        });
         lastY = y;
       }, { passive: true });
     })();
