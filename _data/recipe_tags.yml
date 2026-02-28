@@ -449,8 +449,6 @@
   ingredient: false
 - id: tofu
   ingredient: true
-- id: tomate
-  ingredient: true
 - id: tomate cerise
   ingredient: true
 - id: tomates

@@ -11,7 +11,7 @@ tags:
 - salade
 - racine de lotus
 - algue hijiki
-- tomate
+- tomates
 - edamame
 - fèves de soja vertes
 - dashi

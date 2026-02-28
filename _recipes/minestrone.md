@@ -17,7 +17,7 @@ tags:
 - oignon
 - ail
 - pommes de terre
-- tomate
+- tomates
 - légumes
 - sestu
 

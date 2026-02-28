@@ -8,7 +8,7 @@ tags:
 - apéritif
 - chèvre
 - chorizo
-- tomate
+- tomates
 - facile
 - pain
 - tartinade
