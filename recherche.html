@@ -1309,7 +1309,7 @@ permalink: /recherche/
           ? summaryLine + `<h5>Ingrédients que vous avez</h5><div class="chips">${chipsHtml(presentTags, 'present')}</div><h5>Ingrédients manquants</h5><div class="chips">${chipsHtml(missingTags, 'missing')}</div>`
           : `<h5>Tags présents</h5><div class="chips">${chipsHtml(presentTags, 'present')}</div><h5>Tags manquants</h5><div class="chips">${chipsHtml(missingTags, 'missing')}</div>`;
         a.appendChild(tip);
-        // Clicking a missing tag or a present tag removes it from the searched tags
+        // Clicking a present chip removes that tag from the selection; clicking a missing chip adds it.
         tip.addEventListener('click', (e) => {
           const chip = e.target && e.target.closest ? e.target.closest('.tag-chip') : null;
           if (!chip) return;
@@ -1318,12 +1318,16 @@ permalink: /recherche/
           e.stopPropagation();
           const label = (chip.textContent || '').trim();
           if (!label) return;
-          // Remove matching tag from state.selectedTags (case-insensitive)
-          const toRemove = [];
-          for (const t of state.selectedTags) {
-            if (String(t).toLowerCase().trim() === label.toLowerCase().trim()) toRemove.push(t);
+          if (chip.classList.contains('missing')) {
+            state.selectedTags.add(label);
+          } else {
+            // Remove matching tag from state.selectedTags (case-insensitive)
+            const toRemove = [];
+            for (const t of state.selectedTags) {
+              if (String(t).toLowerCase().trim() === label.toLowerCase().trim()) toRemove.push(t);
+            }
+            for (const t of toRemove) state.selectedTags.delete(t);
           }
-          for (const t of toRemove) state.selectedTags.delete(t);
           if (typeof updateSelectedChips === 'function') updateSelectedChips();
           if (typeof refresh === 'function') refresh();
           if (typeof pushControlsToUrl === 'function') pushControlsToUrl();

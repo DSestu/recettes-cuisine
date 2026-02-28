@@ -474,7 +474,7 @@
 - id: vin blanc
   ingredient: true
 - id: vinaigre
-  ingredient: true
+  ingredient: false
 - id: vinaigre de vin
   ingredient: true
 - id: vinaigrette
