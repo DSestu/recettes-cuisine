@@ -3257,6 +3257,7 @@ permalink: /recherche/
         trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
         if (typeof refresh === 'function') refresh();
         syncMobileAccordionUI();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
       }
       function syncMobileAccordionUI() {
         var triggers = [
@@ -3330,12 +3331,23 @@ permalink: /recherche/
       });
       initMobileAccordionState();
       window.syncMobileAccordionUI = syncMobileAccordionUI;
+      window.getAccordionOpenForUrl = function() {
+        return { name: mobileAccordionOpen.name, categories: mobileAccordionOpen.categories, tags: mobileAccordionOpen.tags };
+      };
+      window.applyAccordionOpenFromUrl = function(openParam) {
+        if (!openParam || typeof openParam !== 'string') return;
+        var parts = openParam.split(',').map(function(p) { return p.trim().toLowerCase(); }).filter(Boolean);
+        mobileAccordionOpen.name = parts.indexOf('name') !== -1;
+        mobileAccordionOpen.categories = parts.indexOf('categories') !== -1;
+        mobileAccordionOpen.tags = parts.indexOf('tags') !== -1;
+        syncMobileAccordionUI();
+      };
     })();
 
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
     // reset-ingredients button was removed with hidden wrapper
 
-    // Paramètres URL (?q= & tags=x,y & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
+    // Paramètres URL (?q= & tags=x,y & cat= & mode= & open=name,categories,tags & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
     const params = new URLSearchParams(window.location.search);
     const q = params.get('q');
     const tags = params.get('tags');
@@ -3368,6 +3380,7 @@ permalink: /recherche/
     if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
     if (modeParam && (modeParam === 'tag' || modeParam === 'what_i_have')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
+    if (typeof window.applyAccordionOpenFromUrl === 'function') window.applyAccordionOpenFromUrl(params.get('open'));
     // Apply infinite tolerance from URL and sync UI + dependent controls
     (function(){
       const infEl = document.getElementById('infinite-tolerance');
@@ -3539,6 +3552,16 @@ permalink: /recherche/
       setParam('tags', tagVals.length ? tagVals.join(',') : '');
       setParam('q', state.titleQuery || '');
       setParam('cat', (state.activeCategoryIds && state.activeCategoryIds.size) ? Array.from(state.activeCategoryIds).join(',') : '');
+      var openAcc = typeof window.getAccordionOpenForUrl === 'function' && window.getAccordionOpenForUrl();
+      if (openAcc) {
+        var openList = [];
+        if (openAcc.name) openList.push('name');
+        if (openAcc.categories) openList.push('categories');
+        if (openAcc.tags) openList.push('tags');
+        setParam('open', openList.join(','));
+      } else {
+        setParam('open', '');
+      }
       // graph-search removed
     }
     // Expose for external callers (chips updates, graph clicks, FS overlay)
