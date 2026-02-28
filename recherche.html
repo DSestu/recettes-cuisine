@@ -1222,10 +1222,7 @@ permalink: /recherche/
   function updateSelectedChips() {
     const tagSel = $('#selected-tags');
     tagSel.innerHTML = '';
-    for (const t of state.selectedTags) {
-      tagSel.appendChild(chip(t, ()=>{ state.selectedTags.delete(t); updateSelectedChips(); refresh(); }));
-    }
-    // Add a clear button at the end when there are selected tags
+    // Add clear button at the beginning when there are selected tags
     if (state.selectedTags.size > 0 && tagSel) {
       const clearBtn = document.createElement('button');
       clearBtn.type = 'button';
@@ -1239,11 +1236,13 @@ permalink: /recherche/
         if (typeof refresh === 'function') refresh();
         if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
       });
-      // Provide a slight gap before the clear button
       const spacer = document.createElement('span');
       spacer.className = 'w-2';
-      tagSel.appendChild(spacer);
       tagSel.appendChild(clearBtn);
+      tagSel.appendChild(spacer);
+    }
+    for (const t of state.selectedTags) {
+      tagSel.appendChild(chip(t, ()=>{ state.selectedTags.delete(t); updateSelectedChips(); refresh(); }));
     }
     // Keep fullscreen overlay tags in sync
     if (window.__renderFsTags) {
@@ -2401,23 +2400,8 @@ permalink: /recherche/
           const host = wrap.querySelector('#fs-selected-tags');
           if (!host) return;
           host.innerHTML = '';
-          for (const tg of state.selectedTags) {
-            const pill = document.createElement('button');
-            pill.className = 'px-3 py-1 rounded-full border text-xs bg-white text-primary border-primary hover:bg-red-50';
-            pill.textContent = tg;
-            pill.title = 'Cliquer pour retirer ce tag';
-            pill.addEventListener('click', ()=>{
-              state.selectedTags.delete(tg);
-              if (typeof updateSelectedChips === 'function') updateSelectedChips();
-              if (typeof refresh === 'function') refresh();
-              if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
-              renderFsTags();
-            });
-            host.appendChild(pill);
-          }
-          // Add clear button at end if there are selected tags
+          // Add clear button at the beginning when there are selected tags
           if (state.selectedTags.size > 0) {
-            const spacer = document.createElement('span'); spacer.className = 'w-2'; host.appendChild(spacer);
             const clearBtn = document.createElement('button');
             clearBtn.type = 'button';
             clearBtn.title = 'Effacer les tags';
@@ -2431,7 +2415,23 @@ permalink: /recherche/
               if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
               renderFsTags();
             });
+            const spacer = document.createElement('span'); spacer.className = 'w-2';
             host.appendChild(clearBtn);
+            host.appendChild(spacer);
+          }
+          for (const tg of state.selectedTags) {
+            const pill = document.createElement('button');
+            pill.className = 'px-3 py-1 rounded-full border text-xs bg-white text-primary border-primary hover:bg-red-50';
+            pill.textContent = tg;
+            pill.title = 'Cliquer pour retirer ce tag';
+            pill.addEventListener('click', ()=>{
+              state.selectedTags.delete(tg);
+              if (typeof updateSelectedChips === 'function') updateSelectedChips();
+              if (typeof refresh === 'function') refresh();
+              if (typeof pushControlsToUrl === 'function') pushControlsToUrl();
+              renderFsTags();
+            });
+            host.appendChild(pill);
           }
           updateCountBadge();
         }
