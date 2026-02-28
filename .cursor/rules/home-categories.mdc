@@ -24,7 +24,9 @@ individual recipes beyond normalising tags.
 ## Concepts and files
 
 - **Tag registry:** `_data/recipe_tags.yml` is the single source of truth for
-  tag strings. Tags must be:
+  tag strings. It is a list of objects, each with **id** (canonical tag string)
+  and **ingredient** (boolean). The string used in recipes and in category
+  `tags:` is the **id** value. Tags must be:
   - Easy to type (ASCII, e.g. `oeufs`, `creme`, `gateau`).
   - One canonical form per concept (no duplicate singular/plural or accented
     variants).
@@ -90,12 +92,14 @@ Whenever you read or write tags in `_recipes/`, `_components/`,
      - `poisson` ↔ `poissons`
 
 2. **Use canonical registry form on write:**
-   - If the normalised tag matches an entry in `_data/recipe_tags.yml`, write
-     that exact registry spelling in:
+   - If the normalised tag matches an entry's **id** in `_data/recipe_tags.yml`,
+     write that exact **id** in:
      - recipe/component frontmatter `tags:`
      - category `tags:` in `home_categories.md`.
-   - If there is no match in `_data/recipe_tags.yml`, add a new canonical tag
-     there (ASCII, one form per concept), then use that new value everywhere.
+   - If there is no match in `_data/recipe_tags.yml`, add a new entry there as
+     `{ id: "new_tag", ingredient: true|false }` (ASCII, one form per concept),
+     then use that **id** everywhere. Do not change **ingredient** values of
+     existing entries during category sync.
 
 3. **Avoid near-duplicates:**
    - Never keep both singular and plural forms as separate tags for the same
@@ -198,7 +202,9 @@ similar in spirit to the tag normalisation cold pass in
 ### Step 1 – Preparation
 
 1. Read `_data/recipe_tags.yml`. If it does not exist, create it with an empty
-   list.
+   list. The registry is a list of objects with **id** and **ingredient**; use
+   the **id** field for canonical tag strings. Do not change **ingredient**
+   values during a cold run unless the user asks.
 2. Read `home_categories.md` and parse its frontmatter `categories:`.
 3. Enumerate all `.md` files in `_recipes/` and `_components/`.
 
@@ -208,10 +214,11 @@ For each recipe/component file:
 
 1. Parse frontmatter and read its `tags:` list (if present).
 2. For each tag in that list:
-   - Normalise and canonicalise it against `_data/recipe_tags.yml` using the
-     rules above.
-   - If there is no match in the registry, add a new canonical entry there and
-     use it as the tag's value.
+   - Normalise and canonicalise it against `_data/recipe_tags.yml` (match on
+     entry **id**) using the rules above.
+   - If there is no match in the registry, add a new entry
+     `{ id: "canonical_tag", ingredient: true|false }` and use that **id** as
+     the tag's value.
 3. Record the final canonical tags for that file in memory, and, if needed,
    update the file's `tags:` block so it only contains canonical registry
    values.
@@ -243,7 +250,10 @@ Do **not**:
 ### Step 4 – Write back
 
 1. Update `_data/recipe_tags.yml` with the full deduplicated set of canonical
-   tags encountered (preserving its existing easy-to-type conventions).
+   tags encountered. Preserve the object form (each entry has **id** and
+   **ingredient**). Keep existing **ingredient** values; for any new tag added
+   during the cold run, set **ingredient** appropriately (e.g. default `true`
+   when uncertain).
 2. Update `home_categories.md` frontmatter `categories:` with the new `tags:`
    lists, keeping:
    - The original order of categories unchanged.

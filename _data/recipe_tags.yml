@@ -1,264 +1,523 @@
 # Canonical recipe/component tags (easy-to-type: ASCII, e.g. oeufs not œufs, creme not crème).
-# When adding a tag: if a similar tag exists (accent, plural, typo), use it; else append here.
-- ail
-- alcool
-- algue
-- algue hijiki
-- algue sechee
-- amandes
-- amaretto
-- ankake
-- aonori
-- aperitif
-- asiatique
-- asperges
-- assaisonnement
-- automne
-- base
-- basilic
-- beignets
-- beurre
-- biscuits cuillere
-- blanc d'oeuf
-- bocuse
-- boeuf
-- boisson
-- bonite
-- bouillon
-- bouillon blanc
-- boulettes
-- bouquet garni
-- cacao
-- cafe
-- caramel
-- carotte
-- carottes
-- casserole
-- cassonade
-- cerfeuil
-- chalumeau
-- champignons
-- chapelure
-- char siu
-- chaud
-- chocolat
-- chorizo
-- chou
-- chou-fleur
-- choux de bruxelles
-- chevre
-- ciboulette
-- citron
-- classique
-- clou de girofle
-- clous de girofle
-- cocktail
-- composant
-- concombre
-- condiment
-- confiture
-- couennes
-- crevettes
-- croutons
-- creme
-- creme fraiche
-- cuiseur a riz
-- cuisse de poulet
-- curry
-- celeri
-- dashi
-- dessert
-- eau
-- edamame
-- emilia
-- emmental
-- endives
-- entree
-- facile
-- fait maison
-- farine
-- farine a gateau
-- farine a pain
-- fenouil
-- flocons de tempura
-- fond
-- fond chinois
-- fondant
-- four
-- frais
-- framboises
-- frit
-- friture
-- froid
-- fromage
-- fruits
-- feves de soja vertes
-- fecule
-- fecule de pomme de terre
-- gingembre
-- gingembre rouge
-- gourmand
-- gratin
-- gruyere
-- gateau
-- haricots verts
-- herbes aromatiques
-- hiver
-- huile
-- huile d'arachide
-- huile d'olive
-- huile de friture
-- huile de sesame
-- japon
-- jaunes d'oeufs
-- jus d'ananas
-- jus d'orange
-- jus de banane
-- jus de citron vert
-- jus de goyave
-- konbu
-- lait
-- lard
-- lardons
-- laurier
-- lentilles corail
-- levure
-- levure de boulanger deshydratee
-- limoncello
-- legumes
-- madere
-- maquereau
-- marbre
-- margarine
-- marinade
-- marmiton
-- marrons
-- marsala
-- mascarpone
-- mayonnaise
-- mediterranee
-- miel
-- mirin
-- miso
-- miso blanc
-- moules
-- moutarde
-- muscade
-- navets
-- niban
-- noix
-- noix de muscade
-- nouilles
-- oignon
-- oignons
-- orge
-- orge perle
-- pain
-- parmesan
-- persil
-- piment d'espelette
-- pistaches
-- pistaches natures
-- plat
-- plat principal
-- poireau
-- poireau japonais
-- poireaux
-- poisson
-- poitrine de porc
-- poivre
-- pommes de terre
-- porc
-- porto
-- potiron
-- poulet
-- pousses de radis
-- pousses de soja
-- poele
-- prune salee
-- pulpe de tomate
-- punch
-- pate levee
-- pates
-- pates fraiches
-- quatre-quarts
-- racine de bardane
-- racine de lotus
-- radis
-- ramen
-- rapide
-- repas
-- rhum
-- ricotta
-- riz
-- safran
-- saindoux
-- sake
-- salade
-- sauce
-- sauce huitre
-- sauce okonomiyaki
-- sauce soja
-- sauce soja claire
-- sauce soja foncee
-- sauce teriyaki
-- saucisse de morteau
-- saumon
-- saute
-- sel
-- sestu
-- shimeji
-- shiso
-- soja
-- soupe
-- speculoos
-- sucre
-- sucre de canne
-- sucre en poudre
-- sucre semoule
-- sucre vanille
-- sucre-sale
-- sesame
-- tartinade
-- teriyaki
-- thym
-- tiramisu
-- tofu
-- tomate
-- tomate cerise
-- tomates
-- tomates fraiches
-- traditionnel
-- vanille
-- vanille liquide
-- vapeur
-- veloute
-- viande
-- viande de boeuf hachee
-- vin blanc
-- vinaigre
-- vinaigre de vin
-- vinaigrette
-- voyage
-- vegetarien
-- yakitori
-- yaourt
-- echalotes
-- epeautre
-- epices
-- ete
-- oeufs
-- saint-jacques
-- canard
-- clementine
-- agrumes
-- noisettes
-- biere
-- butternut
-- puree
-
-- guanciale
-- pecorino
-
-- roquette
-- brousse de brebis
+# Each entry: id = canonical tag string; ingredient = true if physical ingredient (buy/use in dish), false for dish type/style/method.
+# When adding a tag: if a similar tag exists (accent, plural, typo), use it; else append here with ingredient set appropriately.
+- id: ail
+  ingredient: true
+- id: alcool
+  ingredient: true
+- id: algue
+  ingredient: true
+- id: algue hijiki
+  ingredient: true
+- id: algue sechee
+  ingredient: true
+- id: amandes
+  ingredient: true
+- id: amaretto
+  ingredient: true
+- id: ankake
+  ingredient: true
+- id: aonori
+  ingredient: true
+- id: aperitif
+  ingredient: false
+- id: asiatique
+  ingredient: false
+- id: asperges
+  ingredient: true
+- id: assaisonnement
+  ingredient: true
+- id: automne
+  ingredient: false
+- id: base
+  ingredient: false
+- id: basilic
+  ingredient: true
+- id: beignets
+  ingredient: false
+- id: beurre
+  ingredient: true
+- id: biscuits cuillere
+  ingredient: true
+- id: blanc d'oeuf
+  ingredient: true
+- id: bocuse
+  ingredient: false
+- id: boeuf
+  ingredient: true
+- id: boisson
+  ingredient: false
+- id: bonite
+  ingredient: true
+- id: bouillon
+  ingredient: true
+- id: bouillon blanc
+  ingredient: true
+- id: boulettes
+  ingredient: false
+- id: bouquet garni
+  ingredient: true
+- id: cacao
+  ingredient: true
+- id: cafe
+  ingredient: true
+- id: caramel
+  ingredient: true
+- id: carotte
+  ingredient: true
+- id: carottes
+  ingredient: true
+- id: casserole
+  ingredient: false
+- id: cassonade
+  ingredient: true
+- id: cerfeuil
+  ingredient: true
+- id: chalumeau
+  ingredient: false
+- id: champignons
+  ingredient: true
+- id: chapelure
+  ingredient: true
+- id: char siu
+  ingredient: true
+- id: chaud
+  ingredient: false
+- id: chocolat
+  ingredient: true
+- id: chorizo
+  ingredient: true
+- id: chou
+  ingredient: true
+- id: chou-fleur
+  ingredient: true
+- id: choux de bruxelles
+  ingredient: true
+- id: chevre
+  ingredient: true
+- id: ciboulette
+  ingredient: true
+- id: citron
+  ingredient: true
+- id: classique
+  ingredient: false
+- id: clou de girofle
+  ingredient: true
+- id: clous de girofle
+  ingredient: true
+- id: cocktail
+  ingredient: false
+- id: composant
+  ingredient: false
+- id: concombre
+  ingredient: true
+- id: condiment
+  ingredient: true
+- id: confiture
+  ingredient: true
+- id: couennes
+  ingredient: true
+- id: crevettes
+  ingredient: true
+- id: croutons
+  ingredient: true
+- id: creme
+  ingredient: true
+- id: creme fraiche
+  ingredient: true
+- id: cuiseur a riz
+  ingredient: false
+- id: cuisse de poulet
+  ingredient: true
+- id: curry
+  ingredient: true
+- id: celeri
+  ingredient: true
+- id: dashi
+  ingredient: true
+- id: dessert
+  ingredient: false
+- id: eau
+  ingredient: true
+- id: edamame
+  ingredient: true
+- id: emilia
+  ingredient: false
+- id: emmental
+  ingredient: true
+- id: endives
+  ingredient: true
+- id: entree
+  ingredient: false
+- id: facile
+  ingredient: false
+- id: fait maison
+  ingredient: false
+- id: farine
+  ingredient: true
+- id: farine a gateau
+  ingredient: true
+- id: farine a pain
+  ingredient: true
+- id: fenouil
+  ingredient: true
+- id: flocons de tempura
+  ingredient: true
+- id: fond
+  ingredient: false
+- id: fond chinois
+  ingredient: true
+- id: fondant
+  ingredient: true
+- id: four
+  ingredient: false
+- id: frais
+  ingredient: false
+- id: framboises
+  ingredient: true
+- id: frit
+  ingredient: false
+- id: friture
+  ingredient: false
+- id: froid
+  ingredient: false
+- id: fromage
+  ingredient: true
+- id: fruits
+  ingredient: true
+- id: feves de soja vertes
+  ingredient: true
+- id: fecule
+  ingredient: true
+- id: fecule de pomme de terre
+  ingredient: true
+- id: gingembre
+  ingredient: true
+- id: gingembre rouge
+  ingredient: true
+- id: gourmand
+  ingredient: false
+- id: gratin
+  ingredient: false
+- id: gruyere
+  ingredient: true
+- id: gateau
+  ingredient: false
+- id: haricots verts
+  ingredient: true
+- id: herbes aromatiques
+  ingredient: true
+- id: hiver
+  ingredient: false
+- id: huile
+  ingredient: true
+- id: huile d'arachide
+  ingredient: true
+- id: huile d'olive
+  ingredient: true
+- id: huile de friture
+  ingredient: true
+- id: huile de sesame
+  ingredient: true
+- id: japon
+  ingredient: false
+- id: jaunes d'oeufs
+  ingredient: true
+- id: jus d'ananas
+  ingredient: true
+- id: jus d'orange
+  ingredient: true
+- id: jus de banane
+  ingredient: true
+- id: jus de citron vert
+  ingredient: true
+- id: jus de goyave
+  ingredient: true
+- id: konbu
+  ingredient: true
+- id: lait
+  ingredient: true
+- id: lard
+  ingredient: true
+- id: lardons
+  ingredient: true
+- id: laurier
+  ingredient: true
+- id: lentilles corail
+  ingredient: true
+- id: levure
+  ingredient: true
+- id: levure de boulanger deshydratee
+  ingredient: true
+- id: limoncello
+  ingredient: true
+- id: legumes
+  ingredient: true
+- id: madere
+  ingredient: true
+- id: maquereau
+  ingredient: true
+- id: marbre
+  ingredient: false
+- id: margarine
+  ingredient: true
+- id: marinade
+  ingredient: false
+- id: marmiton
+  ingredient: false
+- id: marrons
+  ingredient: true
+- id: marsala
+  ingredient: true
+- id: mascarpone
+  ingredient: true
+- id: mayonnaise
+  ingredient: true
+- id: mediterranee
+  ingredient: false
+- id: miel
+  ingredient: true
+- id: mirin
+  ingredient: true
+- id: miso
+  ingredient: true
+- id: miso blanc
+  ingredient: true
+- id: moules
+  ingredient: true
+- id: moutarde
+  ingredient: true
+- id: muscade
+  ingredient: true
+- id: navets
+  ingredient: true
+- id: niban
+  ingredient: true
+- id: noix
+  ingredient: true
+- id: noix de muscade
+  ingredient: true
+- id: nouilles
+  ingredient: true
+- id: oignon
+  ingredient: true
+- id: oignons
+  ingredient: true
+- id: orge
+  ingredient: true
+- id: orge perle
+  ingredient: true
+- id: pain
+  ingredient: true
+- id: parmesan
+  ingredient: true
+- id: persil
+  ingredient: true
+- id: piment d'espelette
+  ingredient: true
+- id: pistaches
+  ingredient: true
+- id: pistaches natures
+  ingredient: true
+- id: plat
+  ingredient: false
+- id: plat principal
+  ingredient: false
+- id: poireau
+  ingredient: true
+- id: poireau japonais
+  ingredient: true
+- id: poireaux
+  ingredient: true
+- id: poisson
+  ingredient: true
+- id: poitrine de porc
+  ingredient: true
+- id: poivre
+  ingredient: true
+- id: pommes de terre
+  ingredient: true
+- id: porc
+  ingredient: true
+- id: porto
+  ingredient: true
+- id: potiron
+  ingredient: true
+- id: poulet
+  ingredient: true
+- id: pousses de radis
+  ingredient: true
+- id: pousses de soja
+  ingredient: true
+- id: poele
+  ingredient: false
+- id: prune salee
+  ingredient: true
+- id: pulpe de tomate
+  ingredient: true
+- id: punch
+  ingredient: false
+- id: pate levee
+  ingredient: true
+- id: pates
+  ingredient: true
+- id: pates fraiches
+  ingredient: true
+- id: quatre-quarts
+  ingredient: false
+- id: racine de bardane
+  ingredient: true
+- id: racine de lotus
+  ingredient: true
+- id: radis
+  ingredient: true
+- id: ramen
+  ingredient: false
+- id: rapide
+  ingredient: false
+- id: repas
+  ingredient: false
+- id: rhum
+  ingredient: true
+- id: ricotta
+  ingredient: true
+- id: riz
+  ingredient: true
+- id: safran
+  ingredient: true
+- id: saindoux
+  ingredient: true
+- id: sake
+  ingredient: true
+- id: salade
+  ingredient: false
+- id: sauce
+  ingredient: false
+- id: sauce huitre
+  ingredient: true
+- id: sauce okonomiyaki
+  ingredient: true
+- id: sauce soja
+  ingredient: true
+- id: sauce soja claire
+  ingredient: true
+- id: sauce soja foncee
+  ingredient: true
+- id: sauce teriyaki
+  ingredient: true
+- id: saucisse de morteau
+  ingredient: true
+- id: saumon
+  ingredient: true
+- id: saute
+  ingredient: false
+- id: sel
+  ingredient: true
+- id: sestu
+  ingredient: false
+- id: shimeji
+  ingredient: true
+- id: shiso
+  ingredient: true
+- id: soja
+  ingredient: true
+- id: soupe
+  ingredient: false
+- id: speculoos
+  ingredient: true
+- id: sucre
+  ingredient: true
+- id: sucre de canne
+  ingredient: true
+- id: sucre en poudre
+  ingredient: true
+- id: sucre semoule
+  ingredient: true
+- id: sucre vanille
+  ingredient: true
+- id: sucre-sale
+  ingredient: true
+- id: sesame
+  ingredient: true
+- id: tartinade
+  ingredient: false
+- id: teriyaki
+  ingredient: true
+- id: thym
+  ingredient: true
+- id: tiramisu
+  ingredient: false
+- id: tofu
+  ingredient: true
+- id: tomate
+  ingredient: true
+- id: tomate cerise
+  ingredient: true
+- id: tomates
+  ingredient: true
+- id: tomates fraiches
+  ingredient: true
+- id: traditionnel
+  ingredient: false
+- id: vanille
+  ingredient: true
+- id: vanille liquide
+  ingredient: true
+- id: vapeur
+  ingredient: false
+- id: veloute
+  ingredient: false
+- id: viande
+  ingredient: true
+- id: viande de boeuf hachee
+  ingredient: true
+- id: vin blanc
+  ingredient: true
+- id: vinaigre
+  ingredient: true
+- id: vinaigre de vin
+  ingredient: true
+- id: vinaigrette
+  ingredient: true
+- id: voyage
+  ingredient: false
+- id: vegetarien
+  ingredient: false
+- id: yakitori
+  ingredient: false
+- id: yaourt
+  ingredient: true
+- id: echalotes
+  ingredient: true
+- id: epeautre
+  ingredient: true
+- id: epices
+  ingredient: true
+- id: ete
+  ingredient: false
+- id: oeufs
+  ingredient: true
+- id: saint-jacques
+  ingredient: true
+- id: canard
+  ingredient: true
+- id: clementine
+  ingredient: true
+- id: agrumes
+  ingredient: true
+- id: noisettes
+  ingredient: true
+- id: biere
+  ingredient: true
+- id: butternut
+  ingredient: true
+- id: puree
+  ingredient: true
+- id: guanciale
+  ingredient: true
+- id: pecorino
+  ingredient: true
+- id: roquette
+  ingredient: true
+- id: brousse de brebis
+  ingredient: true

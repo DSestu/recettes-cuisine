@@ -241,17 +241,17 @@ permalink: /recherche/
           <input id="include-components" type="checkbox" class="accent-primary" checked />
           <span>Inclure les composants</span>
         </label>
-        <label>
-          <span>Mode</span>
-          <select id="search-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm">
-            <option value="tag" selected>Tags</option>
-            <option value="ingredient">Ingrédients</option>
-          </select>
-        </label>
       </div>
 
       <div class="flex flex-col gap-2 relative">
-        <label class="text-sm uppercase text-primary font-semibold">Tags</label>
+        <div class="flex flex-wrap items-center gap-2">
+          <label class="text-sm uppercase text-primary font-semibold">Tags</label>
+          <select id="search-mode" class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm text-gray-900">
+            <option value="tag" selected>Filtrer par tags</option>
+            <option value="ingredient">Ingrédients (tokens)</option>
+            <option value="what_i_have">J'ai ces ingrédients</option>
+          </select>
+        </div>
         <div class="flex items-center gap-2">
           <input
             id="infinite-tolerance"
@@ -369,6 +369,10 @@ permalink: /recherche/
         ></div>
         <div id="selected-tags" class="flex flex-wrap gap-2"></div>
         <div id="tag-suggestions" class="flex flex-wrap gap-2"></div>
+        <div id="add-ingredient-suggestions" class="mt-4 hidden">
+          <h4 class="text-sm uppercase text-primary font-semibold mb-2">Ajoutez un ingrédient pour plus de recettes</h4>
+          <div id="add-ingredient-list" class="flex flex-wrap gap-2"></div>
+        </div>
       </div>
 
       <div
@@ -797,6 +801,9 @@ permalink: /recherche/
     {% endif %}
   ];
 
+  // Ingredient tag ids from registry (for "J'ai ces ingrédients" mode)
+  const INGREDIENT_TAG_IDS = new Set(({{ site.data.recipe_tags | where: "ingredient", true | map: "id" | jsonify }}).map(function(id){ return String(id).toLowerCase().trim(); }));
+
   // -----------------------------
   // Normalisation & Indexation
   // -----------------------------
@@ -981,6 +988,13 @@ permalink: /recherche/
     it.categoryIds = categoryIds;
   }
 
+  // Ingredient tags per item (subset of tags that are in INGREDIENT_TAG_IDS)
+  for (const it of ITEMS) {
+    it.ingredientTags = (it.tags || []).filter(function(t) {
+      return INGREDIENT_TAG_IDS.has(String(t).toLowerCase().trim());
+    });
+  }
+
   // -----------------------------
   // Etat UI
   // -----------------------------
@@ -988,7 +1002,7 @@ permalink: /recherche/
     includeComponents: true,
     missingTolerance: 0,
     infiniteTolerance: false,
-    mode: 'tag', // 'tag' | 'ingredient'
+    mode: 'tag', // 'tag' | 'ingredient' | 'what_i_have'
     query: '',
     titleQuery: '',
     activeCategoryIds: new Set(),
@@ -1040,8 +1054,10 @@ permalink: /recherche/
     // Tag suggestions: compute counts across CURRENT filtered items
     const baseItems = Array.isArray(items) ? items : getFiltered();
     const tagCount = new Map();
+    const onlyIngredientTags = (state.mode === 'what_i_have');
     for (const it of baseItems) {
-      for (const tg of (it.tags || [])) tagCount.set(String(tg), (tagCount.get(String(tg))||0)+1);
+      const tagsToCount = onlyIngredientTags ? (it.ingredientTags || []) : (it.tags || []);
+      for (const tg of tagsToCount) tagCount.set(String(tg), (tagCount.get(String(tg))||0)+1);
     }
     // Exclude already selected
     for (const sel of state.selectedTags) tagCount.delete(sel);
@@ -1167,6 +1183,10 @@ permalink: /recherche/
         if (!isSubsequence(w, normTitle)) return false;
       }
     }
+    if (state.mode === 'what_i_have') {
+      // No tag-based filtering; show all that pass category and title (sort by missing count in getFiltered)
+      return true;
+    }
     if (state.mode === 'tag') {
       // Tag-based matching with tolerance
       if (!state.infiniteTolerance) {
@@ -1176,7 +1196,7 @@ permalink: /recherche/
         if (missing > state.missingTolerance) return false;
       }
     } else {
-      // Ingredient-based matching with tolerance
+      // Ingredient-based matching with tolerance (token mode)
       if (!state.infiniteTolerance) {
         let missing = 0;
         const setToks = it.ctokens || it.tokens;
@@ -1189,6 +1209,18 @@ permalink: /recherche/
 
   function getFiltered() {
     const filtered = ITEMS.filter(itemMatches);
+    if (state.mode === 'what_i_have') {
+      const sel = new Set(Array.from(state.selectedTags).map(s => String(s).toLowerCase().trim()));
+      filtered.sort((a, b) => {
+        const ingA = a.ingredientTags || [];
+        const ingB = b.ingredientTags || [];
+        const missA = ingA.filter(function(t) { return !sel.has(String(t).toLowerCase().trim()); }).length;
+        const missB = ingB.filter(function(t) { return !sel.has(String(t).toLowerCase().trim()); }).length;
+        if (missA !== missB) return missA - missB;
+        return String(a.title).localeCompare(String(b.title));
+      });
+      return filtered;
+    }
     // Sorting with tolerance for current mode
     const usingTokens = state.mode === 'ingredient';
     const sel = usingTokens ? Array.from(state.selectedTokens) : Array.from(state.selectedTags).map(s=>String(s).toLowerCase());
@@ -1222,16 +1254,29 @@ permalink: /recherche/
     grid.innerHTML = '';
     const selectedTagsLower = new Set(Array.from(state.selectedTags, s => String(s).toLowerCase().trim()));
     const selectedCount = selectedTagsLower.size;
+    const isWhatIHave = (state.mode === 'what_i_have');
     for (const it of items) {
-      // Compute overlap when tags are selected
+      const itemIngTags = (isWhatIHave ? (it.ingredientTags || []) : (it.tags || [])).map(x => String(x).toLowerCase().trim());
+      const itemTagSet = new Set(itemIngTags);
       let overlap = 0;
       let badgeColor = '';
+      let badgeText = '';
       if (selectedCount > 0) {
-        const itemTags = new Set((it.tags || []).map(x => String(x).toLowerCase().trim()));
-        for (const tg of selectedTagsLower) if (itemTags.has(tg)) overlap += 1;
-        if (overlap === 0) badgeColor = '#F53200'; // red
-        else if (overlap === selectedCount) badgeColor = '#22c55e'; // green
-        else badgeColor = '#f97316'; // orange
+        if (isWhatIHave) {
+          for (const tg of selectedTagsLower) if (itemTagSet.has(tg)) overlap += 1;
+          const missingCount = itemIngTags.length - overlap;
+          badgeText = missingCount === 0 ? '0 manquant' : (missingCount === 1 ? '1 manquant' : missingCount + ' manquants');
+          if (missingCount === 0) badgeColor = '#22c55e';
+          else if (missingCount <= 2) badgeColor = '#f97316';
+          else badgeColor = '#F53200';
+        } else {
+          const itemTags = new Set((it.tags || []).map(x => String(x).toLowerCase().trim()));
+          for (const tg of selectedTagsLower) if (itemTags.has(tg)) overlap += 1;
+          badgeText = overlap + '/' + selectedCount;
+          if (overlap === 0) badgeColor = '#F53200';
+          else if (overlap === selectedCount) badgeColor = '#22c55e';
+          else badgeColor = '#f97316';
+        }
       }
 
       const a = document.createElement('a');
@@ -1242,7 +1287,7 @@ permalink: /recherche/
 
       const outlineStyle = selectedCount > 0 ? `outline:2px solid ${badgeColor}; outline-offset: 0px;` : '';
       const badgeHtml = selectedCount > 0
-        ? `<span class="overlap-badge absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full text-xs font-bold text-white border-2 border-white" style="background:${badgeColor}">${overlap}/${selectedCount}</span>`
+        ? `<span class="overlap-badge absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full text-xs font-bold text-white border-2 border-white" style="background:${badgeColor}">${badgeText}</span>`
         : '';
 
       a.innerHTML = `
@@ -1250,23 +1295,28 @@ permalink: /recherche/
         <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${outlineStyle}background-image:url('${encodeURI(it.image)}');"></canvas>
         <h1 class="font-semibold leading-tight">${it.title}</h1>
       `;
-      // Attach fancy tooltip with present/missing tags when tolerance is active
-      if (selectedCount > 0 && (state.infiniteTolerance || state.missingTolerance > 0)) {
+      // Attach fancy tooltip with present/missing tags when tolerance is active or in "what I have" mode
+      const showTooltip = selectedCount > 0 && (isWhatIHave || state.infiniteTolerance || state.missingTolerance > 0);
+      if (showTooltip) {
         const presentTags = [];
         const missingTags = [];
-        const itemTags = new Set((it.tags || []).map(x => String(x).toLowerCase().trim()));
-        for (const tg of selectedTagsLower) {
-          if (itemTags.has(tg)) presentTags.push(tg); else missingTags.push(tg);
+        if (isWhatIHave) {
+          for (const tg of (it.ingredientTags || [])) {
+            const t = String(tg).toLowerCase().trim();
+            if (selectedTagsLower.has(t)) presentTags.push(tg); else missingTags.push(tg);
+          }
+        } else {
+          const itemTags = new Set((it.tags || []).map(x => String(x).toLowerCase().trim()));
+          for (const tg of selectedTagsLower) {
+            if (itemTags.has(tg)) presentTags.push(tg); else missingTags.push(tg);
+          }
         }
         const tip = document.createElement('div');
         tip.className = 'result-tooltip';
         const chipsHtml = (arr, cls) => arr.map(t => `<span class="tag-chip ${cls}">${t}</span>`).join('');
-        tip.innerHTML = `
-          <h5>Tags présents</h5>
-          <div class="chips">${chipsHtml(presentTags, 'present')}</div>
-          <h5>Tags manquants</h5>
-          <div class="chips">${chipsHtml(missingTags, 'missing')}</div>
-        `;
+        tip.innerHTML = isWhatIHave
+          ? `<h5>Ingrédients que vous avez</h5><div class="chips">${chipsHtml(presentTags, 'present')}</div><h5>Ingrédients manquants</h5><div class="chips">${chipsHtml(missingTags, 'missing')}</div>`
+          : `<h5>Tags présents</h5><div class="chips">${chipsHtml(presentTags, 'present')}</div><h5>Tags manquants</h5><div class="chips">${chipsHtml(missingTags, 'missing')}</div>`;
         a.appendChild(tip);
         // Clicking a missing tag or a present tag removes it from the searched tags
         tip.addEventListener('click', (e) => {
@@ -1508,11 +1558,12 @@ permalink: /recherche/
     const zoom = d3.zoom().scaleExtent([0.3, 3]).on('zoom', (event) => { g.attr('transform', event.transform); });
     svg.call(zoom);
 
-    // Select top ingredients
+    // Select top ingredients (or tags; in "what I have" mode use ingredient tags only)
     const tokCount = new Map();
-    const usingTagsForNodes = (state.mode === 'tag');
+    const usingTagsForNodes = (state.mode === 'tag' || state.mode === 'what_i_have');
     if (usingTagsForNodes) {
-      for (const it of items) for (const tg of (it.tags || [])) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
+      const tagsToCount = (state.mode === 'what_i_have') ? function(it) { return it.ingredientTags || []; } : function(it) { return it.tags || []; };
+      for (const it of items) for (const tg of tagsToCount(it)) tokCount.set(String(tg), (tokCount.get(String(tg))||0)+1);
     } else {
       for (const it of items) for (const tok of (it.ctokens || it.tokens)) tokCount.set(tok, (tokCount.get(tok)||0)+1);
     }
@@ -1553,18 +1604,19 @@ permalink: /recherche/
     for (const tok of topTokens) {
       if (!showTokens) break;
       tokenId.set(tok, id++);
-      nodes.push({ id: tokenId.get(tok), label: tok, type: (state.mode === 'tag' ? 'tag' : 'token') });
+      nodes.push({ id: tokenId.get(tok), label: tok, type: (usingTagsForNodes ? 'tag' : 'token') });
     }
     for (const r of recipes) {
       if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
       recipeId.set(r.title, id++);
       nodes.push({ id: recipeId.get(r.title), label: r.title, url: r.url, type: r.type });
     }
+    const tagsForRecipe = usingTagsForNodes ? (state.mode === 'what_i_have' ? function(r) { return (r.ingredientTags || []).map(String); } : function(r) { return (r.tags || []).map(String); }) : null;
     // Document frequency for tokens among selected recipes/components
     const df = new Map();
     for (const r of recipes) {
       if (usingTagsForNodes) {
-        const rtags = new Set((r.tags || []).map(x=>String(x)));
+        const rtags = new Set(tagsForRecipe(r));
         for (const tg of rtags) if (topTokens.has(tg)) df.set(tg, (df.get(tg)||0)+1);
       } else {
         const rset = r.ctokens || r.tokens;
@@ -1588,7 +1640,7 @@ permalink: /recherche/
       // Standard recipe/component → token links
       for (const r of recipes) {
         if ((r.type === 'recipe' && !showRecipes) || (r.type === 'component' && !showComponents)) continue;
-        const setForLinks = usingTagsForNodes ? new Set((r.tags || []).map(x=>String(x))) : (r.ctokens || r.tokens);
+        const setForLinks = usingTagsForNodes ? new Set(tagsForRecipe(r)) : (r.ctokens || r.tokens);
         for (const tok of setForLinks) if (topTokens.has(tok) && showTokens) {
           const freq = df.get(tok) || 1;
           const idf = Math.log(1 + Ndocs / freq);
@@ -1603,7 +1655,7 @@ permalink: /recherche/
       // No recipes/components displayed: infer token↔token edges via hidden recipes/components
       const pairCount = new Map(); // key: "a||b" where a<b
       for (const r of recipes) {
-        const toks = usingTagsForNodes ? Array.from(new Set((r.tags || []).map(x=>String(x)).filter(t => topTokens.has(t)))) : Array.from(new Set(Array.from((r.ctokens || r.tokens)).filter(t => topTokens.has(t))));
+        const toks = usingTagsForNodes ? Array.from(new Set(tagsForRecipe(r).filter(t => topTokens.has(t)))) : Array.from(new Set(Array.from((r.ctokens || r.tokens)).filter(t => topTokens.has(t))));
         for (let i = 0; i < toks.length; i++) {
           for (let j = i + 1; j < toks.length; j++) {
             const a = toks[i] < toks[j] ? toks[i] : toks[j];
@@ -2859,6 +2911,52 @@ permalink: /recherche/
   }
 
   // -----------------------------
+  // "Ajoutez un ingrédient" suggestions (mode "J'ai ces ingrédients")
+  // -----------------------------
+  function renderAddIngredientSuggestions() {
+    const host = document.getElementById('add-ingredient-suggestions');
+    const listEl = document.getElementById('add-ingredient-list');
+    if (!host || !listEl) return;
+    if (state.mode !== 'what_i_have') {
+      host.classList.add('hidden');
+      return;
+    }
+    const sel = new Set(Array.from(state.selectedTags).map(function(s) { return String(s).toLowerCase().trim(); }));
+    const pool = ITEMS.filter(itemMatches);
+    const impactByTag = new Map();
+    for (const it of pool) {
+      const ing = it.ingredientTags || [];
+      for (const T of ing) {
+        const t = String(T).toLowerCase().trim();
+        if (sel.has(t)) continue;
+        const rest = ing.filter(function(x) { return String(x).toLowerCase().trim() !== t; });
+        const allRestInSel = rest.every(function(x) { return sel.has(String(x).toLowerCase().trim()); });
+        if (allRestInSel) impactByTag.set(t, (impactByTag.get(t) || 0) + 1);
+      }
+    }
+    const sorted = Array.from(impactByTag.entries()).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 15);
+    if (sorted.length === 0) {
+      host.classList.add('hidden');
+      return;
+    }
+    host.classList.remove('hidden');
+    listEl.innerHTML = '';
+    for (const [tag, count] of sorted) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'px-3 py-1 rounded-full border border-primary bg-white text-primary hover:bg-red-50 text-sm transition';
+      btn.textContent = tag + ' → ' + count + (count === 1 ? ' recette' : ' recettes');
+      btn.addEventListener('click', function() {
+        state.selectedTags.add(tag);
+        updateSelectedChips();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+      });
+      listEl.appendChild(btn);
+    }
+  }
+
+  // -----------------------------
   // Rafraîchissement global
   // -----------------------------
   function refresh() {
@@ -2866,6 +2964,7 @@ permalink: /recherche/
     renderSuggestions(filtered);
     renderResults(filtered);
     renderCategoryChips();
+    renderAddIngredientSuggestions();
     updateCharts(filtered);
     updateAdvancedViz(filtered);
     renderRecommendations(filtered);
@@ -3012,7 +3111,10 @@ permalink: /recherche/
     });
     tagInput.addEventListener('input', (e)=>{
       const q = e.target.value.trim().toLowerCase();
-      const candidates = Array.from(ALL_TAGS.keys()).filter(k => !state.selectedTags.has(k) && k.toLowerCase().includes(q)).slice(0, 20);
+      const tagPool = (state.mode === 'what_i_have')
+        ? Array.from(ALL_TAGS.keys()).filter(function(k) { return INGREDIENT_TAG_IDS.has(String(k).toLowerCase().trim()); })
+        : Array.from(ALL_TAGS.keys());
+      const candidates = tagPool.filter(k => !state.selectedTags.has(k) && k.toLowerCase().includes(q)).slice(0, 20);
       if (q && candidates.length) {
         tagAuto.innerHTML = '';
         for (const c of candidates) {
@@ -3024,6 +3126,13 @@ permalink: /recherche/
       }
     });
     document.addEventListener('click', (e)=>{ if (!tagAuto.contains(e.target) && e.target !== tagInput) tagAuto.classList.add('hidden'); });
+
+    const searchModeEl = document.getElementById('search-mode');
+    if (searchModeEl) searchModeEl.addEventListener('change', function() {
+      state.mode = this.value;
+      updateSelectedChips();
+      refresh();
+    });
 
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
     // reset-ingredients button was removed with hidden wrapper
@@ -3061,7 +3170,7 @@ permalink: /recherche/
     const catParam = params.get('cat');
     if (catParam) { catParam.split(',').filter(Boolean).forEach(id=>state.activeCategoryIds.add(id.trim())); }
     if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
-    if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
+    if (modeParam && (modeParam === 'tag' || modeParam === 'ingredient' || modeParam === 'what_i_have')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
     // Apply infinite tolerance from URL and sync UI + dependent controls
     (function(){
