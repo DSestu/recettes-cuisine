@@ -18,6 +18,15 @@ layout: default
       #btn-recipe-image-zoom {
         transition: opacity 220ms ease, transform 220ms ease;
       }
+      /* On mobile, hide all three until script has moved them to body so they appear together */
+      @media (max-width: 767px) {
+        body:not(.top-buttons-ready) a.back,
+        body:not(.top-buttons-ready) #btn-qr-modal,
+        body:not(.top-buttons-ready) #btn-recipe-image-zoom {
+          opacity: 0 !important;
+          pointer-events: none;
+        }
+      }
       a.back.back-hidden,
       #btn-qr-modal.back-hidden,
       #btn-recipe-image-zoom.back-hidden {
@@ -729,6 +738,7 @@ layout: default
           }
         } catch(_) {}
       });
+      document.body.classList.add('top-buttons-ready');
     }
       btns.forEach(b=>{
         if (window.scrollY > 0 && window.scrollY > 6) b.classList.add('back-hidden');
