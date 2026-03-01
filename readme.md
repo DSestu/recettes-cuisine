@@ -1,102 +1,141 @@
 ## DSestu – Recettes de cuisine
 
-Un site de recettes en français, propulsé par Jekyll et enrichi d’une recherche avancée et de visualisations interactives. Il s’appuie sur Chowdown mais n’est pas un simple fork : de nombreuses fonctionnalités ont été ajoutées et adaptées.
+Site de recettes en français, propulsé par Jekyll (basé sur Chowdown), avec recherche avancée et visualisations interactives.
 
-- Site: `https://dsestu.github.io/recettes-cuisine`
-- Langue: français
+- **Site:** <https://dsestu.github.io/recettes-cuisine>
+- **Langue:** français
 
-### Fonctionnalités personnalisées majeures
+---
 
-- Recherche avancée (`/recherche/`):
-  - Modes de recherche: Tags ou Ingrédients (avec normalisation/canonicalisation FR).
-  - Tolérance aux manquants + mode « tolérance infinie » (classement par pertinence).
-  - Autocomplete, suggestions Top 20 cliquables (histogrammes D3).
-  - Visualisation interactive (D3) avec dispositions: radial, force, cercle, anneaux, spirale.
-  - Types de liens: recette→ingrédient, ingrédient↔ingrédient, recette↔recette.
-  - Poids d’arêtes: uniforme, fréquence, basé sélection; contrôle d’impact.
-  - Plein écran avec mini‑panneau (visibilité nœuds, layout, tolérance, masquage top) + recentrage.
-  - Masquage des ingrédients trop fréquents (réduction du bruit) et réintégration rapide.
-  - Composants inclus/exclus à la demande.
-  - Synchronisation de tous les paramètres avec l’URL pour partager une vue.
+## Structure du projet
 
-- Index ingrédients robuste:
-  - Normalisation française (accents, ligatures), singularisation, stopwords culinaires.
-  - Regroupement canonique (Levenshtein) pour rapprocher variantes et fautes communes.
+### Répertoires principaux
 
-### Démarrage rapide
+| Rôle | Chemins |
+|------|--------|
+| **Contenu** | `_recipes/` (recettes), `_components/` (sous-recettes réutilisables), `_data/` (ex. `recipe_tags.yml`, `nutrients.yml`), `images/`, `images/cards/` (miniatures générées) |
+| **Site** | `_config.yml`, `_layouts/`, `_includes/`, `index.html`, `search.html`, `recherche.html` (recherche avancée) |
+| **Config** | `home_categories.md` (catégories d’accueil), `.pre-commit-config.yaml`, `pyproject.toml` |
+| **Outillage** | `scripts/generate_card_thumbnails.py`, `prompts/_recipes/`, `prompts/_components/` (prompts pour génération d’images) |
+| **Cursor** | `.cursor/rules/*.mdc` (règles pour le formatage et les tags) |
 
-Option Jekyll (local):
+### Format recette / composant
 
-1. Installer Jekyll: `gem install bundler jekyll` (ou vérifier: `jekyll -v`)
-2. Lancer:
+Chaque recette ou composant est un fichier Markdown avec un front matter YAML :
+
+- `layout: recipe`, `title: "Titre"` (guillemets, accents corrects), `image: nom_fichier.ext` (nom de fichier seul, pas de chemin).
+- `tags:`, `ingredients:`, `directions:` en listes (un tiret par ligne).
+- Optionnel : `components:` (liste de titres exacts de composants).
+
+Les tags doivent être **canoniques** et figurer dans le registre (voir section suivante). Pour les composants, créer un fichier dans `_components/` et le référencer par son titre dans la recette principale.
+
+---
+
+## Système de tags
+
+### Registre (`_data/recipe_tags.yml`)
+
+Source de vérité pour les tags : liste d’entrées `{ id, ingredient }`.
+
+- **`id`** : chaîne canonique du tag (ASCII, facile à taper, ex. `oeufs`, `creme`, `gateau`). C’est cette valeur qui est utilisée dans les recettes et dans les catégories d’accueil.
+- **`ingredient`** : `true` pour un ingrédient physique (liste de courses), `false` pour un type de plat, une cuisine, une méthode, etc.
+- Une seule forme canonique par concept (pas de doublon singulier/pluriel ou accentué/non accentué).
+
+### Catégories d’accueil (`home_categories.md`)
+
+Le front matter `categories:` définit l’ordre et le contenu des catégories affichées sur la page d’accueil :
+
+- Chaque entrée a `id`, `label`, `description` et `tags: [...]`.
+- L’ordre des entrées = ordre d’affichage.
+- Seuls des tags présents dans `recipe_tags.yml` doivent apparaître dans les `tags:` des catégories.
+- La catégorie spéciale `id: "others"` avec `mode: "other"` sert à regrouper côté interface les recettes qui n’ont aucun tag dans les autres catégories ; sa liste `tags:` reste vide.
+
+### Dans les recettes et composants
+
+Utiliser uniquement des tags qui existent dans le registre (valeur `id`). Les variantes (accents, singulier/pluriel) sont considérées comme le même concept ; on écrit toujours la forme canonique du registre.
+
+Sur demande, un « cold run » peut normaliser tous les tags des recettes/composants et synchroniser les listes de tags des catégories à partir du contenu.
+
+---
+
+## Images cartes (thumbnails) et pre-commit
+
+Les vignettes des recettes (cartes sur l’accueil et les pages de recherche) sont des images redimensionnées dans `images/cards/` (largeur max 480 px), générées par le script Python pour alléger les pages.
+
+### Prérequis
+
+- [uv](https://docs.astral.sh/uv/) (environnement Python)
+- [pre-commit](https://pre-commit.com/)
+
+### Installation une fois pour toutes (à la racine du dépôt)
+
+1. **`uv sync`** — crée l’environnement Python et installe les dépendances (Pillow, voir `pyproject.toml`).
+2. **`pre-commit install`** — installe le hook git.
+
+### Quand le hook s’exécute
+
+Le hook s’exécute au commit si des fichiers ont changé dans `images/` (sauf `images/cards/`) ou dans `scripts/generate_card_thumbnails.py`. Il régénère alors les miniatures. Si seuls des fichiers dans `images/cards/` ont été modifiés (par le hook ou manuellement), il faut les ajouter au commit (`git add images/cards/`) et committer à nouveau.
+
+### Lancement manuel
 
 ```bash
-jekyll serve
+uv run python scripts/generate_card_thumbnails.py
 ```
 
-Site local: `http://127.0.0.1:4000/`
+Puis `jekyll build` ou `jekyll serve` selon les besoins.
 
-Option Docker Compose:
+La définition du hook est dans `.pre-commit-config.yaml` (hook local unique, `uv run python scripts/...`).
+
+---
+
+## Règles Cursor
+
+Les règles se trouvent dans `.cursor/rules/` (fichiers `.mdc`). Elles assurent un formatage cohérent, l’usage correct des tags, la synchronisation des catégories d’accueil et, optionnellement, la galerie de prompts pour la génération d’images.
+
+| Fichier | Intention | Quand ça s’applique |
+|---------|-----------|--------------------|
+| `format-pasted-recipe.mdc` | Formater les recettes collées ou éditées, orthographe FR, tags issus du registre, pas de « : » dans les étapes, gestion des composants. Ne pas modifier quantités ni intention. | Toujours (alwaysApply). Collage d’une recette brute ou édition dans `_recipes/` ou `_components/`. |
+| `home-categories.mdc` | Garder les catégories d’accueil (`home_categories.md`) alignées avec les tags canoniques lors de l’édition de recettes/composants ; support du cold run catégories/tags. | Toujours. Création ou édition de recettes/composants, ou demande explicite de sync / cold run. |
+| `update-recipe-prompt-gallery.mdc` | Créer ou mettre à jour le prompt de génération d’image (réaliste, fidèle à la recette) dans `prompts/_recipes/` ou `prompts/_components/`. | À la création ou à l’édition de fichiers dans `_recipes/` ou `_components/` (règle ciblée par globs, alwaysApply: false). |
+
+---
+
+## Démarrage rapide
+
+**Jekyll en local :**
+
+1. Installer Jekyll : `gem install bundler jekyll` (ou vérifier avec `jekyll -v`).
+2. Lancer : `jekyll serve`.
+
+Site local : <http://127.0.0.1:4000/>
+
+**Docker Compose :**
 
 ```bash
 docker compose up
 ```
 
-Notes:
-
 - Port hôte 80 → conteneur 4000.
 - Volumes pour externaliser `_components`, `_images`, `_posts`, `_recipes` (voir `docker-compose.yml`).
 
-### Images cartes (thumbnails) et build
+---
 
-Les vignettes des recettes (cartes sur l’accueil, la recherche et la recherche avancée) utilisent des images redimensionnées dans `images/cards/` pour réduire le poids des pages.
+## Recherche avancée
 
-- **Prérequis:** [uv](https://docs.astral.sh/uv/) pour Python.
-- **Une fois:** à la racine du dépôt, exécuter `uv sync` puis `pre-commit install`.
-- **À chaque commit:** si vous modifiez des fichiers dans `images/` (hors `images/cards/`) ou le script `scripts/generate_card_thumbnails.py`, le hook pre-commit régénère les miniatures. Si des fichiers dans `images/cards/` sont créés ou modifiés, ajoutez-les au commit (`git add images/cards/`) et recommitez.
-- **Build manuel des thumbnails:** `uv run python scripts/generate_card_thumbnails.py`, puis `jekyll build` (ou `jekyll serve`).
+La page `/recherche/` permet de filtrer par tags ou ingrédients (avec normalisation FR), avec tolérance aux manquants, mode « tolérance infinie », autocomplete, visualisation interactive (D3) et synchronisation des paramètres dans l’URL. Voir la page pour les paramètres d’URL détaillés.
 
-### Contenu et structure
+---
 
-- `/_recipes`: recettes Markdown
-- `/_components`: sous‑recettes réutilisables
-- `/images`: images
-- `/_data/nutrients.yml`: données nutritionnelles
+## Déploiement
 
-Front matter type:
+Configuré pour GitHub Pages (`_config.yml` : `url`, `baseurl`). Un push déclenche la reconstruction.
 
-```yaml
-title: "Ma recette"
-layout: recipe
-image: images/ma_recette.jpg
-tags: ["végétarien", "rapide"]
-ingredients:
-  - 2 carottes
-  - 1 oignon
-directions:
-  - Émincer l’oignon.
-  - Cuire 10 minutes.
-```
+---
 
-Pour une recette composant, placez les éléments dans `/_components` puis référencez‑les depuis la recette principale.
+## Remerciements et licence
 
-### Page Recherche avancée – rappel
+Basé sur [Chowdown](https://github.com/clarklab/chowdown) (ClarkLab) avec personnalisations majeures (recherche, dataviz). Voir `LICENSE` pour la licence.
 
-- Sélection par saisie, autocomplete, histogrammes cliquables.
-- Tolérance aux manquants; mode infini pour classer toutes les recettes par pertinence.
-- Graph interactif (zoom/pan/drag) et navigation via clic sur les recettes.
-- Plein écran + mini‑commandes; bouton « recentrer » dédié.
-- Paramètres d’URL (exemples): `mode=tag|ingredient`, `tags=a,b`, `ingredients=a,b`, `mt=2`, `inf=1`, `viz=1`, `layout=force|radial|circle|rings|spiral`, `links=recipe-token|token-token|recipe-recipe`, `edge=uniform|freq|idf`, `impact=0..100`, `mr`, `mi`, `ht`, `st/sr/sc`.
+---
 
-### Déploiement
-
-- Configuré pour GitHub Pages (`_config.yml`: `url`, `baseurl`). Un push déclenche la reconstruction.
-
-### Remerciements et licence
-
-- Basé sur Chowdown (ClarkLab) avec personnalisations majeures autour de la recherche/dataviz.
-- Voir `LICENSE` pour la licence.
-
-—
-
-English note: This is a heavily customized French fork of Chowdown featuring advanced search (tags/ingredients with tolerance and canonicalization), interactive D3 visualizations, and URL‑shareable state.
+*English: Heavily customized French fork of Chowdown with advanced search (tags/ingredients, tolerance, canonicalization), interactive D3 visualizations, and URL-shareable state.*
