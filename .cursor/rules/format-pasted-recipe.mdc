@@ -11,22 +11,23 @@ alwaysApply: true
 
 ## Recipe structure
 
-- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug.ext` (filename only). Then `tags:`, `ingredients:` as lists. Optional `components:` list (component titles). **Directions** can be in frontmatter (list format) or in the body (Markdown format); the **Markdown format is preferred** (see below).
+- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug.png` (filename only, default extension is `.png`). Then `tags:`, `ingredients:` as lists. Optional `components:` list (component titles). **Directions** can be in frontmatter (list format) or in the body (Markdown format); the **Markdown format is preferred** (see below).
 - **After `---`:** Optional short description (e.g. "Pour X personnes", "Temps de préparation : …"). When using **Markdown directions**, add a level-2 heading (e.g. `## Préparation`, or the heading for the site language) and write the full preparation in Markdown (paragraphs, lists, images, tables, sublists). When using **list directions**, put only the short description in the body.
 
 ## Directions: list vs Markdown
 
-**Preferred: Markdown format (directions in the body).** Omit `directions:` from frontmatter. In the body, after the optional description, add `## Préparation` (or equivalent) and write the steps in full Markdown using bullet points (`- `) rather than numbered lists. Do not include empty lines between adjacent bullet points. You can use full Markdown formatting including colons (`:`), **bold**, *italic*, `code`, links, and any other Markdown features. This allows inline images, tables, sublists, and multiple paragraphs per step. Use this format for new or edited recipes unless you only need simple one-line steps.
+**Preferred: Markdown format (directions in the body).** Omit `directions:` from frontmatter. In the body, after the optional description, add `## Préparation` (or equivalent) and write the steps in full Markdown using bullet points (`-`) rather than numbered lists. Do not include empty lines between adjacent bullet points. You can use full Markdown formatting including colons (`:`), **bold**, *italic*, `code`, links, and any other Markdown features. This allows inline images, tables, sublists, and multiple paragraphs per step. Use this format for new or edited recipes unless you only need simple one-line steps.
 
 **Legacy: list format.** Include `directions:` in frontmatter as a YAML list (one item per line, hyphen + space). Each item is one step; avoid ":" in steps and keep each step a clear, simple point. Use only when simple step-by-step is enough and no images, tables, or sublists are needed.
 
 Components support the same two options; prefer body Markdown for components when you need rich content.
 
-**Images in directions (body Markdown):** Use standard markdown `![alt](images/photo.jpg)`; images are centered, shown smaller with a border and a lens button (top-right); the caption (annotation) is small, italic, centered above the image. Clicking the image or the lens opens the same fullscreen overlay as the recipe hero. Optional size and aspect ratio via Kramdown IAL: `![alt](url){: width="300px"}` or `{: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }`. Optional caption above the image via raw HTML: `<figure class="recipe-inline-image"><figcaption>Caption.</figcaption><img src="..." alt="..."></figure>`; you can add `data-max-width`, `data-aspect-ratio` on the figure.
+**Images in directions (body Markdown):** Use standard markdown `![alt](images/photo.png)`; images are centered, shown smaller with a border and a lens button (top-right); the caption (annotation) is small, italic, centered above the image. Clicking the image or the lens opens the same fullscreen overlay as the recipe hero. Optional size and aspect ratio via Kramdown IAL: `![alt](url){: width="300px"}` or `{: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }`. Optional caption above the image via raw HTML: `<figure class="recipe-inline-image"><figcaption>Caption.</figcaption><img src="..." alt="..."></figure>`; you can add `data-max-width`, `data-aspect-ratio` on the figure.
 
 ## Tag management
 
 **Registry:** The canonical tag list is in `_data/recipe_tags.yml`. The registry is a list of objects, each with:
+
 - **id:** the canonical tag string (ASCII, easy-to-type, e.g. `oeufs`, `creme`, `gateau`). This is the value used in recipe/component frontmatter and for matching.
 - **ingredient:** boolean. `true` for physical ingredients (things you buy or use as a raw/processed food item); `false` for dish types, cuisines, methods, difficulty, source, etc. When in doubt, prefer `true` for anything that could appear on a shopping list.
 
@@ -58,7 +59,7 @@ Correct only French spelling (e.g. "Céléri" → "Céleri", "souce" → "sauce"
 ---
 layout: recipe
 title: "Velouté d'asperges"
-image: veloute_asperges.jpeg
+image: veloute_asperges.png
 
 tags:
 - repas
@@ -82,7 +83,9 @@ Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 20 min.
 - Faire bouillir 1 litre d'eau salée, ajouter les asperges et laisser cuire 15 à 20 minutes.
 - Mixer, ajouter un peu de crème si besoin, saler et poivrer.
 
-You can add images (e.g. `![Étape 3](images/etape3.jpg)`), tables, sublists, **bold text**, *italic text*, colons (`:`), and any other Markdown formatting in the preparation section.
+You can add images (e.g. `![Étape 3](images/etape3.png)`), tables, sublists, **bold text**, *italic text*, colons (`:`), and any other Markdown formatting in the preparation section.
+
+Adjacent "- " steps should have no empty lines separating them.
 
 ## Example (legacy: list directions in frontmatter)
 
@@ -90,7 +93,7 @@ You can add images (e.g. `![Étape 3](images/etape3.jpg)`), tables, sublists, **
 ---
 layout: recipe
 title: "Velouté d'asperges"
-image: veloute_asperges.jpeg
+image: veloute_asperges.png
 
 tags:
 - repas

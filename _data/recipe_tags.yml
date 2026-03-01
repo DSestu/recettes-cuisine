@@ -77,6 +77,8 @@
   ingredient: false
 - id: champignons
   ingredient: true
+- id: chataigne
+  ingredient: true
 - id: chapelure
   ingredient: true
 - id: char siu
@@ -383,6 +385,8 @@
   ingredient: true
 - id: riz
   ingredient: true
+- id: risotto
+  ingredient: false
 - id: safran
   ingredient: true
 - id: saindoux
