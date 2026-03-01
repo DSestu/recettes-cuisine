@@ -73,6 +73,8 @@ individual recipes beyond normalising tags.
 - **Respect recipe content:**
   - As in `format-pasted-recipe.mdc`, do not change quantities, directions or
     intent of recipes/components. Only touch `tags:` and category metadata.
+  - Directions may be a frontmatter list or a body Markdown section; this rule
+    does not change recipe intent in either case.
 
 ## Tag normalisation (shared with format-pasted-recipe)
 

@@ -439,12 +439,14 @@ layout: default
         </a>
       </div>
 
+      {% if page.directions.size > 0 %}
       <div
         class="text-left text-lg leading-loose [&>*]:mb-6 [&_a]:underline [&_a]:decoration-[3px] [&_a]:decoration-primary [&_a]:underline-offset-2"
         itemprop="description"
       >
         {{page.content}}
       </div>
+      {% endif %}
     </header>
 
     {% if page.nutrition %}
@@ -484,6 +486,7 @@ layout: default
       </div>
 
       <div class="sm-col sm-col-6 lg-col-6">
+        {% if page.directions.size > 0 %}
         <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].directions }}
         </h2>
@@ -494,6 +497,14 @@ layout: default
           </li>
           {% endfor %}
         </ul>
+        {% else %}
+        <div
+          itemprop="recipeInstructions"
+          class="text-left text-lg leading-loose [&>*]:mb-6 [&_h2]:text-base [&_h2]:uppercase [&_h2]:text-primary [&_h2]:font-semibold [&_h2]:mb-2 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-3 [&_ol]:flex [&_ol]:flex-col [&_ol]:gap-3 [&_a]:underline [&_a]:decoration-[3px] [&_a]:decoration-primary [&_a]:underline-offset-2"
+        >
+          {{ page.content }}
+        </div>
+        {% endif %}
       </div>
     </div>
     <!-- end recipe and directions -->
@@ -556,6 +567,7 @@ layout: default
           {% endfor %}
         </ul>
 
+        {% if recipe.directions.size > 0 %}
         <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].directions }}
         </h2>
@@ -564,6 +576,14 @@ layout: default
           <li class="flex gap-3 items-start">{{ item | markdownify }}</li>
           {% endfor %}
         </ul>
+        {% else %}
+        <div
+          itemprop="instructions"
+          class="text-left text-lg leading-loose [&>*]:mb-6 [&_h2]:text-base [&_h2]:uppercase [&_h2]:text-primary [&_h2]:font-semibold [&_h2]:mb-2 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-3 [&_ol]:flex [&_ol]:flex-col [&_ol]:gap-3 [&_a]:underline [&_a]:decoration-[3px] [&_a]:decoration-primary [&_a]:underline-offset-2"
+        >
+          {{ recipe.content }}
+        </div>
+        {% endif %}
 
         {% endif %} {% endfor %}
       </div>

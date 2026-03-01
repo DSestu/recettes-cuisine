@@ -212,7 +212,7 @@
   <meta name="twitter:title" content="Chowdown" />
   {% endif %} {% if page.url %}
   <meta name="twitter:url" content="{{ site.baseurl }}{{ page.url }}" />
-  {% endif %} {% if page.directions %}
+  {% endif %} {% if page.directions or page.content %}
   <meta name="twitter:description" content="{{ page.content | strip_html }}" />
   {% else %}
   <meta name="twitter:description" content="Chowdown" />

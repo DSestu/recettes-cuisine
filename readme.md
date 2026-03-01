@@ -16,7 +16,7 @@ Site de recettes en français, propulsé par Jekyll (basé sur Chowdown), avec r
 | **Contenu** | `_recipes/` (recettes), `_components/` (sous-recettes réutilisables), `_data/` (ex. `recipe_tags.yml`, `nutrients.yml`), `images/`, `images/cards/` (miniatures générées) |
 | **Site** | `_config.yml`, `_layouts/`, `_includes/`, `index.html`, `search.html`, `recherche.html` (recherche avancée) |
 | **Config** | `home_categories.md` (catégories d’accueil), `.pre-commit-config.yaml`, `pyproject.toml` |
-| **Outillage** | `scripts/generate_card_thumbnails.py`, `prompts/_recipes/`, `prompts/_components/` (prompts pour génération d’images) |
+| **Outillage** | `scripts/generate_card_thumbnails.py`, `scripts/migrate_directions_to_body.py` (migration directions liste → Markdown), `prompts/_recipes/`, `prompts/_components/` (prompts pour génération d’images) |
 | **Cursor** | `.cursor/rules/*.mdc` (règles pour le formatage et les tags) |
 
 ### Format recette / composant
@@ -24,10 +24,12 @@ Site de recettes en français, propulsé par Jekyll (basé sur Chowdown), avec r
 Chaque recette ou composant est un fichier Markdown avec un front matter YAML :
 
 - `layout: recipe`, `title: "Titre"` (guillemets, accents corrects), `image: nom_fichier.ext` (nom de fichier seul, pas de chemin).
-- `tags:`, `ingredients:`, `directions:` en listes (un tiret par ligne).
-- Optionnel : `components:` (liste de titres exacts de composants).
+- `tags:`, `ingredients:` en listes. Optionnel : `components:` (liste de titres exacts de composants).
+- **Directions** : au choix (le layout gère les deux) — **format liste (legacy)** : `directions:` dans le front matter (une ligne par étape) ; **format Markdown (préféré)** : pas de `directions:` ; dans le corps, après la description, une section `## Préparation` avec le déroulé en Markdown (images, tableaux, sous-listes). Quand `directions:` est absent, le corps est affiché comme section préparation et doit contenir ce titre.
 
 Les tags doivent être **canoniques** et figurer dans le registre (voir section suivante). Pour les composants, créer un fichier dans `_components/` et le référencer par son titre dans la recette principale.
+
+**Migration liste → Markdown :** pour convertir des recettes/composants existants vers le format Markdown dans le corps : `uv run python scripts/migrate_directions_to_body.py` (voir docstring ; `--dry-run` pour simuler).
 
 ---
 

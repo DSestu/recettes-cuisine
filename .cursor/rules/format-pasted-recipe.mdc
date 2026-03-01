@@ -1,5 +1,5 @@
 ---
-description: When the user pastes a raw recipe and asks to format it, or when creating/editing recipe/component markdown in _recipes/ or _components/, format like existing _recipes/ and _components/ files, fix French spelling, align tags and components. Do not modify the recipe content (quantities, steps, intent). In the directions block, do not use ":" and split into clear steps (one action or thought per bullet, no large text blocks).
+description: When the user pastes a raw recipe and asks to format it, or when creating/editing recipe/component markdown in _recipes/ or _components/, format like existing _recipes/ and _components/ files, fix French spelling, align tags and components. Do not modify the recipe content (quantities, steps, intent). Prefer directions in the body (Markdown) when possible; in list format, split into clear steps and avoid ":" in steps.
 alwaysApply: true
 ---
 
@@ -11,9 +11,16 @@ alwaysApply: true
 
 ## Recipe structure
 
-- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug.ext` (filename only). Then `tags:`, `ingredients:`, `directions:` as lists (one item per line, hyphen + space). Optional `components:` list (component titles).
-- **directions:** Each direction must be a clear, simple point (no large chunks of text). Avoid the use of ":" in direction steps; reformulate to use full sentences or split steps as needed.
-- **After `---`:** Add a short description. Optionally add: "Pour X personnes", "Temps de préparation : …", "Temps de cuisson : …".
+- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug.ext` (filename only). Then `tags:`, `ingredients:` as lists. Optional `components:` list (component titles). **Directions** can be in frontmatter (list format) or in the body (Markdown format); the **Markdown format is preferred** (see below).
+- **After `---`:** Optional short description (e.g. "Pour X personnes", "Temps de préparation : …"). When using **Markdown directions**, add a level-2 heading (e.g. `## Préparation`, or the heading for the site language) and write the full preparation in Markdown (paragraphs, lists, images, tables, sublists). When using **list directions**, put only the short description in the body.
+
+## Directions: list vs Markdown
+
+**Preferred: Markdown format (directions in the body).** Omit `directions:` from frontmatter. In the body, after the optional description, add `## Préparation` (or equivalent) and write the steps in full Markdown. This allows inline images, tables, sublists, and multiple paragraphs per step. Use this format for new or edited recipes unless you only need simple one-line steps.
+
+**Legacy: list format.** Include `directions:` in frontmatter as a YAML list (one item per line, hyphen + space). Each item is one step; avoid ":" in steps and keep each step a clear, simple point. Use only when simple step-by-step is enough and no images, tables, or sublists are needed.
+
+Components support the same two options; prefer body Markdown for components when you need rich content.
 
 ## Tag management
 
@@ -43,7 +50,7 @@ If the recipe includes sub-recipes (sauce, bouillon, etc.): create a correspondi
 
 Correct only French spelling (e.g. "Céléri" → "Céleri", "souce" → "sauce"). Do not change any quantities, cooking steps, or intent.
 
-## Example (frontmatter & directions)
+## Example (preferred: Markdown directions in body)
 
 ```yaml
 ---
@@ -55,7 +62,39 @@ tags:
 - repas
 - soupe
 - asperges
-- crème
+- creme
+- chaud
+
+ingredients:
+- 600 g d'asperges vertes
+- 1 oignon moyen
+---
+```
+
+Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 20 min.
+
+## Préparation
+
+1. Éplucher les asperges et les laver.
+2. Couper les pointes en lamelles.
+3. Faire bouillir 1 litre d'eau salée, ajouter les asperges et laisser cuire 15 à 20 minutes.
+4. Mixer, ajouter un peu de crème si besoin, saler et poivrer.
+
+You can add images (e.g. `![Étape 3](images/etape3.jpg)`), tables, or sublists in the preparation section.
+
+## Example (legacy: list directions in frontmatter)
+
+```yaml
+---
+layout: recipe
+title: "Velouté d'asperges"
+image: veloute_asperges.jpeg
+
+tags:
+- repas
+- soupe
+- asperges
+- creme
 - chaud
 
 ingredients:
@@ -71,7 +110,7 @@ directions:
 ---
 ```
 
-> Note: Each direction is a clear, separate step and does not contain ":".
+> Note: In list format, each direction is a clear, separate step and does not contain ":".
 
 ## Example (components)
 
