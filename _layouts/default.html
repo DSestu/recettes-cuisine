@@ -53,8 +53,9 @@
       </button>
       <button
         id="toggle-sidebar"
-        class="hidden md:block absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50"
+        class="hidden absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50"
         title="Afficher/masquer le menu"
+        aria-hidden="true"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -140,28 +141,100 @@
     </div>
 
     <script>
+      // Desktop: hover-to-expand left panel (edge strip + proximity, panel expand/collapse)
       (function () {
-        const btn = document.getElementById("toggle-sidebar");
-        const nav =
-          document.querySelector("nav.mobile-nav") ||
-          document.querySelector("body > nav");
-        if (!btn || !nav) return;
-        btn.addEventListener("click", () => {
-          const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-          if (isDesktop) {
-            // Override Tailwind md:hidden via inline style
-            const visible = window.getComputedStyle(nav).display !== "none";
-            nav.style.display = visible ? "none" : "block";
-            return;
+        const wrap = document.getElementById("desktop-sidebar-wrap");
+        const strip = document.getElementById("desktop-edge-strip");
+        const panel = wrap && wrap.querySelector(".desktop-sidebar-panel");
+        const nav = document.querySelector("nav.mobile-nav");
+        const md = window.matchMedia("(min-width: 768px)");
+        const TRIGGER_WIDTH = 24;
+        const PROXIMITY_VISIBLE = 900;
+        const COLLAPSE_DELAY_MS = 180;
+
+        if (!wrap || !strip || !panel || !nav) return;
+
+        let collapseTimer = null;
+
+        function isDesktop() {
+          return md.matches;
+        }
+
+        function expand() {
+          if (!isDesktop()) return;
+          if (collapseTimer) {
+            clearTimeout(collapseTimer);
+            collapseTimer = null;
           }
-          // Mobile (button is hidden anyway), keep class-based toggle for completeness
-          const isHidden = nav.classList.contains("hidden");
-          nav.classList.toggle("hidden", !isHidden);
+          wrap.classList.add("desktop-sidebar-expanded");
+          wrap.setAttribute("aria-hidden", "false");
+          nav.setAttribute("aria-expanded", "true");
+        }
+
+        function collapse() {
+          if (!isDesktop()) return;
+          wrap.classList.remove("desktop-sidebar-expanded");
+          wrap.setAttribute("aria-hidden", "true");
+          nav.setAttribute("aria-expanded", "false");
+        }
+
+        function scheduleCollapse() {
+          if (collapseTimer) clearTimeout(collapseTimer);
+          collapseTimer = setTimeout(collapse, COLLAPSE_DELAY_MS);
+        }
+
+        function cancelCollapse() {
+          if (collapseTimer) {
+            clearTimeout(collapseTimer);
+            collapseTimer = null;
+          }
+        }
+
+        function updateProximity(clientX) {
+          if (!isDesktop() || wrap.classList.contains("desktop-sidebar-expanded")) return;
+          if (clientX < PROXIMITY_VISIBLE) {
+            strip.classList.add("desktop-edge-strip--visible");
+            var intensity = 1 - clientX / PROXIMITY_VISIBLE;
+            if (intensity < 0) intensity = 0;
+            if (intensity > 1) intensity = 1;
+            strip.style.setProperty("--desktop-strip-intensity", String(intensity));
+          } else {
+            strip.classList.remove("desktop-edge-strip--visible");
+            strip.style.setProperty("--desktop-strip-intensity", "0");
+          }
+        }
+
+        document.addEventListener("mousemove", function (e) {
+          if (!isDesktop()) return;
+          const x = e.clientX;
+          updateProximity(x);
+          if (x < TRIGGER_WIDTH) {
+            expand();
+            cancelCollapse();
+          }
+        }, { passive: true });
+
+        [strip, panel].forEach(function (el) {
+          if (!el) return;
+          el.addEventListener("mouseenter", function () {
+            if (isDesktop()) {
+              expand();
+              cancelCollapse();
+            }
+          });
+          el.addEventListener("mouseleave", function () {
+            if (isDesktop()) scheduleCollapse();
+          });
         });
-        // On resize to mobile, clear inline overrides so mobile behavior works
-        window.addEventListener("resize", () => {
-          const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-          if (!isDesktop) nav.style.display = "";
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && isDesktop() && wrap.classList.contains("desktop-sidebar-expanded")) {
+            collapse();
+          }
+        });
+
+        window.addEventListener("resize", function () {
+          if (!isDesktop()) collapse();
         });
       })();
     </script>

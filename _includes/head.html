@@ -147,6 +147,89 @@
         line-height: 1.05;
       }
     }
+
+    /* Desktop: left-edge strip and overlay panel (hover-to-expand) */
+    @media (max-width: 767px) {
+      .desktop-sidebar-wrap {
+        display: contents;
+      }
+      .desktop-sidebar-panel {
+        display: contents;
+      }
+    }
+    @media (min-width: 768px) {
+      .desktop-sidebar-wrap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        z-index: 9990;
+        pointer-events: none;
+      }
+      .desktop-sidebar-wrap * {
+        pointer-events: auto;
+      }
+      #desktop-edge-strip {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 36px;
+        --desktop-strip-intensity: 0;
+        background: linear-gradient(
+          to right,
+          rgba(0, 0, 0, calc(0.42 * var(--desktop-strip-intensity))) 0%,
+          rgba(0, 0, 0, calc(0.15 * var(--desktop-strip-intensity))) 50%,
+          transparent 100%
+        );
+        transition: opacity 0.2s ease;
+        z-index: 9990;
+        opacity: 0;
+        pointer-events: none;
+      }
+      #desktop-edge-strip.desktop-edge-strip--visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded #desktop-edge-strip {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .desktop-sidebar-panel {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 14rem;
+        z-index: 9998;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+      }
+      @media (min-width: 1024px) {
+        .desktop-sidebar-panel {
+          width: 16rem;
+          transform: translateX(-100%);
+        }
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded .desktop-sidebar-panel {
+        transform: translateX(0);
+      }
+      .desktop-sidebar-panel .mobile-nav {
+        flex: 1;
+        min-width: 0;
+        position: relative;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.25rem;
+        gap: 0.75rem;
+      }
+    }
   </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -229,9 +312,14 @@
   {% endif %}
 </head>
 
-<nav
-  class="mobile-nav nav-visible w-screen md:w-48 lg:w-56 md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-5 md:gap-3 z-[9999] shadow-3xl md:shadow-none {% if page.url contains '/recipes/' %}md:hidden{% endif %}"
->
+<div class="desktop-sidebar-wrap" id="desktop-sidebar-wrap" aria-hidden="true">
+  <div id="desktop-edge-strip" class="md:block hidden" aria-hidden="true"></div>
+  <div class="desktop-sidebar-panel">
+    <nav
+      class="mobile-nav nav-visible w-screen md:w-full md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-5 md:gap-3 z-[9999] shadow-3xl md:shadow-none"
+      id="main-nav"
+      aria-expanded="false"
+    >
   <a
     href="{{ site.baseurl }}/"
     class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/' %}text-primary{% endif %}"
@@ -329,6 +417,8 @@
     </button>
   </div>
 </nav>
+  </div>
+</div>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -348,7 +438,7 @@
 
   // Smooth hide/show nav on scroll (mobile only)
   (function () {
-    const nav = document.querySelector("body > nav");
+    const nav = document.querySelector("nav.mobile-nav");
     if (!nav) return;
     let lastY = window.scrollY || 0;
     window.addEventListener(
