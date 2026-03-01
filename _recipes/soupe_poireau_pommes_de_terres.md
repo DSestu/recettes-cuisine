@@ -5,16 +5,16 @@ image: soupe_poireau_pommes_de_terres.jpg
 
 
 tags:
-- repas
-- soupe
-- poireaux
-- pommes de terre
-- creme
-- bocuse
 - beurre
-- sel
-- poivre
+- bocuse
 - couennes
+- creme fraiche
+- poireaux
+- poivre
+- pommes de terre
+- repas
+- sel
+- soupe
 
 ingredients:
 - 500 g de pommes de terre

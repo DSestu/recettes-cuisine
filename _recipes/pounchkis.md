@@ -8,7 +8,7 @@ image: pounchkis.jpg
 tags:
 - beignets
 - beurre
-- blanc d'œuf
+- blanc d'oeuf
 - chocolat
 - confiture
 - dessert

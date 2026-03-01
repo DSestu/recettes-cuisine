@@ -10,7 +10,6 @@ tags:
 - dessert
 - riz
 - lait
-- creme
 - oeufs
 - beurre
 - sucre
