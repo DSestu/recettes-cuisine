@@ -31,6 +31,8 @@ Les tags doivent être **canoniques** et figurer dans le registre (voir section 
 
 **Migration liste → Markdown :** pour convertir des recettes/composants existants vers le format Markdown dans le corps : `uv run python scripts/migrate_directions_to_body.py` (voir docstring ; `--dry-run` pour simuler).
 
+**Images dans la préparation** (format Markdown des directions) : les images sont centrées, affichées en plus petit avec une bordure ; la légende est en petit italique centré au-dessus de l'image et un bouton loupe en haut à droite ; un clic sur l’image ou sur la loupe ouvre la même vue plein écran que l’image hero. En markdown simple : `![description](images/photo.jpg)`. Pour contrôler la taille : syntaxe Kramdown IAL, ex. `![description](images/photo.jpg){: width="300px"}`. Pour une légende au-dessus de l'image : HTML brut avec `<figure class="recipe-inline-image">`, `<figcaption>Légende</figcaption>` puis `<img>`, et optionnellement `data-max-width`, `data-aspect-ratio` sur le figure. Taille et ratio en markdown : IAL `{: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }`. Les images sont centrées ; la légende s'affiche en petit italique au-dessus de l'image.
+
 ---
 
 ## Système de tags

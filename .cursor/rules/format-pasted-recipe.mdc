@@ -22,6 +22,8 @@ alwaysApply: true
 
 Components support the same two options; prefer body Markdown for components when you need rich content.
 
+**Images in directions (body Markdown):** Use standard markdown `![alt](images/photo.jpg)`; images are centered, shown smaller with a border and a lens button (top-right); the caption (annotation) is small, italic, centered above the image. Clicking the image or the lens opens the same fullscreen overlay as the recipe hero. Optional size and aspect ratio via Kramdown IAL: `![alt](url){: width="300px"}` or `{: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }`. Optional caption above the image via raw HTML: `<figure class="recipe-inline-image"><figcaption>Caption.</figcaption><img src="..." alt="..."></figure>`; you can add `data-max-width`, `data-aspect-ratio` on the figure.
+
 ## Tag management
 
 **Registry:** The canonical tag list is in `_data/recipe_tags.yml`. The registry is a list of objects, each with:

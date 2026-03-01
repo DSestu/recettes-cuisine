@@ -1,10 +1,10 @@
 ---
 layout: recipe
-title: "Test"
+title: "New templating example"
 image: image.jpeg
 
 tags:
-- exemple
+- example
 - tag
 
 ingredients:
@@ -17,8 +17,21 @@ Pour X personnes. Temps de préparation : ... Temps de cuisson : ...
 
 - Décrivez ici la première étape de la préparation.
 - **Décrivez ici la deuxième étape**: de la préparation.
-  - abc
 
-![Lien vers la recette](../images/ankake_sauce.jpg)
+### (h3 here) Only h2 headings have a style
 
-1. Continuez avec toutes les étapes nécessaires.
+## Arbitrary h2 heading
+
+~~Strikethrough text works.~~
+
+HTML works.
+
+<iframe width="200" height="200" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+![Annotation de l'image](../images/ankake_sauce.jpg){: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }
+
+Continuez avec toutes les étapes nécessaires.
+
+<button onclick="alert('Bienvenue sur la page de recette !')" style="margin-top:1em">
+  Cliquez-moi !
+</button>
