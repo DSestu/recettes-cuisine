@@ -172,6 +172,14 @@ layout: default
       .post-content li.row-checked .row-check-bubble .icon-cross {
         opacity: 0;
       }
+      /* Keep content inline after bubble (no line break); add space before text */
+      .post-content li > p.row-check-content {
+        display: inline;
+        margin-left: 0.75rem;
+      }
+      .post-content li > p.row-check-content > p {
+        display: inline;
+      }
 
       /* Rounded edges for component photos */
       .component-image {
@@ -699,6 +707,23 @@ layout: default
       bubble.className = 'row-check-bubble mt-1.5';
       bubble.innerHTML = ``;
       li.insertBefore(bubble, checkbox.nextSibling);
+
+      // Wrap content after the bubble in <p class="mb-0"><p>...</p></p> to match list-mode structure
+      const rest = [];
+      for (let n = bubble.nextSibling; n; n = n.nextSibling) rest.push(n);
+      if (rest.length) {
+        const outer = document.createElement('p');
+        outer.className = 'mb-0 row-check-content';
+        if (rest.length === 1 && rest[0].nodeType === 1 && rest[0].tagName === 'P') {
+          outer.appendChild(rest[0]);
+        } else {
+          const inner = document.createElement('p');
+          inner.className = 'mb-0';
+          rest.forEach(function(n) { inner.appendChild(n); });
+          outer.appendChild(inner);
+        }
+        li.appendChild(outer);
+      }
 
       // Initialize from URL state
       if (cbSet.has(idx)) {

@@ -16,7 +16,7 @@ Pour X personnes. Temps de préparation : ... Temps de cuisson : ...
 ## Préparation
 
 - Décrivez ici la première étape de la préparation.
-- Décrivez ici la deuxième étape de la préparation.
+- **Décrivez ici la deuxième étape**: de la préparation.
   - abc
 
 ![Lien vers la recette](../images/ankake_sauce.jpg)
