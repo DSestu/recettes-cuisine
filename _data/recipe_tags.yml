@@ -445,6 +445,8 @@
   ingredient: true
 - id: tartinade
   ingredient: false
+- id: tahini
+  ingredient: true
 - id: teriyaki
   ingredient: true
 - id: thym

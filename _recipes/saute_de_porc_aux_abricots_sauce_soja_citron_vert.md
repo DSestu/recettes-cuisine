@@ -18,6 +18,7 @@ tags:
 - asiatique
 - repas
 - casserole
+- sucre-sale
 
 ingredients:
 - 1,2 kg d'échine de porc en cubes
