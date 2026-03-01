@@ -1355,9 +1355,9 @@ permalink: /recherche/
     const grid = $('#results-grid');
     grid.innerHTML = '';
     var sectionEnabled = (typeof window.isMobileSectionEnabled === 'function') ? window.isMobileSectionEnabled : function() { return true; };
-    const allSectionsCollapsed = !sectionEnabled('name') && !sectionEnabled('categories') && !sectionEnabled('tags');
     const selectedTagsLower = new Set(Array.from(state.selectedTags, s => String(s).toLowerCase().trim()));
-    const selectedCount = allSectionsCollapsed ? 0 : selectedTagsLower.size;
+    const selectedCount = selectedTagsLower.size;
+    const tagsFilterActiveForDisplay = sectionEnabled('tags') && selectedCount > 0;
     const isWhatIHave = (state.mode === 'what_i_have');
     for (const it of items) {
       const itemIngTags = (isWhatIHave ? (it.ingredientTags || []) : (it.tags || [])).map(x => String(x).toLowerCase().trim());
@@ -1391,8 +1391,8 @@ permalink: /recherche/
       a.style.position = 'relative';
       a.style.zIndex = 'auto';
 
-      const outlineStyle = selectedCount > 0 ? `outline:2px solid ${badgeColor}; outline-offset: 0px;` : '';
-      const badgeHtml = selectedCount > 0
+      const outlineStyle = tagsFilterActiveForDisplay ? `outline:2px solid ${badgeColor}; outline-offset: 0px;` : '';
+      const badgeHtml = tagsFilterActiveForDisplay
         ? `<span class="overlap-badge absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full text-xs font-bold text-white border-2 border-white" style="background:${badgeColor}">${badgeText}</span>`
         : '';
 
@@ -1402,7 +1402,7 @@ permalink: /recherche/
         <h1 class="font-semibold leading-tight">${it.title}</h1>
       `;
       // Attach fancy tooltip with present/missing tags when tolerance is active or in "what I have" mode
-      const showTooltip = selectedCount > 0 && (isWhatIHave || state.infiniteTolerance || state.missingTolerance > 0);
+      const showTooltip = tagsFilterActiveForDisplay && (isWhatIHave || state.infiniteTolerance || state.missingTolerance > 0);
       if (showTooltip) {
         const presentTags = [];
         const missingTags = [];
