@@ -227,6 +227,16 @@
           });
         });
 
+        var openBtn = document.getElementById("desktop-sidebar-open-btn");
+        if (openBtn) {
+          openBtn.addEventListener("click", function () {
+            if (isDesktop()) {
+              expand();
+              cancelCollapse();
+            }
+          });
+        }
+
         document.addEventListener("keydown", function (e) {
           if (e.key === "Escape" && isDesktop() && wrap.classList.contains("desktop-sidebar-expanded")) {
             collapse();
