@@ -16,7 +16,7 @@ alwaysApply: true
 
 ## Directions: list vs Markdown
 
-**Preferred: Markdown format (directions in the body).** Omit `directions:` from frontmatter. In the body, after the optional description, add `## Préparation` (or equivalent) and write the steps in full Markdown. This allows inline images, tables, sublists, and multiple paragraphs per step. Use this format for new or edited recipes unless you only need simple one-line steps.
+**Preferred: Markdown format (directions in the body).** Omit `directions:` from frontmatter. In the body, after the optional description, add `## Préparation` (or equivalent) and write the steps in full Markdown using bullet points (`- `) rather than numbered lists. Do not include empty lines between adjacent bullet points. This allows inline images, tables, sublists, and multiple paragraphs per step. Use this format for new or edited recipes unless you only need simple one-line steps.
 
 **Legacy: list format.** Include `directions:` in frontmatter as a YAML list (one item per line, hyphen + space). Each item is one step; avoid ":" in steps and keep each step a clear, simple point. Use only when simple step-by-step is enough and no images, tables, or sublists are needed.
 
@@ -77,10 +77,10 @@ Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 20 min.
 
 ## Préparation
 
-1. Éplucher les asperges et les laver.
-2. Couper les pointes en lamelles.
-3. Faire bouillir 1 litre d'eau salée, ajouter les asperges et laisser cuire 15 à 20 minutes.
-4. Mixer, ajouter un peu de crème si besoin, saler et poivrer.
+- Éplucher les asperges et les laver.
+- Couper les pointes en lamelles.
+- Faire bouillir 1 litre d'eau salée, ajouter les asperges et laisser cuire 15 à 20 minutes.
+- Mixer, ajouter un peu de crème si besoin, saler et poivrer.
 
 You can add images (e.g. `![Étape 3](images/etape3.jpg)`), tables, or sublists in the preparation section.
 

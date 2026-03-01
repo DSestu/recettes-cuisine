@@ -501,6 +501,10 @@
   ingredient: true
 - id: agrumes
   ingredient: true
+- id: abricot
+  ingredient: true
+- id: coriandre
+  ingredient: true
 - id: noisettes
   ingredient: true
 - id: biere
