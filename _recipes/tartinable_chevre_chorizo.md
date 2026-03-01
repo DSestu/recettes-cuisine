@@ -6,6 +6,7 @@ image: tartinable_chevre_chorizo.jpg
 
 tags:
 - apéritif
+- entree
 - chèvre
 - chorizo
 - tomates
