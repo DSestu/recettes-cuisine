@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Soupe ardennaise"
-image: soupe_ardennaise.webp
+image: soupe_ardennaise.png
 
 
 tags:
