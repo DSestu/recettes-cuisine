@@ -1,0 +1,1 @@
+uv run python scripts/generate_card_thumbnails.py

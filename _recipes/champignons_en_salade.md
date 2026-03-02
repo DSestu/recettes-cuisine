@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Champignons en salade"
-image: champignons_en_salade.jpg
+image: champignons_en_salade.png
 
 
 tags:

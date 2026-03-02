@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Soupe au chou"
-image: soupe_au_chou.webp
+image: soupe_au_chou.png
 
 
 tags:
