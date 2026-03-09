@@ -19,6 +19,8 @@ tags:
 - vin blanc
 - beurre
 - chaud
+- livre
+- marmiton
 
 ingredients:
 - 12 noix de Saint-Jacques de la baie de Saint-Brieuc

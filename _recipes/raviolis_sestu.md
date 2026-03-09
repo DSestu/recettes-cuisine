@@ -14,7 +14,6 @@ tags:
 - noix de muscade
 - oignons
 - echalotes
-- gourmand
 
 ingredients:
 - 1,5 kg de farine

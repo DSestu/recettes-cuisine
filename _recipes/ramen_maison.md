@@ -27,7 +27,6 @@ tags:
 - saindoux
 - fond chinois
 - dashi
-- gourmand
 
 ingredients:
 - "**Nouilles (2 pers.)**"

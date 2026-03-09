@@ -11,7 +11,6 @@ tags:
 - facile
 - fondant
 - gâteau
-- gourmand
 - oeufs
 - rapide
 - sestu

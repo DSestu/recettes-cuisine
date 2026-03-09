@@ -13,7 +13,6 @@ tags:
 - oeufs
 - sucre
 - classique
-- gourmand
 - sestu
 
 ingredients:
