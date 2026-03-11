@@ -185,6 +185,8 @@
   ingredient: false
 - id: fromage
   ingredient: true
+- id: fromage frais
+  ingredient: true
 - id: fruits
   ingredient: true
 - id: feves de soja vertes
@@ -448,6 +450,8 @@
 - id: tahini
   ingredient: true
 - id: teriyaki
+  ingredient: true
+- id: thon
   ingredient: true
 - id: thym
   ingredient: true
