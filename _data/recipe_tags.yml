@@ -59,6 +59,8 @@
   ingredient: true
 - id: cacao
   ingredient: true
+- id: cidre
+  ingredient: true
 - id: cafe
   ingredient: true
 - id: caramel
@@ -327,6 +329,8 @@
   ingredient: false
 - id: plat principal
   ingredient: false
+- id: poire
+  ingredient: true
 - id: poireau
   ingredient: true
 - id: poireau japonais

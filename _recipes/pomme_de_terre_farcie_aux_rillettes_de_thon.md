@@ -17,6 +17,8 @@ tags:
 - persil
 - citron
 - huile d'olive
+- gourmand
+- livre
 
 ingredients:
 - 4 grosses pommes de terre bintje (ou roseval)
