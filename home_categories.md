@@ -1,6 +1,11 @@
 ---
 layout: null
 categories:
+  - id: "Perso"
+    label: "Perso"
+    description: "Recettes perso."
+    tags:
+    - perso
 
   - id: "starters"
     label: "Entrées"

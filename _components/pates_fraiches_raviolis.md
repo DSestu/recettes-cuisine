@@ -11,6 +11,7 @@ tags:
 - base
 - facile
 - sestu
+- perso
 
 ingredients:
 - 100 g de farine

@@ -14,6 +14,7 @@ tags:
 - noix de muscade
 - oignons
 - echalotes
+- perso
 
 ingredients:
 - 1,5 kg de farine
