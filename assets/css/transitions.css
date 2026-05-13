@@ -76,10 +76,12 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-rec
    (Spec wanted opening curtains; OLD-pseudo limitation forces inversion.
    Search-arrival uses a slide-in for a bit more motion.)
    ========================================================================= */
-/* Destination root just fades in under the opening curtains. */
+/* Destination root: stay hidden during the curtain so the user doesn't see
+ * the destination's JS-rendered content populating live (especially the
+ * search page's D3 + card render). Real DOM appears at transition end. */
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-home)::view-transition-new(root),
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-search)::view-transition-new(root) {
-  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
+  animation: 500ms linear both rc-stay-hidden !important;
 }
 
 /* =========================================================================
