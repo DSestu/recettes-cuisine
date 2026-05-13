@@ -1,57 +1,181 @@
-/* Page-to-page View Transitions
- * Native cross-document mode (enabled via `@view-transition { navigation: auto }` in head.html).
- * Chromium/Safari get morph + fade; Firefox falls back to plain navigation.
+/* Page-to-page View Transitions — route-pair choreography.
  *
- * Timing philosophy: keep everything short and snappy. Cross-document VT
- * already pays a snapshot + reflow cost; a long animation on top of that
- * reads as lag. Root fade ~180 ms, morph ~280 ms.
+ * Substrate: native cross-document VT (`@view-transition { navigation: auto }`
+ * in head.html). CSS picks the choreography by reading two attributes on
+ * <html>:
+ *   - `data-page-kind`   set by Liquid (default.html): home | search | recipe | other
+ *   - `data-from-kind`   set synchronously in head.html from sessionStorage,
+ *                        written by transitions.js on pageswap/pagehide.
+ *
+ * Named regions:
+ *   vt-hero      hero <img> on recipe pages
+ *   vt-content   right column <article> on recipe pages
+ *   vt-home      home grid wrapper on the homepage
+ *
+ * Browsers without VT fall through to a plain navigation (no animation).
  */
 
-/* ---------- Root: pure opacity cross-fade, no slide ---------- *
- * Pure opacity is cheap to composite (GPU-accelerated), avoids the layout
- * shift that a transform-based slide adds on top of the slow page paint.
- */
+:root {
+  --rc-curtain-duration: 500ms;
+  --rc-crossfade-duration: 400ms;
+  --rc-scanner-duration: 700ms;
+  --rc-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Root: default short crossfade ---------- */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 180ms;
-  animation-timing-function: linear;
+  animation-duration: 200ms;
+  animation-timing-function: var(--rc-ease-out);
 }
+::view-transition-old(root) { animation-name: rc-fade-out; }
+::view-transition-new(root) { animation-name: rc-fade-in; }
 
-::view-transition-old(root) {
-  animation-name: rc-root-fade-out;
-}
+@keyframes rc-fade-out { to { opacity: 0; } }
+@keyframes rc-fade-in  { from { opacity: 0; } }
 
-::view-transition-new(root) {
-  animation-name: rc-root-fade-in;
-}
-
-@keyframes rc-root-fade-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes rc-root-fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-/* ---------- Shared-element morph: card ↔ hero ---------- *
- * Named groups (vt-<slug>) inherit a snappier-than-root curve. `*` matches
- * every group; the explicit root override below keeps the root timing.
+/* ---------- Default for named groups: simple crossfade ---------- *
+ * Used when a named region exists on one side but not the other, or when
+ * `data-from-kind` is absent (direct load).
  */
-::view-transition-group(*) {
-  animation-duration: 280ms;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+::view-transition-group(vt-hero),
+::view-transition-group(vt-content),
+::view-transition-group(vt-home) {
+  animation-duration: var(--rc-crossfade-duration);
+  animation-timing-function: var(--rc-ease-out);
 }
 
-::view-transition-group(root) {
-  animation-duration: 180ms;
-  animation-timing-function: linear;
+/* =========================================================================
+   S3 / S6 — Closing curtains: Home/Search → Recipe
+   Hero slides in from the left, right column slides in from the right.
+   Origin page (home or search) stays still underneath.
+   ========================================================================= */
+html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-new(vt-hero),
+html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-new(vt-hero) {
+  animation: rc-slide-in-left var(--rc-curtain-duration) var(--rc-ease-out) both;
+}
+html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-old(vt-hero),
+html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-old(vt-hero) {
+  animation: none;
 }
 
-/* ---------- Reduced motion ---------- */
+html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-new(vt-content),
+html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-new(vt-content) {
+  animation: rc-slide-in-right var(--rc-curtain-duration) var(--rc-ease-out) both;
+}
+html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-old(vt-content),
+html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-old(vt-content) {
+  animation: none;
+}
+
+/* Home/Search root underneath: do not fade. */
+html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-old(root),
+html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-new(root),
+html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-old(root),
+html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-new(root) {
+  animation: none;
+}
+
+/* =========================================================================
+   S3 / S6 — Opening curtains: Recipe → Home/Search
+   Hero slides out left, right column slides out right. Destination stays.
+   ========================================================================= */
+html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-old(vt-hero),
+html[data-page-kind="search"][data-from-kind="recipe"] ::view-transition-old(vt-hero) {
+  animation: rc-slide-out-left var(--rc-curtain-duration) var(--rc-ease-out) both;
+}
+html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-old(vt-content),
+html[data-page-kind="search"][data-from-kind="recipe"] ::view-transition-old(vt-content) {
+  animation: rc-slide-out-right var(--rc-curtain-duration) var(--rc-ease-out) both;
+}
+html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-new(vt-home),
+html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-old(vt-home) {
+  animation: none;
+}
+html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-old(root),
+html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-new(root),
+html[data-page-kind="search"][data-from-kind="recipe"] ::view-transition-old(root),
+html[data-page-kind="search"][data-from-kind="recipe"] ::view-transition-new(root) {
+  animation: none;
+}
+
+/* =========================================================================
+   S4 — Recipe → Recipe: top-down scanner on hero + global crossfade on content
+   Approach: animate `clip-path: inset(...)` with a feathered edge on the new
+   pseudo so it reveals from top down. Old pseudo fades out simultaneously.
+   ========================================================================= */
+html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-image-pair(vt-hero) {
+  isolation: isolate;
+}
+html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-new(vt-hero) {
+  animation: rc-scanner-reveal var(--rc-scanner-duration) var(--rc-ease-out) both;
+}
+html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-old(vt-hero) {
+  animation: rc-fade-out var(--rc-scanner-duration) var(--rc-ease-out) both;
+}
+
+html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-old(vt-content),
+html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-new(vt-content) {
+  animation-duration: var(--rc-crossfade-duration);
+  animation-timing-function: var(--rc-ease-out);
+}
+html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-old(vt-content) {
+  animation-name: rc-fade-out;
+}
+html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-new(vt-content) {
+  animation-name: rc-fade-in;
+}
+
+/* =========================================================================
+   S5 — Home → Search: home slides off left, search stays
+   ========================================================================= */
+html[data-page-kind="search"][data-from-kind="home"] ::view-transition-old(vt-home) {
+  animation: rc-slide-out-left var(--rc-curtain-duration) var(--rc-ease-out) both;
+}
+html[data-page-kind="search"][data-from-kind="home"] ::view-transition-old(root),
+html[data-page-kind="search"][data-from-kind="home"] ::view-transition-new(root) {
+  animation: none;
+}
+
+/* Search → Home: home slides in from left, search stays */
+html[data-page-kind="home"][data-from-kind="search"] ::view-transition-new(vt-home) {
+  animation: rc-slide-in-left var(--rc-curtain-duration) var(--rc-ease-out) both;
+}
+html[data-page-kind="home"][data-from-kind="search"] ::view-transition-old(root),
+html[data-page-kind="home"][data-from-kind="search"] ::view-transition-new(root) {
+  animation: none;
+}
+
+/* ---------- Shared keyframes ---------- */
+@keyframes rc-slide-in-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes rc-slide-out-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes rc-slide-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes rc-slide-out-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+/* Scanner: reveal the new hero from top → bottom with a soft feathered
+ * band (~18% of height). Uses clip-path inset; mask-image would be more
+ * elegant but less reliable on ::view-transition-* pseudos across engines.
+ */
+@keyframes rc-scanner-reveal {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* =========================================================================
+   S7 — Reduced motion + direct-load fallback
+   ========================================================================= */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*),
   ::view-transition-new(*),
@@ -61,4 +185,11 @@
     animation-delay: 0ms !important;
     animation-timing-function: linear !important;
   }
+}
+
+/* Direct load (no origin): suppress region animations, root fade only. */
+html:not([data-from-kind]) ::view-transition-group(vt-hero),
+html:not([data-from-kind]) ::view-transition-group(vt-content),
+html:not([data-from-kind]) ::view-transition-group(vt-home) {
+  animation: none;
 }
