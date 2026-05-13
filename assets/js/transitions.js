@@ -124,6 +124,12 @@
   window.addEventListener("pagereveal", function (e) {
     if (!e.viewTransition) return;
     snapTopButtonsVisible(e.viewTransition);
+    // If we're landing on the search page (which boots from DOMContentLoaded
+    // and renders D3+cards asynchronously), force its init to run NOW so
+    // the snapshot captures a populated page rather than an empty shell.
+    if (pageKind() === "search" && document.readyState !== "complete") {
+      try { document.dispatchEvent(new Event("DOMContentLoaded")); } catch (err) {}
+    }
     try {
       e.viewTransition.types.add("to-" + pageKind());
       var hasFrom = false;
