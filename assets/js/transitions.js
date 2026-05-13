@@ -2,9 +2,11 @@
  * Browser does the heavy lifting via @view-transition { navigation: auto } (see head.html).
  * This script:
  *   1. Exposes `window.recipeViewTransitionName(url)` so card renderers and the
- *      recipe hero stamp matching `view-transition-name` values.
- *   2. On link-click, isolates the clicked card's transition name by clearing
- *      it from every other card so the browser never sees duplicates.
+ *      recipe hero stamp matching `view-transition-name` values. Each name is
+ *      unique to its recipe (derived from the URL), so the page never has
+ *      duplicate names — no isolation step is needed.
+ *   2. Preloads + pre-decodes the destination hero image on hover/touch so
+ *      the new page paints fast.
  */
 (function () {
   function slugifyForViewTransition(url) {
@@ -27,30 +29,6 @@
     var slug = slugifyForViewTransition(url);
     return slug ? "vt-" + slug : "";
   };
-
-  // Before navigation, drop transition names from every card except the one
-  // matching the destination URL. Without this, multiple home-page cards share
-  // names with the destination hero and the browser cancels the morph.
-  function isolateMorphTarget(href) {
-    try {
-      var targetName = window.recipeViewTransitionName(
-        new URL(href, window.location.href).pathname,
-      );
-      if (!targetName) return;
-      var cards = document.querySelectorAll(
-        '[style*="view-transition-name:"]',
-      );
-      cards.forEach(function (el) {
-        var inline = el.style.viewTransitionName || "";
-        // Trim spaces because the inline style preserves whitespace.
-        if (inline.trim() !== targetName) {
-          el.style.viewTransitionName = "";
-        }
-      });
-    } catch (e) {
-      // ignore; worst case the browser falls back to a plain cross-fade.
-    }
-  }
 
   // Preload the destination hero image on hover/touch.
   // The card thumb's background is `…/images/cards/<file>`; the recipe page's
@@ -137,17 +115,4 @@
     return url.pathname && url.pathname !== window.location.pathname;
   }
 
-  document.addEventListener(
-    "click",
-    function (e) {
-      // Honour modifier-clicks / middle-clicks (open in new tab etc.).
-      if (e.defaultPrevented) return;
-      if (e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var a = e.target.closest && e.target.closest("a[href]");
-      if (!isInternalRecipeLink(a)) return;
-      isolateMorphTarget(a.getAttribute("href"));
-    },
-    true,
-  );
 })();
