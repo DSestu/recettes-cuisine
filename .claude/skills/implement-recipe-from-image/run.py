@@ -60,6 +60,20 @@ def ping(cfg: dict) -> dict:
     return r.json()
 
 
+def find_text_sibling(image_path: Path) -> Path | None:
+    """Look for `<stem>_text.<ext>` next to image_path; any image extension."""
+    parent = image_path.parent
+    stem = image_path.stem
+    for suffix in (".jpg", ".jpeg", ".png", ".webp"):
+        cand = parent / f"{stem}_text{suffix}"
+        if cand.exists():
+            return cand
+        cand_upper = parent / f"{stem}_text{suffix.upper()}"
+        if cand_upper.exists():
+            return cand_upper
+    return None
+
+
 def upload_image(cfg: dict, image_path: Path) -> dict:
     if not image_path.exists():
         die(f"image not found: {image_path}")
@@ -109,11 +123,10 @@ def fetch_workflow(cfg: dict) -> dict:
     return wf
 
 
-def patch_workflow(cfg: dict, workflow: dict, uploaded_name: str) -> dict:
+def patch_workflow(cfg: dict, workflow: dict, ocr_name: str, restore_name: str) -> dict:
     wf = copy.deepcopy(workflow)
-    for key in (cfg["loader_ocr_id"], cfg["loader_restore_id"]):
-        node = wf[key]
-        node.setdefault("inputs", {})["image"] = uploaded_name
+    wf[cfg["loader_ocr_id"]].setdefault("inputs", {})["image"] = ocr_name
+    wf[cfg["loader_restore_id"]].setdefault("inputs", {})["image"] = restore_name
     return wf
 
 
@@ -240,20 +253,32 @@ def fetch_outputs(cfg: dict, prompt_id: str) -> tuple[str, Path]:
 
 
 def run_pipeline(cfg: dict, image_path: Path, dry_run: bool) -> dict:
-    log(f"uploading {image_path}…")
-    up = upload_image(cfg, image_path)
-    name = up["name"]
-    log(f"uploaded as {name!r}")
+    text_sibling = find_text_sibling(image_path)
+    if text_sibling:
+        log(f"found text sibling: {text_sibling} — routing to OCR loader")
+        log(f"uploading restore image {image_path}…")
+        restore_name = upload_image(cfg, image_path)["name"]
+        log(f"uploading OCR image {text_sibling}…")
+        ocr_name = upload_image(cfg, text_sibling)["name"]
+    else:
+        log(f"uploading {image_path} (same image to both loaders)…")
+        ocr_name = restore_name = upload_image(cfg, image_path)["name"]
+    log(f"OCR loader={ocr_name!r}, restore loader={restore_name!r}")
 
     log("fetching workflow…")
     wf = fetch_workflow(cfg)
 
     log("patching workflow…")
-    patched = patch_workflow(cfg, wf, name)
+    patched = patch_workflow(cfg, wf, ocr_name, restore_name)
 
     if dry_run:
         log("--dry-run: skipping /prompt; emitting patched workflow on stdout")
-        return {"dry_run": True, "uploaded_name": name, "workflow": patched}
+        return {
+            "dry_run": True,
+            "ocr_name": ocr_name,
+            "restore_name": restore_name,
+            "workflow": patched,
+        }
 
     client_id = str(uuid.uuid4())
     log(f"queueing prompt (client_id={client_id})…")

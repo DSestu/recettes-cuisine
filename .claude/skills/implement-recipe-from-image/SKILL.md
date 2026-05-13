@@ -16,6 +16,8 @@ Any of the following phrases, with a path to a local image at the end:
 
 `<path>` is an absolute or `~`-expanded path to `.jpg / .jpeg / .png / .webp`.
 
+**Two-image mode (auto-detected).** If a sibling file named `<stem>_text.<ext>` exists in the same directory as `<path>` (any image extension), `run.py` will route the `_text` variant to the OCR loader (node 1933) and the original to the restoration loader (node 2001). Useful when the readable recipe text and the dish reference are two different photos. No flag needed — it's purely based on the filename.
+
 ## What you do (agent contract)
 
 1. **Run the pipeline.** Execute:

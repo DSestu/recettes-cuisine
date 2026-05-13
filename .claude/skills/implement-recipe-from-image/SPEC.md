@@ -49,19 +49,20 @@ Skill activates on any of:
 ## 4. Runtime flow (`run.py`)
 
 1. Resolve & validate `<path>`; reject non-image or missing file.
-2. `POST http://<host>/upload/image` (multipart) → `{name, subfolder, type}`.
-3. `GET http://<host>/userdata/<workflow_userdata_path>` → workflow dict.
-4. Patch `workflow[loader_ocr_id].inputs.image` and `workflow[loader_restore_id].inputs.image` to the uploaded `name`.
-5. `POST /prompt` with `{prompt, client_id}` → `prompt_id`.
-6. Subscribe to `ws://<host>/ws?clientId=<id>`; wait for `executing` with `node: null` and matching `prompt_id` (= completion). Fallback: poll `/history/{prompt_id}`.
-7. From `history[prompt_id].outputs`:
+2. **Detect `_text` sibling.** If a file named `<stem>_text.<jpg|jpeg|png|webp>` exists in the same directory as `<path>`, treat it as the OCR input. Otherwise the same image goes to both loaders.
+3. `POST http://<host>/upload/image` (multipart) → `{name, subfolder, type}`. Upload both files when a sibling exists.
+4. `GET http://<host>/userdata/<workflow_userdata_path>` → workflow dict (path is percent-encoded as a single segment).
+5. Patch `workflow[loader_ocr_id].inputs.image` ← OCR upload name; `workflow[loader_restore_id].inputs.image` ← original upload name.
+6. `POST /prompt` with `{prompt, client_id}` → `prompt_id`.
+7. Subscribe to `ws://<host>/ws?clientId=<id>`; wait for `executing` with `node: null` and matching `prompt_id` (= completion). Fallback: poll `/history/{prompt_id}`.
+8. From `history[prompt_id].outputs`:
    - `outputs[text_output_id]` → extracted recipe text (string).
    - `outputs[preview_image_id].images[0]` → `{filename, subfolder, type}`.
-8. `GET /view?...&type=<preview_image_type>` → image bytes; stash in a temp file.
-9. Invoke the agent's `format-pasted-recipe` workflow on the OCR text, producing `_recipes/<slug>.md`. Capture the slug.
-10. If `images/<slug>.png` or `_recipes/<slug>.md` already exists → **stop and ask the user before overwriting**.
-11. Move temp image to `images/<slug>.png` (re-encode to PNG if source is JPEG).
-12. Print a summary: slug, paths, "review and commit when ready".
+9. `GET /view?...&type=<preview_image_type>` → image bytes; stash in a temp file.
+10. Invoke the agent's `format-pasted-recipe` workflow on the OCR text, producing `_recipes/<slug>.md`. Capture the slug.
+11. If `images/<slug>.png` or `_recipes/<slug>.md` already exists → **stop and ask the user before overwriting**.
+12. Move temp image to `images/<slug>.png` (re-encode to PNG if source is JPEG).
+13. Print a summary: slug, paths, "review and commit when ready".
 
 ## 5. Code style
 
