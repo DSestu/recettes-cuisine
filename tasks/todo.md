@@ -4,22 +4,22 @@ Plan: `tasks/plan.md`. SPEC: `.claude/skills/implement-recipe-from-image/SPEC.md
 
 ## Phase A — ComfyUI client foundation
 - [x] **A1** Added `requests`, `websocket-client` to `pyproject.toml`; `uv sync` ok; import-check passes.
-- [x] **A2** Scaffolded `.claude/skills/implement-recipe-from-image/{config.json, run.py}`; `--ping` mode implemented (live verification pending — host unreachable from sandbox).
-- [x] **A3** `upload_image()` + `--upload` mode implemented (live verification pending).
-- [ ] 🛑 **Checkpoint A** — code complete; **live test deferred to user**.
+- [x] **A2** Scaffolded `.claude/skills/implement-recipe-from-image/{config.json, run.py}`; `--ping` returns server stats from `desktop-tvtdome:8188` ✅ live.
+- [x] **A3** `upload_image()` + `--upload` verified live — file echoes back as `linguines_ricotta_pecorino_et_guanciale.png`.
+- [x] 🛑 **Checkpoint A** — live verified.
 
 ## Phase B — Workflow round-trip
-- [x] **B1** `fetch_workflow()` asserts required node IDs present (live verification pending).
+- [x] **B1** `fetch_workflow()` works after URL-encoding the path; rejects UI-format JSON with a clear actionable error; asserts node IDs `1933 / 2001 / 2003 / 465` present ✅ live.
 - [x] **B2** `patch_workflow()` + `--dry-run` implemented; structural smoke-test ok.
-- [x] **B3** `queue_prompt()` + `wait_for_completion()` via WS with `/history` poll fallback.
-- [x] **B4** `fetch_outputs()` extracts text (node 2003) tolerant to multiple shapes, fetches image (node 465, `type=temp`), writes to `.tmp/comfyui/<prompt_id>.png`, emits final JSON on stdout.
-- [ ] 🛑 **Checkpoint B** — code complete; **live test deferred to user**.
+- [x] **B3** WS wait + `/history` fallback ✅ live (prompt completed in real time).
+- [x] **B4** OCR text + preview image (1536×1648 PNG) extracted and written to `.tmp/comfyui/<prompt_id>.png` ✅ live.
+- [x] 🛑 **Checkpoint B** — live verified.
 
 ## Phase C — Skill orchestration
 - [x] **C1** `SKILL.md` written: triggers, run command, stdout contract, post-processing steps via autoloaded rules, overwrite-protection, no-commit clause.
-- [x] **C2** All progress logs on stderr; stdout = final JSON only (single-line on full run, indented for `--ping`/`--upload`/`--print-workflow` since those are interactive).
-- [ ] **C3** End-to-end trigger test — **deferred to user**.
-- [ ] 🛑 **Checkpoint C** — pending live test.
+- [x] **C2** All progress logs on stderr; final JSON on stdout — verified by piping through `python -c`.
+- [ ] **C3** End-to-end trigger test on a real recipe photo (not a dish photo) — **pending a recipe-text photo from the user**.
+- [ ] 🛑 **Checkpoint C** — pending recipe-text photo.
 
 ## Phase D — Hardening & docs
 - [x] **D1** Friendly errors implemented: unreachable host (with VPN hint), missing node IDs (with API-format hint), unknown text shape (prints raw output), empty OCR (with re-shoot hint), upload failure, prompt rejection.

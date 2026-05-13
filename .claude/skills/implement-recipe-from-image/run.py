@@ -16,6 +16,7 @@ import json
 import mimetypes
 import sys
 import time
+import urllib.parse
 import uuid
 from pathlib import Path
 from typing import Any
@@ -78,7 +79,8 @@ def upload_image(cfg: dict, image_path: Path) -> dict:
 
 
 def fetch_workflow(cfg: dict) -> dict:
-    url = f"{http_base(cfg)}/userdata/{cfg['workflow_userdata_path']}"
+    encoded = urllib.parse.quote(cfg["workflow_userdata_path"], safe="")
+    url = f"{http_base(cfg)}/userdata/{encoded}"
     r = requests.get(url, timeout=30)
     if r.status_code >= 400:
         die(f"cannot fetch workflow from {url}: HTTP {r.status_code} {r.text[:200]}")
@@ -86,6 +88,12 @@ def fetch_workflow(cfg: dict) -> dict:
         wf = r.json()
     except ValueError:
         die(f"workflow at {url} is not valid JSON")
+    if isinstance(wf, dict) and "nodes" in wf and isinstance(wf.get("nodes"), list):
+        die(
+            f"workflow at {url} is in UI format (has top-level 'nodes' list). "
+            "Re-export from ComfyUI with Dev Mode → Workflow → Export (API), "
+            "then save it to the same userdata path (or update config.json)."
+        )
     required = [
         cfg["loader_ocr_id"],
         cfg["loader_restore_id"],

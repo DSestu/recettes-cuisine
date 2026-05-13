@@ -1,6 +1,6 @@
 {
   "host": "desktop-tvtdome:8188",
-  "workflow_userdata_path": "workflows/SDXL_recettes_cuisine.json",
+  "workflow_userdata_path": "workflows/SDXL_recettes_cuisine_api.json",
   "loader_ocr_id": "1933",
   "loader_restore_id": "2001",
   "text_output_id": "2003",
