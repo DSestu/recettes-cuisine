@@ -66,16 +66,8 @@
   function writeFromKindStorage() {
     try { sessionStorage.setItem("rcFromKind", pageKind()); } catch (e) {}
   }
-  function isDesktop() {
-    return window.matchMedia("(min-width: 768px)").matches;
-  }
-
   window.addEventListener("pageswap", function (e) {
     writeFromKindStorage();
-    if (e.viewTransition && !isDesktop()) {
-      try { e.viewTransition.skipTransition(); } catch (err) {}
-      return;
-    }
     try {
       var destUrl = e.activation && e.activation.entry && e.activation.entry.url;
       if (destUrl) adjustOutgoingNamesForDestination(destUrl);
@@ -88,10 +80,6 @@
 
   window.addEventListener("pagereveal", function (e) {
     if (!e.viewTransition) return;
-    if (!isDesktop()) {
-      try { e.viewTransition.skipTransition(); } catch (err) {}
-      return;
-    }
     try {
       e.viewTransition.types.add("to-" + pageKind());
       var hasFrom = false;
