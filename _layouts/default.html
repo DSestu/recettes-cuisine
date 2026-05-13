@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html class="h-full">
+{% assign rc_page_kind = "other" %}
+{% if page.url == "/" %}{% assign rc_page_kind = "home" %}
+{% elsif page.url == "/recherche/" %}{% assign rc_page_kind = "search" %}
+{% elsif page.layout == "recipe" %}{% assign rc_page_kind = "recipe" %}
+{% endif %}
+<html class="h-full" data-page-kind="{{ rc_page_kind }}">
   {% include head.html %}
 
   <style>

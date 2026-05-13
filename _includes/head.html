@@ -3,6 +3,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <script>
+    // Page-transition handshake: synchronously consume the origin page kind
+    // written by the outgoing page (see transitions.js). Set BEFORE the
+    // browser snapshots elements for cross-document View Transitions, so
+    // CSS selectors qualified by [data-from-kind="..."] match in time.
+    (function () {
+      try {
+        var fromKind = sessionStorage.getItem("rcFromKind");
+        if (fromKind) {
+          document.documentElement.setAttribute("data-from-kind", fromKind);
+          sessionStorage.removeItem("rcFromKind");
+        }
+      } catch (e) { /* sessionStorage unavailable */ }
+    })();
+  </script>
+
   <title>
     {% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}
   </title>
@@ -271,8 +287,6 @@
   ></script>
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/transitions.css" />
-
-  <script>window.SITE_BASEURL = {{ site.baseurl | jsonify }};</script>
 
   <!-- Speculation Rules: prefetch same-origin pages on hover/touch.
        Warms the HTTP cache so View Transitions don't pause as long waiting

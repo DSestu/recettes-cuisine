@@ -1,39 +1,35 @@
 /* Page-to-page View Transitions support
- * Browser does the heavy lifting via @view-transition { navigation: auto } (see head.html).
- * This script:
- *   1. Exposes `window.recipeViewTransitionName(url)` so card renderers and the
- *      recipe hero stamp matching `view-transition-name` values. Each name is
- *      unique to its recipe (derived from the URL), so the page never has
- *      duplicate names — no isolation step is needed.
- *   2. Preloads + pre-decodes the destination hero image on hover/touch so
- *      the new page paints fast.
+ *
+ * Browser does the heavy lifting via `@view-transition { navigation: auto }`
+ * (declared in head.html). This file adds:
+ *
+ *   1. A direction handshake. On the way out, we stash the current page kind
+ *      in sessionStorage as `rcFromKind`. The destination page reads it
+ *      synchronously in an inline <head> script (see head.html) and writes
+ *      it onto <html data-from-kind="...">. CSS in transitions.css keys off
+ *      both `data-page-kind` (set by Liquid) and `data-from-kind` to pick
+ *      the route-pair choreography.
+ *
+ *   2. Hero preload + pre-decode on hover/touch. Warms the HTTP cache and
+ *      decodes the destination image off the main thread so the new page's
+ *      first paint doesn't pay the JPEG/WebP decode cost at click time.
  */
 (function () {
-  function slugifyForViewTransition(url) {
-    if (!url) return "";
-    var path = String(url);
-    // Mirror Jekyll: slugify is applied to `page.url`, which excludes site.baseurl.
-    var base = window.SITE_BASEURL || "";
-    if (base && path.indexOf(base) === 0) {
-      path = path.slice(base.length);
+  // ---------- 1. Direction handshake (write side) ----------
+  function writeFromKind() {
+    try {
+      var kind = document.documentElement.getAttribute("data-page-kind");
+      if (kind) sessionStorage.setItem("rcFromKind", kind);
+    } catch (e) {
+      // sessionStorage unavailable; transitions will fall back to default fade.
     }
-    return path
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
   }
+  // `pageswap` fires right before the document is swapped out during a
+  // same-origin navigation (Chromium). `pagehide` is the universal fallback.
+  window.addEventListener("pageswap", writeFromKind);
+  window.addEventListener("pagehide", writeFromKind);
 
-  window.recipeViewTransitionName = function (url) {
-    var slug = slugifyForViewTransition(url);
-    return slug ? "vt-" + slug : "";
-  };
-
-  // Preload the destination hero image on hover/touch.
-  // The card thumb's background is `…/images/cards/<file>`; the recipe page's
-  // hero uses `…/images/<file>` (same filename). We can derive the hero URL
-  // from the card and warm it before the click, so the new page paints fast.
+  // ---------- 2. Hero image preload + pre-decode ----------
   var preloadedHeroes = new Set();
   function preloadHero(url) {
     if (!url || preloadedHeroes.has(url)) return;
@@ -48,7 +44,6 @@
     }
     link.href = url;
     document.head.appendChild(link);
-    // Decode off the main thread so the click-time paint doesn't pay it.
     try {
       var img = new Image();
       img.src = url;
@@ -107,12 +102,6 @@
       return false;
     }
     if (url.origin !== window.location.origin) return false;
-    // Only do the morph for navigations whose destination has a hero image
-    // with a matching transition name — i.e. URLs that look like a recipe.
-    // We can't introspect the destination, so be permissive: anything with a
-    // bare path that resembles a recipe page works because the receiving
-    // page either has the name (morph happens) or doesn't (default fade).
     return url.pathname && url.pathname !== window.location.pathname;
   }
-
 })();
