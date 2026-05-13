@@ -565,3 +565,23 @@
   ingredient: true
 - id: bacon
   ingredient: true
+- id: agneau
+  ingredient: true
+- id: estragon
+  ingredient: true
+- id: sauge
+  ingredient: true
+- id: pancetta
+  ingredient: true
+- id: epinards
+  ingredient: true
+- id: penne
+  ingredient: true
+- id: frangipane
+  ingredient: false
+- id: poudre d'amande
+  ingredient: true
+- id: amandes effilees
+  ingredient: true
+- id: levure chimique
+  ingredient: true
