@@ -6,4 +6,9 @@ repos:
         name: Generate card thumbnails
         entry: uv run python scripts/generate_card_thumbnails.py
         language: system
-        files: ^images/(?!cards/)|^scripts/generate_card_thumbnails\.py
+        files: ^images/(?!cards/)(?!hero/)|^scripts/generate_card_thumbnails\.py
+      - id: generate-hero-images
+        name: Generate optimized hero images (WebP 1600px)
+        entry: uv run python scripts/generate_hero_images.py
+        language: system
+        files: ^images/(?!cards/)(?!hero/)|^scripts/generate_hero_images\.py
