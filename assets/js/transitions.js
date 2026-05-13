@@ -123,10 +123,11 @@
 
   window.addEventListener("pagereveal", function (e) {
     if (!e.viewTransition) return;
+    console.log("[rc-vt] pagereveal", performance.now().toFixed(1),
+      "kind=", pageKind(),
+      "readyState=", document.readyState,
+      "grid children=", (document.getElementById("recommend-results-grid") || {}).childElementCount);
     snapTopButtonsVisible(e.viewTransition);
-    // If we're landing on the search page (which boots from DOMContentLoaded
-    // and renders D3+cards asynchronously), force its init to run NOW so
-    // the snapshot captures a populated page rather than an empty shell.
     if (pageKind() === "search" && document.readyState !== "complete") {
       try { document.dispatchEvent(new Event("DOMContentLoaded")); } catch (err) {}
     }
