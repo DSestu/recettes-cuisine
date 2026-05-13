@@ -50,6 +50,7 @@ categories:
       - dessert
       - gateau
       - tiramisu
+      - tarte
 
   - id: "drinks"
     label: "Boissons"

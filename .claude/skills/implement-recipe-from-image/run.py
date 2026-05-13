@@ -30,6 +30,23 @@ TMP_DIR = REPO_ROOT / ".tmp" / "comfyui"
 ALLOWED_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 WS_TIMEOUT_S = 600
 POLL_INTERVAL_S = 2.0
+ALL_MODES = ("full", "ocr", "image", "prompt")
+
+
+def mode_cfg(cfg: dict, mode: str) -> dict:
+    modes = cfg.get("modes")
+    if not isinstance(modes, dict) or mode not in modes:
+        die(f"config has no entry for modes.{mode}; known: {sorted((modes or {}).keys())}")
+    return modes[mode]
+
+
+def require_node_ids(mcfg: dict, mode: str, keys: list[str]) -> None:
+    missing = [k for k in keys if mcfg.get(k) in (None, "", "<tbd>")]
+    if missing:
+        die(
+            f"config modes.{mode} is missing node IDs: {missing}. "
+            "Run `run.py --print-workflow --mode {mode}` to inspect the workflow and fill them in."
+        )
 
 
 def log(msg: str) -> None:
@@ -92,8 +109,8 @@ def upload_image(cfg: dict, image_path: Path) -> dict:
     return r.json()
 
 
-def fetch_workflow(cfg: dict) -> dict:
-    encoded = urllib.parse.quote(cfg["workflow_userdata_path"], safe="")
+def fetch_workflow(cfg: dict, mcfg: dict, required_node_keys: list[str] | None = None) -> dict:
+    encoded = urllib.parse.quote(mcfg["workflow"], safe="")
     url = f"{http_base(cfg)}/userdata/{encoded}"
     r = requests.get(url, timeout=30)
     if r.status_code >= 400:
@@ -108,25 +125,21 @@ def fetch_workflow(cfg: dict) -> dict:
             "Re-export from ComfyUI with Dev Mode → Workflow → Export (API), "
             "then save it to the same userdata path (or update config.json)."
         )
-    required = [
-        cfg["loader_ocr_id"],
-        cfg["loader_restore_id"],
-        cfg["text_output_id"],
-        cfg["preview_image_id"],
-    ]
-    missing = [nid for nid in required if nid not in wf]
-    if missing:
-        die(
-            f"workflow is missing required node IDs: {missing}. "
-            "Is this the API-format JSON (Dev Mode → Save (API Format))?"
-        )
+    if required_node_keys:
+        required = [mcfg[k] for k in required_node_keys if mcfg.get(k) not in (None, "", "<tbd>")]
+        missing = [nid for nid in required if nid not in wf]
+        if missing:
+            die(
+                f"workflow at {url} is missing required node IDs: {missing}. "
+                "Is this the API-format JSON (Dev Mode → Save (API Format))?"
+            )
     return wf
 
 
-def patch_workflow(cfg: dict, workflow: dict, ocr_name: str, restore_name: str) -> dict:
+def patch_full_workflow(mcfg: dict, workflow: dict, ocr_name: str, restore_name: str) -> dict:
     wf = copy.deepcopy(workflow)
-    wf[cfg["loader_ocr_id"]].setdefault("inputs", {})["image"] = ocr_name
-    wf[cfg["loader_restore_id"]].setdefault("inputs", {})["image"] = restore_name
+    wf[mcfg["loader_ocr_id"]].setdefault("inputs", {})["image"] = ocr_name
+    wf[mcfg["loader_restore_id"]].setdefault("inputs", {})["image"] = restore_name
     return wf
 
 
@@ -217,23 +230,15 @@ def _extract_text(node_output: Any) -> str:
     return ""
 
 
-def fetch_outputs(cfg: dict, prompt_id: str) -> tuple[str, Path]:
+def _get_history_outputs(cfg: dict, prompt_id: str) -> dict:
     r = requests.get(f"{http_base(cfg)}/history/{prompt_id}", timeout=30)
     r.raise_for_status()
     history = r.json().get(prompt_id) or {}
-    outputs = history.get("outputs") or {}
+    return history.get("outputs") or {}
 
-    text_node = cfg["text_output_id"]
-    if text_node not in outputs:
-        die(f"text output node {text_node} not in history outputs: keys={list(outputs)}")
-    ocr_text = _extract_text(outputs[text_node])
-    if not ocr_text:
-        die(
-            f"vision LM returned no text; raw outputs[{text_node}]={outputs[text_node]!r}. "
-            "Re-shoot the photo or check the workflow."
-        )
 
-    img_node = cfg["preview_image_id"]
+def _fetch_preview_image(cfg: dict, mcfg: dict, prompt_id: str, outputs: dict) -> Path:
+    img_node = mcfg["preview_image_id"]
     img_out = outputs.get(img_node) or {}
     images = img_out.get("images") or []
     if not images:
@@ -242,17 +247,38 @@ def fetch_outputs(cfg: dict, prompt_id: str) -> tuple[str, Path]:
     params = {
         "filename": desc["filename"],
         "subfolder": desc.get("subfolder", ""),
-        "type": desc.get("type", cfg["preview_image_type"]),
+        "type": desc.get("type", cfg.get("preview_image_type", "temp")),
     }
     ir = requests.get(f"{http_base(cfg)}/view", params=params, timeout=60)
     ir.raise_for_status()
     TMP_DIR.mkdir(parents=True, exist_ok=True)
     out_path = TMP_DIR / f"{prompt_id}.png"
     out_path.write_bytes(ir.content)
-    return ocr_text, out_path
+    return out_path
 
 
-def run_pipeline(cfg: dict, image_path: Path, dry_run: bool) -> dict:
+def _read_ocr_text(mcfg: dict, outputs: dict) -> str:
+    text_node = mcfg["text_output_id"]
+    if text_node not in outputs:
+        die(f"text output node {text_node} not in history outputs: keys={list(outputs)}")
+    ocr_text = _extract_text(outputs[text_node])
+    if not ocr_text:
+        die(
+            f"vision LM returned no text; raw outputs[{text_node}]={outputs[text_node]!r}. "
+            "Re-shoot the photo or check the workflow."
+        )
+    return ocr_text
+
+
+def fetch_outputs_full(cfg: dict, mcfg: dict, prompt_id: str) -> tuple[str, Path]:
+    outputs = _get_history_outputs(cfg, prompt_id)
+    return _read_ocr_text(mcfg, outputs), _fetch_preview_image(cfg, mcfg, prompt_id, outputs)
+
+
+def run_full(cfg: dict, image_path: Path, dry_run: bool) -> dict:
+    mcfg = mode_cfg(cfg, "full")
+    require_node_ids(mcfg, "full", ["loader_ocr_id", "loader_restore_id", "text_output_id", "preview_image_id"])
+
     text_sibling = find_text_sibling(image_path)
     if text_sibling:
         log(f"found text sibling: {text_sibling} — routing to OCR loader")
@@ -265,11 +291,11 @@ def run_pipeline(cfg: dict, image_path: Path, dry_run: bool) -> dict:
         ocr_name = restore_name = upload_image(cfg, image_path)["name"]
     log(f"OCR loader={ocr_name!r}, restore loader={restore_name!r}")
 
-    log("fetching workflow…")
-    wf = fetch_workflow(cfg)
+    log(f"fetching workflow {mcfg['workflow']}…")
+    wf = fetch_workflow(cfg, mcfg, ["loader_ocr_id", "loader_restore_id", "text_output_id", "preview_image_id"])
 
     log("patching workflow…")
-    patched = patch_workflow(cfg, wf, ocr_name, restore_name)
+    patched = patch_full_workflow(mcfg, wf, ocr_name, restore_name)
 
     if dry_run:
         log("--dry-run: skipping /prompt; emitting patched workflow on stdout")
@@ -288,18 +314,143 @@ def run_pipeline(cfg: dict, image_path: Path, dry_run: bool) -> dict:
     wait_for_completion(cfg, client_id, prompt_id)
     log("workflow complete; fetching outputs…")
 
-    ocr_text, img_path = fetch_outputs(cfg, prompt_id)
+    ocr_text, img_path = fetch_outputs_full(cfg, mcfg, prompt_id)
     log(f"image saved to {img_path}")
     return {"ocr_text": ocr_text, "image_temp_path": str(img_path), "prompt_id": prompt_id}
+
+
+def run_ocr(cfg: dict, image_path: Path, dry_run: bool) -> dict:
+    mcfg = mode_cfg(cfg, "ocr")
+    require_node_ids(mcfg, "ocr", ["loader_ocr_id", "loader_restore_id", "text_output_id"])
+
+    text_sibling = find_text_sibling(image_path)
+    if text_sibling:
+        log(f"found text sibling: {text_sibling} — routing to OCR loader")
+        log(f"uploading restore image {image_path}…")
+        restore_name = upload_image(cfg, image_path)["name"]
+        log(f"uploading OCR image {text_sibling}…")
+        ocr_name = upload_image(cfg, text_sibling)["name"]
+    else:
+        log(f"uploading {image_path} (same image to both loaders)…")
+        ocr_name = restore_name = upload_image(cfg, image_path)["name"]
+
+    log(f"fetching workflow {mcfg['workflow']}…")
+    wf = fetch_workflow(cfg, mcfg, ["loader_ocr_id", "loader_restore_id", "text_output_id"])
+
+    log("patching workflow (OCR + dummy restore)…")
+    patched = copy.deepcopy(wf)
+    patched[mcfg["loader_ocr_id"]].setdefault("inputs", {})["image"] = ocr_name
+    patched[mcfg["loader_restore_id"]].setdefault("inputs", {})["image"] = restore_name
+
+    if dry_run:
+        log("--dry-run: skipping /prompt; emitting patched workflow on stdout")
+        return {"dry_run": True, "ocr_name": ocr_name, "restore_name": restore_name, "workflow": patched}
+
+    client_id = str(uuid.uuid4())
+    log(f"queueing prompt (client_id={client_id})…")
+    prompt_id = queue_prompt(cfg, patched, client_id)
+    log(f"prompt_id={prompt_id}")
+
+    wait_for_completion(cfg, client_id, prompt_id)
+    log("workflow complete; fetching text output…")
+    outputs = _get_history_outputs(cfg, prompt_id)
+    ocr_text = _read_ocr_text(mcfg, outputs)
+    return {"ocr_text": ocr_text, "prompt_id": prompt_id}
+
+
+def _resolve_recipe_image(slug: str) -> Path:
+    for ext in (".png", ".jpg", ".jpeg", ".webp"):
+        p = REPO_ROOT / "images" / f"{slug}{ext}"
+        if p.exists():
+            return p
+    die(f"no existing image found for slug {slug!r} under {REPO_ROOT/'images'} (tried .png/.jpg/.jpeg/.webp)")
+
+
+def run_image(cfg: dict, slug: str, dry_run: bool) -> dict:
+    mcfg = mode_cfg(cfg, "image")
+    require_node_ids(mcfg, "image", ["loader_image_id", "preview_image_id"])
+
+    src = _resolve_recipe_image(slug)
+    log(f"uploading existing image {src} for slug {slug!r}…")
+    image_name = upload_image(cfg, src)["name"]
+
+    log(f"fetching workflow {mcfg['workflow']}…")
+    wf = fetch_workflow(cfg, mcfg, ["loader_image_id", "preview_image_id"])
+
+    log(f"patching loader_image_id={mcfg['loader_image_id']} with {image_name!r}…")
+    patched = copy.deepcopy(wf)
+    patched[mcfg["loader_image_id"]].setdefault("inputs", {})["image"] = image_name
+
+    if dry_run:
+        log("--dry-run: skipping /prompt; emitting patched workflow on stdout")
+        return {"dry_run": True, "image_name": image_name, "workflow": patched}
+
+    client_id = str(uuid.uuid4())
+    log(f"queueing prompt (client_id={client_id})…")
+    prompt_id = queue_prompt(cfg, patched, client_id)
+    log(f"prompt_id={prompt_id}")
+
+    wait_for_completion(cfg, client_id, prompt_id)
+    log("workflow complete; fetching preview image…")
+    outputs = _get_history_outputs(cfg, prompt_id)
+    img_path = _fetch_preview_image(cfg, mcfg, prompt_id, outputs)
+    log(f"image saved to {img_path}")
+    return {"image_temp_path": str(img_path), "prompt_id": prompt_id}
+
+
+def _read_prompt_gallery(slug: str) -> str:
+    p = REPO_ROOT / "prompts" / "_recipes" / f"{slug}.md"
+    if not p.exists():
+        die(f"prompt gallery file not found: {p}")
+    txt = p.read_text(encoding="utf-8").strip()
+    if not txt:
+        die(f"prompt gallery file is empty: {p}")
+    return txt
+
+
+def run_prompt(cfg: dict, slug: str, dry_run: bool) -> dict:
+    mcfg = mode_cfg(cfg, "prompt")
+    require_node_ids(mcfg, "prompt", ["prompt_text_id", "preview_image_id"])
+    field = mcfg.get("prompt_text_field", "text")
+
+    prompt_text = _read_prompt_gallery(slug)
+    log(f"loaded prompt for slug {slug!r} ({len(prompt_text)} chars)")
+
+    log(f"fetching workflow {mcfg['workflow']}…")
+    wf = fetch_workflow(cfg, mcfg, ["prompt_text_id", "preview_image_id"])
+
+    log(f"patching prompt_text_id={mcfg['prompt_text_id']} .{field}…")
+    patched = copy.deepcopy(wf)
+    patched[mcfg["prompt_text_id"]].setdefault("inputs", {})[field] = prompt_text
+
+    if dry_run:
+        log("--dry-run: skipping /prompt; emitting patched workflow on stdout")
+        return {"dry_run": True, "prompt_text_chars": len(prompt_text), "workflow": patched}
+
+    client_id = str(uuid.uuid4())
+    log(f"queueing prompt (client_id={client_id})…")
+    prompt_id = queue_prompt(cfg, patched, client_id)
+    log(f"prompt_id={prompt_id}")
+
+    wait_for_completion(cfg, client_id, prompt_id)
+    log("workflow complete; fetching preview image…")
+    outputs = _get_history_outputs(cfg, prompt_id)
+    img_path = _fetch_preview_image(cfg, mcfg, prompt_id, outputs)
+    log(f"image saved to {img_path}")
+    return {"image_temp_path": str(img_path), "prompt_id": prompt_id}
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument("--image", type=Path, help="local image path")
+    parser.add_argument("--mode", choices=ALL_MODES, default="full",
+                        help="pipeline mode (default: full)")
+    parser.add_argument("--image", type=Path, help="local image path (modes: full, ocr)")
+    parser.add_argument("--slug", type=str, help="recipe slug (modes: image, prompt)")
     parser.add_argument("--ping", action="store_true", help="ping server and exit")
     parser.add_argument("--upload", type=Path, help="upload-only mode (prints upload response)")
-    parser.add_argument("--print-workflow", action="store_true", help="fetch workflow and print")
+    parser.add_argument("--print-workflow", action="store_true",
+                        help="fetch the workflow for --mode and print it")
     parser.add_argument("--dry-run", action="store_true", help="patch but don't queue")
     args = parser.parse_args(argv)
 
@@ -320,12 +471,27 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(resp, indent=2))
             return 0
         if args.print_workflow:
-            wf = fetch_workflow(cfg)
+            mcfg = mode_cfg(cfg, args.mode)
+            wf = fetch_workflow(cfg, mcfg)
             print(json.dumps(wf, indent=2))
             return 0
-        if not args.image:
-            die("--image is required (or use --ping / --upload / --print-workflow / --dry-run)")
-        result = run_pipeline(cfg, args.image.expanduser(), args.dry_run)
+
+        if args.mode in ("full", "ocr"):
+            if not args.image:
+                die(f"--image is required for --mode {args.mode}")
+            image_path = args.image.expanduser()
+            if args.mode == "full":
+                result = run_full(cfg, image_path, args.dry_run)
+            else:
+                result = run_ocr(cfg, image_path, args.dry_run)
+        else:  # image | prompt
+            if not args.slug:
+                die(f"--slug is required for --mode {args.mode}")
+            if args.mode == "image":
+                result = run_image(cfg, args.slug, args.dry_run)
+            else:
+                result = run_prompt(cfg, args.slug, args.dry_run)
+
         print(json.dumps(result))
         return 0
     except requests.ConnectionError as e:

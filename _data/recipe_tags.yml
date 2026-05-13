@@ -585,3 +585,37 @@
   ingredient: true
 - id: levure chimique
   ingredient: true
+- id: tarte
+  ingredient: false
+- id: fumet de poisson
+  ingredient: true
+- id: bechamel
+  ingredient: false
+- id: feta
+  ingredient: true
+- id: mozzarella
+  ingredient: true
+- id: origan
+  ingredient: true
+- id: concentre de tomate
+  ingredient: true
+- id: gelatine
+  ingredient: true
+- id: biscuits secs
+  ingredient: true
+- id: peche
+  ingredient: true
+- id: maizena
+  ingredient: true
+- id: citron vert
+  ingredient: true
+- id: gnocchi
+  ingredient: false
+- id: pomme de terre
+  ingredient: true
+- id: coulis de tomate
+  ingredient: true
+- id: foie gras
+  ingredient: true
+- id: bouillon de volaille
+  ingredient: true

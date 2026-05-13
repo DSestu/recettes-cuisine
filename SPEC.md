@@ -1,106 +1,100 @@
-# SPEC — Page Transitions Redesign
-
-Replaces the current card→hero shared-element morph with a deliberate, choreographed transition system. **Desktop only**; mobile spec will follow.
+# SPEC — Variations of `implement-recipe-from-image`
 
 ## 1. Objective
 
-Make navigation feel intentional and theatrical: distinct, recognizable motions per route pair, easing out (decelerating) so the destination "settles" instead of arriving abruptly. Each transition tells the user *where* they came from and *where* they're going.
+Split the existing `implement-recipe-from-image` skill into a family of skills that share the same remote ComfyUI plumbing (`run.py`) but expose three additional modes alongside the current full pipeline. All modes feed the canonical recipe-creation flow (frontmatter + body via `format-pasted-recipe.md`, tag registry, homepage categories, prompt-gallery, card thumbnail).
 
-## 2. Page taxonomy
+Modes:
 
-Three logical pages:
+| Mode | Skill name | Input | Produces | Recipe md? | Image? |
+|------|------------|-------|----------|------------|--------|
+| `full` *(existing)* | `implement-recipe-from-image` | photo of recipe | OCR text + dish image | yes | yes |
+| `ocr` | `implement-recipe-from-image-ocr-only` | photo of recipe | OCR text only | yes (no `image:` line) | no |
+| `image` | `regenerate-recipe-image` | existing slug | dish image only | no (recipe already exists) | yes (overwrites) |
+| `prompt` | `generate-recipe-image-from-prompt` | existing slug | dish image only, from `prompts/_recipes/<slug>.md` | no | yes (overwrites) |
 
-- **Home** — `/` (recipe grid)
-- **Search** — `/recherche.html` (advanced D3 search)
-- **Recipe** — any `/_recipes/*` page
+## 2. Commands
 
-## 3. Transition matrix
+All modes go through a single entrypoint:
 
-| From → To | Effect |
-|---|---|
-| Home → Recipe | **Closing curtains**: hero image slides in from left edge; recipe content column slides in from right edge. Home stays in place underneath. |
-| Search → Recipe | Same as Home → Recipe. |
-| Recipe → Home | **Opening curtains** (reverse): hero slides out to the left, recipe column slides out to the right, revealing Home underneath. Home stays in place (no slide-in). |
-| Recipe → Search | Same opening-curtains effect, revealing Search. Search stays in place. |
-| Recipe → Recipe | **Scanner crossfade** on the hero image (top→bottom soft gradient wipe) + **global crossfade** on the right content column. Both run simultaneously. No curtains. |
-| Home → Search | **Single big curtain**: Home slides off to the left, revealing Search underneath. |
-| Search → Home | Reverse: Home slides in from the left, covering Search. |
-| Direct load → any | Plain global fade-in (no curtain). |
+```bash
+uv run python .claude/skills/implement-recipe-from-image/run.py --mode {full,ocr,image,prompt} [options]
+```
 
-## 4. Motion design
+Mode-specific options:
 
-- **Easing**: ease-out (decelerating). Suggested curve `cubic-bezier(0.22, 1, 0.36, 1)`. Not linear.
-- **Default duration**: 500ms for curtain motions, 400ms for crossfades. Tunable via CSS custom properties. Scanner duration to be iterated on after first pass.
-- **Scanner gradient**: soft band (not a hard wipe) moving top→bottom across the hero. Implementation hint: `mask-image` linear-gradient whose `mask-position` animates. Soft transition zone ~15–25% of the hero height.
-- **Curtains are not overlays**: the *actual* hero image and the *actual* right column slide as content blocks. No solid-color panel.
-- **Underneath page stays put**: Home does not animate on Home→Recipe (only the incoming Recipe slides over it). Home does not animate on Recipe→Home either (only the outgoing Recipe slides off). Same for Search.
-- **Reduced-motion**: `prefers-reduced-motion: reduce` → all effects collapse to a 1ms swap.
+- `--mode full --image <path>` — current behavior. Stdout JSON: `{"ocr_text", "image_temp_path", "prompt_id"}`.
+- `--mode ocr --image <path>` — OCR only; no image generation. Stdout JSON: `{"ocr_text", "prompt_id"}`.
+- `--mode image --slug <slug>` — read `_recipes/<slug>.md` body + ingredients, feed the ComfyUI image branch (no OCR). Stdout JSON: `{"image_temp_path", "prompt_id"}`.
+- `--mode prompt --slug <slug>` — read `prompts/_recipes/<slug>.md`, feed it verbatim into the image branch. Stdout JSON: `{"image_temp_path", "prompt_id"}`.
 
-## 5. Technical approach
+**Each mode calls a different workflow** on the ComfyUI server. `config.json` is restructured so workflow path + node IDs live under per-mode keys:
 
-Built on the existing cross-document **View Transitions API** (`@view-transition { navigation: auto }`). No new library.
+```json
+{
+  "host": "desktop-tvtdome:8188",
+  "modes": {
+    "full":   { "workflow": "workflows/SDXL_recettes_cuisine_api.json",        "loader_ocr_id": "1933", "loader_restore_id": "2001", "text_output_id": "2003", "preview_image_id": "465" },
+    "ocr":    { "workflow": "workflows/SDXL_recettes_cuisine_ocr_api.json",    "loader_ocr_id": "1933", "text_output_id": "2003" },
+    "image":  { "workflow": "workflows/SDXL_recettes_cuisine_image_api.json",  "prompt_text_id": "<tbd>", "preview_image_id": "<tbd>" },
+    "prompt": { "workflow": "workflows/SDXL_recettes_cuisine_prompt_api.json", "prompt_text_id": "<tbd>", "preview_image_id": "<tbd>" }
+  },
+  "preview_image_type": "temp"
+}
+```
 
-- Shared regions tagged with stable `view-transition-name`:
-  - `vt-hero` on the hero image element (recipe pages).
-  - `vt-content` on the recipe right column wrapper.
-  - `vt-page` on `<body>` or main wrapper of Home/Search for the single-curtain effect.
-- Per-route-pair CSS keyframes target `::view-transition-old(...)` and `::view-transition-new(...)` of each named group.
-- Direction (which choreography to play) is determined by the **destination** page kind on the new document + the **origin** page kind, stored via a small `sessionStorage` hint set on the outgoing page before navigation (referrer is unreliable cross-doc).
-- Page-kind encoded as `data-page-kind` attribute on `<html>` (`home` | `search` | `recipe`).
-- On `pageswap` (outgoing), write `sessionStorage.fromKind = currentKind`. On `pagereveal` (incoming, before transition starts), read it and set `data-from-kind` on `<html>`.
-- CSS keys off both: `html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-new(vt-hero) { … }`.
-- If `data-from-kind` is missing (direct load, no sessionStorage): fall back to `default-fade` rule.
+The exact workflow filenames and node IDs are confirmed during the workflow-inspection task (one inspection per new workflow). The user is responsible for placing the three new workflow files on the server under `/userdata/workflows/`; the skill never modifies them.
 
-## 6. Files in scope
+## 3. Project structure
 
-- `assets/css/transitions.css` — rewrite. All keyframes, per-route-pair selectors, custom properties for durations/easing.
-- `assets/js/transitions.js` — keep the URL preload helper; replace morph plumbing with the page-kind handshake (`sessionStorage` + `<html data-from-kind>` via `pageswap`/`pagereveal`).
-- `_includes/head.html` — add `data-page-kind` to `<html>` (Liquid switch on `page.layout` / `page.url`).
-- `_layouts/recipe.html` — remove `view-transition-name: vt-<slug>` from the hero; replace with `view-transition-name: vt-hero`; add `view-transition-name: vt-content` to the right column wrapper.
-- `assets/js/home.js`, `assets/js/search-page.js` — stop stamping per-recipe `viewTransitionName` on cards (morph is gone). Cards remain untagged.
+```
+.claude/skills/
+├── implement-recipe-from-image/
+│   ├── SKILL.md                # full mode — updated to mention sibling skills
+│   ├── run.py                  # gains --mode flag, dispatches internally
+│   └── config.json             # may gain extra node IDs for prompt injection
+├── implement-recipe-from-image-ocr-only/
+│   └── SKILL.md                # delegates to run.py --mode ocr
+├── regenerate-recipe-image/
+│   └── SKILL.md                # delegates to run.py --mode image
+└── generate-recipe-image-from-prompt/
+    └── SKILL.md                # delegates to run.py --mode prompt
+```
 
-## 7. Out of scope
+Each sibling SKILL.md is short and links back to the canonical agent-contract steps in `implement-recipe-from-image/SKILL.md`, overriding only the steps that differ (no image write for `ocr`; no recipe-md write for `image`/`prompt`).
 
-- Mobile / small-screen behavior (separate spec).
-- Browsers without View Transitions support — fall through to default browser nav.
-- Image asset pipeline, prefetch/preload, Tailwind build.
-- Card→hero shared-element morph (fully removed).
+## 4. Code style
 
-## 8. Acceptance criteria
+- Python: keep `run.py` single-file, stdlib + `requests`/`websocket-client` (already used). No new heavy deps.
+- Dispatch via a small `if args.mode == ...` block calling extracted functions: `run_full()`, `run_ocr()`, `run_image()`, `run_prompt()`. Shared helpers (`submit_workflow`, `wait_for_completion`, `fetch_temp_image`) stay shared.
+- Stdout contract: still **last line of stdout = single-line JSON**. Stderr for everything else.
+- Failure surface: non-zero exit + stderr message. No partial files on failure.
 
-1. Home → Recipe: hero slides in from left, content from right, both decelerating; Home visible underneath until covered.
-2. Recipe → Home (browser back or link): hero slides off left, content slides off right; Home appears revealed (not animated).
-3. Recipe → Recipe: hero crossfades top-down with visible scanner band while right column crossfades globally; both finish together.
-4. Home → Search: Home slides left off-screen, Search revealed underneath (not animated).
-5. Search → Home: Home slides in from left, covering Search (Search not animated).
-6. Search → Recipe: same as Home → Recipe.
-7. Recipe → Search: same opening-curtains reveal as Recipe → Home.
-8. Direct load (no `sessionStorage.fromKind`): plain fade-in, no curtain.
-9. `prefers-reduced-motion: reduce`: all effects 1ms.
-10. No regression in image load perf (heroes stay WebP, preloaded on hover).
+## 5. Testing strategy
 
-## 9. Boundaries
+Manual smoke tests (no automated tests in repo for this skill):
 
-**Always:**
-- Use ease-out curve `cubic-bezier(0.22, 1, 0.36, 1)` (or equivalent) on every animation.
-- Honor `prefers-reduced-motion`.
-- Keep the View Transitions API as the substrate (no Swup, no manual JS animation).
-- Degrade to instant native nav if JS or VT is unavailable.
+1. `--mode full --image <known good photo>` still produces a recipe + image (regression check).
+2. `--mode ocr --image <photo>` returns OCR JSON, no `image_temp_path`, no image file fetched.
+3. `--mode image --slug crumble_pommes` (use an existing slug) returns a new `image_temp_path` derived from the recipe body, agent overwrites `images/<slug>.png` after confirmation.
+4. `--mode prompt --slug crumble_pommes` reads `prompts/_recipes/crumble_pommes.md` and produces a new image.
+5. Overwrite check: agent must stop and ask before clobbering `_recipes/<slug>.md` (ocr/full) or `images/<slug>.png` (image/prompt).
+
+## 6. Boundaries
+
+**Always do:**
+- Reuse existing `format-pasted-recipe.md` / `home-categories.md` / `update-recipe-prompt-gallery.md` rules for any recipe-md write.
+- Run `scripts/generate_card_thumbnails.py` after any image write to `images/<slug>.png`.
+- Keep stdout = single-line JSON; logs to stderr.
 
 **Ask first:**
-- Changing durations beyond proposed defaults.
-- Adding a transition for a route pair not in §3.
-- Mobile / small-screen behavior.
+- Before overwriting `_recipes/<slug>.md`, `images/<slug>.png`, `images/cards/<slug>.png`, or `prompts/_recipes/<slug>.md` in any mode.
+- Before adding new node IDs / workflow paths to `config.json`.
+- If a required workflow file is missing on the server, stop and ask — never auto-create or copy it.
 
 **Never:**
-- Re-introduce the card→hero morph.
-- Animate the underlying page when it's supposed to stay put.
-- Use linear easing.
-- Block navigation waiting on JS.
-
-## 10. Verification
-
-- Manual walk-through of all 10 acceptance scenarios in Chrome desktop.
-- DevTools → Animations panel to confirm curves and durations.
-- Toggle `prefers-reduced-motion` and re-verify scenarios collapse to instant.
-- Hard-reload between scenarios to confirm direct-load fallback.
+- Run `git add`, `git commit`, `git push`.
+- Modify the workflow JSON on the ComfyUI server.
+- Hardcode node IDs in `run.py` — they live in `config.json`.
+- Skip overwrite checks even in `image`/`prompt` modes — those overwrite by design but still need explicit confirmation.
+- Invent file paths or node IDs when `run.py` fails — surface the stderr.

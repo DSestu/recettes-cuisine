@@ -1,31 +1,55 @@
-# Todo — `implement-recipe-from-image` skill
+# TODO — Variations of `implement-recipe-from-image`
 
-Plan: `tasks/plan.md`. SPEC: `.claude/skills/implement-recipe-from-image/SPEC.md`.
+Plan: `tasks/plan.md`. Spec: `SPEC.md`.
 
-## Phase A — ComfyUI client foundation
-- [x] **A1** Added `requests`, `websocket-client` to `pyproject.toml`; `uv sync` ok; import-check passes.
-- [x] **A2** Scaffolded `.claude/skills/implement-recipe-from-image/{config.json, run.py}`; `--ping` returns server stats from `desktop-tvtdome:8188` ✅ live.
-- [x] **A3** `upload_image()` + `--upload` verified live — file echoes back as `linguines_ricotta_pecorino_et_guanciale.png`.
-- [x] 🛑 **Checkpoint A** — live verified.
+## T1 — `--mode` dispatch + per-mode config
+- [ ] Migrate `config.json` to nested `modes.{full,ocr,image,prompt}` shape (placeholders for new modes)
+- [ ] Refactor `load_config` / `fetch_workflow` to look up per-mode workflow + node IDs
+- [ ] Extract current `run_pipeline()` body into `run_full(cfg, image_path, dry_run)`
+- [ ] Add `--mode {full,ocr,image,prompt}` arg (default `full`)
+- [ ] Add `--slug` arg (validated per mode)
+- [ ] `--mode {ocr,image,prompt}` raise "not yet implemented" cleanly
+- [ ] Smoke: `--ping`, `--image <photo>`, `--mode full --image <photo>` all still work
 
-## Phase B — Workflow round-trip
-- [x] **B1** `fetch_workflow()` works after URL-encoding the path; rejects UI-format JSON with a clear actionable error; asserts node IDs `1933 / 2001 / 2003 / 465` present ✅ live.
-- [x] **B2** `patch_workflow()` + `--dry-run` implemented; structural smoke-test ok.
-- [x] **B3** WS wait + `/history` fallback ✅ live (prompt completed in real time).
-- [x] **B4** OCR text + preview image (1536×1648 PNG) extracted and written to `.tmp/comfyui/<prompt_id>.png` ✅ live.
-- [x] 🛑 **Checkpoint B** — live verified.
+## T2 — `--mode ocr` + sibling skill
+- [ ] Confirm OCR-only workflow exists on the server (path in `modes.ocr.workflow`); else ask user
+- [ ] Implement `run_ocr()` — upload + load ocr workflow + read text node, no preview-image fetch
+- [ ] Stdout JSON: `{ocr_text, prompt_id}` (no `image_temp_path`)
+- [ ] Create `.claude/skills/implement-recipe-from-image-ocr-only/SKILL.md`
+- [ ] Skill agent contract: skip image move + thumbnail; omit `image:` from frontmatter
+- [ ] Smoke: OCR text matches `--mode full` output on the same photo; no temp image file written
 
-## Phase C — Skill orchestration
-- [x] **C1** `SKILL.md` written: triggers, run command, stdout contract, post-processing steps via autoloaded rules, overwrite-protection, no-commit clause.
-- [x] **C2** All progress logs on stderr; final JSON on stdout — verified by piping through `python -c`.
-- [ ] **C3** End-to-end trigger test on a real recipe photo (not a dish photo) — **pending a recipe-text photo from the user**.
-- [ ] 🛑 **Checkpoint C** — pending recipe-text photo.
+## T3 — Inspect `image` + `prompt` workflows (CHECKPOINT 1)
+- [ ] Confirm both new workflow files exist on the server; else stop and ask
+- [ ] `run.py --print-workflow --mode image` → identify prompt-text node + preview-image node
+- [ ] `run.py --print-workflow --mode prompt` → identify prompt-text node + preview-image node
+- [ ] Fill `<tbd>` placeholders in `config.json` for `modes.image` and `modes.prompt`
+- [ ] Append "Workflow notes" section to `tasks/plan.md`
 
-## Phase D — Hardening & docs
-- [x] **D1** Friendly errors implemented: unreachable host (with VPN hint), missing node IDs (with API-format hint), unknown text shape (prints raw output), empty OCR (with re-shoot hint), upload failure, prompt rejection.
-- [x] **D2** `--dry-run` short-circuits before `/prompt`; verified via `--help` smoke-test (live verification pending).
-- [x] **D3** Added `/.tmp/` to `.gitignore`; added `.tmp/` to `_config.yml` exclude; Jekyll build passes (0.421 s).
+## T4 — `--mode image` + sibling skill `regenerate-recipe-image`
+- [ ] Implement `run_image(slug)` — read `_recipes/<slug>.md`, inject body/summary into `modes.image` workflow's prompt-text node
+- [ ] No image upload (text-to-image workflow)
+- [ ] Stdout JSON: `{image_temp_path, prompt_id}`
+- [ ] Create `.claude/skills/regenerate-recipe-image/SKILL.md`
+- [ ] Skill agent contract: overwrite-check `images/<slug>.png`, move temp, regen thumbnail
+- [ ] Smoke: bytes differ pre/post; thumbnail regenerated
 
-## Open questions to resolve mid-flight
-- [ ] Inspect raw `outputs["2003"]` shape after first B3 run, before finalising B4 parser.
-- [ ] Confirm `workflows/SDXL_recettes_cuisine.json` is saved in API format.
+## T5 — `--mode prompt` + sibling skill `generate-recipe-image-from-prompt`
+- [ ] Implement `run_prompt(slug)` — read `prompts/_recipes/<slug>.md`, inject verbatim into `modes.prompt` workflow's prompt-text node
+- [ ] Clear error when prompt file missing
+- [ ] Create `.claude/skills/generate-recipe-image-from-prompt/SKILL.md`
+- [ ] Smoke: T4 vs T5 output differ; missing-prompt slug → clean error
+
+## CHECKPOINT 2 — manual smoke of all four modes
+- [ ] `--mode full --image <photo>` → recipe + image
+- [ ] `--mode ocr --image <photo>` → recipe md only
+- [ ] `--mode image --slug <existing>` → image only, from recipe body
+- [ ] `--mode prompt --slug <existing>` → image only, from prompt gallery
+- [ ] Stdout JSON contract holds across all modes
+- [ ] Overwrite confirmations fire in the right places
+
+## T6 — cross-links + parent SKILL.md update
+- [ ] Update `implement-recipe-from-image/SKILL.md` — add "Related modes" section and `--mode` docs
+- [ ] Each sibling SKILL.md links to the others
+- [ ] Document any new `config.json` key (if T3 added one)
+- [ ] Verify: `rg "regenerate-recipe-image" .claude/skills/` hits all four files
