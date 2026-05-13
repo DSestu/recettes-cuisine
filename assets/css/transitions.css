@@ -46,24 +46,20 @@
  * share a `view-transition-name: vt-<slug>` derived from the recipe URL.
  * Targeting via attribute selector keeps a single rule for every recipe.
  */
-[style*="view-transition-name: vt-"]::view-transition-group(*),
+/* All named morph groups get a longer, springier curve than the root fade.
+ * `*` matches every group including `root`, but the `root` group has its
+ * own animation set above (rc-fade-slide-*) — only `animation-duration`
+ * and `animation-timing-function` are re-applied here, which we re-set
+ * explicitly for root just below to keep them aligned.
+ */
 ::view-transition-group(*) {
-  /* fall-through: anything that ends up as its own group inherits this timing */
   animation-duration: 420ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* The morphing image itself: keep its content centered and cropped while flying.
- * Card and hero use the same canvas + background-image strategy, so a simple
- * fill / cover-style image group works for both sides.
- */
-::view-transition-image-pair(*) {
-  isolation: auto;
-}
-
-/* Slightly drop the rest of the page so the morphing image reads as the focal point. */
-::view-transition-group(*) {
-  z-index: 10;
+::view-transition-group(root) {
+  animation-duration: 280ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* ---------- Accessibility: respect reduced-motion ---------- */
