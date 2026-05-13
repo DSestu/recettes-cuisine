@@ -742,6 +742,9 @@
   }
 
   function updateCharts(items) {
+    // Charts depend on d3 + DOM nodes inside the advanced-viz panel (removed).
+    if (typeof d3 === "undefined") return;
+    if (!document.getElementById("tags-chart") && !document.getElementById("ingredients-chart")) return;
     // Tags chart
     const tagCount = new Map();
     for (const it of items) {
@@ -766,6 +769,8 @@
   // resize / fullscreenchange / pointerdown listeners on every interaction.
   let forceGraphAbort = null;
   function renderForceGraph(items) {
+    if (typeof d3 === "undefined") return;
+    if (!document.getElementById("force-graph")) return;
     if (forceGraphAbort) { try { forceGraphAbort.abort(); } catch (_) {} }
     forceGraphAbort = new AbortController();
     const fgSignal = forceGraphAbort.signal;
