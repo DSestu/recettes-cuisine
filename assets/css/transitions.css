@@ -85,9 +85,7 @@ html:active-view-transition-type(from-recipe):active-view-transition-type(to-sea
 /* =========================================================================
    Recipe → Recipe — top-down scanner on hero + content crossfade
    ========================================================================= */
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-hero) {
-  animation: 700ms cubic-bezier(0.22, 1, 0.36, 1) both rc-scanner-reveal !important;
-}
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-hero),
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
   animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
 }
