@@ -29,6 +29,7 @@ exclude:
   - tasks/
   - .claude/
   - .cursor/
+  - .tmp/
   - .venv/
   - scripts/
   - prompts/

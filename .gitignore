@@ -1,6 +1,8 @@
 /.c9
 /_site/
 /.jekyll-cache/
+/.tmp/
+__pycache__/
 .DS_Store
 _recipes/.obsidian/app.json
 _recipes/.obsidian/appearance.json
