@@ -1,5 +1,14 @@
+Features:
+
 * Ingredient tags on hover on the homepage
-* Hybrid skills (only generation of image/ only ocr/ image and ocr)
 * ingredient calendar feature
 * constraint optimization for recipe planning
 * Batch cooking feature
+
+Dev features:
+
+* Hybrid skills (only generation of image/ only ocr/ image and ocr)
+
+Bugfix:
+
+* find a way to hunt ios safari navigation issues without phone
