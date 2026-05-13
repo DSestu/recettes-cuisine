@@ -17,7 +17,13 @@
 /* ---------- OLD pseudos: stay put, no fade. ---------- */
 ::view-transition-old(root),
 ::view-transition-old(vt-hero),
-::view-transition-old(vt-content) {
+::view-transition-old(vt-content),
+::view-transition-old(vt-nav) {
+  animation: none !important;
+}
+
+/* ---------- NAV: identical on every page → morph in place, no animation. */
+::view-transition-new(vt-nav) {
   animation: none !important;
 }
 
