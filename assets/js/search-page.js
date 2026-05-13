@@ -2199,10 +2199,14 @@
   // Listeners
   // -----------------------------
   function runInit() {
-    // init suggestions
+    var t0 = performance.now();
+    console.log("[rc-vt] runInit START", t0.toFixed(1));
     renderSuggestions(getFiltered());
+    console.log("[rc-vt] after renderSuggestions", (performance.now() - t0).toFixed(1), "ms");
     updateSelectedChips();
+    console.log("[rc-vt] after updateSelectedChips", (performance.now() - t0).toFixed(1), "ms");
     refresh();
+    console.log("[rc-vt] after refresh", (performance.now() - t0).toFixed(1), "ms");
     // If coming from a recipe on mobile and requested, scroll to results
     (function(){
       const isMobile = window.matchMedia('(max-width: 767px)').matches;
