@@ -15,6 +15,7 @@
           document.documentElement.setAttribute("data-from-kind", fromKind);
           sessionStorage.removeItem("rcFromKind");
         }
+        console.log("[rc-vt]", "page-kind=", document.documentElement.getAttribute("data-page-kind"), "from-kind=", fromKind);
       } catch (e) { /* sessionStorage unavailable */ }
     })();
   </script>

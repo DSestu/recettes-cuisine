@@ -16,9 +16,10 @@
  */
 (function () {
   // ---------- 1. Direction handshake (write side) ----------
-  function writeFromKind() {
+  function writeFromKind(ev) {
     try {
       var kind = document.documentElement.getAttribute("data-page-kind");
+      console.log("[rc-vt] write", ev && ev.type, "kind=", kind);
       if (kind) sessionStorage.setItem("rcFromKind", kind);
     } catch (e) {
       // sessionStorage unavailable; transitions will fall back to default fade.
