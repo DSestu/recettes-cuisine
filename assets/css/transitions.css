@@ -1,68 +1,57 @@
 /* Page-to-page View Transitions
  * Native cross-document mode (enabled via `@view-transition { navigation: auto }` in head.html).
  * Chromium/Safari get morph + fade; Firefox falls back to plain navigation.
+ *
+ * Timing philosophy: keep everything short and snappy. Cross-document VT
+ * already pays a snapshot + reflow cost; a long animation on top of that
+ * reads as lag. Root fade ~180 ms, morph ~280 ms.
  */
 
-/* ---------- Default cross-fade for every navigation ---------- */
+/* ---------- Root: pure opacity cross-fade, no slide ---------- *
+ * Pure opacity is cheap to composite (GPU-accelerated), avoids the layout
+ * shift that a transform-based slide adds on top of the slow page paint.
+ */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 280ms;
-  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
-  mix-blend-mode: normal;
+  animation-duration: 180ms;
+  animation-timing-function: linear;
 }
 
 ::view-transition-old(root) {
-  animation-name: rc-fade-slide-out;
+  animation-name: rc-root-fade-out;
 }
 
 ::view-transition-new(root) {
-  animation-name: rc-fade-slide-in;
+  animation-name: rc-root-fade-in;
 }
 
-@keyframes rc-fade-slide-out {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes rc-root-fade-out {
   to {
     opacity: 0;
-    transform: translateY(-6px);
   }
 }
 
-@keyframes rc-fade-slide-in {
+@keyframes rc-root-fade-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
-/* ---------- Shared-element morph: recipe card thumbnail ↔ hero ---------- *
- * Card thumbnails on / and /recherche/ and the hero canvas on a recipe page
- * share a `view-transition-name: vt-<slug>` derived from the recipe URL.
- * Targeting via attribute selector keeps a single rule for every recipe.
- */
-/* All named morph groups get a longer, springier curve than the root fade.
- * `*` matches every group including `root`, but the `root` group has its
- * own animation set above (rc-fade-slide-*) — only `animation-duration`
- * and `animation-timing-function` are re-applied here, which we re-set
- * explicitly for root just below to keep them aligned.
+/* ---------- Shared-element morph: card ↔ hero ---------- *
+ * Named groups (vt-<slug>) inherit a snappier-than-root curve. `*` matches
+ * every group; the explicit root override below keeps the root timing.
  */
 ::view-transition-group(*) {
-  animation-duration: 420ms;
+  animation-duration: 280ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 ::view-transition-group(root) {
-  animation-duration: 280ms;
-  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-duration: 180ms;
+  animation-timing-function: linear;
 }
 
-/* ---------- Accessibility: respect reduced-motion ---------- */
+/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*),
   ::view-transition-new(*),
