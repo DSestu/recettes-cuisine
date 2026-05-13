@@ -581,18 +581,20 @@
           clearTimeout(hideTimer);
           hideTimer = setTimeout(() => { tip.classList.remove('visible'); }, 120);
         }
+        const openTip = () => { a.classList.add('tooltip-open'); a.style.zIndex = '100'; showTip(); };
+        const closeTipSoon = () => { hideTipSoon(); setTimeout(() => { a.classList.remove('tooltip-open'); a.style.zIndex = 'auto'; }, 200); };
         if (badgeEl) {
-          badgeEl.addEventListener('mouseenter', ()=>{ a.classList.add('tooltip-open'); showTip(); });
-          badgeEl.addEventListener('mouseleave', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
-          badgeEl.addEventListener('focus', ()=>{ a.classList.add('tooltip-open'); showTip(); });
-          badgeEl.addEventListener('blur', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
+          badgeEl.addEventListener('mouseenter', openTip);
+          badgeEl.addEventListener('mouseleave', closeTipSoon);
+          badgeEl.addEventListener('focus', openTip);
+          badgeEl.addEventListener('blur', closeTipSoon);
         }
         // Show on whole card hover as well
-        a.addEventListener('mouseenter', ()=>{ a.classList.add('tooltip-open'); showTip(); });
-        a.addEventListener('mouseleave', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
+        a.addEventListener('mouseenter', openTip);
+        a.addEventListener('mouseleave', closeTipSoon);
         // Keep tooltip open if hovered; close smoothly when leaving
-        tip.addEventListener('mouseenter', ()=>{ a.classList.add('tooltip-open'); showTip(); });
-        tip.addEventListener('mouseleave', ()=>{ hideTipSoon(); setTimeout(()=> a.classList.remove('tooltip-open'), 200); });
+        tip.addEventListener('mouseenter', openTip);
+        tip.addEventListener('mouseleave', closeTipSoon);
       }
 
       grid.appendChild(a);
