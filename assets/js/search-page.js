@@ -518,7 +518,7 @@
       a.innerHTML = `
         ${badgeHtml}
         <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${outlineStyle}background-image:url('${encodeURI(it.image)}');"></canvas>
-        <h1 class="font-semibold leading-tight">${it.title}</h1>
+        <h1 class="font-semibold leading-tight">${window.escapeHtml(it.title)}</h1>
       `;
       // Attach fancy tooltip with present/missing tags when tolerance is active or in "what I have" mode
       const showTooltip = tagsFilterActiveForDisplay && (isWhatIHave || state.infiniteTolerance || state.missingTolerance > 0);
@@ -538,7 +538,7 @@
         }
         const tip = document.createElement('div');
         tip.className = 'result-tooltip';
-        const chipsHtml = (arr, cls) => arr.map(t => `<span class="tag-chip ${cls}">${t}</span>`).join('');
+        const chipsHtml = (arr, cls) => arr.map(t => `<span class="tag-chip ${cls}">${window.escapeHtml(t)}</span>`).join('');
         const missingCountTip = isWhatIHave ? (itemIngTags.length - presentTags.length) : 0;
         const pctTip = isWhatIHave && itemIngTags.length > 0 ? Math.round((presentTags.length / itemIngTags.length) * 100) : 0;
         const summaryLine = isWhatIHave
@@ -639,7 +639,7 @@
         a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
         a.innerHTML = `
           <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(it.image)}');"></canvas>
-          <h1 class="font-semibold leading-tight">${it.title}</h1>
+          <h1 class="font-semibold leading-tight">${window.escapeHtml(it.title)}</h1>
         `;
         grid.appendChild(a);
       }
@@ -758,7 +758,15 @@
   // -----------------------------
   // Visualisations avancées
   // -----------------------------
+  // Listener controller scoped to a single renderForceGraph invocation.
+  // Each call aborts the previous controller, removing every window/document
+  // listener the prior render attached. Without this, refresh() would leak
+  // resize / fullscreenchange / pointerdown listeners on every interaction.
+  let forceGraphAbort = null;
   function renderForceGraph(items) {
+    if (forceGraphAbort) { try { forceGraphAbort.abort(); } catch (_) {} }
+    forceGraphAbort = new AbortController();
+    const fgSignal = forceGraphAbort.signal;
     const svg = d3.select('#force-graph');
     svg.selectAll('*').remove();
     const container = document.getElementById('force-container');
@@ -1318,8 +1326,8 @@
       simulation.force('center', d3.forceCenter(width/2, height/2));
       simulation.alpha(0.3).restart();
     }
-    window.addEventListener('resize', handleResize);
-    document.addEventListener('fullscreenchange', handleResize);
+    window.addEventListener('resize', handleResize, { signal: fgSignal });
+    document.addEventListener('fullscreenchange', handleResize, { signal: fgSignal });
 
     // Helper: fit graph into current viewport
     function fitToViewport(pad = 24) {
@@ -1378,7 +1386,7 @@
         } catch(_) {}
         setTimeout(() => { fitToViewport(28); }, 80);
       }
-    });
+    }, { signal: fgSignal });
 
     // Search highlight removed
 
@@ -1405,7 +1413,7 @@
       if (!tip) return;
       const withinGraph = e.target.closest && e.target.closest('#force-container');
       if (!withinGraph) tip.style.display = 'none';
-    }, { passive: true });
+    }, { passive: true, signal: fgSignal });
 
     // Render the hidden top ingredients as removable pills
     const hiddenWrap = document.getElementById('hidden-top-ingredients');
@@ -2029,8 +2037,8 @@
       if (showControls && typeof window.updateNodeBadges === 'function') window.updateNodeBadges();
       if (showControls && typeof window.updateFsLayoutButton === 'function') window.updateFsLayoutButton();
     }
-    document.addEventListener('fullscreenchange', ensureFsButton);
-    window.addEventListener('resize', ensureFsButton);
+    document.addEventListener('fullscreenchange', ensureFsButton, { signal: fgSignal });
+    window.addEventListener('resize', ensureFsButton, { signal: fgSignal });
     ensureFsButton();
     // Show/hide overlay: only show in fullscreen (both desktop and mobile)
     function updateFsOverlayVisibility(){
@@ -2039,8 +2047,8 @@
       const inFs = !!document.fullscreenElement && document.fullscreenElement === container;
       if (wrap) wrap.style.display = inFs ? 'block' : 'none';
     }
-    document.addEventListener('fullscreenchange', updateFsOverlayVisibility);
-    window.addEventListener('resize', updateFsOverlayVisibility);
+    document.addEventListener('fullscreenchange', updateFsOverlayVisibility, { signal: fgSignal });
+    window.addEventListener('resize', updateFsOverlayVisibility, { signal: fgSignal });
     updateFsOverlayVisibility();
   }
 
@@ -2296,11 +2304,17 @@
       if (titleSearchClearEl) titleSearchClearEl.classList.toggle('hidden', !v);
     }
     if (titleSearchEl) {
+      let titleUrlTimer = null;
       titleSearchEl.addEventListener('input', () => {
         state.titleQuery = titleSearchEl.value.trim();
         updateTitleSearchClearVisibility();
         refresh();
-        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+        // Debounce URL/QR sync so each keystroke doesn't rebuild the QR canvas.
+        if (titleUrlTimer) clearTimeout(titleUrlTimer);
+        titleUrlTimer = setTimeout(() => {
+          titleUrlTimer = null;
+          if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+        }, 250);
         if (window.syncMobileAccordionUI) { try { window.syncMobileAccordionUI(); } catch (_) {} }
       });
     }
@@ -2524,7 +2538,14 @@
       const ti = document.getElementById('title-search');
       if (ti) ti.value = q;
     }
-    if (tags) { tags.split(',').forEach(t=>state.selectedTags.add(t)); }
+    if (tags) {
+      // Accept legacy comma- and pipe-separated forms; normalize each tag to
+      // lowercase + trimmed so URL bookmarks survive case variation.
+      tags.split(/[,|]/).forEach(t => {
+        const v = String(t || '').trim().toLowerCase();
+        if (v) state.selectedTags.add(v);
+      });
+    }
     const catParam = params.get('cat');
     if (catParam) { catParam.split(',').filter(Boolean).forEach(id=>state.activeCategoryIds.add(id.trim())); }
     if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
@@ -2721,11 +2742,19 @@
     }
     // Expose for external callers (chips updates, graph clicks, FS overlay)
     window.pushControlsToUrl = pushControlsToUrl;
+    // Debounced variant for high-frequency `input` events (slider drag, text typing).
+    // Without this, pushControlsToUrl + updateQrCode runs on every keystroke / slider tick
+    // and rebuilds the QR canvas dozens of times per second.
+    let pushUrlTimer = null;
+    function pushControlsToUrlDebounced() {
+      if (pushUrlTimer) clearTimeout(pushUrlTimer);
+      pushUrlTimer = setTimeout(() => { pushUrlTimer = null; pushControlsToUrl(); }, 250);
+    }
     const urlSyncControls = ['link-mode','layout-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
     urlSyncControls.forEach(id => {
       const el = document.getElementById(id);
       const ev = el.tagName === 'SELECT' ? 'change' : 'input';
-      el.addEventListener(ev, pushControlsToUrl);
+      el.addEventListener(ev, ev === 'input' ? pushControlsToUrlDebounced : pushControlsToUrl);
     });
     toggleBtn.addEventListener('click', pushControlsToUrl);
     document.getElementById('reset-tags').addEventListener('click', pushControlsToUrl);
