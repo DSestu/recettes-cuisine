@@ -21,8 +21,18 @@
     return document.documentElement.getAttribute("data-page-kind") || "other";
   }
 
+  // Belt-and-suspenders: write the outgoing kind via both pageswap+viewTransition
+  // types AND a sessionStorage fallback. Prefetched/back-forward navigations
+  // can skip the pageswap.viewTransition path, but the storage always works.
+  function writeFromKindStorage() {
+    try { sessionStorage.setItem("rcFromKind", pageKind()); } catch (e) {}
+  }
   window.addEventListener("pageswap", function (e) {
-    if (!e.viewTransition) return;
+    writeFromKindStorage();
+    if (!e.viewTransition) {
+      console.log("[rc-vt] pageswap: no viewTransition");
+      return;
+    }
     try {
       e.viewTransition.types.add("from-" + pageKind());
       console.log("[rc-vt] pageswap: added from-" + pageKind());
@@ -30,14 +40,30 @@
       console.log("[rc-vt] pageswap types.add failed:", err);
     }
   });
+  window.addEventListener("pagehide", writeFromKindStorage);
 
   window.addEventListener("pagereveal", function (e) {
-    if (!e.viewTransition) return;
+    if (!e.viewTransition) {
+      console.log("[rc-vt] pagereveal: no viewTransition");
+      return;
+    }
     try {
+      // Always add to-<kind> for the destination.
       e.viewTransition.types.add("to-" + pageKind());
+      // Synthesize from-<kind> from sessionStorage if pageswap didn't set it.
+      var stored = null;
+      try { stored = sessionStorage.getItem("rcFromKind"); } catch (e) {}
+      var hasFrom = false;
+      e.viewTransition.types.forEach(function (t) {
+        if (typeof t === "string" && t.indexOf("from-") === 0) hasFrom = true;
+      });
+      if (!hasFrom && stored) {
+        e.viewTransition.types.add("from-" + stored);
+      }
+      try { sessionStorage.removeItem("rcFromKind"); } catch (e) {}
       console.log("[rc-vt] pagereveal: types=", Array.from(e.viewTransition.types));
     } catch (err) {
-      console.log("[rc-vt] pagereveal types.add failed:", err);
+      console.log("[rc-vt] pagereveal handler failed:", err);
     }
   });
 
