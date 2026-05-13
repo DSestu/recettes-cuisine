@@ -254,7 +254,7 @@
     }
   </style>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tailwind.css" />
   <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -263,29 +263,11 @@
     rel="stylesheet"
   />
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#F53200", // Add your primary color
-          },
-          boxShadow: {
-            "3xl": "0 0px 60px -15px rgba(0, 0, 0, 0.5)",
-          },
-          fontFamily: {
-            gelica: ["gelica", "sans-serif"], // Add your custom font
-            inter: ["inter", "sans-serif"], // Add your custom font
-          },
-        },
-      },
-    };
-  </script>
-
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
+    defer
   ></script>
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/transitions.css" />

@@ -8,5 +8,6 @@ dependencies = [
     "pyyaml>=6",
     "requests>=2.31",
     "websocket-client>=1.7",
+    "pytailwindcss>=0.2",
 ]
 

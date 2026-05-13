@@ -12,3 +12,17 @@ repos:
         entry: uv run python scripts/generate_hero_images.py
         language: system
         files: ^images/(?!cards/)(?!hero/)|^scripts/generate_hero_images\.py
+      - id: build-tailwind
+        name: Compile static Tailwind CSS
+        entry: uv run python scripts/build_tailwind.py
+        language: system
+        files: |
+          (?x)^(
+            .*\.html|
+            .*\.md|
+            assets/js/.*\.js|
+            assets/css/_tailwind\.css|
+            tailwind\.config\.js|
+            scripts/build_tailwind\.py
+          )$
+        pass_filenames: false
