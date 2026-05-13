@@ -78,8 +78,23 @@
   });
   window.addEventListener("pagehide", writeFromKindStorage);
 
+  // Make sure recipe top-buttons are at full opacity before snapshot.
+  function snapTopButtonsVisible() {
+    var btns = document.querySelectorAll("a.back, #btn-qr-modal, #btn-recipe-image-zoom");
+    if (!btns.length) return;
+    document.body.classList.add("top-buttons-ready");
+    btns.forEach(function (b) {
+      b.style.transition = "none";
+      b.style.opacity = "1";
+    });
+    requestAnimationFrame(function () {
+      btns.forEach(function (b) { b.style.transition = ""; });
+    });
+  }
+
   window.addEventListener("pagereveal", function (e) {
     if (!e.viewTransition) return;
+    snapTopButtonsVisible();
     try {
       e.viewTransition.types.add("to-" + pageKind());
       var hasFrom = false;
