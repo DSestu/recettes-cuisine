@@ -292,12 +292,14 @@
 
   <script>window.SITE_BASEURL = {{ site.baseurl | jsonify }};</script>
 
-  <!-- Speculation Rules: prerender same-origin pages on hover/touch so that
-       View Transitions don't have to pause waiting for the new page to render.
-       Chrome/Edge act on this; other browsers ignore it harmlessly. -->
+  <!-- Speculation Rules: prefetch same-origin pages on hover/touch.
+       Warms the HTTP cache so View Transitions don't pause as long waiting
+       on the destination HTML. Does NOT prerender (prerender activation can
+       bypass cross-document View Transitions in some Chrome versions).
+       Other browsers ignore the script harmlessly. -->
   <script type="speculationrules">
     {
-      "prerender": [
+      "prefetch": [
         {
           "where": {
             "and": [
