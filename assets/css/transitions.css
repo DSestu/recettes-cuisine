@@ -48,6 +48,7 @@
 }
 
 @keyframes rc-fade-in  { from { opacity: 0; } }
+@keyframes rc-fade-out { to   { opacity: 0; } }
 @keyframes rc-stay-hidden { 0%, 99% { opacity: 0; } 100% { opacity: 1; } }
 
 /* =========================================================================
