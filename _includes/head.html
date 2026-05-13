@@ -288,7 +288,11 @@
     referrerpolicy="no-referrer"
   ></script>
 
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/transitions.css" />
+
+  <script>window.SITE_BASEURL = {{ site.baseurl | jsonify }};</script>
   <script src="{{ site.baseurl }}/assets/js/escape-html.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/transitions.js"></script>
 
   <script>
     if ("serviceWorker" in navigator) {

@@ -117,6 +117,12 @@
           + images[0]
           + ")";
       }
+      const vtName = window.recipeViewTransitionName
+        && window.recipeViewTransitionName(recipe.url);
+      if (vtName) {
+        // Cleared before any navigation: see assets/js/transitions.js.
+        canvas.style.viewTransitionName = vtName;
+      }
       a.appendChild(canvas);
 
       const h1 = document.createElement("h1");

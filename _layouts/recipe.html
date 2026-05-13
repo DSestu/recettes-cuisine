@@ -322,7 +322,7 @@ layout: default
 
     <canvas
       class="view w-full h-full bg-cover bg-center"
-      style="background-image:url({{ site.baseurl }}/images/{{ image }});"
+      style="background-image:url({{ site.baseurl }}/images/{{ image }});{% if forloop.first %} view-transition-name: vt-{{ page.url | slugify }};{% endif %}"
     >
     </canvas>
 
