@@ -3,22 +3,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <script>
-    // Page-transition handshake: synchronously consume the origin page kind
-    // written by the outgoing page (see transitions.js). Set BEFORE the
-    // browser snapshots elements for cross-document View Transitions, so
-    // CSS selectors qualified by [data-from-kind="..."] match in time.
-    (function () {
-      try {
-        var fromKind = sessionStorage.getItem("rcFromKind");
-        if (fromKind) {
-          document.documentElement.setAttribute("data-from-kind", fromKind);
-          sessionStorage.removeItem("rcFromKind");
-        }
-        console.log("[rc-vt]", "page-kind=", document.documentElement.getAttribute("data-page-kind"), "from-kind=", fromKind);
-      } catch (e) { /* sessionStorage unavailable */ }
-    })();
-  </script>
 
   <title>
     {% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}

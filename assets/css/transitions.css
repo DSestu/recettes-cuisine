@@ -1,15 +1,16 @@
 /* Page-to-page View Transitions — route-pair choreography.
  *
  * Substrate: native cross-document VT (`@view-transition { navigation: auto }`
- * in head.html). CSS picks the choreography from two <html> attributes:
- *   data-page-kind   home | search | recipe | other   (set by Liquid)
- *   data-from-kind   …same values…                    (set by JS handshake)
+ * in head.html). transitions.js tags each transition with two types:
+ *   from-<kind>  added in pageswap on the outgoing page
+ *   to-<kind>    added in pagereveal on the incoming page
+ * where <kind> is home | search | recipe | other.
+ * CSS selects choreography via :active-view-transition-type(...).
  *
- * Named regions: vt-hero (recipe hero img), vt-content (recipe article).
- * Home/search have no named region — they live in root.
+ * Named regions on the recipe page: vt-hero, vt-content.
  */
 
-/* ---------- Defaults: short root crossfade ---------- */
+/* ---------- Default root crossfade ---------- */
 ::view-transition-old(root) {
   animation: 220ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-out;
 }
@@ -24,57 +25,57 @@
    Home/Search → Recipe — closing curtains
    Hero slides in from the left, content slides in from the right.
    ========================================================================= */
-html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-new(vt-hero),
-html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-new(vt-hero) {
+html:active-view-transition-type(to-recipe):active-view-transition-type(from-home) ::view-transition-new(vt-hero),
+html:active-view-transition-type(to-recipe):active-view-transition-type(from-search) ::view-transition-new(vt-hero) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
 }
-html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-new(vt-content),
-html[data-page-kind="recipe"][data-from-kind="search"] ::view-transition-new(vt-content) {
+html:active-view-transition-type(to-recipe):active-view-transition-type(from-home) ::view-transition-new(vt-content),
+html:active-view-transition-type(to-recipe):active-view-transition-type(from-search) ::view-transition-new(vt-content) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-right !important;
 }
 
 /* =========================================================================
    Recipe → Home/Search — opening curtains
-   Hero slides out left, content slides out right.
+   Hero slides out left, content slides out right. Destination stays.
    ========================================================================= */
-html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-old(vt-hero),
-html[data-page-kind="search"][data-from-kind="recipe"] ::view-transition-old(vt-hero) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-home) ::view-transition-old(vt-hero),
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-search) ::view-transition-old(vt-hero) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
 }
-html[data-page-kind="home"][data-from-kind="recipe"] ::view-transition-old(vt-content),
-html[data-page-kind="search"][data-from-kind="recipe"] ::view-transition-old(vt-content) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-home) ::view-transition-old(vt-content),
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-search) ::view-transition-old(vt-content) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-right !important;
 }
 
 /* =========================================================================
    Recipe → Recipe — top-down scanner on hero + content crossfade
    ========================================================================= */
-html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-new(vt-hero) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-new(vt-hero) {
   animation: 700ms cubic-bezier(0.22, 1, 0.36, 1) both rc-scanner-reveal !important;
 }
-html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-old(vt-hero) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-old(vt-hero) {
   animation: 700ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-out !important;
 }
-html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-old(vt-content) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-old(vt-content) {
   animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-out !important;
 }
-html[data-page-kind="recipe"][data-from-kind="recipe"] ::view-transition-new(vt-content) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-new(vt-content) {
   animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
 }
 
 /* =========================================================================
-   Home ↔ Search — single curtain on root
+   Home ↔ Search — single sliding curtain on root
    ========================================================================= */
-html[data-page-kind="search"][data-from-kind="home"] ::view-transition-old(root) {
+html:active-view-transition-type(from-home):active-view-transition-type(to-search) ::view-transition-old(root) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
 }
-html[data-page-kind="search"][data-from-kind="home"] ::view-transition-new(root) {
+html:active-view-transition-type(from-home):active-view-transition-type(to-search) ::view-transition-new(root) {
   animation: none !important;
 }
-html[data-page-kind="home"][data-from-kind="search"] ::view-transition-new(root) {
+html:active-view-transition-type(from-search):active-view-transition-type(to-home) ::view-transition-new(root) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
 }
-html[data-page-kind="home"][data-from-kind="search"] ::view-transition-old(root) {
+html:active-view-transition-type(from-search):active-view-transition-type(to-home) ::view-transition-old(root) {
   animation: none !important;
 }
 

@@ -1,34 +1,45 @@
 /* Page-to-page View Transitions support
  *
  * Browser does the heavy lifting via `@view-transition { navigation: auto }`
- * (declared in head.html). This file adds:
+ * in head.html. This file adds two things:
  *
- *   1. A direction handshake. On the way out, we stash the current page kind
- *      in sessionStorage as `rcFromKind`. The destination page reads it
- *      synchronously in an inline <head> script (see head.html) and writes
- *      it onto <html data-from-kind="...">. CSS in transitions.css keys off
- *      both `data-page-kind` (set by Liquid) and `data-from-kind` to pick
- *      the route-pair choreography.
+ *   1. View-transition TYPES handshake. On the outgoing page (`pageswap`) we
+ *      add `from-<kind>` to `event.viewTransition.types`. On the incoming
+ *      page (`pagereveal`) we add `to-<kind>`. CSS keys off these via the
+ *      `:active-view-transition-type(...)` pseudo-class to pick the
+ *      route-pair choreography. This is the canonical Chrome API for
+ *      cross-document VT choreography (replaces the earlier sessionStorage
+ *      + data-from-kind attempt, which didn't fire reliably).
  *
  *   2. Hero preload + pre-decode on hover/touch. Warms the HTTP cache and
  *      decodes the destination image off the main thread so the new page's
  *      first paint doesn't pay the JPEG/WebP decode cost at click time.
  */
 (function () {
-  // ---------- 1. Direction handshake (write side) ----------
-  function writeFromKind(ev) {
-    try {
-      var kind = document.documentElement.getAttribute("data-page-kind");
-      console.log("[rc-vt] write", ev && ev.type, "kind=", kind);
-      if (kind) sessionStorage.setItem("rcFromKind", kind);
-    } catch (e) {
-      // sessionStorage unavailable; transitions will fall back to default fade.
-    }
+  // ---------- 1. View-transition types handshake ----------
+  function pageKind() {
+    return document.documentElement.getAttribute("data-page-kind") || "other";
   }
-  // `pageswap` fires right before the document is swapped out during a
-  // same-origin navigation (Chromium). `pagehide` is the universal fallback.
-  window.addEventListener("pageswap", writeFromKind);
-  window.addEventListener("pagehide", writeFromKind);
+
+  window.addEventListener("pageswap", function (e) {
+    if (!e.viewTransition) return;
+    try {
+      e.viewTransition.types.add("from-" + pageKind());
+      console.log("[rc-vt] pageswap: added from-" + pageKind());
+    } catch (err) {
+      console.log("[rc-vt] pageswap types.add failed:", err);
+    }
+  });
+
+  window.addEventListener("pagereveal", function (e) {
+    if (!e.viewTransition) return;
+    try {
+      e.viewTransition.types.add("to-" + pageKind());
+      console.log("[rc-vt] pagereveal: types=", Array.from(e.viewTransition.types));
+    } catch (err) {
+      console.log("[rc-vt] pagereveal types.add failed:", err);
+    }
+  });
 
   // ---------- 2. Hero image preload + pre-decode ----------
   var preloadedHeroes = new Set();
