@@ -1,62 +1,65 @@
-const CACHE = "pwabuilder-offline";
+---
+layout: null
+---
+const CACHE = "rc-{{ site.time | date: '%s' }}";
+const OFFLINE_FALLBACK = "{{ site.baseurl }}/";
 
-const offlineFallbackPage = "index.html";
-
-// Install stage sets up the index page (home page) in the cache and opens a new cache
 self.addEventListener("install", function (event) {
-  console.log("Install Event processing");
-
   event.waitUntil(
     caches.open(CACHE).then(function (cache) {
-      console.log("Cached offline page during install");
+      return cache.add(new Request(OFFLINE_FALLBACK, { cache: "reload" }));
+    })
+  );
+  self.skipWaiting();
+});
 
-      if (offlineFallbackPage === "ToDo-replace-this-name.html") {
-        return cache.add(new Response("Update the value of the offlineFallbackPage constant in the serviceworker."));
-      }
-
-      return cache.add(offlineFallbackPage);
+self.addEventListener("activate", function (event) {
+  event.waitUntil(
+    caches.keys().then(function (names) {
+      return Promise.all(
+        names.map(function (name) {
+          if (name !== CACHE) return caches.delete(name);
+        })
+      );
+    }).then(function () {
+      return self.clients.claim();
     })
   );
 });
 
-// If any fetch fails, it will look for the request in the cache and serve it from there first
+function shouldCache(request) {
+  if (request.method !== "GET") return false;
+  var url = new URL(request.url);
+  if (url.origin !== self.location.origin) return false;
+  if (url.search) return false;
+  if (url.hash) return false;
+  return true;
+}
+
 self.addEventListener("fetch", function (event) {
-  if (event.request.method !== "GET") return;
+  if (!shouldCache(event.request)) return;
 
   event.respondWith(
     fetch(event.request)
       .then(function (response) {
-        console.log("Add page to offline cache: " + response.url);
-
-        // If request was success, add or update it in the cache
-        event.waitUntil(updateCache(event.request, response.clone()));
-
+        if (response && response.status === 200 && response.type === "basic") {
+          var copy = response.clone();
+          event.waitUntil(
+            caches.open(CACHE).then(function (cache) {
+              return cache.put(event.request, copy);
+            })
+          );
+        }
         return response;
       })
-      .catch(function (error) {        
-        console.log("Network request Failed. Serving content from cache: " + error);
-        return fromCache(event.request);
+      .catch(function () {
+        return caches.match(event.request).then(function (cached) {
+          if (cached) return cached;
+          if (event.request.mode === "navigate") {
+            return caches.match(OFFLINE_FALLBACK);
+          }
+          return Response.error();
+        });
       })
   );
 });
-
-function fromCache(request) {
-  // Check to see if you have it in the cache
-  // Return response
-  // If not in the cache, then return error page
-  return caches.open(CACHE).then(function (cache) {
-    return cache.match(request).then(function (matching) {
-      if (!matching || matching.status === 404) {
-        return Promise.reject("no-match");
-      }
-
-      return matching;
-    });
-  });
-}
-
-function updateCache(request, response) {
-  return caches.open(CACHE).then(function (cache) {
-    return cache.put(request, response);
-  });
-}
