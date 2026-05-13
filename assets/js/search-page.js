@@ -515,14 +515,9 @@
         ? `<span class="overlap-badge absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full text-xs font-bold text-white border-2 border-white" style="background:${badgeColor}">${badgeText}</span>`
         : '';
 
-      const vtNameRanked = window.recipeViewTransitionName
-        && window.recipeViewTransitionName(it.url);
-      const vtStyleRanked = vtNameRanked
-        ? `view-transition-name:${vtNameRanked};`
-        : "";
       a.innerHTML = `
         ${badgeHtml}
-        <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${outlineStyle}${vtStyleRanked}background-image:url('${encodeURI(it.image)}');"></canvas>
+        <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${outlineStyle}background-image:url('${encodeURI(it.image)}');"></canvas>
         <h1 class="font-semibold leading-tight">${window.escapeHtml(it.title)}</h1>
       `;
       // Attach fancy tooltip with present/missing tags when tolerance is active or in "what I have" mode
@@ -644,13 +639,8 @@
         const a = document.createElement('a');
         a.href = it.url;
         a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
-        const vtNameAll = window.recipeViewTransitionName
-          && window.recipeViewTransitionName(it.url);
-        const vtStyleAll = vtNameAll
-          ? `view-transition-name:${vtNameAll};`
-          : "";
         a.innerHTML = `
-          <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${vtStyleAll}background-image:url('${encodeURI(it.image)}');"></canvas>
+          <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(it.image)}');"></canvas>
           <h1 class="font-semibold leading-tight">${window.escapeHtml(it.title)}</h1>
         `;
         grid.appendChild(a);

@@ -334,7 +334,7 @@ layout: default
       alt="{{ page.title | escape }}"
       decoding="async"
       {% if forloop.first %}fetchpriority="high"{% endif %}
-      style="object-fit: cover; object-position: center;{% if forloop.first %} view-transition-name: vt-{{ page.url | slugify }};{% endif %}"
+      style="object-fit: cover; object-position: center;{% if forloop.first %} view-transition-name: vt-hero;{% endif %}"
     />
 
     {% if page.imagecredit %} {% for imagecredit in page.imagecredit %}
@@ -383,6 +383,7 @@ layout: default
 
   <article
     class="post-content p-8 md:p-12 flex flex-col gap-12 h-full md:overflow-y-scroll md:overflow-x-hidden mb-24"
+    style="view-transition-name: vt-content;"
   >
     <!-- call up the main recipe title and content -->
     <header class="recipe-header flex flex-col gap-6 md:pt-16">
