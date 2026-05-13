@@ -933,7 +933,7 @@ layout: default
           const img = normalizePath(it.image_field) || (base + '/assets/social.png');
           a.innerHTML = `
             <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(img)}');"></canvas>
-            <h1 class="font-semibold leading-tight">${it.title}</h1>
+            <h1 class="font-semibold leading-tight">${window.escapeHtml(it.title)}</h1>
           `;
           grid.appendChild(a);
         }
