@@ -619,3 +619,13 @@
   ingredient: true
 - id: bouillon de volaille
   ingredient: true
+- id: buche
+  ingredient: false
+- id: sucre glace
+  ingredient: true
+- id: genoise
+  ingredient: false
+- id: entremet
+  ingredient: false
+- id: kirsch
+  ingredient: true
