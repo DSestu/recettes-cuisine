@@ -76,24 +76,10 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-rec
    (Spec wanted opening curtains; OLD-pseudo limitation forces inversion.
    Search-arrival uses a slide-in for a bit more motion.)
    ========================================================================= */
-/* Destination root: keep hidden the entire transition. Chrome captures
- * cross-doc snapshots BEFORE the new doc finishes parsing, so revealing
- * the snapshot would show a half-built page. By keeping it hidden we
- * let the real (fully-rendered) DOM appear at transition end. */
+/* Destination root fades in under the opening curtains. */
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-home)::view-transition-new(root),
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-search)::view-transition-new(root) {
-  animation: 800ms linear both rc-stay-hidden !important;
-}
-
-/* Extend curtain duration to 800ms so the destination has time to render
- * before the real DOM is revealed at transition end. */
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-home)::view-transition-old(vt-hero),
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-search)::view-transition-old(vt-hero) {
-  animation: 800ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
-}
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-home)::view-transition-old(vt-content),
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-search)::view-transition-old(vt-content) {
-  animation: 800ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-right !important;
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
 }
 
 /* =========================================================================
