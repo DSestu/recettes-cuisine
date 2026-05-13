@@ -87,7 +87,12 @@ html:active-view-transition-type(from-recipe):active-view-transition-type(to-sea
    ========================================================================= */
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-hero),
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
-  animation: 800ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
+  animation: 1200ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
+}
+/* Suppress new root fade-in so the OLD recipe (with its old image) shows
+ * through behind the fading-in new hero / content — clean image crossfade. */
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(root) {
+  animation: 1200ms linear both rc-stay-hidden !important;
 }
 
 /* =========================================================================
