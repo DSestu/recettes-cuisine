@@ -515,6 +515,314 @@ permalink: /recherche/
       class="col-span-1 lg:col-span-2 flex flex-col gap-6 lg:overflow-y-auto lg:pr-2 lg:max-h-[calc(120vh-2rem)] relative pl-2.5 pt-0.5"
     >
 
+      <div
+        class="viz-card rounded-xl p-4 outline outline-1 outline-orange-200/60 shadow-sm" style="display:none"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <h3 class="font-semibold">Visualisations avancées</h3>
+          </div>
+          <button
+            id="toggle-advanced-viz"
+            class="text-sm px-3 py-1 rounded-lg bg-primary text-white hover:opacity-90"
+          >
+            Afficher
+          </button>
+        </div>
+        <div id="advanced-viz-panel" class="mt-4 hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+            <div
+              class="viz-card hidden rounded-xl outline outline-1 outline-orange-200/60 p-4"
+            >
+              <h4 class="text-sm font-semibold text-primary mb-3">
+                Données & Filtres
+              </h4>
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <label class="inline-flex items-center gap-2 text-sm"
+                  ><span>Max recettes</span
+                  ><input
+                    id="max-recipes"
+                    type="range"
+                    min="10"
+                    max="150"
+                    value="150"
+                    class="accent-primary"
+                  /><span id="max-recipes-value" class="font-semibold"
+                    >60</span
+                  ></label
+                >
+                <label class="inline-flex items-center gap-2 text-sm"
+                  ><span>Max ingrédients</span
+                  ><input
+                    id="max-ingredients"
+                    type="range"
+                    min="10"
+                    max="150"
+                    value="150"
+                    class="accent-primary"
+                  /><span id="max-ingredients-value" class="font-semibold"
+                    >60</span
+                  ></label
+                >
+                <label class="inline-flex items-center gap-2 text-sm"
+                  ><span>Masquer top fréquents</span
+                  ><input
+                    id="hide-top-ingredients"
+                    type="range"
+                    min="0"
+                    max="20"
+                    value="0"
+                    class="accent-primary"
+                  /><span id="hide-top-ingredients-value" class="font-semibold"
+                    >0</span
+                  ></label
+                >
+              </div>
+              <div>
+                <div class="text-xs text-gray-600 mb-1">
+                  Ingrédients masqués (fréquents) — cliquez pour les réintégrer
+                </div>
+                <div class="flex items-center gap-3">
+                  <div
+                    id="hidden-top-ingredients"
+                    class="flex flex-wrap gap-2"
+                  ></div>
+                  <button
+                    id="btn-unhide-all"
+                    class="text-xs px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-50"
+                  >
+                    Force refresh
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="viz-card rounded-xl hidden outline outline-1 outline-orange-200/60 p-4"
+            >
+              <h4 class="text-sm font-semibold text-primary mb-3">
+                Mode & Liens
+              </h4>
+              <div class="flex flex-wrap items-center gap-3">
+                <label class="inline-flex items-center gap-2 text-sm">
+                  <span>Type de liens</span>
+                  <select
+                    id="link-mode"
+                    class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm"
+                  >
+                    <option value="recipe-token" selected>
+                      Recette → Ingrédient
+                    </option>
+                    <option value="token-token">Ingrédient ↔ Ingrédient</option>
+                    <option value="recipe-recipe">Recette ↔ Recette</option>
+                  </select>
+                </label>
+                <label class="inline-flex items-center gap-2 text-sm">
+                  <span>Disposition</span>
+                  <select
+                    id="layout-mode"
+                    class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm"
+                  >
+                    <option value="radial" selected>Radial</option>
+                    <option value="force">Force</option>
+                    <option value="circle">Cercle</option>
+                    <option value="rings">Anneaux</option>
+                    <option value="spiral">Spirale</option>
+                  </select>
+                </label>
+                <label class="inline-flex items-center gap-2 text-sm">
+                  <span>Poids des arêtes</span>
+                  <select
+                    id="edge-weight-mode"
+                    class="px-2 py-1 rounded-md border border-gray-300 bg-white text-sm"
+                  >
+                    <option value="select" selected>
+                      Sélection (par tags)
+                    </option>
+                    <option value="freq">Fréquence</option>
+                    <!-- <option value="idf">Rareté (IDF)</option> -->
+                    <option value="uniform">Uniforme</option>
+                  </select>
+                </label>
+                <label class="hidden inline-flex items-center gap-2 text-sm">
+                  <span>Impact</span>
+                  <input
+                    id="edge-impact"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="60"
+                    class="accent-primary"
+                  />
+                  <span id="edge-impact-value" class="font-semibold">60</span>
+                </label>
+              </div>
+              <h4 class="text-sm font-semibold text-primary mb-3">
+                Affichage des nœuds
+              </h4>
+              <div class="flex flex-wrap items-center gap-3">
+                <!-- Hidden native checkboxes to keep logic intact -->
+                <input
+                  id="show-tokens"
+                  type="checkbox"
+                  class="hidden"
+                  checked
+                />
+                <input
+                  id="show-recipes"
+                  type="checkbox"
+                  class="hidden"
+                  checked
+                />
+                <input
+                  id="show-components"
+                  type="checkbox"
+                  class="hidden"
+                  checked
+                />
+                <!-- Icon badges that mirror the checkboxes -->
+                <button
+                  id="btn-show-tokens"
+                  type="button"
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-white text-white text-sm shadow-sm transition"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 1024 1024"
+                    fill="currentColor"
+                    class="w-4 h-4"
+                  >
+                    <path
+                      d="M128 352.576V352a288 288 0 0 1 491.072-204.224a192 192 0 0 1 274.24 204.48a64 64 0 0 1 57.216 74.24C921.6 600.512 850.048 710.656 736 756.992V800a96 96 0 0 1-96 96H384a96 96 0 0 1-96-96v-43.008c-114.048-46.336-185.6-156.48-214.528-330.496A64 64 0 0 1 128 352.64zm64-.576h64a160 160 0 0 1 320 0h64a224 224 0 0 0-448 0m128 0h192a96 96 0 0 0-192 0m439.424 0h68.544A128.256 128.256 0 0 0 704 192c-15.36 0-29.952 2.688-43.52 7.616c11.328 18.176 20.672 37.76 27.84 58.304A64.128 64.128 0 0 1 759.424 352M672 768H352v32a32 32 0 0 0 32 32h256a32 32 0 0 0 32-32zm-342.528-64h365.056c101.504-32.64 165.76-124.928 192.896-288H136.576c27.136 163.072 91.392 255.36 192.896 288"
+                    />
+                  </svg>
+                  <span>Ingrédients</span>
+                </button>
+                <button
+                  id="btn-show-recipes"
+                  type="button"
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-white text-white text-sm shadow-sm transition"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="w-4 h-4"
+                  >
+                    <path
+                      d="M6.723 1.054a.5.5 0 0 1 .265.335C7.006 1.468 7.5 3.582 7.5 5c0 .95-.442 1.797-1.13 2.346c-.25.2-.37.418-.37.6v.486q0 .035.004.066c.034.248.157 1.169.272 2.124c.113.937.224 1.959.224 2.378a2 2 0 1 1-4 0c0-.42.111-1.44.224-2.378c.115-.955.238-1.876.272-2.124L3 8.432v-.486c0-.182-.12-.4-.37-.6A3 3 0 0 1 1.5 5c0-1.413.49-3.516.512-3.61A.505.505 0 0 1 2.505 1c.28 0 .507.227.507.507v2.998A.495.495 0 1 0 4 4.5v-3a.5.5 0 0 1 1 0v3.026a.495.495 0 0 0 .99-.021v-3c0-.279.226-.505.506-.505c.022 0 .12 0 .227.054M9 5.5A4.5 4.5 0 0 1 13.5 1a.5.5 0 0 1 .5.5v5.973l.019.177a262 262 0 0 1 .229 2.24c.123 1.256.252 2.664.252 3.11a2 2 0 1 1-4 0c0-.446.129-1.854.252-3.11c.063-.637.126-1.247.173-1.699l.02-.191H10a1 1 0 0 1-1-1z"
+                    />
+                  </svg>
+                  <span>Recettes</span>
+                </button>
+                <button
+                  id="btn-show-components"
+                  type="button"
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-white text-white text-sm shadow-sm transition"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-4 h-4"
+                  >
+                    <g
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    >
+                      <path
+                        d="M10 9.255C7.606 7.958 5.08 5.715 3 2m8.616 2.419C9.58 3.084 7.097 3.642 6.069 5.666s-.211 4.747 1.824 6.083c1.842 1.209 5.874 2.459 9.107-1.004c-3.03-1.29-3.35-4.99-5.384-6.326"
+                      />
+                      <path
+                        d="M4 11c-.64.47-1 1.005-1 1.572C3 14.465 7.03 16 12 16s9-1.535 9-3.428c0-.567-.36-1.101-1-1.572"
+                      />
+                      <path
+                        d="M21 13c0 3.577-2.506 6.715-5.205 8.482c-.555.364-1.215.518-1.878.518h-3.834c-.663 0-1.323-.154-1.878-.518C5.506 19.715 3 16.577 3 13"
+                      />
+                    </g>
+                  </svg>
+                  <span>Composants</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="relative rounded-xl outline outline-1 outline-orange-200/60 p-2 bg-gradient-to-br from-white to-orange-50"
+            id="force-container"
+            style="min-height: 480px; aspect-ratio: 16 / 9"
+          >
+            <div class="absolute top-2 left-2 z-20 flex items-center gap-2">
+              <button
+                id="btn-fullscreen"
+                class="text-sm px-3 py-1 rounded-lg border border-primary bg-white/90 text-primary hover:bg-red-50"
+                title="Plein écran"
+              >
+                Plein écran
+              </button>
+              <button
+                id="btn-reset-view"
+                class="p-2 rounded-lg border border-gray-300 bg-white/90 text-gray-700 hover:bg-gray-50"
+                title="Recentrer la vue"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    d="M12 3.75a.75.75 0 0 1 .75.75v2.19a5.25 5.25 0 0 1 5.31 5.31h2.19a.75.75 0 1 1 0 1.5h-2.19a5.25 5.25 0 0 1-5.31 5.31v2.19a.75.75 0 1 1-1.5 0v-2.19a5.25 5.25 0 0 1-5.31-5.31H3.75a.75.75 0 1 1 0-1.5h2.19a5.25 5.25 0 0 1 5.31-5.31V4.5A.75.75 0 0 1 12 3.75Zm0 3.75A3.75 3.75 0 1 0 15.75 12 3.75 3.75 0 0 0 12 7.5Z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <svg id="force-graph" class="w-full h-full"></svg>
+            <div class="mt-2 text-xs text-gray-500 flex items-center gap-4">
+              <span class="inline-flex items-center gap-1"
+                ><span
+                  class="inline-block w-3 h-3 rounded-full"
+                  style="background: #22c55e"
+                ></span>
+                ingrédient</span
+              >
+              <span class="inline-flex items-center gap-1"
+                ><span
+                  class="inline-block w-3 h-3 rounded-full"
+                  style="background: #f97316"
+                ></span>
+                recette</span
+              >
+              <span class="inline-flex items-center gap-1"
+                ><span
+                  class="inline-block w-3 h-3 rounded-full"
+                  style="background: #ff0000"
+                ></span>
+                composant</span
+              >
+              <span class="hidden inline-flex items-center gap-1"
+                ><span
+                  class="hidden inline-block w-6 h-[3px] bg-gray-400"
+                ></span>
+                épaisseur (si activée) = poids choisi</span
+              >
+              <span
+                id="link-mode-badge"
+                class="hidden inline-flex items-center gap-2 px-2 py-1 rounded-full border border-gray-300"
+                >Liens: Auto</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
       <div>
         <div class="flex items-center justify-between mb-2">
           <h2 class="uppercase text-primary font-semibold">Résultats</h2>
