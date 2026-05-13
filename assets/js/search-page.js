@@ -2604,15 +2604,17 @@
     refresh();
     applyToleranceVisibility();
 
-    // Advanced viz toggles
+    // Advanced viz toggles (panel removed; guard against missing nodes).
     const toggleBtn = document.getElementById('toggle-advanced-viz');
     const panel = document.getElementById('advanced-viz-panel');
-    toggleBtn.addEventListener('click', ()=>{
-      const isHidden = panel.classList.contains('hidden');
-      panel.classList.toggle('hidden', isHidden ? false : true);
-      toggleBtn.textContent = isHidden ? 'Masquer' : 'Afficher';
-      refresh();
-    });
+    if (toggleBtn && panel) {
+      toggleBtn.addEventListener('click', ()=>{
+        const isHidden = panel.classList.contains('hidden');
+        panel.classList.toggle('hidden', isHidden ? false : true);
+        toggleBtn.textContent = isHidden ? 'Masquer' : 'Afficher';
+        refresh();
+      });
+    }
     // Histograms accordion (mobile collapsed by default)
     const toggleHist = document.getElementById('toggle-histograms');
     const histPanel = document.getElementById('histograms-panel');
