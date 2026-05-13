@@ -320,11 +320,14 @@ layout: default
     <!-- call up the image and image credit link -->
     {% for image in page.image %}
 
-    <canvas
-      class="view w-full h-full bg-cover bg-center"
-      style="background-image:url({{ site.baseurl }}/images/{{ image }});{% if forloop.first %} view-transition-name: vt-{{ page.url | slugify }};{% endif %}"
-    >
-    </canvas>
+    <img
+      class="view w-full h-full"
+      src="{{ site.baseurl }}/images/{{ image }}"
+      alt="{{ page.title | escape }}"
+      decoding="async"
+      {% if forloop.first %}fetchpriority="high"{% endif %}
+      style="object-fit: cover; object-position: center;{% if forloop.first %} view-transition-name: vt-{{ page.url | slugify }};{% endif %}"
+    />
 
     {% if page.imagecredit %} {% for imagecredit in page.imagecredit %}
     <a
