@@ -2229,7 +2229,7 @@
       }
     })();
 
-    $('#include-components').addEventListener('change', (e)=>{ state.includeComponents = e.target.checked; refresh(); });
+    // (#include-components control removed — components are always included; URL param ?components=0 still respected on load.)
     const range = $('#missing-tolerance');
     const tolLabel = $('#tolerance-value');
     range.addEventListener('input', (e)=>{ state.missingTolerance = Number(e.target.value); tolLabel.textContent = e.target.value; refresh(); });
@@ -2548,7 +2548,7 @@
     }
     const catParam = params.get('cat');
     if (catParam) { catParam.split(',').filter(Boolean).forEach(id=>state.activeCategoryIds.add(id.trim())); }
-    if (comp === '1') { state.includeComponents = true; $('#include-components').checked = true; }
+    if (comp === '0') { state.includeComponents = false; }
     if (modeParam && (modeParam === 'tag' || modeParam === 'what_i_have')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
     if (typeof window.applyAccordionOpenFromUrl === 'function') window.applyAccordionOpenFromUrl(params.get('open'));
@@ -2718,7 +2718,7 @@
       setParam('st', document.getElementById('show-tokens').checked ? '1' : '0');
       setParam('sr', document.getElementById('show-recipes').checked ? '1' : '0');
       setParam('sc', document.getElementById('show-components').checked ? '1' : '0');
-      setParam('components', document.getElementById('include-components').checked ? '1' : '0');
+      setParam('components', state.includeComponents ? '' : '0');
       setParam('inf', document.getElementById('infinite-tolerance').checked ? '1' : '0');
       setParam('mode', document.getElementById('search-mode').value);
       setParam('layout', document.getElementById('layout-mode').value);
@@ -2750,7 +2750,7 @@
       if (pushUrlTimer) clearTimeout(pushUrlTimer);
       pushUrlTimer = setTimeout(() => { pushUrlTimer = null; pushControlsToUrl(); }, 250);
     }
-    const urlSyncControls = ['link-mode','layout-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','include-components','infinite-tolerance','search-mode'];
+    const urlSyncControls = ['link-mode','layout-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','infinite-tolerance','search-mode'];
     urlSyncControls.forEach(id => {
       const el = document.getElementById(id);
       const ev = el.tagName === 'SELECT' ? 'change' : 'input';

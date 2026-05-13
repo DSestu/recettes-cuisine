@@ -59,12 +59,12 @@
   />
   <meta
     property="og:image"
-    content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}"
+    content="{% if page.title and page.image %}{{ site.baseurl }}/images/{{ page.image | first | default: page.image }}{% else %}{{ site.baseurl }}/assets/social.png{% endif %}"
   />
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="chowdown.io" />
+  <meta property="twitter:domain" content="dsestu.github.io" />
   <meta
     property="twitter:url"
     content="{% if page.title %}{{ page.url | replace:'index.html','' | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}"
@@ -79,7 +79,7 @@
   />
   <meta
     name="twitter:image"
-    content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}"
+    content="{% if page.title and page.image %}{{ site.baseurl }}/images/{{ page.image | first | default: page.image }}{% else %}{{ site.baseurl }}/assets/social.png{% endif %}"
   />
 
   <style>
@@ -320,18 +320,18 @@
   {% endif %} {% if page.url %}
   <meta name="twitter:url" content="{{ site.baseurl }}{{ page.url }}" />
   {% endif %} {% if page.directions or page.content %}
-  <meta name="twitter:description" content="{{ page.content | strip_html }}" />
+  <meta name="twitter:description" content="{{ page.content | strip_html | strip_newlines | truncate: 200 }}" />
   {% else %}
-  <meta name="twitter:description" content="Chowdown" />
+  <meta name="twitter:description" content="{{ site.description }}" />
   {% endif %} {% if page.image %}
   <meta
     name="twitter:image:src"
-    content="{{site.baseurl}}/images/{{ page.image }}"
+    content="{{ site.baseurl }}/images/{{ page.image | first | default: page.image }}"
   />
   {% else %}
   <meta
     name="twitter:image:src"
-    content="{{site.baseurl}}/images/crockpot-buffalo-chicken.jpg"
+    content="{{ site.baseurl }}/assets/social.png"
   />
   {% endif %}
 </head>

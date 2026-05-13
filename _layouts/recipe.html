@@ -757,7 +757,7 @@ layout: default
     function updateUrlCheckedRows(){
       try {
         const indices = [];
-        document.querySelectorAll('ul li').forEach((node, idx)=>{
+        document.querySelectorAll('.post-content ul li').forEach((node, idx)=>{
           if (node.classList.contains('row-checked')) indices.push(idx);
         });
         const params = new URLSearchParams(location.search);
@@ -769,7 +769,7 @@ layout: default
     }
 
     // Select all list items in the unordered list
-    document.querySelectorAll("ul li").forEach(function(li, idx) {
+    document.querySelectorAll(".post-content ul li").forEach(function(li, idx) {
       // Append a checkbox input (hidden) and a bubble UI to each list item
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";

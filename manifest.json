@@ -15,6 +15,7 @@ layout: none
     ],
     "theme_color": "{{ site.color }}",
     "background_color": "{{ site.color }}",
-    "start_url": "",
+    "start_url": "{{ site.baseurl }}/",
+    "scope": "{{ site.baseurl }}/",
     "display": "standalone"
 }
