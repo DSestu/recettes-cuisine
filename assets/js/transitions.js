@@ -52,6 +52,72 @@
     }
   }
 
+  // Preload the destination hero image on hover/touch.
+  // The card thumb's background is `…/images/cards/<file>`; the recipe page's
+  // hero uses `…/images/<file>` (same filename). We can derive the hero URL
+  // from the card and warm it before the click, so the new page paints fast.
+  var preloadedHeroes = new Set();
+  function preloadHero(url) {
+    if (!url || preloadedHeroes.has(url)) return;
+    preloadedHeroes.add(url);
+    var link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    try {
+      link.fetchPriority = "high";
+    } catch (e) {
+      // older browsers; ignore
+    }
+    link.href = url;
+    document.head.appendChild(link);
+    // Decode off the main thread so the click-time paint doesn't pay it.
+    try {
+      var img = new Image();
+      img.src = url;
+      if (img.decode) {
+        img.decode().catch(function () {
+          /* image not decodable yet — harmless */
+        });
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function heroUrlFromCardLink(a) {
+    if (!a) return "";
+    var canvas = a.querySelector("canvas");
+    if (!canvas) return "";
+    var bg = (canvas.style && canvas.style.backgroundImage) || "";
+    var m = bg.match(/url\(["']?([^"')]+)["']?\)/);
+    if (!m) return "";
+    var cardUrl = m[1];
+    var idx = cardUrl.indexOf("/images/cards/");
+    if (idx === -1) return "";
+    return cardUrl.slice(0, idx) + "/images/" + cardUrl.slice(idx + "/images/cards/".length);
+  }
+
+  function maybePreloadHero(target) {
+    var a = target && target.closest && target.closest("a[href]");
+    if (!isInternalRecipeLink(a)) return;
+    preloadHero(heroUrlFromCardLink(a));
+  }
+
+  document.addEventListener(
+    "mouseover",
+    function (e) {
+      maybePreloadHero(e.target);
+    },
+    true,
+  );
+  document.addEventListener(
+    "touchstart",
+    function (e) {
+      maybePreloadHero(e.target);
+    },
+    { capture: true, passive: true },
+  );
+
   function isInternalRecipeLink(a) {
     if (!a || !a.href) return false;
     if (a.target && a.target !== "_self") return false;
