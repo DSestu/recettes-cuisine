@@ -156,11 +156,15 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-hom
   #btn-qr-modal        { view-transition-name: vt-btn-qr; }
   #btn-recipe-image-zoom { view-transition-name: vt-btn-zoom; }
 
-  /* Raise chrome groups above sliding hero/content snapshots. */
+  /* Raise chrome groups above sliding hero/content snapshots and clip to
+   * a circle so the snapshot doesn't reveal a square white background
+   * outside the button's border-radius. */
   ::view-transition-group(vt-btn-qr),
   ::view-transition-group(vt-btn-back),
   ::view-transition-group(vt-btn-zoom) {
     z-index: 1000;
+    border-radius: 9999px;
+    overflow: hidden;
   }
 
   /* QR: morph in place, no fade. */
