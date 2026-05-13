@@ -44,15 +44,24 @@ Any of the following phrases, with a path to a local image at the end:
 3. **Overwrite check.** Before writing anything, check:
    - `_recipes/<slug>.md` — exists?
    - `images/<slug>.png` — exists?
+   - `images/cards/<slug>.png` — exists?
    - `prompts/_recipes/<slug>.md` — exists?
 
-   If any exists, **stop and ask the user** before continuing. Show which files would be overwritten.
+   If any exists, **stop and ask the user** before continuing. Show which files would be overwritten. (The thumbnail under `images/cards/` will be regenerated automatically in step 6 — only flag it if its mere presence indicates a slug clash.)
 
 4. **Write the recipe.** Create `_recipes/<slug>.md` with the standard frontmatter (`layout: recipe`, quoted `title`, `image: <slug>.png`, `tags:`, `ingredients:`) and Markdown-body directions under `## Préparation` (preferred format).
 
 5. **Place the image.** Move (don't copy) the file at `image_temp_path` to `images/<slug>.png`. If the source is JPEG, prefer re-encoding to PNG to match the `.png` extension; otherwise a simple rename is fine.
 
-6. **Summarise.** Print the slug, the three created/updated paths, and remind the user to review and commit manually.
+6. **Generate the card thumbnail.** Run:
+
+   ```bash
+   uv run python scripts/generate_card_thumbnails.py
+   ```
+
+   This mirrors what the `generate-card-thumbnails` pre-commit hook does. The script is idempotent and writes `images/cards/<slug>.<ext>` at max 480 px width. Doing it here means the user's `git commit` won't be interrupted later by the hook discovering a missing thumbnail.
+
+7. **Summarise.** Print the slug, the four created/updated paths (recipe, image, thumbnail, prompt), and remind the user to review and commit manually.
 
 ## Hard boundaries
 

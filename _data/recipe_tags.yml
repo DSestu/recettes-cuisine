@@ -535,3 +535,7 @@
   ingredient: true
 - id: brousse de brebis
   ingredient: true
+- id: orange
+  ingredient: true
+- id: cointreau
+  ingredient: true
