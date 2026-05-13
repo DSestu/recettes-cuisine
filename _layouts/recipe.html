@@ -866,9 +866,19 @@ layout: default
             b.style.bottom = 'auto';
             b.style.left = 'auto';
           }
+          // Snap to fully visible without the per-button CSS transition,
+          // so view-transition snapshots capture them all at opacity 1
+          // (no staggered fade-in during a page transition).
+          b.style.transition = 'none';
+          b.style.opacity = '1';
         } catch(_) {}
       });
       document.body.classList.add('top-buttons-ready');
+      // Re-enable transitions on the next frame so scroll-driven
+      // hide/show keeps animating.
+      requestAnimationFrame(function(){
+        btns.forEach(b=>{ try { b.style.transition = ''; } catch(_) {} });
+      });
     }
       btns.forEach(b=>{
         if (window.scrollY > 0 && window.scrollY > 6) b.classList.add('back-hidden');
