@@ -96,14 +96,13 @@ html:active-view-transition-type(from-recipe):active-view-transition-type(to-rec
 }
 
 /* =========================================================================
-   Home ↔ Search — single sliding curtain on root
-   (Option 3 inversion: instead of home sliding off, search slides in.)
+   Home ↔ Search — outgoing page slides off (name added in pageswap)
    ========================================================================= */
-html:active-view-transition-type(from-home):active-view-transition-type(to-search)::view-transition-new(root) {
-  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-right !important;
+::view-transition-old(vt-page-out-left) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
 }
-html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-new(root) {
-  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
+::view-transition-old(vt-page-out-right) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-right !important;
 }
 
 /* ---------- Shared keyframes ---------- */

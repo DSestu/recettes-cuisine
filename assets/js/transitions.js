@@ -44,20 +44,31 @@
     }
   }
 
-  // For Recipe → Recipe navigation, strip vt-hero / vt-content from the
-  // outgoing recipe so the OLD pseudos for those names don't exist and the
-  // unconditional slide-out rules don't fire. Recipe → Home/Search keeps
-  // the names so the curtains slide out.
+  // Conditional outgoing snapshot naming, based on destination URL.
+  // Cross-doc VT can only conditionally animate NEW pseudos in Chrome; for
+  // OLD pseudos we control whether they exist at all by setting/clearing
+  // view-transition-name in pageswap.
   function adjustOutgoingNamesForDestination(destUrl) {
-    if (pageKind() !== "recipe") return;
     var destKind = kindFromUrl(destUrl);
-    if (destKind !== "recipe") return;
-    // Strip only vt-hero and vt-content; keep vt-nav so the navbar persists.
-    document.querySelectorAll(".image, .post-content").forEach(function (el) {
-      if (el.style && el.style.viewTransitionName) {
-        el.style.viewTransitionName = "";
-      }
-    });
+    var kind = pageKind();
+    if (kind === "recipe" && destKind === "recipe") {
+      // Recipe → Recipe: strip vt-hero / vt-content so they don't slide out
+      // (we want a crossfade instead).
+      document.querySelectorAll(".image, .post-content").forEach(function (el) {
+        if (el.style && el.style.viewTransitionName) {
+          el.style.viewTransitionName = "";
+        }
+      });
+    }
+    // Home/Search → the other side: tag the page wrapper so OLD slides out.
+    if (kind === "home" && destKind === "search") {
+      var w = document.querySelector(".content");
+      if (w) w.style.viewTransitionName = "vt-page-out-left";
+    }
+    if (kind === "search" && destKind === "home") {
+      var w2 = document.querySelector(".content");
+      if (w2) w2.style.viewTransitionName = "vt-page-out-right";
+    }
   }
 
   // Belt-and-suspenders: write the outgoing kind via both pageswap+viewTransition
