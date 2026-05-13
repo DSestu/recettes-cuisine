@@ -154,11 +154,13 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-hom
   #btn-qr-modal        { view-transition-name: vt-btn-qr; }
   #btn-recipe-image-zoom { view-transition-name: vt-btn-zoom; }
 
+  /* Old snapshots of chrome: hide instantly (opacity 0 = no first-frame flash). */
   ::view-transition-old(vt-nav),
   ::view-transition-old(vt-btn-back),
   ::view-transition-old(vt-btn-qr),
   ::view-transition-old(vt-btn-zoom) {
-    animation: 1ms linear both rc-fade-out !important;
+    animation: none !important;
+    opacity: 0 !important;
   }
   ::view-transition-new(vt-nav),
   ::view-transition-new(vt-btn-back),

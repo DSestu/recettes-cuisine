@@ -79,7 +79,7 @@
   window.addEventListener("pagehide", writeFromKindStorage);
 
   // Make sure recipe top-buttons are at full opacity before snapshot.
-  function snapTopButtonsVisible() {
+  function snapTopButtonsVisible(viewTransition) {
     var btns = document.querySelectorAll("a.back, #btn-qr-modal, #btn-recipe-image-zoom");
     if (!btns.length) return;
     document.body.classList.add("top-buttons-ready");
@@ -87,14 +87,23 @@
       b.style.transition = "none";
       b.style.opacity = "1";
     });
-    requestAnimationFrame(function () {
-      btns.forEach(function (b) { b.style.transition = ""; });
-    });
+    function clear() {
+      btns.forEach(function (b) {
+        b.style.transition = "";
+        b.style.opacity = "";
+      });
+    }
+    // Wait until snapshots are captured before clearing, so they captured at 1.
+    if (viewTransition && viewTransition.ready && viewTransition.ready.then) {
+      viewTransition.ready.then(clear, clear);
+    } else {
+      requestAnimationFrame(clear);
+    }
   }
 
   window.addEventListener("pagereveal", function (e) {
     if (!e.viewTransition) return;
-    snapTopButtonsVisible();
+    snapTopButtonsVisible(e.viewTransition);
     try {
       e.viewTransition.types.add("to-" + pageKind());
       var hasFrom = false;
