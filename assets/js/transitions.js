@@ -80,8 +80,28 @@
 
   // Make sure recipe top-buttons are at full opacity before snapshot.
   function snapTopButtonsVisible(viewTransition) {
+    var isMobile = window.matchMedia("(max-width: 767px)").matches;
     var btns = document.querySelectorAll("a.back, #btn-qr-modal, #btn-recipe-image-zoom");
     if (!btns.length) return;
+    // Reproduce the body inline script's mobile re-parenting/positioning
+    // pre-snapshot so the zoom button isn't captured behind the QR button.
+    if (isMobile) {
+      btns.forEach(function (b) {
+        try {
+          if (b.parentElement && b.parentElement !== document.body) {
+            document.body.appendChild(b);
+          }
+          b.style.position = "fixed";
+          b.style.zIndex = "9999";
+          if (b.id === "btn-recipe-image-zoom") {
+            b.style.top = "1rem";
+            b.style.right = "4.5rem";
+            b.style.bottom = "auto";
+            b.style.left = "auto";
+          }
+        } catch (e) {}
+      });
+    }
     document.body.classList.add("top-buttons-ready");
     btns.forEach(function (b) {
       b.style.transition = "none";
