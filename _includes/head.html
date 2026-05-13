@@ -291,6 +291,29 @@
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/transitions.css" />
 
   <script>window.SITE_BASEURL = {{ site.baseurl | jsonify }};</script>
+
+  <!-- Speculation Rules: prerender same-origin pages on hover/touch so that
+       View Transitions don't have to pause waiting for the new page to render.
+       Chrome/Edge act on this; other browsers ignore it harmlessly. -->
+  <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "where": {
+            "and": [
+              { "href_matches": "/*" },
+              { "not": { "href_matches": "/*.xml" } },
+              { "not": { "href_matches": "/*.json" } },
+              { "not": { "selector_matches": "[target='_blank']" } },
+              { "not": { "selector_matches": "[rel~='external']" } }
+            ]
+          },
+          "eagerness": "moderate"
+        }
+      ]
+    }
+  </script>
+
   <script src="{{ site.baseurl }}/assets/js/escape-html.js"></script>
   <script src="{{ site.baseurl }}/assets/js/transitions.js"></script>
 
