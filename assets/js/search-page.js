@@ -291,7 +291,8 @@
     // Exclude already selected
     for (const sel of state.selectedTags) tagCount.delete(sel);
     // Compute muted keys based on hide-top slider; do not mute selected tags
-    const hideTop = Number(document.getElementById('hide-top-ingredients').value || 0);
+    const _hideTopEl = document.getElementById('hide-top-ingredients');
+    const hideTop = Number((_hideTopEl && _hideTopEl.value) || 0);
     const sortedByGlobal = Array.from(tagCount.entries()).sort((a,b)=>{
       if (a[1] !== b[1]) return a[1]-b[1];
       return String(a[0]).localeCompare(String(b[0]), 'fr', { sensitivity: 'base' });
@@ -807,7 +808,8 @@
     let maxIng = Number(document.getElementById('max-ingredients').value || 60);
     let maxRec = Number(document.getElementById('max-recipes').value || 60);
     const pruneRare = false;
-    const hideTop = Number(document.getElementById('hide-top-ingredients').value || 0);
+    const _hideTopEl = document.getElementById('hide-top-ingredients');
+    const hideTop = Number((_hideTopEl && _hideTopEl.value) || 0);
     const sortedTokensArr = Array.from(tokCount.entries()).sort((a,b)=>{
       if (a[1] !== b[1]) return a[1]-b[1];
       return String(a[0]).localeCompare(String(b[0]), 'fr', { sensitivity: 'base' });
