@@ -96,13 +96,15 @@ html:active-view-transition-type(from-recipe):active-view-transition-type(to-rec
 }
 
 /* =========================================================================
-   Home ↔ Search — outgoing page slides off (name added in pageswap)
+   Home ↔ Search — home is a sliding card; search stays static behind.
    ========================================================================= */
+/* Home → Search: outgoing home slides out left (name added in pageswap). */
 ::view-transition-old(vt-page-out-left) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
 }
-::view-transition-old(vt-page-out-right) {
-  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-right !important;
+/* Search → Home: NEW home root slides in from left. Search root stays. */
+html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-new(root) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
 }
 
 /* ---------- Shared keyframes ---------- */

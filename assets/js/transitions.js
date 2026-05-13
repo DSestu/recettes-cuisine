@@ -60,14 +60,12 @@
         }
       });
     }
-    // Home/Search → the other side: tag the page wrapper so OLD slides out.
+    // Home → Search: tag outgoing home wrapper so OLD slides out left.
+    // (Search stays static behind it; on Search → Home we animate NEW home
+    // sliding in via conditional CSS — no tagging needed.)
     if (kind === "home" && destKind === "search") {
       var w = document.querySelector(".content");
       if (w) w.style.viewTransitionName = "vt-page-out-left";
-    }
-    if (kind === "search" && destKind === "home") {
-      var w2 = document.querySelector(".content");
-      if (w2) w2.style.viewTransitionName = "vt-page-out-right";
     }
   }
 
