@@ -29,42 +29,27 @@
   }
   window.addEventListener("pageswap", function (e) {
     writeFromKindStorage();
-    if (!e.viewTransition) {
-      console.log("[rc-vt] pageswap: no viewTransition");
-      return;
-    }
-    try {
-      e.viewTransition.types.add("from-" + pageKind());
-      console.log("[rc-vt] pageswap: added from-" + pageKind());
-    } catch (err) {
-      console.log("[rc-vt] pageswap types.add failed:", err);
+    if (e.viewTransition) {
+      try { e.viewTransition.types.add("from-" + pageKind()); } catch (err) {}
     }
   });
   window.addEventListener("pagehide", writeFromKindStorage);
 
   window.addEventListener("pagereveal", function (e) {
-    if (!e.viewTransition) {
-      console.log("[rc-vt] pagereveal: no viewTransition");
-      return;
-    }
+    if (!e.viewTransition) return;
     try {
-      // Always add to-<kind> for the destination.
       e.viewTransition.types.add("to-" + pageKind());
-      // Synthesize from-<kind> from sessionStorage if pageswap didn't set it.
-      var stored = null;
-      try { stored = sessionStorage.getItem("rcFromKind"); } catch (e) {}
       var hasFrom = false;
       e.viewTransition.types.forEach(function (t) {
         if (typeof t === "string" && t.indexOf("from-") === 0) hasFrom = true;
       });
-      if (!hasFrom && stored) {
-        e.viewTransition.types.add("from-" + stored);
+      if (!hasFrom) {
+        var stored = null;
+        try { stored = sessionStorage.getItem("rcFromKind"); } catch (err) {}
+        if (stored) e.viewTransition.types.add("from-" + stored);
       }
-      try { sessionStorage.removeItem("rcFromKind"); } catch (e) {}
-      console.log("[rc-vt] pagereveal: types=", Array.from(e.viewTransition.types));
-    } catch (err) {
-      console.log("[rc-vt] pagereveal handler failed:", err);
-    }
+      try { sessionStorage.removeItem("rcFromKind"); } catch (err) {}
+    } catch (err) { /* */ }
   });
 
   // ---------- 2. Hero image preload + pre-decode ----------

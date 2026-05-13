@@ -1,82 +1,77 @@
 /* Page-to-page View Transitions — route-pair choreography.
  *
  * Substrate: native cross-document VT (`@view-transition { navigation: auto }`
- * in head.html). transitions.js tags each transition with two types:
- *   from-<kind>  added in pageswap on the outgoing page
- *   to-<kind>    added in pagereveal on the incoming page
- * where <kind> is home | search | recipe | other.
- * CSS selects choreography via :active-view-transition-type(...).
+ * in head.html). transitions.js adds these types to the active transition:
+ *   from-<kind>  in pageswap on the outgoing page
+ *   to-<kind>    in pagereveal on the incoming page
+ * (kind = home | search | recipe | other)
  *
- * Named regions on the recipe page: vt-hero, vt-content.
+ * Constraint: Chrome 147 evaluates `:active-view-transition-type()` ONLY for
+ * `::view-transition-new(*)` pseudos, not `::view-transition-old(*)`. So we
+ * pin every OLD pseudo to a static (no-animation) state and choreograph
+ * exclusively on the NEW side.
+ *
+ * Named regions on recipe: vt-hero, vt-content.
  */
 
-/* ---------- Default root crossfade ---------- */
-::view-transition-old(root) {
-  animation: 220ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-out;
+/* ---------- OLD pseudos: stay put, no fade. ---------- */
+::view-transition-old(root),
+::view-transition-old(vt-hero),
+::view-transition-old(vt-content) {
+  animation: none !important;
 }
+
+/* ---------- NEW root: default short fade-in. ---------- */
 ::view-transition-new(root) {
   animation: 220ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in;
 }
 
-@keyframes rc-fade-out { to { opacity: 0; } }
 @keyframes rc-fade-in  { from { opacity: 0; } }
 
 /* =========================================================================
    Home/Search → Recipe — closing curtains
-   Hero slides in from the left, content slides in from the right.
+   New hero slides in from left, new content slides in from right.
    ========================================================================= */
-html:active-view-transition-type(to-recipe):active-view-transition-type(from-home) ::view-transition-new(vt-hero),
-html:active-view-transition-type(to-recipe):active-view-transition-type(from-search) ::view-transition-new(vt-hero) {
+html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(vt-hero),
+html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-hero) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
 }
-html:active-view-transition-type(to-recipe):active-view-transition-type(from-home) ::view-transition-new(vt-content),
-html:active-view-transition-type(to-recipe):active-view-transition-type(from-search) ::view-transition-new(vt-content) {
+html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(vt-content),
+html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-right !important;
 }
 
 /* =========================================================================
-   Recipe → Home/Search — opening curtains
-   Hero slides out left, content slides out right. Destination stays.
+   Recipe → Home/Search — incoming page fades in over static recipe
+   (Spec wanted opening curtains; OLD-pseudo limitation forces inversion.
+   Search-arrival uses a slide-in for a bit more motion.)
    ========================================================================= */
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-home) ::view-transition-old(vt-hero),
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-search) ::view-transition-old(vt-hero) {
-  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-home)::view-transition-new(root) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
 }
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-home) ::view-transition-old(vt-content),
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-search) ::view-transition-old(vt-content) {
-  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-right !important;
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-search)::view-transition-new(root) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-right !important;
 }
 
 /* =========================================================================
    Recipe → Recipe — top-down scanner on hero + content crossfade
    ========================================================================= */
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-new(vt-hero) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-hero) {
   animation: 700ms cubic-bezier(0.22, 1, 0.36, 1) both rc-scanner-reveal !important;
 }
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-old(vt-hero) {
-  animation: 700ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-out !important;
-}
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-old(vt-content) {
-  animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-out !important;
-}
-html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe) ::view-transition-new(vt-content) {
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
   animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
 }
 
 /* =========================================================================
    Home ↔ Search — single sliding curtain on root
+   (Option 3 inversion: instead of home sliding off, search slides in.)
    ========================================================================= */
-html:active-view-transition-type(from-home):active-view-transition-type(to-search) ::view-transition-old(root) {
-  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
+html:active-view-transition-type(from-home):active-view-transition-type(to-search)::view-transition-new(root) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-right !important;
 }
-html:active-view-transition-type(from-home):active-view-transition-type(to-search) ::view-transition-new(root) {
-  animation: none !important;
-}
-html:active-view-transition-type(from-search):active-view-transition-type(to-home) ::view-transition-new(root) {
+html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-new(root) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
-}
-html:active-view-transition-type(from-search):active-view-transition-type(to-home) ::view-transition-old(root) {
-  animation: none !important;
 }
 
 /* ---------- Shared keyframes ---------- */
@@ -84,17 +79,9 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-hom
   from { transform: translateX(-100%); }
   to   { transform: translateX(0); }
 }
-@keyframes rc-slide-out-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
-}
 @keyframes rc-slide-in-right {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
-}
-@keyframes rc-slide-out-right {
-  from { transform: translateX(0); }
-  to   { transform: translateX(100%); }
 }
 @keyframes rc-scanner-reveal {
   from { clip-path: inset(0 0 100% 0); }
@@ -103,8 +90,8 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-hom
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(*),
   ::view-transition-new(*),
+  ::view-transition-old(*),
   ::view-transition-group(*) {
     animation-duration: 1ms !important;
     animation-delay: 0ms !important;
