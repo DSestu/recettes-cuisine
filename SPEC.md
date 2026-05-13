@@ -1,103 +1,106 @@
-# SPEC — Fluid page-to-page transitions
+# SPEC — Page Transitions Redesign
+
+Replaces the current card→hero shared-element morph with a deliberate, choreographed transition system. **Desktop only**; mobile spec will follow.
 
 ## 1. Objective
 
-Replace the current raw, full-reload navigation between pages of the recipe site with smooth, animated transitions that include **morphing of shared elements** (most notably: a recipe card thumbnail morphs into the recipe page's hero image). The result should feel native-app-grade on a static Jekyll/GitHub Pages site.
+Make navigation feel intentional and theatrical: distinct, recognizable motions per route pair, easing out (decelerating) so the destination "settles" instead of arriving abruptly. Each transition tells the user *where* they came from and *where* they're going.
 
-**Out of scope for this iteration:** in-page micro-interactions, search graph animations, scroll behaviour, mobile gesture nav, prefetch heuristics beyond what the library gives for free.
+## 2. Page taxonomy
 
-**Target users:** end visitors of the recipe site, on modern mobile and desktop browsers. The site owner (you) maintains it locally with Jekyll.
+Three logical pages:
 
-## 2. Acceptance criteria
+- **Home** — `/` (recipe grid)
+- **Search** — `/recherche.html` (advanced D3 search)
+- **Recipe** — any `/_recipes/*` page
 
-A change is "done" when:
+## 3. Transition matrix
 
-1. Clicking a recipe card on the homepage (`/`) or on the advanced search (`/recherche/`) animates the thumbnail into the recipe page's hero image (shared-element morph), while the rest of the page fades/slides in around it.
-2. Clicking the back-link or browser back navigates from a recipe page back to the originating list with the **reverse** morph.
-3. All other page-to-page navigations (header links, footer, About, Components index, etc.) use a soft default transition (cross-fade + slight scale or slide — TBD during impl, but consistent site-wide).
-4. Navigation interception does not break:
-   - Anchor links within a page (no fetch, native scroll).
-   - External links (open normally).
-   - `target="_blank"` links.
-   - The QR modal, search overlays, and any existing JS that runs on `DOMContentLoaded`.
-5. On unsupported browsers or when JS fails, navigation falls back to a normal full page load with no broken UI.
-6. No measurable Lighthouse regression on the recipe page beyond what the new library adds (target: < +30 KB JS gzipped total).
-7. `prefers-reduced-motion: reduce` disables non-essential animations (shared-element morph becomes a simple instant swap or short cross-fade).
+| From → To | Effect |
+|---|---|
+| Home → Recipe | **Closing curtains**: hero image slides in from left edge; recipe content column slides in from right edge. Home stays in place underneath. |
+| Search → Recipe | Same as Home → Recipe. |
+| Recipe → Home | **Opening curtains** (reverse): hero slides out to the left, recipe column slides out to the right, revealing Home underneath. Home stays in place (no slide-in). |
+| Recipe → Search | Same opening-curtains effect, revealing Search. Search stays in place. |
+| Recipe → Recipe | **Scanner crossfade** on the hero image (top→bottom soft gradient wipe) + **global crossfade** on the right content column. Both run simultaneously. No curtains. |
+| Home → Search | **Single big curtain**: Home slides off to the left, revealing Search underneath. |
+| Search → Home | Reverse: Home slides in from the left, covering Search. |
+| Direct load → any | Plain global fade-in (no curtain). |
 
-## 3. Tech stack
+## 4. Motion design
 
-- **Existing:** Jekyll, GitHub Pages, Tailwind, vanilla JS, D3 (search page only).
-- **New:** [**Swup**](https://swup.js.org/) v4 as the navigation router (intercepts links, fetches HTML, swaps a content container, fires lifecycle hooks). Loaded from a pinned CDN URL (no Node build step) or vendored under `assets/js/vendor/` to stay GitHub-Pages-native.
-- **Shared-element morph:** use the **native View Transitions API** (`document.startViewTransition`) inside Swup's `visit:start` / `content:replace` hooks where supported. Pair recipe card thumbnails and recipe hero images with matching `view-transition-name: recipe-<slug>` set dynamically before navigation.
-- **Fallback (no View Transitions API):** Swup's built-in fade theme (`@swup/fade-theme`) — universal, no morph but still smooth.
+- **Easing**: ease-out (decelerating). Suggested curve `cubic-bezier(0.22, 1, 0.36, 1)`. Not linear.
+- **Default duration**: 500ms for curtain motions, 400ms for crossfades. Tunable via CSS custom properties. Scanner duration to be iterated on after first pass.
+- **Scanner gradient**: soft band (not a hard wipe) moving top→bottom across the hero. Implementation hint: `mask-image` linear-gradient whose `mask-position` animates. Soft transition zone ~15–25% of the hero height.
+- **Curtains are not overlays**: the *actual* hero image and the *actual* right column slide as content blocks. No solid-color panel.
+- **Underneath page stays put**: Home does not animate on Home→Recipe (only the incoming Recipe slides over it). Home does not animate on Recipe→Home either (only the outgoing Recipe slides off). Same for Search.
+- **Reduced-motion**: `prefers-reduced-motion: reduce` → all effects collapse to a 1ms swap.
 
-**Rationale:** Swup handles the hard MPA-routing parts (history, scroll restoration, head merging, script re-execution) across all browsers. View Transitions API gives the cinematic morph on Chromium/Safari for free. The combination degrades gracefully without polyfills.
+## 5. Technical approach
 
-## 4. Project structure
+Built on the existing cross-document **View Transitions API** (`@view-transition { navigation: auto }`). No new library.
 
-Files added or touched:
+- Shared regions tagged with stable `view-transition-name`:
+  - `vt-hero` on the hero image element (recipe pages).
+  - `vt-content` on the recipe right column wrapper.
+  - `vt-page` on `<body>` or main wrapper of Home/Search for the single-curtain effect.
+- Per-route-pair CSS keyframes target `::view-transition-old(...)` and `::view-transition-new(...)` of each named group.
+- Direction (which choreography to play) is determined by the **destination** page kind on the new document + the **origin** page kind, stored via a small `sessionStorage` hint set on the outgoing page before navigation (referrer is unreliable cross-doc).
+- Page-kind encoded as `data-page-kind` attribute on `<html>` (`home` | `search` | `recipe`).
+- On `pageswap` (outgoing), write `sessionStorage.fromKind = currentKind`. On `pagereveal` (incoming, before transition starts), read it and set `data-from-kind` on `<html>`.
+- CSS keys off both: `html[data-page-kind="recipe"][data-from-kind="home"] ::view-transition-new(vt-hero) { … }`.
+- If `data-from-kind` is missing (direct load, no sessionStorage): fall back to `default-fade` rule.
 
-```
-SPEC.md                              # this file
-assets/js/transitions.js             # NEW — Swup init, hooks, view-transition naming
-assets/js/vendor/swup.min.js         # NEW — vendored Swup (or CDN <script> in head)
-assets/css/transitions.css           # NEW — @view-transition rules, fallback keyframes
-_includes/head.html                  # load Swup + transitions.css
-_layouts/default.html                # wrap {{ content }} in <div id="swup" class="transition-main">
-_layouts/recipe.html                 # add view-transition-name on hero image element
-assets/js/*                          # recipe-card renderers: set view-transition-name on thumb before click
-```
+## 6. Files in scope
 
-No build step. Tailwind classes stay; new CSS is plain.
+- `assets/css/transitions.css` — rewrite. All keyframes, per-route-pair selectors, custom properties for durations/easing.
+- `assets/js/transitions.js` — keep the URL preload helper; replace morph plumbing with the page-kind handshake (`sessionStorage` + `<html data-from-kind>` via `pageswap`/`pagereveal`).
+- `_includes/head.html` — add `data-page-kind` to `<html>` (Liquid switch on `page.layout` / `page.url`).
+- `_layouts/recipe.html` — remove `view-transition-name: vt-<slug>` from the hero; replace with `view-transition-name: vt-hero`; add `view-transition-name: vt-content` to the right column wrapper.
+- `assets/js/home.js`, `assets/js/search-page.js` — stop stamping per-recipe `viewTransitionName` on cards (morph is gone). Cards remain untagged.
 
-## 5. Code style
+## 7. Out of scope
 
-- Vanilla ES modules or a single IIFE in `transitions.js`. No bundler.
-- Follow existing project conventions: 2-space indent, double quotes in JS strings, kebab-case CSS classes, French in user-visible strings (none expected here).
-- Feature-detect everything: `if ('startViewTransition' in document) { ... } else { ... }`.
-- No inline JS in templates beyond a single `data-*` attribute hook if needed.
-- Keep `view-transition-name` values URL-safe and unique per recipe (`recipe-<slug>` derived from the page URL).
+- Mobile / small-screen behavior (separate spec).
+- Browsers without View Transitions support — fall through to default browser nav.
+- Image asset pipeline, prefetch/preload, Tailwind build.
+- Card→hero shared-element morph (fully removed).
 
-## 6. Testing strategy
+## 8. Acceptance criteria
 
-Manual, browser-driven (this is a visual feature):
+1. Home → Recipe: hero slides in from left, content from right, both decelerating; Home visible underneath until covered.
+2. Recipe → Home (browser back or link): hero slides off left, content slides off right; Home appears revealed (not animated).
+3. Recipe → Recipe: hero crossfades top-down with visible scanner band while right column crossfades globally; both finish together.
+4. Home → Search: Home slides left off-screen, Search revealed underneath (not animated).
+5. Search → Home: Home slides in from left, covering Search (Search not animated).
+6. Search → Recipe: same as Home → Recipe.
+7. Recipe → Search: same opening-curtains reveal as Recipe → Home.
+8. Direct load (no `sessionStorage.fromKind`): plain fade-in, no curtain.
+9. `prefers-reduced-motion: reduce`: all effects 1ms.
+10. No regression in image load perf (heroes stay WebP, preloaded on hover).
 
-1. **Smoke matrix** — Chromium (latest), Safari (latest), Firefox (latest), mobile Safari, mobile Chrome. For each:
-   - Home → recipe → back → recipe (different card).
-   - `/recherche/` → recipe → back.
-   - Header nav links between top-level pages.
-   - External link, anchor link, `target="_blank"` link still behave normally.
-   - QR modal still opens after a Swup navigation.
-2. **Reduced motion** — toggle OS setting, confirm morph is suppressed.
-3. **Offline / JS disabled** — confirm site still navigates with full reloads.
-4. **Lighthouse** — run on a recipe page before/after; record JS size delta.
-5. **Visual review** — record a short screen capture of home→recipe→back and confirm the morph is continuous (no flash, no jump).
-
-No automated tests added. The existing repo has no JS test harness; introducing one is out of scope.
-
-## 7. Boundaries
+## 9. Boundaries
 
 **Always:**
-- Keep navigation working with JS disabled (graceful degradation).
-- Respect `prefers-reduced-motion`.
-- Use canonical Jekyll URLs (`{{ site.baseurl }}`) so the site keeps working under a project-page path.
-- Pin the Swup version explicitly.
+- Use ease-out curve `cubic-bezier(0.22, 1, 0.36, 1)` (or equivalent) on every animation.
+- Honor `prefers-reduced-motion`.
+- Keep the View Transitions API as the substrate (no Swup, no manual JS animation).
+- Degrade to instant native nav if JS or VT is unavailable.
 
 **Ask first:**
-- Before adding any build step (npm, esbuild, Vite).
-- Before changing the URL structure or permalinks.
-- Before touching `recherche.html`'s D3 logic — only the card click path is in scope.
-- Before adding prefetch-on-hover (can be a follow-up; affects bandwidth).
+- Changing durations beyond proposed defaults.
+- Adding a transition for a route pair not in §3.
+- Mobile / small-screen behavior.
 
 **Never:**
-- Convert the site into a true SPA (no client-side routing beyond Swup's HTML-swap).
-- Break deep links, sharing, or scroll-to-anchor.
-- Animate on every DOM event — only on navigation.
-- Use a heavy framework (React, Vue, Astro runtime, Turbo, Barba) for this.
-- Commit without a manual cross-browser smoke pass.
+- Re-introduce the card→hero morph.
+- Animate the underlying page when it's supposed to stay put.
+- Use linear easing.
+- Block navigation waiting on JS.
 
-## 8. Open questions to resolve during implementation
+## 10. Verification
 
-- Exact default transition for non-recipe pages: cross-fade vs short slide. Decide after a first prototype.
-- Whether to add hover-prefetch (Swup has a `preload` plugin); leave off by default to keep bandwidth predictable.
-- How to handle the `recipe.image` being a list vs a string when computing the morph target (the recipe layout already normalises this — reuse that logic).
+- Manual walk-through of all 10 acceptance scenarios in Chrome desktop.
+- DevTools → Animations panel to confirm curves and durations.
+- Toggle `prefers-reduced-motion` and re-verify scenarios collapse to instant.
+- Hard-reload between scenarios to confirm direct-load fallback.
