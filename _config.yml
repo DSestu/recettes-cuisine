@@ -20,7 +20,27 @@ collections:
   recipes:
     output: true
 
-exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md']
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - Rakefile
+  - README.md
+  - SPEC.md
+  - tasks/
+  - .claude/
+  - .cursor/
+  - .venv/
+  - scripts/
+  - prompts/
+  - pyproject.toml
+  - uv.lock
+  - docker-compose.yml
+  - .pre-commit-config.yaml
+  - generate_thumbnails.bat
+  - generate_thumbnails.sh
+  - misc_recipes/
+  - "recette sestu/"
+  - to_implement/
 
 translation:
   fr:
