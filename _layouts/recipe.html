@@ -9,7 +9,7 @@ layout: default
 >
   {% if page.image.first %}{% assign hero_img = page.image.first %}{% else %}{% assign hero_img = page.image %}{% endif %}
   <div
-    class="image bg-red-500 relative aspect-video md:aspect-auto md:h-screen md:sticky md:top-0 md:overflow-hidden"
+    class="image relative aspect-video md:aspect-auto md:h-screen md:sticky md:top-0 md:overflow-hidden"
     {% if hero_img %}data-hero-image="{{ site.baseurl }}/images/{{ hero_img }}"{% endif %}
     style="view-transition-name: vt-hero;"
   >

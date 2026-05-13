@@ -87,7 +87,7 @@ html:active-view-transition-type(from-recipe):active-view-transition-type(to-sea
    ========================================================================= */
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-hero),
 html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
-  animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
+  animation: 800ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
 }
 
 /* =========================================================================
