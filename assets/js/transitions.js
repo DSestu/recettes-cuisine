@@ -123,14 +123,7 @@
 
   window.addEventListener("pagereveal", function (e) {
     if (!e.viewTransition) return;
-    console.log("[rc-vt] pagereveal", performance.now().toFixed(1),
-      "kind=", pageKind(),
-      "readyState=", document.readyState,
-      "grid children=", (document.getElementById("recommend-results-grid") || {}).childElementCount);
     snapTopButtonsVisible(e.viewTransition);
-    if (pageKind() === "search" && document.readyState !== "complete") {
-      try { document.dispatchEvent(new Event("DOMContentLoaded")); } catch (err) {}
-    }
     try {
       e.viewTransition.types.add("to-" + pageKind());
       var hasFrom = false;

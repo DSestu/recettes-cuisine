@@ -2199,7 +2199,6 @@
   // Listeners
   // -----------------------------
   function runInit() {
-    console.log("[rc-vt] search runInit start", performance.now().toFixed(1));
     // init suggestions
     renderSuggestions(getFiltered());
     updateSelectedChips();
@@ -2816,13 +2815,10 @@
     })();
   }
 
-  console.log("[rc-vt] search-page.js loaded", performance.now().toFixed(1),
-    "readyState=", document.readyState);
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", runInit, { once: true });
   } else {
     runInit();
   }
-  console.log("[rc-vt] search-page.js done loading", performance.now().toFixed(1));
 
 })();
