@@ -22,9 +22,14 @@
   animation: none !important;
 }
 
-/* ---------- NAV: identical on every page → morph in place, no animation. */
-::view-transition-new(vt-nav) {
+/* ---------- NAV: identical on every page → morph in place, no animation.
+ *  Bring it above hero/content snapshots so it isn't covered by the curtains. */
+::view-transition-new(vt-nav),
+::view-transition-old(vt-nav) {
   animation: none !important;
+}
+::view-transition-group(vt-nav) {
+  z-index: 1000;
 }
 
 /* ---------- NEW root: default short fade-in. ---------- */
