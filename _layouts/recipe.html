@@ -11,6 +11,7 @@ layout: default
   <div
     class="image bg-red-500 relative aspect-video md:aspect-auto md:h-screen md:sticky md:top-0 md:overflow-hidden"
     {% if hero_img %}data-hero-image="{{ site.baseurl }}/images/{{ hero_img }}"{% endif %}
+    style="view-transition-name: vt-hero;"
   >
     <style>
       a.back,
@@ -334,7 +335,7 @@ layout: default
       alt="{{ page.title | escape }}"
       decoding="async"
       {% if forloop.first %}fetchpriority="high"{% endif %}
-      style="object-fit: cover; object-position: center;{% if forloop.first %} view-transition-name: vt-hero;{% endif %}"
+      style="object-fit: cover; object-position: center;"
     />
 
     {% if page.imagecredit %} {% for imagecredit in page.imagecredit %}
