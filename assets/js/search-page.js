@@ -2198,7 +2198,7 @@
   // -----------------------------
   // Listeners
   // -----------------------------
-  document.addEventListener('DOMContentLoaded', () => {
+  function runInit() {
     // init suggestions
     renderSuggestions(getFiltered());
     updateSelectedChips();
@@ -2813,6 +2813,16 @@
         }
       } catch (_) {}
     })();
-  });
+  }
+
+  // Run init synchronously — the script tag sits at end-of-body so the
+  // DOM it depends on is already parsed. This avoids waiting for
+  // DOMContentLoaded so the page is fully populated before a cross-document
+  // view transition takes its snapshot.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runInit, { once: true });
+  } else {
+    runInit();
+  }
 
 })();
