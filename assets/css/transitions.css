@@ -156,20 +156,20 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-hom
 }
 
 @keyframes rc-slide-in-down {
-  from { transform: translateY(-100%); }
+  from { transform: translateY(-100vh); }
   to   { transform: translateY(0); }
 }
 @keyframes rc-slide-in-up {
-  from { transform: translateY(100%); }
+  from { transform: translateY(100vh); }
   to   { transform: translateY(0); }
 }
 @keyframes rc-slide-out-up {
   from { transform: translateY(0); }
-  to   { transform: translateY(-100%); }
+  to   { transform: translateY(-100vh); }
 }
 @keyframes rc-slide-out-down {
   from { transform: translateY(0); }
-  to   { transform: translateY(100%); }
+  to   { transform: translateY(100vh); }
 }
 
 /* ---------- Reduced motion ---------- */
