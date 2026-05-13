@@ -172,7 +172,7 @@
 - id: fond chinois
   ingredient: true
 - id: fondant
-  ingredient: true
+  ingredient: false
 - id: four
   ingredient: false
 - id: frais
@@ -542,4 +542,22 @@
 - id: patate douce
   ingredient: true
 - id: lait de coco
+  ingredient: true
+- id: girolles
+  ingredient: true
+- id: linguines
+  ingredient: true
+- id: lentilles vertes
+  ingredient: true
+- id: tomme de savoie
+  ingredient: true
+- id: cantal
+  ingredient: true
+- id: fromage blanc
+  ingredient: true
+- id: pappardelles
+  ingredient: true
+- id: bleu
+  ingredient: true
+- id: comte
   ingredient: true
