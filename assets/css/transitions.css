@@ -146,7 +146,12 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-hom
   html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
     animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-up !important;
   }
-  /* Nav buttons fade in (instead of morph in place). */
+  /* Nav buttons fade in (instead of morph in place). Hide old immediately
+   * so the new fade-in reads as a clean appearance rather than a crossfade
+   * of two identical navs. */
+  ::view-transition-old(vt-nav) {
+    animation: 1ms linear both rc-fade-out !important;
+  }
   ::view-transition-new(vt-nav) {
     animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
   }
