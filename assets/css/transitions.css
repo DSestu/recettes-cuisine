@@ -27,6 +27,7 @@
 }
 
 @keyframes rc-fade-in  { from { opacity: 0; } }
+@keyframes rc-stay-hidden { 0%, 99% { opacity: 0; } 100% { opacity: 1; } }
 
 /* =========================================================================
    Home/Search → Recipe — closing curtains
@@ -39,6 +40,13 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-rec
 html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(vt-content),
 html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
   animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-right !important;
+}
+
+/* Keep new root invisible during the curtain so the old (home/search)
+ * snapshot stays visible underneath until the curtains cover the screen. */
+html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(root),
+html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(root) {
+  animation: 500ms linear both rc-stay-hidden !important;
 }
 
 /* =========================================================================
