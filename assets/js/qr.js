@@ -17,7 +17,7 @@
       modal.setAttribute("aria-hidden", "true");
     }
 
-    ["btn-qr-modal", "btn-qr-modal-desktop"].forEach((id) => {
+    ["btn-qr-modal", "btn-qr-modal-desktop", "desktop-qr"].forEach((id) => {
       const btn = document.getElementById(id);
       if (!btn) return;
       btn.addEventListener("click", (e) => {
