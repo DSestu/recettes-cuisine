@@ -14,7 +14,7 @@ CARD_MAX_WIDTH = 480
 WEBP_QUALITY = 82
 IMAGES_DIR = "images"
 CARDS_DIR = "images/cards"
-SOURCE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"}
+SOURCE_EXTS = {".webp"}
 EXCLUDE_SUBDIRS = {"cards", "hero", "full"}
 
 

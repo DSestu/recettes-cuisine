@@ -56,6 +56,8 @@ All progress logs go to stderr. The last line of stdout is JSON. Shape depends o
 - `ocr` → `{"ocr_text": "...", "prompt_id": "..."}`
 - `image` / `prompt` → `{"image_temp_path": "...", "prompt_id": "..."}`
 
+Note: `image_temp_path` always points at a ComfyUI PNG. The skill agent **must re-encode it to WebP** (Pillow, q90, `method=6`) before moving it to `images/<slug>.webp`. The site is WebP-only — committing a `.png` under `images/` is rejected by pre-commit.
+
 If `run.py` exits non-zero, surface stderr and stop. Common causes: ComfyUI unreachable, workflow not in API format, missing node IDs, vision LM returned empty text.
 
 ## Post-pipeline contract for `full`
@@ -63,11 +65,11 @@ If `run.py` exits non-zero, surface stderr and stop. Common causes: ComfyUI unre
 Only `full` produces a complete recipe. After `run.py` succeeds:
 
 1. **Apply autoloaded rules** to the OCR text: `format-pasted-recipe.md`, `home-categories.md`, `update-recipe-prompt-gallery.md`. Determine canonical French title → snake_case ASCII slug. Normalise tags against `_data/recipe_tags.yml`. Append new canonical tags to a clearly matching homepage category (never reorder, never touch `others`). Create `prompts/_recipes/<slug>.md`.
-2. **Overwrite check** — stop and ask if any of these exist: `_recipes/<slug>.md`, `images/<slug>.png`, `prompts/_recipes/<slug>.md`. (The `images/cards/<slug>.png` thumbnail is regenerated automatically; only flag it if it indicates a slug clash.)
-3. **Write the recipe** at `_recipes/<slug>.md` with frontmatter (`layout: recipe`, quoted `title`, `image: <slug>.png`, `tags:`, `ingredients:`) and Markdown body under `## Préparation`.
-4. **Place the image**: move `image_temp_path` → `images/<slug>.png` (re-encode JPEG to PNG if needed).
-5. **Generate the card thumbnail**: `uv run python scripts/generate_card_thumbnails.py`.
-6. **Summarise**: slug + four paths (recipe, image, thumbnail, prompt). Remind the user to review and commit.
+2. **Overwrite check** — stop and ask if any of these exist: `_recipes/<slug>.md`, `images/<slug>.webp`, `prompts/_recipes/<slug>.md`. (The `images/cards/<slug>.webp`, `images/hero/<slug>.webp`, and `images/full/<slug>.webp` derivatives are regenerated automatically by pre-commit hooks; only flag a clash as a slug clash.)
+3. **Write the recipe** at `_recipes/<slug>.md` with frontmatter (`layout: recipe`, quoted `title`, `image: <slug>` — **bare slug, no extension**, `tags:`, `ingredients:`) and Markdown body under `## Préparation`.
+4. **Re-encode + place the image**: open `image_temp_path` (the ComfyUI PNG) with Pillow, save as WebP at `images/<slug>.webp` (q90, `method=6`). Do NOT keep the PNG.
+5. **Derivatives**: `pre-commit run --files images/<slug>.webp` (or run `scripts/generate_card_thumbnails.py`, `scripts/generate_hero_images.py`, `scripts/generate_full_images.py`). These produce `images/{cards,hero,full}/<slug>.webp`.
+6. **Summarise**: slug + paths (recipe, source webp, 3 derivatives, prompt). Remind the user to review and commit.
 
 ## Post-pipeline contract for `ocr`
 
@@ -75,7 +77,7 @@ Print the extracted text. Do not scaffold a recipe unless the user asks.
 
 ## Post-pipeline contract for `image` / `prompt`
 
-The restored/generated image is at `image_temp_path`. Move it to `images/<slug>.<ext>` only if the user has confirmed (since this overwrites an existing image). For folder-of-photos iteration, write to a `restored/` sibling — don't touch the original.
+The restored/generated image is at `image_temp_path` (PNG, in `.tmp/comfyui/`). To replace the existing recipe image, re-encode to WebP at `images/<slug>.webp` (q90, `method=6`) — only if the user has confirmed (overwrites the existing source). Derivatives auto-regenerate via pre-commit. For folder-of-photos iteration, write to a `restored/` sibling — re-encode each to WebP; never touch the original.
 
 ## Hard boundaries
 

@@ -14,7 +14,7 @@ globs:
 
 ## Recipe structure
 
-- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug.png` (filename only, default extension `.png`). Then `tags:`, `ingredients:` as lists. Optional `components:` (component titles).
+- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug` (**bare slug, no extension** — the site is WebP-only and the layout appends `.webp`). Then `tags:`, `ingredients:` as lists. Optional `components:` (component titles).
 - **Directions live in two possible places** — Markdown body is preferred; legacy YAML list in frontmatter is still supported.
 - **After `---`:** Optional short description ("Pour X personnes", "Temps de préparation : …"). When using Markdown directions, add a level-2 heading (`## Préparation`) and write full Markdown (paragraphs, bullets, images, tables, sublists).
 
@@ -27,7 +27,7 @@ globs:
 Components support both forms; prefer body Markdown when content is rich.
 
 **Images in body Markdown:**
-- Plain: `![alt](images/photo.png)` — centered, bordered, small, lens-button zooms to fullscreen.
+- Plain: `![alt](../images/<recipe_slug>/<step>.webp)` — centered, bordered, small (1000 px); the lens-button zoom swaps the URL to `<step>.full.webp` (2400 px) for the fullscreen overlay. Encode each inline image as `<step>.full.webp` once (q88, 2400 w) and let `scripts/generate_inline_small.py` build the small variant.
 - Sized via Kramdown IAL: `![alt](url){: width="300px" data-aspect-ratio="16/9" }`.
 - Captioned: `<figure class="recipe-inline-image"><figcaption>Caption.</figcaption><img src="..." alt="..."></figure>`.
 
@@ -63,7 +63,7 @@ Correct only French spelling (e.g. "Céléri" → "Céleri", "souce" → "sauce"
 ---
 layout: recipe
 title: "Velouté d'asperges"
-image: veloute_asperges.png
+image: veloute_asperges
 
 tags:
 - repas

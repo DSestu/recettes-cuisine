@@ -11,7 +11,7 @@ alwaysApply: true
 
 ## Recipe structure
 
-- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug.png` (filename only, default extension is `.png`). Then `tags:`, `ingredients:` as lists. Optional `components:` list (component titles). **Directions** can be in frontmatter (list format) or in the body (Markdown format); the **Markdown format is preferred** (see below).
+- **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug` (**bare slug, no extension** — the site is WebP-only and the layout appends `.webp`). Then `tags:`, `ingredients:` as lists. Optional `components:` list (component titles). **Directions** can be in frontmatter (list format) or in the body (Markdown format); the **Markdown format is preferred** (see below).
 - **After `---`:** Optional short description (e.g. "Pour X personnes", "Temps de préparation : …"). When using **Markdown directions**, add a level-2 heading (e.g. `## Préparation`, or the heading for the site language) and write the full preparation in Markdown (paragraphs, lists, images, tables, sublists). When using **list directions**, put only the short description in the body.
 
 ## Directions: list vs Markdown
@@ -22,7 +22,7 @@ alwaysApply: true
 
 Components support the same two options; prefer body Markdown for components when you need rich content.
 
-**Images in directions (body Markdown):** Use standard markdown `![alt](images/photo.png)`; images are centered, shown smaller with a border and a lens button (top-right); the caption (annotation) is small, italic, centered above the image. Clicking the image or the lens opens the same fullscreen overlay as the recipe hero. Optional size and aspect ratio via Kramdown IAL: `![alt](url){: width="300px"}` or `{: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }`. Optional caption above the image via raw HTML: `<figure class="recipe-inline-image"><figcaption>Caption.</figcaption><img src="..." alt="..."></figure>`; you can add `data-max-width`, `data-aspect-ratio` on the figure.
+**Images in directions (body Markdown):** Use `![alt](../images/<recipe_slug>/<step>.webp)`. Images are centered, shown smaller (1000 px), with a border and a lens button (top-right); clicking the image or the lens opens the fullscreen overlay, which automatically loads `<step>.full.webp` (2400 px). Encode each inline image once as `images/<recipe_slug>/<step>.full.webp` (q88, 2400 w); pre-commit derives the small `<step>.webp` (1000 px) via `scripts/generate_inline_small.py`. Optional size and aspect ratio via Kramdown IAL or `<figure>` raw HTML as before.
 
 ## Tag management
 
@@ -59,7 +59,7 @@ Correct only French spelling (e.g. "Céléri" → "Céleri", "souce" → "sauce"
 ---
 layout: recipe
 title: "Velouté d'asperges"
-image: veloute_asperges.png
+image: veloute_asperges
 
 tags:
 - repas
@@ -83,7 +83,7 @@ Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 20 min.
 - Faire bouillir 1 litre d'eau salée, ajouter les asperges et laisser cuire 15 à 20 minutes.
 - Mixer, ajouter un peu de crème si besoin, saler et poivrer.
 
-You can add images (e.g. `![Étape 3](images/etape3.png)`), tables, sublists, **bold text**, *italic text*, colons (`:`), and any other Markdown formatting in the preparation section.
+You can add images (e.g. `![Étape 3](../images/<recipe_slug>/etape3.webp)`), tables, sublists, **bold text**, *italic text*, colons (`:`), and any other Markdown formatting in the preparation section.
 
 Adjacent "- " steps should have no empty lines separating them.
 
@@ -93,7 +93,7 @@ Adjacent "- " steps should have no empty lines separating them.
 ---
 layout: recipe
 title: "Velouté d'asperges"
-image: veloute_asperges.png
+image: veloute_asperges
 
 tags:
 - repas

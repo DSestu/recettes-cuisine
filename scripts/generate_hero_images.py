@@ -18,7 +18,7 @@ HERO_MAX_WIDTH = 1600
 WEBP_QUALITY = 80
 IMAGES_DIR = "images"
 HERO_DIR = "images/hero"
-SOURCE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".avif"}
+SOURCE_EXTS = {".webp"}
 EXCLUDE_SUBDIRS = {"cards", "hero", "full"}
 
 

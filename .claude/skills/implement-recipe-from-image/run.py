@@ -359,11 +359,10 @@ def run_ocr(cfg: dict, image_path: Path, dry_run: bool) -> dict:
 
 
 def _resolve_recipe_image(slug: str) -> Path:
-    for ext in (".png", ".jpg", ".jpeg", ".webp"):
-        p = REPO_ROOT / "images" / f"{slug}{ext}"
-        if p.exists():
-            return p
-    die(f"no existing image found for slug {slug!r} under {REPO_ROOT/'images'} (tried .png/.jpg/.jpeg/.webp)")
+    p = REPO_ROOT / "images" / f"{slug}.webp"
+    if p.exists():
+        return p
+    die(f"no existing image found at {p.relative_to(REPO_ROOT)} (site is WebP-only post-migration)")
 
 
 def run_image(cfg: dict, slug: str, dry_run: bool) -> dict:

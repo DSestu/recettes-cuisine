@@ -18,7 +18,7 @@ FULL_MAX_WIDTH = 2400
 WEBP_QUALITY = 88
 IMAGES_DIR = "images"
 FULL_DIR = "images/full"
-SOURCE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".avif"}
+SOURCE_EXTS = {".webp"}
 EXCLUDE_SUBDIRS = {"cards", "hero", "full"}
 
 

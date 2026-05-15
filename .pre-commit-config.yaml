@@ -3,15 +3,40 @@ repos:
   - repo: local
     hooks:
       - id: generate-card-thumbnails
-        name: Generate card thumbnails
+        name: Generate card thumbnails (WebP 480px)
         entry: uv run python scripts/generate_card_thumbnails.py
         language: system
-        files: ^images/(?!cards/)(?!hero/)|^scripts/generate_card_thumbnails\.py
+        files: ^images/(?!cards/)(?!hero/)(?!full/).*\.webp$|^scripts/generate_card_thumbnails\.py
+        pass_filenames: false
       - id: generate-hero-images
         name: Generate optimized hero images (WebP 1600px)
         entry: uv run python scripts/generate_hero_images.py
         language: system
-        files: ^images/(?!cards/)(?!hero/)|^scripts/generate_hero_images\.py
+        files: ^images/(?!cards/)(?!hero/)(?!full/).*\.webp$|^scripts/generate_hero_images\.py
+        pass_filenames: false
+      - id: generate-full-images
+        name: Generate full-resolution zoom images (WebP 2400px)
+        entry: uv run python scripts/generate_full_images.py
+        language: system
+        files: ^images/(?!cards/)(?!hero/)(?!full/).*\.webp$|^scripts/generate_full_images\.py
+        pass_filenames: false
+      - id: generate-inline-small
+        name: Generate small inline images (WebP 1000px)
+        entry: uv run python scripts/generate_inline_small.py
+        language: system
+        files: ^images/[^/]+/.*\.full\.webp$|^scripts/generate_inline_small\.py
+        pass_filenames: false
+      - id: check-images
+        name: Verify image variants + non-WebP references
+        entry: uv run python scripts/check_images.py
+        language: system
+        files: ^(_recipes/|_components/|_layouts/|_includes/|assets/js/|images/|scripts/check_images\.py)
+        pass_filenames: false
+      - id: reject-non-webp-images
+        name: Reject non-WebP files under images/
+        entry: scripts/reject_non_webp.sh
+        language: system
+        files: ^images/
       - id: build-tailwind
         name: Compile static Tailwind CSS
         entry: uv run python scripts/build_tailwind.py

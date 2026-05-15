@@ -280,7 +280,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
 
 ## Phase F — Tooling lockdown
 
-### [ ] F1. Update `.pre-commit-config.yaml`
+### [x] F1. Update `.pre-commit-config.yaml`
 
 - **Acceptance**
   - Existing `generate-card-thumbnails` and `generate-hero-images` hooks updated to trigger on `images/*.webp` (and the script files themselves).
@@ -292,7 +292,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - Staging a fake `images/foo.png` triggers the reject hook.
 - **Files**: `.pre-commit-config.yaml`.
 
-### [ ] F2. Tighten generator scripts to WebP-only source
+### [x] F2. Tighten generator scripts to WebP-only source
 
 - **Acceptance**
   - `generate_card_thumbnails.py`, `generate_hero_images.py`, `generate_full_images.py`, `migrate_to_webp.py`: source whitelist becomes `{.webp}` (migrate becomes a no-op).
@@ -301,7 +301,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - All four scripts idempotent on a clean tree.
 - **Files**: 4 Python files.
 
-### [ ] F3. Update `implement-recipe-from-image` skill
+### [x] F3. Update `implement-recipe-from-image` skill
 
 - **Acceptance**
   - `.claude/skills/implement-recipe-from-image/SKILL.md`: every `.png` example/path becomes `.webp`. The post-pipeline "place the image" step explicitly re-encodes the ComfyUI temp PNG to WebP at q90 before moving it to `images/<slug>.webp`.
@@ -311,7 +311,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - Read SKILL.md end-to-end: no `.png` left in user-facing examples; the "Place the image" step mentions WebP encoding.
 - **Files**: `.claude/skills/implement-recipe-from-image/SKILL.md`, possibly `run.py`.
 
-### [ ] F4. Update autoloaded rules
+### [x] F4. Update autoloaded rules
 
 - **Acceptance**
   - `.claude/rules/implement-recipe-from-image.md`: mode descriptions reference `.webp`. Folder-restoration guidance: outputs land as `.webp` in the `restored/` sibling.
@@ -320,7 +320,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - `git grep '\.png' .claude/rules` returns nothing site-relevant.
 - **Files**: 2 rules files.
 
-### [ ] F5. Final repo sweep
+### [x] F5. Final repo sweep
 
 - **Acceptance**
   - `git grep -E '\.(png|jpe?g|avif)' -- :^to_implement :^.tmp :^node_modules` returns only references that genuinely belong (e.g. docs, ADRs about migration history, this plan).
