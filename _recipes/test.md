@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "New templating example"
-image: image.jpeg
+image: 0_TBD.jpg
 
 tags:
 - example

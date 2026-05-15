@@ -629,3 +629,5 @@
   ingredient: false
 - id: kirsch
   ingredient: true
+- id: perso
+  ingredient: false

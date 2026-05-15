@@ -1,67 +1,81 @@
 ---
 name: implement-recipe-from-image
-description: Take a local photo of a recipe (cookbook page, handwritten card, screenshot…), run it through the remote ComfyUI workflow that OCRs the recipe text and regenerates a clean food photograph, then create `_recipes/<slug>.md` and save the image as `images/<slug>.png` using the canonical project rules. Never commits.
+description: Drive the remote ComfyUI workflows for recipe work: OCR a handwritten/printed recipe photo, restore a degraded dish photo (single image or every image in a folder), and/or generate a fresh dish image from a prompt-gallery file. Always invokes `run.py`; never commits.
 ---
 
 # implement-recipe-from-image
 
-## When this skill triggers
+## Modes (which to use when)
 
-Any of the following phrases, with a path to a local image at the end:
+`run.py` exposes four `--mode` values. The user's wording maps to a mode — pick the one that fits and call `run.py` accordingly. Never hardcode behaviour: always go through `run.py`, which fetches the workflow live from the ComfyUI server defined in `config.json`.
 
-- `implemente this recipe from image <path>`
-- `implement this recipe from image <path>`
-- `implémente cette recette depuis l'image <chemin>`
-- `implémente cette recette à partir de l'image <chemin>`
+| User intent (FR/EN) | Mode | Inputs | Outputs | Typical follow-up |
+|---|---|---|---|---|
+| "implement this recipe from image", "implémente cette recette depuis l'image" | `full` | `--image <path>` (auto-detects `<stem>_text.<ext>` sibling) | `ocr_text` + restored dish image | Create `_recipes/<slug>.md`, place image, generate thumbnail, write prompt gallery |
+| "OCR this image", "extrais le texte de cette image" | `ocr` | `--image <path>` (same `_text` sibling rule) | `ocr_text` only | Hand the text back to the user; no recipe scaffolding |
+| "restore this photo", "restaure cette photo", "régénère l'image de la recette `<slug>`" | `image` | `--slug <slug>` (resolves `images/<slug>.{png,jpg,jpeg,webp}`) | restored image | Replace `images/<slug>.png` after user review |
+| "generate the image from the prompt", "génère l'image depuis le prompt" | `prompt` | `--slug <slug>` (reads `prompts/_recipes/<slug>.md`) | generated image | Replace `images/<slug>.png` |
 
-`<path>` is an absolute or `~`-expanded path to `.jpg / .jpeg / .png / .webp`.
+### Folder-of-photos restoration (iterative `image` mode)
 
-**Two-image mode (auto-detected).** If a sibling file named `<stem>_text.<ext>` exists in the same directory as `<path>` (any image extension), `run.py` will route the `_text` variant to the OCR loader (node 1933) and the original to the restoration loader (node 2001). Useful when the readable recipe text and the dish reference are two different photos. No flag needed — it's purely based on the filename.
+When the user asks to restore **every photo in a directory** (e.g. raw cooking-step photos that aren't linked to a slug), loop `--mode image` over the files. The current `image` mode only accepts `--slug`; for ad-hoc folders, work around it by either:
 
-## What you do (agent contract)
+1. Temporarily moving each photo to `images/<temp_slug>.<ext>`, running `--mode image --slug <temp_slug>`, then moving the result back next to the original (rename to `<original>_restored.<ext>`), and reverting the temp file. Verbose but uses the skill unchanged.
+2. Or, if the user explicitly asks to extend the skill, add an `--image <path>` alternative to `--mode image` (skip `_resolve_recipe_image`). Do this only on explicit instruction.
 
-1. **Run the pipeline.** Execute:
+In either case: keep originals in a `raw/` subfolder, write restored versions to a sibling `restored/` subfolder. Don't overwrite originals.
 
-   ```bash
-   uv run python .claude/skills/implement-recipe-from-image/run.py --image <path>
-   ```
+## Trigger phrases (for routing intent → mode)
 
-   - All progress logs go to stderr; ignore them.
-   - The **last line of stdout** is a single-line JSON:
+Don't gate on exact wording — these are hints, not contracts.
 
-     ```json
-     {"ocr_text": "...full extracted recipe text...", "image_temp_path": "/abs/path/.tmp/comfyui/<prompt_id>.png", "prompt_id": "..."}
-     ```
+- **`full`** — "implémente cette recette depuis l'image", "implement this recipe from image", "implémente cette recette à partir de l'image", "create a recipe from this photo".
+- **`ocr`** — "OCR cette image", "extrais le texte", "lis cette recette", "just give me the text".
+- **`image`** — "restaure cette photo", "restore this photo", "régénère l'image de la recette X", "améliore la photo de X", "redo the image for X".
+- **`prompt`** — "génère l'image depuis le prompt", "regenerate from the prompt gallery", "text-to-image for X".
 
-   - If the script exits non-zero, surface the stderr message to the user and stop. Common causes: ComfyUI host unreachable, workflow not in API format (missing node IDs), vision LM returned empty text.
+## Two-image OCR (`full` and `ocr`)
 
-2. **Apply the autoloaded project rules to the OCR text.** Use `format-pasted-recipe.md`, `home-categories.md`, and `update-recipe-prompt-gallery.md` exactly as you would for a pasted recipe:
-   - Determine the canonical French title and derive the snake_case ASCII slug.
-   - Normalise tags against `_data/recipe_tags.yml` (add new canonical entries if needed).
-   - If any homepage category clearly fits a new canonical tag, append it (never reorder categories, never touch `others`).
-   - Create the prompt-gallery file under `prompts/_recipes/<slug>.md`.
+If a sibling named `<stem>_text.<ext>` exists next to `--image`, `run.py` routes the `_text` variant to the OCR loader and the original to the restoration loader. This is auto-detected via `find_text_sibling`; no flag.
 
-3. **Overwrite check.** Before writing anything, check:
-   - `_recipes/<slug>.md` — exists?
-   - `images/<slug>.png` — exists?
-   - `images/cards/<slug>.png` — exists?
-   - `prompts/_recipes/<slug>.md` — exists?
+## Invocation
 
-   If any exists, **stop and ask the user** before continuing. Show which files would be overwritten. (The thumbnail under `images/cards/` will be regenerated automatically in step 6 — only flag it if its mere presence indicates a slug clash.)
+```bash
+uv run python .claude/skills/implement-recipe-from-image/run.py --mode <full|ocr|image|prompt> [--image <path>] [--slug <slug>]
+```
 
-4. **Write the recipe.** Create `_recipes/<slug>.md` with the standard frontmatter (`layout: recipe`, quoted `title`, `image: <slug>.png`, `tags:`, `ingredients:`) and Markdown-body directions under `## Préparation` (preferred format).
+- `--config <path>` overrides `config.json`.
+- `--dry-run` patches the workflow but doesn't queue — useful for verifying node IDs.
+- `--print-workflow --mode <m>` dumps the workflow JSON for inspection.
+- `--ping` checks the server.
+- `--upload <path>` uploads only, prints the server-side filename.
 
-5. **Place the image.** Move (don't copy) the file at `image_temp_path` to `images/<slug>.png`. If the source is JPEG, prefer re-encoding to PNG to match the `.png` extension; otherwise a simple rename is fine.
+All progress logs go to stderr. The last line of stdout is JSON. Shape depends on mode:
 
-6. **Generate the card thumbnail.** Run:
+- `full` → `{"ocr_text": "...", "image_temp_path": "/abs/.tmp/comfyui/<id>.png", "prompt_id": "..."}`
+- `ocr` → `{"ocr_text": "...", "prompt_id": "..."}`
+- `image` / `prompt` → `{"image_temp_path": "...", "prompt_id": "..."}`
 
-   ```bash
-   uv run python scripts/generate_card_thumbnails.py
-   ```
+If `run.py` exits non-zero, surface stderr and stop. Common causes: ComfyUI unreachable, workflow not in API format, missing node IDs, vision LM returned empty text.
 
-   This mirrors what the `generate-card-thumbnails` pre-commit hook does. The script is idempotent and writes `images/cards/<slug>.<ext>` at max 480 px width. Doing it here means the user's `git commit` won't be interrupted later by the hook discovering a missing thumbnail.
+## Post-pipeline contract for `full`
 
-7. **Summarise.** Print the slug, the four created/updated paths (recipe, image, thumbnail, prompt), and remind the user to review and commit manually.
+Only `full` produces a complete recipe. After `run.py` succeeds:
+
+1. **Apply autoloaded rules** to the OCR text: `format-pasted-recipe.md`, `home-categories.md`, `update-recipe-prompt-gallery.md`. Determine canonical French title → snake_case ASCII slug. Normalise tags against `_data/recipe_tags.yml`. Append new canonical tags to a clearly matching homepage category (never reorder, never touch `others`). Create `prompts/_recipes/<slug>.md`.
+2. **Overwrite check** — stop and ask if any of these exist: `_recipes/<slug>.md`, `images/<slug>.png`, `prompts/_recipes/<slug>.md`. (The `images/cards/<slug>.png` thumbnail is regenerated automatically; only flag it if it indicates a slug clash.)
+3. **Write the recipe** at `_recipes/<slug>.md` with frontmatter (`layout: recipe`, quoted `title`, `image: <slug>.png`, `tags:`, `ingredients:`) and Markdown body under `## Préparation`.
+4. **Place the image**: move `image_temp_path` → `images/<slug>.png` (re-encode JPEG to PNG if needed).
+5. **Generate the card thumbnail**: `uv run python scripts/generate_card_thumbnails.py`.
+6. **Summarise**: slug + four paths (recipe, image, thumbnail, prompt). Remind the user to review and commit.
+
+## Post-pipeline contract for `ocr`
+
+Print the extracted text. Do not scaffold a recipe unless the user asks.
+
+## Post-pipeline contract for `image` / `prompt`
+
+The restored/generated image is at `image_temp_path`. Move it to `images/<slug>.<ext>` only if the user has confirmed (since this overwrites an existing image). For folder-of-photos iteration, write to a `restored/` sibling — don't touch the original.
 
 ## Hard boundaries
 
@@ -69,15 +83,16 @@ Any of the following phrases, with a path to a local image at the end:
 - **Never overwrite** `_recipes/<slug>.md`, `images/<slug>.png`, or `prompts/_recipes/<slug>.md` without explicit confirmation.
 - **Never modify** the workflow JSON on the ComfyUI server. Don't cache it locally either; `run.py` fetches it fresh each time.
 - **Never invent** node IDs or paths if `run.py` fails — surface the error.
-- **Never skip** the canonical tag-registry / homepage-category rules; always go through `format-pasted-recipe.md` and `home-categories.md`.
+- **Never skip** the canonical tag-registry / homepage-category rules for `full`; always go through `format-pasted-recipe.md` and `home-categories.md`.
 
 ## Configuration
 
-`config.json` holds: ComfyUI host, workflow path on `/userdata/`, four node IDs (two `LoadImage`, one text-output, one `PreviewImage`). Edit there if any of those change — do not hardcode in `run.py`.
+`config.json` holds: ComfyUI host and a `modes` map. Each mode entry has its own `workflow` path on `/userdata/` and the node IDs it needs (loader IDs, text-output ID, preview-image ID, prompt-text ID + field). Edit there if any of those change — do not hardcode in `run.py`.
 
 ## Troubleshooting
 
-- **`ComfyUI unreachable`** — check Tailscale / that `desktop-tvtdome:8188` is up.
-- **`workflow is missing required node IDs`** — the file at `/userdata/workflows/SDXL_recettes_cuisine.json` is probably saved in UI-format, not API-format. Re-export with Dev Mode → Export (API).
-- **`vision LM returned no text`** — the photo is unreadable or the text-output node id is wrong. Try a sharper photo first; if it persists, run `--print-workflow` and check which node is feeding the text output.
-- **Empty `images/<slug>.png` after move** — preview images live in ComfyUI's `temp/` folder and may be cleaned aggressively. `run.py` fetches them immediately; if you delay the agent step too long, the bytes may already be on disk in `.tmp/comfyui/` — that's the actual source of truth.
+- **`ComfyUI unreachable`** — check Tailscale / that the host in `config.json` is up.
+- **`workflow is missing required node IDs`** — the file on the server is probably saved in UI format. Re-export with Dev Mode → Export (API), save to the same userdata path (or update `config.json`).
+- **`vision LM returned no text`** — the photo is unreadable or the text-output node id is wrong. Try a sharper photo first; if it persists, run `--print-workflow --mode <m>` and check which node is feeding the text output.
+- **Empty `images/<slug>.png` after move** — preview images live in ComfyUI's `temp/` folder and may be cleaned aggressively. `run.py` fetches them immediately; if you delay too long the bytes are already in `.tmp/comfyui/` — that's the actual source of truth.
+- **`config has no entry for modes.<m>`** — `config.json` predates the multi-mode refactor. Migrate it to the `modes: { full: {...}, ocr: {...}, image: {...}, prompt: {...} }` shape.
