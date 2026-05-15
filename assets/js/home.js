@@ -111,11 +111,12 @@
           ? [recipe.images]
           : [];
       if (images.length > 0) {
+        const slug = images[0].replace(/\.[^./]+$/, "");
         canvas.style.backgroundImage = "url("
           + HOME_BASE_URL
           + "/images/cards/"
-          + images[0]
-          + ")";
+          + slug
+          + ".webp)";
       }
       a.appendChild(canvas);
 

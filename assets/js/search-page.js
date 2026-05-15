@@ -155,7 +155,8 @@
       }
       if (filename) {
         const basename = filename.replace(/^.*[/\\]/, '');
-        return `${BASE}/images/cards/${basename}`;
+        const slug = basename.replace(/\.[^./]+$/, '');
+        return `${BASE}/images/cards/${slug}.webp`;
       }
     } catch (_) {}
     return `${BASE}/assets/social.png`;

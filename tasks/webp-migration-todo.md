@@ -100,7 +100,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
 
 ## Phase B — Pilot one recipe end-to-end (`pates_sauce_tomate`)
 
-### [ ] B1. Encode pilot's source + subfolder (with inline variants)
+### [x] B1. Encode pilot's source + subfolder (with inline variants)
 
 - **Acceptance**
   - `images/pates_sauce_tomate.webp` exists at q90 (top-level source).
@@ -113,7 +113,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - Inline small images are ≤ 1000 px wide; `.full.webp` are ≤ 2400 px wide.
 - **Files**: 1 top-level + 8×2 inline files; runs `migrate_to_webp.py --no-delete` then `generate_inline_small.py`.
 
-### [ ] B2. Generate pilot's 3 derivatives
+### [x] B2. Generate pilot's 3 derivatives
 
 - **Acceptance**
   - `images/cards/pates_sauce_tomate.webp`, `images/hero/pates_sauce_tomate.webp` (overwrite existing), `images/full/pates_sauce_tomate.webp`.
@@ -121,7 +121,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - All three exist, sized to spec (480 / 1600 / 2400 px wide).
 - **Files**: derivatives only; run `generate_card_thumbnails.py`, `generate_hero_images.py`, `generate_full_images.py`.
 
-### [ ] B3. Rewrite pilot's markdown
+### [x] B3. Rewrite pilot's markdown
 
 - **Acceptance**
   - `_recipes/pates_sauce_tomate.md`: frontmatter `image: pates_sauce_tomate` (bare).
@@ -130,7 +130,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - `git diff _recipes/pates_sauce_tomate.md` shows only those changes.
 - **Files**: `_recipes/pates_sauce_tomate.md`.
 
-### [ ] B4. Patch layout to handle bare-slug frontmatter
+### [x] B4. Patch layout to handle bare-slug frontmatter
 
 - **Acceptance**
   - `_layouts/recipe.html`: when `page.image` has no extension, append `.webp`. When it does, run through the existing `replace` chain (backwards compat for unmigrated recipes).
@@ -140,7 +140,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - `bundle exec jekyll serve`; DevTools Network on pilot — hero, inline (small), main zoom (`full/<slug>.webp`), inline zoom (`<slug>/<step>.full.webp`) all `.webp`. Other recipes still render.
 - **Files**: `_layouts/recipe.html`, possibly one `assets/js/*.js` file if the lens logic lives there.
 
-### [ ] B5. Patch JS for card URLs (pilot test)
+### [x] B5. Patch JS for card URLs (pilot test)
 
 - **Acceptance**
   - `assets/js/home.js`, `assets/js/search-page.js`: build `images/cards/<slug>.webp` from the bare slug; if the frontmatter still has `.ext`, strip it.
@@ -148,7 +148,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - Home page card for the pilot loads `cards/pates_sauce_tomate.webp`. Cards for other (still-PNG) recipes also load `.webp` because Phase A3 wrote those — but their frontmatter still says `.png`. Confirm the JS strips the extension before appending `.webp`.
 - **Files**: `assets/js/home.js`, `assets/js/search-page.js`.
 
-### [ ] B6. Delete pilot's PNG sources
+### [x] B6. Delete pilot's PNG sources
 
 - **Acceptance**
   - `images/pates_sauce_tomate.png` and `images/pates_sauce_tomate/*.png` deleted.
