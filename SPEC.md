@@ -24,6 +24,8 @@ Target user: solo maintainer (you). Success = pages feel snappier on mobile, the
 
 ## Image variant matrix (post-migration)
 
+**Main recipe image** (one per recipe; lives at top of `images/`):
+
 | Variant | Path | Size | Quality | Consumer |
 |---|---|---|---|---|
 | Card | `images/cards/<slug>.webp` | 480 px wide | q82 | Home page card backgrounds, search results |
@@ -32,6 +34,15 @@ Target user: solo maintainer (you). Success = pages feel snappier on mobile, the
 | Source | `images/<slug>.webp` | original res | q90 | Build input for the three derivatives above; NOT referenced directly by any page |
 
 Rationale for keeping a single source `.webp` at the top of `images/`: pre-commit needs a stable input to regenerate derivatives when a recipe's image changes, and `image: <slug>` in frontmatter needs to resolve to *something* unambiguously.
+
+**Inline / embedded images** (step photos, illustrations inside a recipe body; live in `images/<slug>/`):
+
+| Variant | Path | Size | Quality | Consumer |
+|---|---|---|---|---|
+| Small (default) | `images/<slug>/<step>.webp` | 1000 px wide | q82 | Inline `<img>` in recipe body |
+| Full (on click) | `images/<slug>/<step>.full.webp` | 2400 px wide | q88 | Fullscreen overlay when the user clicks the inline image |
+
+`<step>.full.webp` is the source of truth on disk; the small variant is derived from it. Markdown body links point at the small variant (`../images/<slug>/<step>.webp`); the lens/zoom JS rewrites the path to `<step>.full.webp` for the overlay. No `cards/`, `hero/` etc. derivatives for inline images — they're not used as cards or heroes.
 
 ## Commands
 
@@ -43,6 +54,7 @@ uv run python scripts/migrate_to_webp.py            # see Tasks for what this do
 uv run python scripts/generate_card_thumbnails.py   # cards/<slug>.webp from images/<slug>.webp
 uv run python scripts/generate_hero_images.py       # hero/<slug>.webp from images/<slug>.webp
 uv run python scripts/generate_full_images.py       # full/<slug>.webp from images/<slug>.webp  (new)
+uv run python scripts/generate_inline_small.py      # <step>.webp (small) from <step>.full.webp  (new)
 
 # Verify
 uv run python scripts/check_images.py               # NEW: completeness + dead-link check
@@ -64,11 +76,15 @@ images/
   cards/<slug>.webp             # derivative (480 w)
   hero/<slug>.webp              # derivative (1600 w)
   full/<slug>.webp              # derivative (2400 w) — NEW
+  <slug>/                       # inline-image folder per recipe (when present)
+    <step>.full.webp            # source-of-truth for inline image (2400 w q88) — NEW
+    <step>.webp                 # derivative (1000 w q82) shown inline — NEW
 scripts/
   generate_card_thumbnails.py   # updated: output .webp, accept .webp source only
   generate_hero_images.py       # updated: accept .webp source only
   generate_full_images.py       # NEW
-  migrate_to_webp.py            # NEW: one-shot, idempotent migration
+  generate_inline_small.py      # NEW: walks images/<slug>/*.full.webp → <step>.webp
+  migrate_to_webp.py            # NEW: one-shot, idempotent migration (top-level + subfolders)
   check_images.py               # NEW: post-migration verification
 _recipes/*.md                   # frontmatter `image: <slug>` (bare); body links `../images/<slug>.webp`
 _components/*.md                # same convention

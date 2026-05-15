@@ -24,24 +24,33 @@ from pathlib import Path
 
 from PIL import Image
 
-WEBP_QUALITY = 90
+TOP_LEVEL_QUALITY = 90
+INLINE_FULL_QUALITY = 88
+INLINE_FULL_MAX_WIDTH = 2400
 IMAGES_DIR = "images"
 EXCLUDE_SUBDIRS = {"cards", "hero", "full"}
 LOSSY_EXTS = {".png", ".jpg", ".jpeg", ".avif"}
 
 
 def iter_sources(images_dir: Path):
-    """Yield non-WebP image files in images/ and direct subdirs (excluding derived dirs)."""
+    """Yield (src, is_subfolder) for non-WebP images in images/ and one level of subdirs."""
     for path in images_dir.iterdir():
         if path.is_dir():
             if path.name in EXCLUDE_SUBDIRS:
                 continue
             for child in path.iterdir():
                 if child.is_file() and child.suffix.lower() in LOSSY_EXTS:
-                    yield child
+                    yield child, True
             continue
         if path.suffix.lower() in LOSSY_EXTS:
-            yield path
+            yield path, False
+
+
+def dst_for(src: Path, is_subfolder: bool) -> Path:
+    """Top-level: <stem>.webp. Subfolder: <stem>.full.webp (full-size source of truth)."""
+    if is_subfolder:
+        return src.with_name(src.stem + ".full.webp")
+    return src.with_suffix(".webp")
 
 
 def needs_rebuild(src: Path, dst: Path) -> bool:
@@ -50,14 +59,24 @@ def needs_rebuild(src: Path, dst: Path) -> bool:
     return src.stat().st_mtime > dst.stat().st_mtime
 
 
-def encode(src: Path, dst: Path) -> None:
+def encode(src: Path, dst: Path, is_subfolder: bool) -> None:
     with Image.open(src) as im:
         im.load()
         if im.mode not in ("RGB", "RGBA"):
             im = im.convert(
                 "RGBA" if im.mode == "P" and "transparency" in im.info else "RGB"
             )
-        im.save(dst, format="WEBP", quality=WEBP_QUALITY, method=6)
+        if is_subfolder:
+            w, h = im.size
+            if w > INLINE_FULL_MAX_WIDTH:
+                ratio = INLINE_FULL_MAX_WIDTH / w
+                im = im.resize(
+                    (INLINE_FULL_MAX_WIDTH, int(h * ratio)), Image.Resampling.LANCZOS
+                )
+            quality = INLINE_FULL_QUALITY
+        else:
+            quality = TOP_LEVEL_QUALITY
+        im.save(dst, format="WEBP", quality=quality, method=6)
 
 
 def verify(webp: Path) -> bool:
@@ -85,28 +104,28 @@ def main() -> int:
         print(f"error: {src_dir} not found", file=sys.stderr)
         return 1
 
-    planned: list[tuple[Path, Path]] = []
+    planned: list[tuple[Path, Path, bool]] = []
     skipped = 0
-    for src in iter_sources(src_dir):
-        dst = src.with_suffix(".webp")
+    for src, is_subfolder in iter_sources(src_dir):
+        dst = dst_for(src, is_subfolder)
         if not needs_rebuild(src, dst):
             skipped += 1
             continue
-        planned.append((src, dst))
+        planned.append((src, dst, is_subfolder))
 
     print(f"sources: {len(planned) + skipped}  to-encode: {len(planned)}  up-to-date: {skipped}")
 
     if args.dry_run:
-        for src, dst in planned:
+        for src, dst, _ in planned:
             print(f"  encode {src.relative_to(repo_root)} -> {dst.relative_to(repo_root)}")
             if not args.no_delete:
                 print(f"  delete {src.relative_to(repo_root)}")
         return 0
 
     failures = 0
-    for src, dst in planned:
+    for src, dst, is_subfolder in planned:
         try:
-            encode(src, dst)
+            encode(src, dst, is_subfolder)
         except Exception as e:
             print(f"FAIL encode {src.name}: {e}", file=sys.stderr)
             failures += 1

@@ -4,7 +4,9 @@ Companion to `SPEC.md`. This document is the implementation plan; the per-task c
 
 ## Scope recap
 
-Drop PNG / JPG / JPEG / AVIF from `images/`. Move every rendered surface to `.webp` across four variants:
+Drop PNG / JPG / JPEG / AVIF from `images/`. Move every rendered surface to `.webp`.
+
+**Main recipe image** (one per recipe, top of `images/`):
 
 | Variant | Path | Width | Quality |
 |---|---|---|---|
@@ -12,6 +14,15 @@ Drop PNG / JPG / JPEG / AVIF from `images/`. Move every rendered surface to `.we
 | Hero | `images/hero/<slug>.webp` | 1600 | q80 |
 | Full | `images/full/<slug>.webp` | 2400 | q88 |
 | Source | `images/<slug>.webp` | original | q90 |
+
+**Inline / embedded images** (per-recipe subfolder `images/<slug>/`):
+
+| Variant | Path | Width | Quality |
+|---|---|---|---|
+| Full (source-of-truth, on-click) | `images/<slug>/<step>.full.webp` | 2400 | q88 |
+| Small (default render) | `images/<slug>/<step>.webp` | 1000 | q82 |
+
+Markdown body links point at the small variant; the lens/zoom JS swaps to `.full.webp` for the overlay.
 
 Frontmatter `image:` becomes a bare slug. Inline body images point at `../images/<...>.webp`. Layout, JS, pre-commit hooks, and the `implement-recipe-from-image` skill all updated.
 

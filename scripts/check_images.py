@@ -79,6 +79,30 @@ def check_variants(slug: str) -> list[str]:
     return missing
 
 
+def check_inline_pairs() -> list[str]:
+    """Every <slug>/<step>.full.webp must have a sibling <step>.webp (and vice-versa)."""
+    missing: list[str] = []
+    images = REPO_ROOT / "images"
+    if not images.is_dir():
+        return missing
+    for slug_dir in images.iterdir():
+        if not slug_dir.is_dir() or slug_dir.name in {"cards", "hero", "full"}:
+            continue
+        for path in slug_dir.iterdir():
+            if not path.is_file():
+                continue
+            if path.name.endswith(".full.webp"):
+                stem = path.name[: -len(".full.webp")]
+                small = slug_dir / f"{stem}.webp"
+                if not small.exists():
+                    missing.append(str(small.relative_to(REPO_ROOT)))
+            elif path.suffix.lower() == ".webp":
+                full = slug_dir / f"{path.stem}.full.webp"
+                if not full.exists():
+                    missing.append(str(full.relative_to(REPO_ROOT)))
+    return missing
+
+
 def grep_non_webp() -> list[tuple[Path, int, str]]:
     hits: list[tuple[Path, int, str]] = []
     for target in GREP_TARGETS:
@@ -122,11 +146,13 @@ def main() -> int:
                     missing_by_recipe.append((md.relative_to(REPO_ROOT), slug, missing))
 
     grep_hits = grep_non_webp()
+    inline_missing = check_inline_pairs()
 
     print(f"recipes/components checked: {sum(1 for d in RECIPE_DIRS for _ in (REPO_ROOT / d).glob('*.md'))}")
     print(f"missing-variant entries:    {len(missing_by_recipe)}")
     print(f"recipes without image field:{len(no_image_field)}")
     print(f"non-webp grep hits:         {len(grep_hits)}")
+    print(f"missing inline pair files:  {len(inline_missing)}")
 
     if missing_by_recipe:
         print("\nMISSING VARIANTS")
@@ -149,7 +175,14 @@ def main() -> int:
         if len(grep_hits) > 30:
             print(f"  ... +{len(grep_hits) - 30} more")
 
-    if missing_by_recipe or grep_hits:
+    if inline_missing:
+        print("\nMISSING INLINE PAIRS")
+        for p in inline_missing[:30]:
+            print(f"  {p}")
+        if len(inline_missing) > 30:
+            print(f"  ... +{len(inline_missing) - 30} more")
+
+    if missing_by_recipe or grep_hits or inline_missing:
         return 1
     return 0
 
