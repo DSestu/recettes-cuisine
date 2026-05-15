@@ -1,100 +1,198 @@
-# SPEC — Variations of `implement-recipe-from-image`
+# Spec: Full WebP migration (drop PNG/JPG originals)
 
-## 1. Objective
+## Objective
 
-Split the existing `implement-recipe-from-image` skill into a family of skills that share the same remote ComfyUI plumbing (`run.py`) but expose three additional modes alongside the current full pipeline. All modes feed the canonical recipe-creation flow (frontmatter + body via `format-pasted-recipe.md`, tag registry, homepage categories, prompt-gallery, card thumbnail).
+The recipe site currently keeps three parallel image variants per recipe — the original `images/<slug>.{png,jpg,…}` (full-res, also used by the zoom overlay), the 480 px card thumbnail under `images/cards/`, and the 1600 px WebP hero under `images/hero/`. The PNG/JPG originals dominate page weight (multi-MB) and are no longer necessary for any rendered surface.
 
-Modes:
+Migrate the entire site to a WebP-only image system. After migration:
 
-| Mode | Skill name | Input | Produces | Recipe md? | Image? |
-|------|------------|-------|----------|------------|--------|
-| `full` *(existing)* | `implement-recipe-from-image` | photo of recipe | OCR text + dish image | yes | yes |
-| `ocr` | `implement-recipe-from-image-ocr-only` | photo of recipe | OCR text only | yes (no `image:` line) | no |
-| `image` | `regenerate-recipe-image` | existing slug | dish image only | no (recipe already exists) | yes (overwrites) |
-| `prompt` | `generate-recipe-image-from-prompt` | existing slug | dish image only, from `prompts/_recipes/<slug>.md` | no | yes (overwrites) |
+- No PNG/JPG/JPEG/AVIF lives under `images/` at any depth.
+- Every rendered surface — home cards, recipe hero, zoom overlay, inline body images — resolves to a `.webp` file.
+- The frontmatter `image:` field carries a **bare slug** (no extension); the layout appends `.webp`.
+- Pre-commit hooks regenerate all WebP derivatives idempotently.
+- The ComfyUI pipeline (`implement-recipe-from-image`) and its autoloaded rule produce WebP, not PNG.
 
-## 2. Commands
+Target user: solo maintainer (you). Success = pages feel snappier on mobile, the repo stops accumulating heavy PNGs, and the toolchain has one source format.
 
-All modes go through a single entrypoint:
+## Tech Stack
+
+- Jekyll (static site, GitHub Pages).
+- Python (Pillow) for image processing in `scripts/`.
+- `uv` for Python invocation.
+- `pre-commit` framework for hooks.
+- No new dependencies expected.
+
+## Image variant matrix (post-migration)
+
+| Variant | Path | Size | Quality | Consumer |
+|---|---|---|---|---|
+| Card | `images/cards/<slug>.webp` | 480 px wide | q82 | Home page card backgrounds, search results |
+| Hero | `images/hero/<slug>.webp` | 1600 px wide | q80 | Recipe page inline hero |
+| Full | `images/full/<slug>.webp` | 2400 px wide | q88 | Zoom overlay only |
+| Source | `images/<slug>.webp` | original res | q90 | Build input for the three derivatives above; NOT referenced directly by any page |
+
+Rationale for keeping a single source `.webp` at the top of `images/`: pre-commit needs a stable input to regenerate derivatives when a recipe's image changes, and `image: <slug>` in frontmatter needs to resolve to *something* unambiguously.
+
+## Commands
 
 ```bash
-uv run python .claude/skills/implement-recipe-from-image/run.py --mode {full,ocr,image,prompt} [options]
+# One-shot migration (run once on a clean working tree)
+uv run python scripts/migrate_to_webp.py            # see Tasks for what this does
+
+# Re-derive variants (idempotent, called by pre-commit)
+uv run python scripts/generate_card_thumbnails.py   # cards/<slug>.webp from images/<slug>.webp
+uv run python scripts/generate_hero_images.py       # hero/<slug>.webp from images/<slug>.webp
+uv run python scripts/generate_full_images.py       # full/<slug>.webp from images/<slug>.webp  (new)
+
+# Verify
+uv run python scripts/check_images.py               # NEW: completeness + dead-link check
+
+# Build / dev
+bundle exec jekyll serve                            # local dev
+docker compose up                                   # alternate local dev
+
+# Hooks
+pre-commit install
+pre-commit run --all-files
 ```
 
-Mode-specific options:
-
-- `--mode full --image <path>` — current behavior. Stdout JSON: `{"ocr_text", "image_temp_path", "prompt_id"}`.
-- `--mode ocr --image <path>` — OCR only; no image generation. Stdout JSON: `{"ocr_text", "prompt_id"}`.
-- `--mode image --slug <slug>` — read `_recipes/<slug>.md` body + ingredients, feed the ComfyUI image branch (no OCR). Stdout JSON: `{"image_temp_path", "prompt_id"}`.
-- `--mode prompt --slug <slug>` — read `prompts/_recipes/<slug>.md`, feed it verbatim into the image branch. Stdout JSON: `{"image_temp_path", "prompt_id"}`.
-
-**Each mode calls a different workflow** on the ComfyUI server. `config.json` is restructured so workflow path + node IDs live under per-mode keys:
-
-```json
-{
-  "host": "desktop-tvtdome:8188",
-  "modes": {
-    "full":   { "workflow": "workflows/SDXL_recettes_cuisine_api.json",        "loader_ocr_id": "1933", "loader_restore_id": "2001", "text_output_id": "2003", "preview_image_id": "465" },
-    "ocr":    { "workflow": "workflows/SDXL_recettes_cuisine_ocr_api.json",    "loader_ocr_id": "1933", "text_output_id": "2003" },
-    "image":  { "workflow": "workflows/SDXL_recettes_cuisine_image_api.json",  "prompt_text_id": "<tbd>", "preview_image_id": "<tbd>" },
-    "prompt": { "workflow": "workflows/SDXL_recettes_cuisine_prompt_api.json", "prompt_text_id": "<tbd>", "preview_image_id": "<tbd>" }
-  },
-  "preview_image_type": "temp"
-}
-```
-
-The exact workflow filenames and node IDs are confirmed during the workflow-inspection task (one inspection per new workflow). The user is responsible for placing the three new workflow files on the server under `/userdata/workflows/`; the skill never modifies them.
-
-## 3. Project structure
+## Project Structure (changes only)
 
 ```
-.claude/skills/
-├── implement-recipe-from-image/
-│   ├── SKILL.md                # full mode — updated to mention sibling skills
-│   ├── run.py                  # gains --mode flag, dispatches internally
-│   └── config.json             # may gain extra node IDs for prompt injection
-├── implement-recipe-from-image-ocr-only/
-│   └── SKILL.md                # delegates to run.py --mode ocr
-├── regenerate-recipe-image/
-│   └── SKILL.md                # delegates to run.py --mode image
-└── generate-recipe-image-from-prompt/
-    └── SKILL.md                # delegates to run.py --mode prompt
+images/
+  <slug>.webp                   # source — committed, single per recipe
+  cards/<slug>.webp             # derivative (480 w)
+  hero/<slug>.webp              # derivative (1600 w)
+  full/<slug>.webp              # derivative (2400 w) — NEW
+scripts/
+  generate_card_thumbnails.py   # updated: output .webp, accept .webp source only
+  generate_hero_images.py       # updated: accept .webp source only
+  generate_full_images.py       # NEW
+  migrate_to_webp.py            # NEW: one-shot, idempotent migration
+  check_images.py               # NEW: post-migration verification
+_recipes/*.md                   # frontmatter `image: <slug>` (bare); body links `../images/<slug>.webp`
+_components/*.md                # same convention
+_layouts/recipe.html            # drop `replace: '.png' → '.webp'` chain; assume `.webp` everywhere
+assets/js/*.js                  # card URL builders point at `images/cards/<slug>.webp`
+.pre-commit-config.yaml         # `generate-full-images` added; file regexes updated for `.webp`
+.claude/skills/implement-recipe-from-image/   # SKILL.md and run.py updated to produce .webp
+.claude/rules/implement-recipe-from-image.md  # updated mode descriptions
+.claude/rules/format-pasted-recipe.md         # updated frontmatter example
 ```
 
-Each sibling SKILL.md is short and links back to the canonical agent-contract steps in `implement-recipe-from-image/SKILL.md`, overriding only the steps that differ (no image write for `ocr`; no recipe-md write for `image`/`prompt`).
+## Code Style
 
-## 4. Code style
+Python image scripts mirror the existing pattern in `scripts/generate_hero_images.py`:
 
-- Python: keep `run.py` single-file, stdlib + `requests`/`websocket-client` (already used). No new heavy deps.
-- Dispatch via a small `if args.mode == ...` block calling extracted functions: `run_full()`, `run_ocr()`, `run_image()`, `run_prompt()`. Shared helpers (`submit_workflow`, `wait_for_completion`, `fetch_temp_image`) stay shared.
-- Stdout contract: still **last line of stdout = single-line JSON**. Stderr for everything else.
-- Failure surface: non-zero exit + stderr message. No partial files on failure.
+```python
+HERO_MAX_WIDTH = 1600
+WEBP_QUALITY = 80
+IMAGES_DIR = "images"
+HERO_DIR = "images/hero"
+SOURCE_EXT = ".webp"          # post-migration: only .webp inputs
+EXCLUDE_SUBDIRS = {"cards", "hero", "full"}
 
-## 5. Testing strategy
 
-Manual smoke tests (no automated tests in repo for this skill):
+def needs_rebuild(src: Path, dst: Path) -> bool:
+    if not dst.exists():
+        return True
+    return src.stat().st_mtime > dst.stat().st_mtime
 
-1. `--mode full --image <known good photo>` still produces a recipe + image (regression check).
-2. `--mode ocr --image <photo>` returns OCR JSON, no `image_temp_path`, no image file fetched.
-3. `--mode image --slug crumble_pommes` (use an existing slug) returns a new `image_temp_path` derived from the recipe body, agent overwrites `images/<slug>.png` after confirmation.
-4. `--mode prompt --slug crumble_pommes` reads `prompts/_recipes/crumble_pommes.md` and produces a new image.
-5. Overwrite check: agent must stop and ask before clobbering `_recipes/<slug>.md` (ocr/full) or `images/<slug>.png` (image/prompt).
 
-## 6. Boundaries
+def main() -> None:
+    repo_root = Path(__file__).resolve().parent.parent
+    src_dir = repo_root / IMAGES_DIR
+    out_dir = repo_root / HERO_DIR
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-**Always do:**
-- Reuse existing `format-pasted-recipe.md` / `home-categories.md` / `update-recipe-prompt-gallery.md` rules for any recipe-md write.
-- Run `scripts/generate_card_thumbnails.py` after any image write to `images/<slug>.png`.
-- Keep stdout = single-line JSON; logs to stderr.
+    for path in src_dir.iterdir():
+        if path.is_dir() or path.name in EXCLUDE_SUBDIRS:
+            continue
+        if path.suffix.lower() != SOURCE_EXT:
+            continue
+        ...
+```
 
-**Ask first:**
-- Before overwriting `_recipes/<slug>.md`, `images/<slug>.png`, `images/cards/<slug>.png`, or `prompts/_recipes/<slug>.md` in any mode.
-- Before adding new node IDs / workflow paths to `config.json`.
-- If a required workflow file is missing on the server, stop and ask — never auto-create or copy it.
+Jekyll layout assumes a single canonical filename:
 
-**Never:**
-- Run `git add`, `git commit`, `git push`.
-- Modify the workflow JSON on the ComfyUI server.
-- Hardcode node IDs in `run.py` — they live in `config.json`.
-- Skip overwrite checks even in `image`/`prompt` modes — those overwrite by design but still need explicit confirmation.
-- Invent file paths or node IDs when `run.py` fails — surface the stderr.
+```liquid
+{% assign hero_file = page.image | append: '.webp' %}
+<img src="{{ site.baseurl }}/images/hero/{{ hero_file }}" ...>
+```
+
+Frontmatter:
+
+```yaml
+---
+layout: recipe
+title: "Pâtes sauce tomate"
+image: pates_sauce_tomate    # bare slug, no extension
+tags: [...]
+ingredients: [...]
+---
+```
+
+Inline body images (preferred Markdown form):
+
+```markdown
+![Sauce finale](../images/pates_sauce_tomate/sauce_finale.webp)
+```
+
+## Testing Strategy
+
+No formal test framework in the repo. Verification is manual + scripted:
+
+1. **Idempotency check** — run each `generate_*.py` twice in a row; second run must touch zero files.
+2. **Completeness check** — `scripts/check_images.py` (new) enumerates `_recipes/*.md` + `_components/*.md`, resolves each `image:` slug, and asserts `images/<slug>.webp`, `images/cards/<slug>.webp`, `images/hero/<slug>.webp`, `images/full/<slug>.webp` all exist. Exits non-zero on any miss. Wired into pre-commit.
+3. **Dead-link check** — same helper greps `_recipes/` and `_components/` for `](.*\.(png|jpe?g|avif))` and fails if any non-WebP path remains.
+4. **Local render** — `bundle exec jekyll serve`, manually browse home page (cards), one recipe page (hero + inline + zoom), one component page.
+5. **Page weight** — eyeball Network panel on a recipe page; pre/post page weight should drop substantially.
+
+## Boundaries
+
+**Always do**
+- Treat `images/<slug>.webp` as the single source for a recipe. Edit it (or replace it), then let pre-commit regenerate the three derivatives.
+- Keep WebP encoding parameters (quality, max width) in module constants at the top of each script — no magic numbers.
+- Use `Pillow.Image.save(..., method=6)` for the migration encode (slow but best size); use the default `method` in incremental pre-commit derivation (fast).
+- After moving/renaming any image, run `scripts/check_images.py`; ship only when it passes.
+- Update every skill / rule file that mentions `.png` paths so future automation produces WebP from the start.
+
+**Ask first**
+- Changing variant sizes (480 / 1600 / 2400) or quality (q82 / q80 / q88) — these are tuned numbers.
+- Adding a fourth variant (e.g. AVIF, or a 960 px tier for tablets) — adds build cost and complexity.
+- Deleting `images/<slug>.webp` (source) without a replacement.
+- Touching files unrelated to image plumbing during the migration (no opportunistic refactors).
+
+**Never do**
+- Commit a `.png`, `.jpg`, `.jpeg`, or `.avif` anywhere under `images/`. Pre-commit rejects them.
+- Reference an image with an extension in frontmatter (post-migration). Bare slug only.
+- Keep the original PNG "just in case" alongside the WebP. The migration is one-way.
+- Run `git add -A` or `git commit` as part of the migration script — the user reviews and commits.
+- Modify the ComfyUI workflow on the server. Mode outputs come back as PNG today; the local pipeline re-encodes to WebP before placing the file.
+
+## Success Criteria
+
+- [ ] `git ls-files images/` returns zero `.png` / `.jpg` / `.jpeg` / `.avif` paths.
+- [ ] Every recipe + component has all four WebP files (source + 3 derivatives). `scripts/check_images.py` exits 0.
+- [ ] Every `_recipes/*.md` and `_components/*.md` has `image: <bare-slug>` (no extension) and no body link to a non-WebP path.
+- [ ] `_layouts/recipe.html` no longer contains the `replace: '.png' → '.webp'` chain; it appends `.webp` from a bare slug.
+- [ ] Home page card backgrounds, recipe page hero, recipe page zoom overlay, and inline body images all load `.webp` (verified via DevTools Network on at least three recipes).
+- [ ] Pre-commit hooks pass on a clean tree; running them twice is a no-op the second time.
+- [ ] `implement-recipe-from-image` skill (SKILL.md, run.py, autoloaded rule) writes `.webp` end to end. The card/hero/full derivatives are regenerated by the existing hooks; the skill no longer touches `.png`.
+- [ ] No regression in the home page, recipe pages, or component pages (manual smoke).
+
+## Open Questions
+
+1. **Source-image quality** — keep WebP at q90 for the source (good fidelity, ~30 % smaller than PNG)? Or q95 if you may re-derive from it later without quality accumulation? Default: **q90**.
+2. **Lossless WebP for the source** — for screenshots / line art (rare here) lossless WebP is smaller than lossy. Worth detecting? Default: **no**, treat everything as lossy.
+3. **Zoom overlay (`full` variant) target width** — 2400 px is my proposal. Originals appear ~4000 px+. 2400 covers retina displays at full screen; 3200 would be safer for larger displays. Default: **2400**.
+4. **Cards rewrite in JS** — confirm the home page JS (`assets/js/home.js`, `assets/js/search-page.js`) should build `<slug>.webp` from the bare slug to match the layout. Default: **yes**.
+5. **`to_implement/` directory** — out of scope (it's not under `images/`). Leave PNG sources there alone. OK?
+
+---
+
+Pause here for review. On greenlight, I move to:
+
+- **Phase 2 (Plan)** — component dependencies (scripts → layout → JS → skills), ordering, parallelisable vs. sequential, risks.
+- **Phase 3 (Tasks)** — discrete checklist with acceptance + verification per task.
+- **Phase 4 (Implement)** — task-by-task, no commits.
