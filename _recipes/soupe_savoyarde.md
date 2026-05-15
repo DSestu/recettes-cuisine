@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Soupe savoyarde"
-image: soupe_savoyarde.webp
+image: soupe_savoyarde
 
 
 tags:

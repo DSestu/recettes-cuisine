@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Spaghettonis à la crème de roquette et de basilic"
-image: spaghettonis_a_la_creme_de_roquette_et_de_basilic.png
+image: spaghettonis_a_la_creme_de_roquette_et_de_basilic
 
 tags:
 - plat

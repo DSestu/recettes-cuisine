@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Limoncello"
-image: limoncello.png
+image: limoncello
 
 tags:
 - boisson

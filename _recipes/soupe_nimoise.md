@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Soupe nîmoise"
-image: soupe_nimoise.png
+image: soupe_nimoise
 
 
 tags:

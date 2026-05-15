@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title:  "Sauce teriyaki"
-image: sauce_teriyaki.jpg
+image: sauce_teriyaki
 
 tags:
 - japon

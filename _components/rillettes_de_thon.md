@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Rillettes de thon"
-image: rillettes_de_thon.png
+image: rillettes_de_thon
 
 tags:
 - composant

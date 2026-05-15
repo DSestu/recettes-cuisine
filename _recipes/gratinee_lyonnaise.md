@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Gratinée lyonnaise"
-image: gratinee_lyonnaise.webp
+image: gratinee_lyonnaise
 
 
 tags:

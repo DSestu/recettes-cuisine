@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Chouquettes"
-image: chouquettes.jpg
+image: chouquettes
 
 tags:
 - dessert

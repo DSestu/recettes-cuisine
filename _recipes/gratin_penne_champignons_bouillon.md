@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Gratin de pennes et champignons au bouillon"
-image: gratin_penne_champignons_bouillon.png
+image: gratin_penne_champignons_bouillon
 
 tags:
 - repas

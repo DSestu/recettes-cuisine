@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Vichyssoise"
-image: vichyssoise.png
+image: vichyssoise
 
 
 tags:

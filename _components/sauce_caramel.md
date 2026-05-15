@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title:  Sauce caramel
-image: sauce_caramel.jpg
+image: sauce_caramel
 
 tags:
 - sucre

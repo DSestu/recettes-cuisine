@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Meringue aux amandes"
-image: meringue_aux_amandes.png
+image: meringue_aux_amandes
 
 tags:
 - dessert

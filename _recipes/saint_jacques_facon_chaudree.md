@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Saint-Jacques façon chaudrée"
-image: saint_jacques_facon_chaudree.png
+image: saint_jacques_facon_chaudree
 
 tags:
 - entree

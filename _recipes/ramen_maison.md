@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Ramen maison"
-image: ramen_maison.png
+image: ramen_maison
 
 tags:
 - plat principal

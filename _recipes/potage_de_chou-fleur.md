@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Potage Dubarry"
-image: potage_de_chou-fleur.jpg
+image: potage_de_chou-fleur
 
 
 tags:

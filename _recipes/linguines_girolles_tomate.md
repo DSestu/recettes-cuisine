@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Linguines aux girolles et à la tomate"
-image: linguines_girolles_tomate.png
+image: linguines_girolles_tomate
 
 tags:
 - repas

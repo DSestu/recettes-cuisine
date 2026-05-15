@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Soupe de poisson au saumon"
-image: soupe_de_poisson_au_saumon.png
+image: soupe_de_poisson_au_saumon
 
 tags:
 - soupe

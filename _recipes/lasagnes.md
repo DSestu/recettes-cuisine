@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Lasagnes"
-image: lasagnes.jpg
+image: lasagnes
 
 tags:
 - sestu

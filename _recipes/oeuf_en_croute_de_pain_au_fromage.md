@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Œuf en croûte de pain au fromage"
-image: oeuf_en_croute_de_pain_au_fromage.png
+image: oeuf_en_croute_de_pain_au_fromage
 
 tags:
 - repas

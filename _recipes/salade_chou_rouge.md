@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Salade de chou rouge"
-image: salade_chou_rouge.jpg
+image: salade_chou_rouge
 
 
 tags:

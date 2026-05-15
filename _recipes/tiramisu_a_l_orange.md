@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Tiramisu à l'orange"
-image: tiramisu_a_l_orange.png
+image: tiramisu_a_l_orange
 
 tags:
 - biscuits cuillere

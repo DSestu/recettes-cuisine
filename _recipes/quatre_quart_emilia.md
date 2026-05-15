@@ -2,7 +2,7 @@
 
 layout: recipe
 title:  "Quatre quart Emilia"
-image: quatre_quart_emilia.jpg
+image: quatre_quart_emilia
 
 tags:
 - quatre-quarts

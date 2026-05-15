@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Moelleux au chocolat"
-image: moelleux_au_chocolat.webp
+image: moelleux_au_chocolat
 
 tags:
 - beurre

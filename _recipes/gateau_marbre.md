@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Gâteau marbré"
-image: gateau_marbre.jpg
+image: gateau_marbre
 
 tags:
 - beurre

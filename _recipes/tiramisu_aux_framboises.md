@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Tiramisu aux framboises"
-image: tiramisu_framboise.jpg
+image: tiramisu_framboise
 
 
 tags:

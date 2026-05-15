@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Potage au concombre"
-image: potage_au_concombre.jpg
+image: potage_au_concombre
 
 
 tags:

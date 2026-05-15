@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Punch frais"
-image: punch.jpeg
+image: punch
 
 tags:
 - apéritif

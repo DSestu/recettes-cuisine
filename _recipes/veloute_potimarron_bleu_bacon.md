@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Velouté de potimarron au bleu et au bacon grillé"
-image: veloute_potimarron_bleu_bacon.png
+image: veloute_potimarron_bleu_bacon
 
 tags:
 - repas

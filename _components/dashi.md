@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title:  "Dashi"
-image: dashi.jpg
+image: dashi
 
 tags:
 - japon

@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Pappardelles aux champignons, bleu, comté et poulet"
-image: pappardelles_champignons_bleu_comte_poulet.png
+image: pappardelles_champignons_bleu_comte_poulet
 
 tags:
 - repas

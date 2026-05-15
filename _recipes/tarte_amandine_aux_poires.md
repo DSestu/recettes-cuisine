@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Tarte amandine aux poires"
-image: tarte_amandine_aux_poires.png
+image: tarte_amandine_aux_poires
 
 tags:
 - dessert

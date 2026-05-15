@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Tiramisu (classique au café)"
-image: tiramisu.jpg
+image: tiramisu
 
 
 tags:

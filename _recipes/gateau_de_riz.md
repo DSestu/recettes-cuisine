@@ -2,7 +2,7 @@
 
 layout: recipe
 title:  "Gateau de riz"
-image: gateau_de_riz.jpg
+image: gateau_de_riz
 
 
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Travers de porc à la moutarde, au miel et aux pommes"
-image: travers_de_porc_moutarde_miel_pommes.png
+image: travers_de_porc_moutarde_miel_pommes
 
 tags:
 - plat

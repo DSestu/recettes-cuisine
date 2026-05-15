@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "New templating example"
-image: 0_TBD.jpg
+image: 0_TBD
 
 tags:
 - example
@@ -28,7 +28,7 @@ HTML works.
 
 <iframe width="200" height="200" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-![Annotation de l'image](../images/ankake_sauce.jpg){: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }
+![Annotation de l'image](../images/ankake_sauce.webp){: data-max-width="400px" data-max-height="300px" data-aspect-ratio="16/9" }
 
 Continuez avec toutes les étapes nécessaires.
 

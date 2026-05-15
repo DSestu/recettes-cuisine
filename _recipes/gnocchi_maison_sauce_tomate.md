@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Gnocchi maison à la sauce tomate"
-image: gnocchi_maison_sauce_tomate.png
+image: gnocchi_maison_sauce_tomate
 
 tags:
 - plat principal

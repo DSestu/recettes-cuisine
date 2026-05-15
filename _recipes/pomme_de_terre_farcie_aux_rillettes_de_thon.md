@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Pomme de terre farcie aux rillettes de thon"
-image: pomme_de_terre_farcie_aux_rillettes_de_thon.png
+image: pomme_de_terre_farcie_aux_rillettes_de_thon
 
 tags:
 - repas

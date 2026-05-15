@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Soupe ardennaise"
-image: 0_TBD.jpg
+image: 0_TBD
 
 
 tags:

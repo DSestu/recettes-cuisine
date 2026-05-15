@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Limoncello tiramisu"
-image: limoncello_tiramisu.jpg
+image: limoncello_tiramisu
 
 tags:
 - dessert

@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Minestrone"
-image: minestrone.jpg
+image: minestrone
 
 
 tags:

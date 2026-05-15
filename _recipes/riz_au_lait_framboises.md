@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Riz au lait aux framboises en verrines"
-image: riz_au_lait_framboises.png
+image: riz_au_lait_framboises
 
 tags:
 - dessert

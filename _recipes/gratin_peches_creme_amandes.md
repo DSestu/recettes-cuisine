@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Gratin de pêches à la crème d'amandes"
-image: gratin_peches_creme_amandes.png
+image: gratin_peches_creme_amandes
 
 tags:
 - dessert

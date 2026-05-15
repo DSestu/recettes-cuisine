@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title:  "Sauce aromatique pour Karaage"
-image: aromatic_karaage.jpeg
+image: aromatic_karaage
 
 tags:
 - japon

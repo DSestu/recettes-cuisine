@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Linguines ricotta, pecorino et guanciale"
-image: linguines_ricotta_pecorino_et_guanciale.png
+image: linguines_ricotta_pecorino_et_guanciale
 
 tags:
 - plat

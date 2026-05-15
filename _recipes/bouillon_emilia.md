@@ -2,7 +2,7 @@
 
 layout: recipe
 title:  "Bouillon Emilia"
-image: bouillon_emilia.jpg
+image: bouillon_emilia
 
 
 tags:

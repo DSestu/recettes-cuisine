@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Bûche framboise & mascarpone"
-image: buche_framboise_mascarpone.png
+image: buche_framboise_mascarpone
 
 tags:
 - dessert

@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title:  "Sauce ankake aux champignons"
-image: ankake_sauce.jpg
+image: ankake_sauce
 
 tags:
 - japon

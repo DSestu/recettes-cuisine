@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Karaage - Poulet frit japonais avec sauce aromatique"
-image: karaage.webp
+image: karaage
 
 
 tags:

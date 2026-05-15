@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Char siu (porc doré au chalumeau)"
-image: char_siu_porc_chalumeau.webp
+image: char_siu_porc_chalumeau
 
 tags:
 - composant

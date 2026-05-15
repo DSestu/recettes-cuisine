@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Tartinable chèvre chorizo"
-image: tartinable_chevre_chorizo.jpg
+image: tartinable_chevre_chorizo
 
 tags:
 - apéritif

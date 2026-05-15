@@ -2,7 +2,7 @@
 
 layout: recipe
 title:  "Poulet curry"
-image: poulet_curry.jpg
+image: poulet_curry
 
 
 tags:

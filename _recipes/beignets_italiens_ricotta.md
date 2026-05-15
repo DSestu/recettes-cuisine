@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Beignets italiens à la ricotta"
-image: beignets_italiens_ricotta.png
+image: beignets_italiens_ricotta
 
 tags:
 - dessert

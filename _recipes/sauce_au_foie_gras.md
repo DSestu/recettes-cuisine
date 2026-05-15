@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Sauce au foie gras"
-image: sauce_au_foie_gras.png
+image: sauce_au_foie_gras
 
 tags:
 - sauce

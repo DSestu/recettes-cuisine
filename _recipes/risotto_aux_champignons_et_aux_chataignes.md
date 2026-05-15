@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Risotto aux champignons et aux châtaignes"
-image: risotto_aux_champignons_et_aux_chataignes.png
+image: risotto_aux_champignons_et_aux_chataignes
 
 tags:
 - plat

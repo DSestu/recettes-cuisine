@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Coquilles Saint-Jacques gratinées"
-image: coquilles_saint_jacques_gratinees.png
+image: coquilles_saint_jacques_gratinees
 
 tags:
 - entree

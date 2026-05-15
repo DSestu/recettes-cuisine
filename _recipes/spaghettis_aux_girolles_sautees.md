@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Spaghettis aux girolles sautées"
-image: spaghettis_aux_girolles_sautees.png
+image: spaghettis_aux_girolles_sautees
 
 tags:
 - plat

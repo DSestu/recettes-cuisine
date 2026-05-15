@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Crème brûlée"
-image: creme_brulee.jpg
+image: creme_brulee
 
 
 tags:

@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Entremet framboises & mascarpone au kirsch"
-image: entremet_framboises_mascarpone_kirsch.png
+image: entremet_framboises_mascarpone_kirsch
 
 tags:
 - dessert

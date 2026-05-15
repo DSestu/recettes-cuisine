@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Raviolis sestu (WIP)"
-image: raviolis_sestu.png
+image: raviolis_sestu
 
 tags:
 - plat principal

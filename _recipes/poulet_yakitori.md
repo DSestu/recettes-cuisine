@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Boulettes poulet Yakitori"
-image: poulet_yakitori.jpg
+image: poulet_yakitori
 
 
 tags:

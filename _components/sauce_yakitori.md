@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title:  "Sauce Yakitori"
-image: sauce_yakitori.webp
+image: sauce_yakitori
 
 tags:
 - japon
