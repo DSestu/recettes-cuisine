@@ -610,14 +610,15 @@ layout: default
       <div class="sm-col sm-col-4 px2">
         {% for recipe in site.components %} {% if recipe.title == component %}
         {% for image in recipe.image %}
+        {% assign comp_slug = image | split: '.' | first %}
         <div
           class="component-image ratio bg-cover relative mb-4"
-          style="background-image:url({{site.baseurl}}/images/{{ image }});"
+          style="background-image:url({{site.baseurl}}/images/cards/{{ comp_slug }}.webp);"
         >
           <img
             class="hide"
             itemprop="photo"
-            src="{{site.baseurl}}/images/{{ image }}"
+            src="{{site.baseurl}}/images/cards/{{ comp_slug }}.webp"
           />
           {% if recipe.imagecredit %} {% for imagecredit in recipe.imagecredit
           %}
@@ -913,7 +914,9 @@ layout: default
           if (p.startsWith(base)) return p;
           if (p.startsWith('/')) return base + p;
           if (p.startsWith('images/')) return base + '/' + p;
-          return base + '/images/' + p;
+          // bare slug (post-migration) — render via the card variant
+          const slug = p.replace(/\.[^./]+$/, '');
+          return base + '/images/cards/' + slug + '.webp';
         }
         const scored = items
           .filter(it => it.title !== currentTitle)

@@ -60,7 +60,7 @@
   />
   <meta
     property="og:image"
-    content="{% if page.title and page.image %}{{ site.baseurl }}/images/{{ page.image | first | default: page.image }}{% else %}{{ site.baseurl }}/assets/social.png{% endif %}"
+    content="{% if page.title and page.image %}{% assign og_slug = page.image | first | default: page.image | split: '.' | first %}{{ site.baseurl }}/images/hero/{{ og_slug }}.webp{% else %}{{ site.baseurl }}/assets/social.png{% endif %}"
   />
 
   <!-- Twitter Meta Tags -->
@@ -80,7 +80,7 @@
   />
   <meta
     name="twitter:image"
-    content="{% if page.title and page.image %}{{ site.baseurl }}/images/{{ page.image | first | default: page.image }}{% else %}{{ site.baseurl }}/assets/social.png{% endif %}"
+    content="{% if page.title and page.image %}{% assign og_slug = page.image | first | default: page.image | split: '.' | first %}{{ site.baseurl }}/images/hero/{{ og_slug }}.webp{% else %}{{ site.baseurl }}/assets/social.png{% endif %}"
   />
 
   <style>

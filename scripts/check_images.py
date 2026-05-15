@@ -37,6 +37,11 @@ GREP_TARGETS = [
     "home_categories.md",
 ]
 NON_WEBP_RE = re.compile(r"\.(png|jpe?g|avif)\b", re.IGNORECASE)
+# Static assets that are intentionally NOT recipe imagery — favicons, OG
+# fallback, branding. The migration leaves these alone.
+ALLOWED_NON_WEBP_RE = re.compile(
+    r"(icons/|qr-code|assets/social\.png)", re.IGNORECASE
+)
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 DERIVED_DIRS = ("cards", "hero", "full")
 
@@ -117,7 +122,7 @@ def grep_non_webp() -> list[tuple[Path, int, str]]:
                 continue
             try:
                 for lineno, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
-                    if NON_WEBP_RE.search(line):
+                    if NON_WEBP_RE.search(line) and not ALLOWED_NON_WEBP_RE.search(line):
                         hits.append((f.relative_to(REPO_ROOT), lineno, line.strip()))
             except UnicodeDecodeError:
                 continue

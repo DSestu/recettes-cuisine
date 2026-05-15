@@ -167,7 +167,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
 
 ## Phase C — Bulk source migration
 
-### [ ] C1. Dry-run migration
+### [x] C1. Dry-run migration
 
 - **Acceptance**
   - `uv run python scripts/migrate_to_webp.py --dry-run` lists ~82 expected encodes (90 sources − 8 already WebP, minus the pilot).
@@ -175,7 +175,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - Output matches `git ls-files images/ | grep -E '\.(png|jpg|jpeg|avif)$'`.
 - **Files**: none.
 
-### [ ] C2. Run migration (encode only, no deletion)
+### [x] C2. Run migration (encode only, no deletion)
 
 - **Acceptance**
   - `uv run python scripts/migrate_to_webp.py --no-delete` produces a `.webp` next to every PNG/JPG source.
@@ -184,7 +184,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - For each non-WebP source: `images/<stem>.webp` exists.
 - **Files**: ~82 new WebP files.
 
-### [ ] C3. Generate full set of derivatives
+### [x] C3. Generate full set of derivatives
 
 - **Acceptance**
   - `generate_card_thumbnails.py`, `generate_hero_images.py`, `generate_full_images.py` each run idempotently.
@@ -193,7 +193,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - `scripts/check_images.py` (derivative-only mode; ignore frontmatter check for now) returns 0.
 - **Files**: derivatives only.
 
-### [ ] C4. Visual QA on 5 sample recipes
+### [x] C4. Visual QA on 5 sample recipes
 
 - **Acceptance**
   - Render 5 representative recipes locally (one dessert, one soup, one meat, one sauce, one oldest); each looks visually equivalent to the PNG version (side-by-side).
@@ -201,7 +201,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - Spot-check passes; if a recipe shows q90 artefacts, override its source to q95 and re-run derivatives.
 - **Files**: none (or one recipe's source re-encoded).
 
-### [ ] C5. Delete PNG/JPG/JPEG/AVIF sources
+### [x] C5. Delete PNG/JPG/JPEG/AVIF sources
 
 - **Acceptance**
   - `git ls-files images/ | grep -E '\.(png|jpg|jpeg|avif)$'` returns nothing.
@@ -219,7 +219,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
 
 ## Phase D — Mass markdown rewrite
 
-### [ ] D1. Rewrite frontmatter `image:` to bare slug
+### [x] D1. Rewrite frontmatter `image:` to bare slug
 
 - **Acceptance**
   - Every `_recipes/*.md` and `_components/*.md`: `image: <slug>.<ext>` → `image: <slug>`.
@@ -228,7 +228,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - `git grep -E '^image:.*\.(png|jpe?g|avif|webp)' _recipes _components` returns nothing.
 - **Files**: ~88 markdown files.
 
-### [ ] D2. Rewrite body image links
+### [x] D2. Rewrite body image links
 
 - **Acceptance**
   - Replace `](../images/<path>.png|.jpg|.jpeg|.avif)` → `](../images/<path>.webp)` in `_recipes/` and `_components/`.
@@ -247,7 +247,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
 
 ## Phase E — Layout & JS cleanup
 
-### [ ] E1. Drop the layout's `replace` chain
+### [x] E1. Drop the layout's `replace` chain
 
 - **Acceptance**
   - `_layouts/recipe.html`: `hero_file = page.image | append: '.webp'` (no replace chain).
@@ -256,7 +256,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - jekyll serve; DevTools confirms hero `.webp` for every recipe.
 - **Files**: `_layouts/recipe.html`.
 
-### [ ] E2. Audit and clean other layouts / includes
+### [x] E2. Audit and clean other layouts / includes
 
 - **Acceptance**
   - `_layouts/default.html`, `index.html`, `recherche.html`, `home_categories.md`, `_includes/*.html`: any path/string referencing `.png/.jpg/.jpeg/.avif` removed or rewritten.
@@ -264,7 +264,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done.
   - `git grep -E '\.(png|jpe?g|avif)' _layouts _includes index.html recherche.html home_categories.md` returns nothing site-facing.
 - **Files**: as needed.
 
-### [ ] E3. JS URL builders (final form)
+### [x] E3. JS URL builders (final form)
 
 - **Acceptance**
   - `assets/js/home.js`, `assets/js/search-page.js`, `assets/js/transitions.js`: card URLs built from bare slug + `.webp`. No `.png` mentions.
