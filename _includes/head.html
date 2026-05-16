@@ -281,6 +281,27 @@
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/transitions.css" />
 
+  <script>
+    document.addEventListener("keydown", function (e) {
+      if (!(e.key === "f" || e.key === "F")) return;
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.altKey || e.shiftKey) return;
+      const input =
+        document.getElementById("tag-input") ||
+        document.getElementById("home-search") ||
+        document.getElementById("title-search");
+      if (!input) return;
+      e.preventDefault();
+      try {
+        input.focus({ preventScroll: true });
+      } catch (_) {
+        input.focus();
+      }
+      if (typeof input.select === "function") input.select();
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  </script>
+
   <!-- Speculation Rules: prefetch same-origin pages on hover/touch.
        Warms the HTTP cache so View Transitions don't pause as long waiting
        on the destination HTML. Does NOT prerender (prerender activation can
