@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs cat *)",
+      "Bash(*)",
+      "Bash(gem list *)",
+      "Bash(jekyll build *)",
+      "Bash(ruby -r jekyll -e 'Jekyll::Commands::Build.process\\({\"trace\"=>true, \"source\"=>\".\", \"destination\"=>\"_site\"}\\)')",
+      "Bash(git rm *)",
+      "Bash(rm -rf .claude/skills/implement-recipe-from-image/__pycache__)",
+      "Bash(git add *)"
+    ]
+  }
+}
