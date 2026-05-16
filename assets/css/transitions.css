@@ -185,12 +185,19 @@ html:active-view-transition-type(from-search):active-view-transition-type(to-hom
   ::view-transition-new(vt-btn-zoom) {
     animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
   }
-  /* Home ↔ Search: vertical too. */
-  html:active-view-transition-type(from-home):active-view-transition-type(to-search)::view-transition-new(root) {
-    animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-up !important;
+  /* Home ↔ Search: plain crossfade. Suppress the vt-page-out-left
+   * curtain (the OLD .content snapshot would otherwise still slide
+   * horizontally on mobile) and crossfade the roots instead. */
+  ::view-transition-old(vt-page-out-left) {
+    animation: 500ms linear both rc-fade-out !important;
   }
+  html:active-view-transition-type(from-home):active-view-transition-type(to-search)::view-transition-new(root),
   html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-new(root) {
-    animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-down !important;
+    animation: 500ms ease-out both rc-fade-in !important;
+  }
+  html:active-view-transition-type(from-home):active-view-transition-type(to-search)::view-transition-old(root),
+  html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-old(root) {
+    animation: 500ms ease-out both rc-fade-out !important;
   }
 }
 

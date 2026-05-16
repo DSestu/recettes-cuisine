@@ -101,16 +101,29 @@
         collapseTimer = null;
       }
       wrap.classList.add("desktop-sidebar-expanded");
-      wrap.setAttribute("aria-hidden", "false");
+      wrap.removeAttribute("inert");
       nav.setAttribute("aria-expanded", "true");
     }
 
     function collapse() {
       if (!isDesktop()) return;
       wrap.classList.remove("desktop-sidebar-expanded");
-      wrap.setAttribute("aria-hidden", "true");
+      wrap.setAttribute("inert", "");
       nav.setAttribute("aria-expanded", "false");
     }
+
+    function applyMode() {
+      if (isDesktop()) {
+        if (!wrap.classList.contains("desktop-sidebar-expanded")) {
+          wrap.setAttribute("inert", "");
+        }
+      } else {
+        wrap.removeAttribute("inert");
+      }
+    }
+    applyMode();
+    if (md.addEventListener) md.addEventListener("change", applyMode);
+    else if (md.addListener) md.addListener(applyMode);
 
     function scheduleCollapse() {
       if (collapseTimer) clearTimeout(collapseTimer);
