@@ -258,6 +258,9 @@
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tailwind.css" />
   <style>
+    [data-cols-grid] {
+      grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)) !important;
+    }
     @media (min-width: 768px) {
       [data-cols-grid] {
         grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)) !important;
