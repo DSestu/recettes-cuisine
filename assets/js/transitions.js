@@ -37,8 +37,11 @@
       var path = p.indexOf(base) === 0 ? p.slice(base.length) : p;
       if (path === "" || path === "/" || path === "/index.html") return "home";
       if (path === "/recherche/" || path === "/recherche") return "search";
-      if (path.indexOf("/recipes/") === 0) return "recipe";
-      return "other";
+      // Recipes and components share `layout: recipe` and are served at
+      // /<title>.html. Treat any other internal URL as a recipe so the
+      // recipe ↔ recipe choreography (which already covers component pages)
+      // also kicks in for component ↔ recipe navigations.
+      return "recipe";
     } catch (e) {
       return "other";
     }
