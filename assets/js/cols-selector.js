@@ -21,8 +21,18 @@
     wrap.appendChild(label);
 
     const btnRow = document.createElement("div");
-    btnRow.className = "flex items-center gap-1 px-1.5 py-0.5";
+    btnRow.className = "relative flex items-center gap-1 px-1.5 py-0.5";
     wrap.appendChild(btnRow);
+
+    const indicator = document.createElement("div");
+    indicator.className = "absolute top-0 bottom-0 rounded-md shadow-sm pointer-events-none";
+    indicator.style.backgroundColor = "rgba(245, 50, 0, 0.65)";
+    indicator.style.left = "0px";
+    indicator.style.width = "0px";
+    indicator.style.opacity = "0";
+    indicator.style.transition =
+      "left 440ms cubic-bezier(0.22, 1, 0.36, 1), width 440ms cubic-bezier(0.22, 1, 0.36, 1), opacity 360ms ease-out";
+    btnRow.appendChild(indicator);
 
     const buttons = new Map();
     for (const n of allowed) {
@@ -32,7 +42,7 @@
       btn.textContent = String(n);
       btn.setAttribute("aria-label", "Afficher " + n + " colonnes");
       btn.className =
-        "px-3 py-1 text-sm font-semibold rounded-md transition focus:outline-none focus:ring-2 focus:ring-primary/30";
+        "relative z-10 px-3 py-1 text-sm font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30";
       btn.style.minWidth = "2.5rem";
       btn.addEventListener("click", function () {
         onPick(n);
@@ -41,18 +51,33 @@
       btnRow.appendChild(btn);
     }
 
+    function moveIndicator(activeBtn) {
+      if (!activeBtn || !activeBtn.offsetParent) return;
+      const rowRect = btnRow.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      indicator.style.left = btnRect.left - rowRect.left + "px";
+      indicator.style.width = btnRect.width + "px";
+      indicator.style.top = activeBtn.offsetTop + "px";
+      indicator.style.bottom = "";
+      indicator.style.height = activeBtn.offsetHeight + "px";
+      indicator.style.opacity = "1";
+    }
+
     function setActive(n) {
+      let activeBtn = null;
       for (const [val, btn] of buttons) {
         const active = val === n;
         btn.setAttribute("aria-pressed", active ? "true" : "false");
         if (active) {
-          btn.classList.add("bg-primary", "text-white", "shadow-sm");
+          activeBtn = btn;
+          btn.classList.add("text-white");
           btn.classList.remove("text-red-900/70", "hover:bg-primary/10");
         } else {
-          btn.classList.remove("bg-primary", "text-white", "shadow-sm");
+          btn.classList.remove("text-white");
           btn.classList.add("text-red-900/70", "hover:bg-primary/10");
         }
       }
+      moveIndicator(activeBtn);
     }
 
     setActive(current);
@@ -98,6 +123,12 @@
 
     mount.appendChild(control.wrap);
     applyToGrids(gridSelector, current);
+    requestAnimationFrame(function () {
+      control.setActive(current);
+    });
+    window.addEventListener("resize", function () {
+      control.setActive(current);
+    });
 
     document.addEventListener("keydown", function (e) {
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
