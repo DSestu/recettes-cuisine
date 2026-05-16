@@ -1,5 +1,6 @@
 Features:
 
+* Advanced search: toggle to see all tags in the tag suggestions list.
 * Shopping cart system (see section)
 * Ingredient tags on hover on the homepage
 * ingredient calendar feature
