@@ -68,7 +68,7 @@ Before scaffolding, scan the source (OCR text, pasted text, etc.) for sub-prepar
 3. **If kept inline** → leave as-is in the parent recipe, do not add `condiment` anywhere.
 4. **If user is ambiguous or silent** → keep inline; never split without explicit confirmation.
 
-**Image policy for split condiments:** if the source has a dedicated photo, scaffold it like any recipe (`image: <slug>` bare, WebP derivatives). Otherwise omit the `image:` field — the component renders without a card thumbnail.
+**Image policy for split condiments:** if the source has a dedicated photo, scaffold it like any recipe (`image: <slug>` bare, WebP derivatives). Otherwise, after writing `prompts/_components/<snake>.md`, generate a fresh image via the ComfyUI prompt workflow (`uv run python .claude/skills/implement-recipe-from-image/run.py --mode prompt --slug <snake>` — the skill resolves prompts from both `prompts/_recipes/` and `prompts/_components/`). Confirm with the user once, then re-encode the resulting `.tmp/comfyui/<id>.png` to `images/<snake>.webp` (Pillow, q90, `method=6`), regenerate the card/hero/full derivatives, and set `image: <snake>` in the component frontmatter.
 
 ## French and spelling
 

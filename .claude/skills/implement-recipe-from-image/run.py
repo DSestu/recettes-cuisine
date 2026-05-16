@@ -398,9 +398,13 @@ def run_image(cfg: dict, slug: str, dry_run: bool) -> dict:
 
 
 def _read_prompt_gallery(slug: str) -> str:
-    p = REPO_ROOT / "prompts" / "_recipes" / f"{slug}.md"
-    if not p.exists():
-        die(f"prompt gallery file not found: {p}")
+    candidates = [
+        REPO_ROOT / "prompts" / "_recipes" / f"{slug}.md",
+        REPO_ROOT / "prompts" / "_components" / f"{slug}.md",
+    ]
+    p = next((c for c in candidates if c.exists()), None)
+    if p is None:
+        die(f"prompt gallery file not found: tried {', '.join(str(c) for c in candidates)}")
     txt = p.read_text(encoding="utf-8").strip()
     if not txt:
         die(f"prompt gallery file is empty: {p}")
