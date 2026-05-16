@@ -33,21 +33,11 @@ ingredients:
 - 2 c. à soupe d'huile d'olive
 - Poivre
 
-marinade:
-- 6 tiges de cébette
-- 2 gousses d'ail
-- 10 g de gingembre frais
-- 1 c. à soupe bombée de miel liquide
-- 1/2 citron vert (jus)
-- 8 cl de sauce soja
-- 2 c. à soupe d'huile de sésame grillé
+components:
+- Marinade gingembre-soja
 
 directions:
-- Préparez la marinade
-- Épluchez, dégermez et hachez l'ail.
-- Pelez et hachez le gingembre.
-- Ciselez les tiges et le vert des cébettes.
-- Dans un bol, mélangez le jus de citron vert, la sauce soja, l'huile de sésame, le miel, les cébettes, le gingembre et l'ail. Poivrez.
+- Préparez la *Marinade gingembre-soja* — voir composant.
 -
 - Préparez le saumon
 - Rincez et épongez les pavés de saumon.

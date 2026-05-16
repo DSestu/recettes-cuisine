@@ -23,12 +23,9 @@ ingredients:
 - 125 g de haricots verts
 - 125 g de champignons de Paris
 - 1 échalote
-- SAUCE
-- 2 cuillères à soupe d'huile d'arachide
-- 1 cuillère à soupe de vinaigre de vin
-- 1 cuillère à café de moutarde
-- Sel
-- Poivre
+
+components:
+- Vinaigrette à la moutarde
 
 directions:
 - Faire chauffer 2 litres d'eau salée
@@ -41,8 +38,8 @@ directions:
 - Ajouter les haricots aux champignons
 - Éplucher et hacher finement l'échalote
 - Parsemer l'échalote sur la salade
-- Préparer la sauce en mélangeant l'huile, le vinaigre, la moutarde, le sel et le poivre
-- Verser la sauce au moment de servir et remuer
+- Préparer la *Vinaigrette à la moutarde* — voir composant
+- Verser la vinaigrette au moment de servir et remuer
 
 ---
 

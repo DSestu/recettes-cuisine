@@ -4,6 +4,7 @@ title: "Sauce au foie gras"
 image: sauce_au_foie_gras
 
 tags:
+- condiment
 - sauce
 - sestu
 - foie gras

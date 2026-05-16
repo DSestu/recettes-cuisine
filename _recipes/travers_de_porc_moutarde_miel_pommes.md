@@ -22,15 +22,16 @@ ingredients:
 - 800 g de travers de porc
 - 5 pommes type Golden
 - 1 tête d'ail
-- 3 c. à soupe de moutarde
-- 2 c. à soupe de miel
-- 1 c. à soupe d'huile d'olive
+- Huile d'olive (pour arroser)
 - Sel
 - Poivre
 
+components:
+- Marinade moutarde-miel
+
 directions:
-- Préparer la marinade en préchauffant le four à 160 °C.
-- Verser le miel, la moutarde et l'huile d'olive dans un bol puis bien mélanger.
+- Préchauffer le four à 160 °C.
+- Préparer la *Marinade moutarde-miel* — voir composant.
 - Badigeonner les travers de porc avec la marinade à l'aide d'un pinceau puis réserver au frais pendant au moins 30 minutes.
 - Nettoyer les pommes, retirer le trognon puis les couper en quartiers.
 - Couper la tête d'ail en deux dans l'épaisseur.

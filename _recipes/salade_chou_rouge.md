@@ -21,20 +21,18 @@ tags:
 
 ingredients:
 - 1 petit chou rouge
-- 1 gousse d'ail
-- 1 feuille de laurier
-- 2 dl de vinaigre
 - 3 cuillères à soupe d'huile d'olive
 - Sel fin
 - Poivre du moulin
+
+components:
+- Marinade au vinaigre, ail et laurier
 
 directions:
 - Effeuiller le chou, enlever les côtes et laver les feuilles
 - Égoutter les feuilles, les réunir et les tailler en julienne fine
 - Ébouillanter la julienne 6 minutes, puis l'égoutter à fond
-- Disposer dans une terrine par couches successives saupoudrées d'un peu de sel fin
-- Entre chaque couche, mettre une gousse d'ail, du poivre frais moulu et un fragment de feuille de laurier
-- Verser du vinaigre bouilli et refroidi jusqu'à couvrir entièrement le chou
+- Préparer la *Marinade au vinaigre, ail et laurier* — voir composant — et l'appliquer en couches successives sur la julienne de chou
 - Laisser mariner 2 jours au frais
 - Au moment de servir, égoutter et assaisonner avec 3 cuillères à soupe d'huile pour 150g de chou
 
