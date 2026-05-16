@@ -53,6 +53,27 @@ Canonical registry: `_data/recipe_tags.yml` — a list of `{ id, ingredient }` o
 
 If the recipe references a sub-recipe (sauce, bouillon, etc.): create `_components/<snake_case>.md` with the same frontmatter/body format. List in the main recipe via `components:` using **exact titles** (e.g. `- Dashi`, `- Sauce aromatique pour Karaage`). Component filenames are snake_case from the title.
 
+## Condiment detection (ask before split)
+
+Before scaffolding, scan the source (OCR text, pasted text, etc.) for sub-preparations that look like a reusable condiment and ask the user whether to split each one into a `_components/` file.
+
+**Trigger heuristics** — flag a sub-preparation when **any** of these holds:
+
+- **Keyword in a subsection title or paragraph start** (FR/EN): `sauce`, `marinade`, `vinaigrette`, `coulis`, `pesto`, `chutney`, `mayonnaise`, `aïoli`, `beurre composé`, `glaçage`, `glaze`, `pickles`, `gomasio`, `tare`, `dashi`, `bouillon`, `fond`, `crème anglaise`, `crème pâtissière`, `caramel`, `sirop`.
+- **Structural** — the sub-preparation has its own ingredient list and its own steps, distinct from the main dish flow.
+- **Reusability** — the preparation could plausibly be used in another dish (soy-mirin sauce: yes; gratin-specific roux: no).
+
+**Exclusions** (do not flag): one-off seasoning blends tied to this dish only, finishing touches without a proper name, mixes that read as a single step rather than a sub-recipe.
+
+**Ask-before-split protocol:**
+
+1. List **all** candidates in one numbered question to the user — no ping-pong. For each: name, why it triggered (keyword / structure / reusability), and the proposed split filename. Example: *« J'ai détecté : (1) "Sauce aromatique pour karaage" — sous-section avec ingrédients propres, réutilisable → `_components/sauce_aromatique_karaage.md` ; (2) "Marinade" — listée à part → `_components/marinade_karaage.md`. Splitter lesquelles ? »*
+2. **If split** → create `_components/<snake>.md` with its own ingredients/steps, add tag `condiment` (plus any other applicable tags), reference from the parent via `components: - <Exact Title>`, and replace the inline block in the parent with a short prose pointer (« Préparer la *Sauce aromatique pour karaage* — voir composant »). Also create `prompts/_components/<snake>.md` per `update-recipe-prompt-gallery.md`.
+3. **If kept inline** → leave as-is in the parent recipe, do not add `condiment` anywhere.
+4. **If user is ambiguous or silent** → keep inline; never split without explicit confirmation.
+
+**Image policy for split condiments:** if the source has a dedicated photo for the condiment, scaffold it like any recipe (`image: <slug>` bare, WebP derivatives). Otherwise omit the `image:` field — the component renders without a card thumbnail, which is fine for a text-only condiment.
+
 ## French spelling
 
 Correct only French spelling (e.g. "Céléri" → "Céleri", "souce" → "sauce"). Never change quantities, cooking steps, or intent.

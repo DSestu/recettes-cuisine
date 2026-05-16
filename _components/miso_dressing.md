@@ -16,6 +16,7 @@ tags:
 - vinaigrette
 - sauce
 - assaisonnement
+- condiment
 
 ingredients:
 - 1 c. à café de sésame
@@ -29,3 +30,5 @@ directions:
 ---
 
 Pour 5 c. à café de sauce, ce qui est suffisant pour la salade Hijiki pour 1 personne.
+
+Pour salades (e.g. Hijiki), 5 c. à café de vinaigrette miso.

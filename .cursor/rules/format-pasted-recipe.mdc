@@ -49,6 +49,27 @@ Before writing or editing tags in any file under `_recipes/` or `_components/`, 
 
 If the recipe includes sub-recipes (sauce, bouillon, etc.): create a corresponding `_components/nom_composant.md` with the same frontmatter/body format. List components in the main recipe by **exact title** under `components:` (e.g. `- Dashi`, `- Sauce aromatique pour Karaage`). Component filenames must be snake_case from their title (e.g. `aromatic_sauce_for_karaage.md`).
 
+## Condiment detection (ask before split)
+
+Before scaffolding, scan the source (OCR text, pasted text, etc.) for sub-preparations that look like a reusable condiment and ask the user whether to split each one into a `_components/` file.
+
+**Trigger heuristics** — flag a sub-preparation when **any** of these holds:
+
+- **Keyword in a subsection title or paragraph start** (FR/EN): `sauce`, `marinade`, `vinaigrette`, `coulis`, `pesto`, `chutney`, `mayonnaise`, `aïoli`, `beurre composé`, `glaçage`, `glaze`, `pickles`, `gomasio`, `tare`, `dashi`, `bouillon`, `fond`, `crème anglaise`, `crème pâtissière`, `caramel`, `sirop`.
+- **Structural** — the sub-preparation has its own ingredient list and its own steps, distinct from the main dish flow.
+- **Reusability** — the preparation could plausibly be used in another dish (soy-mirin sauce: yes; gratin-specific roux: no).
+
+**Exclusions** (do not flag): one-off seasoning blends tied to this dish only, finishing touches without a proper name, mixes that read as a single step rather than a sub-recipe.
+
+**Ask-before-split protocol:**
+
+1. List **all** candidates in one numbered question to the user — no ping-pong. For each: name, why it triggered, and the proposed split filename.
+2. **If split** → create `_components/<snake>.md` with its own ingredients/steps, add tag `condiment` (plus any other applicable tags), reference from the parent via `components: - <Exact Title>`, and replace the inline block in the parent with a short prose pointer. Also create `prompts/_components/<snake>.md`.
+3. **If kept inline** → leave as-is in the parent recipe, do not add `condiment` anywhere.
+4. **If user is ambiguous or silent** → keep inline; never split without explicit confirmation.
+
+**Image policy for split condiments:** if the source has a dedicated photo, scaffold it like any recipe (`image: <slug>` bare, WebP derivatives). Otherwise omit the `image:` field — the component renders without a card thumbnail.
+
 ## French and spelling
 
 Correct only French spelling (e.g. "Céléri" → "Céleri", "souce" → "sauce"). Do not change any quantities, cooking steps, or intent.

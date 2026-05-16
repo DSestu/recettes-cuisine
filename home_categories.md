@@ -7,6 +7,12 @@ categories:
     tags:
     - perso
 
+  - id: "condiments"
+    label: "Sauces & condiments"
+    description: "Sauces, condiments et préparations à part réutilisables."
+    tags:
+      - condiment
+
   - id: "starters"
     label: "Entrées"
     description: "Recettes d'entrées."
