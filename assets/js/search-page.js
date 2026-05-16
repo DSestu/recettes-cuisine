@@ -2342,8 +2342,56 @@
 
     const tagInput = $('#tag-input');
     const tagAuto = $('#tag-autocomplete');
+    let tagAutoActiveIdx = -1;
+
+    function tagAutoItems() {
+      return Array.from(tagAuto.querySelectorAll('button'));
+    }
+    function setTagAutoActive(idx) {
+      const items = tagAutoItems();
+      if (!items.length) { tagAutoActiveIdx = -1; return; }
+      if (idx < 0) idx = items.length - 1;
+      if (idx >= items.length) idx = 0;
+      tagAutoActiveIdx = idx;
+      items.forEach((el, i) => {
+        if (i === idx) {
+          el.style.backgroundColor = 'rgba(245, 50, 0, 0.18)';
+          el.style.fontWeight = '600';
+          el.style.boxShadow = 'inset 3px 0 0 rgba(245, 50, 0, 0.85)';
+          el.setAttribute('aria-selected', 'true');
+          try { el.scrollIntoView({ block: 'nearest' }); } catch (_) {}
+        } else {
+          el.style.backgroundColor = '';
+          el.style.fontWeight = '';
+          el.style.boxShadow = '';
+          el.removeAttribute('aria-selected');
+        }
+      });
+    }
+
     tagInput.addEventListener('keydown', (e)=>{
+      const open = !tagAuto.classList.contains('hidden');
+      if (open && e.key === 'ArrowDown') {
+        e.preventDefault();
+        setTagAutoActive(tagAutoActiveIdx + 1);
+        return;
+      }
+      if (open && e.key === 'ArrowUp') {
+        e.preventDefault();
+        setTagAutoActive(tagAutoActiveIdx - 1);
+        return;
+      }
+      if (open && e.key === 'Escape') {
+        tagAuto.classList.add('hidden');
+        tagAutoActiveIdx = -1;
+        return;
+      }
       if (e.key === 'Enter') {
+        if (open && tagAutoActiveIdx >= 0) {
+          const items = tagAutoItems();
+          const el = items[tagAutoActiveIdx];
+          if (el) { e.preventDefault(); el.click(); return; }
+        }
         const v = e.target.value.trim();
         if (v) { state.selectedTags.add(v); e.target.value=''; updateSelectedChips(); refresh(); }
       }
@@ -2357,14 +2405,16 @@
       if (q && candidates.length) {
         tagAuto.innerHTML = '';
         for (const c of candidates) {
-          tagAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTags.add(c); tagInput.value=''; tagAuto.classList.add('hidden'); updateSelectedChips(); refresh(); }));
+          tagAuto.appendChild(autocompleteItem(c, ()=>{ state.selectedTags.add(c); tagInput.value=''; tagAuto.classList.add('hidden'); tagAutoActiveIdx = -1; updateSelectedChips(); refresh(); }));
         }
         tagAuto.classList.remove('hidden');
+        setTagAutoActive(0);
       } else {
         tagAuto.classList.add('hidden');
+        tagAutoActiveIdx = -1;
       }
     });
-    document.addEventListener('click', (e)=>{ if (!tagAuto.contains(e.target) && e.target !== tagInput) tagAuto.classList.add('hidden'); });
+    document.addEventListener('click', (e)=>{ if (!tagAuto.contains(e.target) && e.target !== tagInput) { tagAuto.classList.add('hidden'); tagAutoActiveIdx = -1; } });
 
     function applyModeBasedUI() {
       const isWhatIHave = (state.mode === 'what_i_have');

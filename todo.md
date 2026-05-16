@@ -26,3 +26,4 @@ UI improvements:
 
 * search page: adding a tag from no tag should put other tags at the bottom lower with a smooth animation.
 * search page: removing a tag that lead to the emptying of a row, or completely removing all tags, should trigger a smooth animation of the tags moving up.
+* search page: adding a tag should appear smoothly, like it disappears currently.
