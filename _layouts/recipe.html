@@ -577,15 +577,32 @@ layout: default
       <div class="">
         <!-- check if it's a component-based recipe -->
         {% if page.components %}
-        <h4 class="uppercase text-primary font-semibold mb-2">
+        <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].components }}
-        </h4>
-        <ul class="flex flex-col gap-2 mb-8">
-          <!-- list components that make up recipe -->
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
           {% for component in page.components %}
-          <li class="flex items-start gap-3">{{ component | markdownify }}</li>
+          {% assign comp_page = nil %}
+          {% for c in site.components %}
+            {% if c.title == component %}{% assign comp_page = c %}{% endif %}
           {% endfor %}
-        </ul>
+          {% if comp_page %}
+          {% assign comp_slug = comp_page.image | split: '.' | first %}
+          <a
+            href="{{ comp_page.url | prepend: site.baseurl }}"
+            class="recipe relative md:hover:scale-105 md:hover:rotate-1 transition"
+          >
+            <canvas
+              class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"
+              style="background-image:url('{{ site.baseurl }}/images/cards/{{ comp_slug }}.webp');"
+            ></canvas>
+            <h1 class="font-semibold leading-tight">{{ comp_page.title }}</h1>
+          </a>
+          {% else %}
+          <div class="text-lg leading-loose">{{ component | markdownify }}</div>
+          {% endif %}
+          {% endfor %}
+        </div>
         {% endif %} {% if page.ingredients %}
         <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].ingredients }}
