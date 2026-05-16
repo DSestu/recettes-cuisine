@@ -15,13 +15,13 @@
 
     const label = document.createElement("span");
     label.className =
-      "flex items-center text-white font-bold text-base px-4 whitespace-nowrap";
+      "flex items-center text-white font-bold text-sm px-3 py-1 whitespace-nowrap";
     label.style.backgroundColor = "rgba(245, 50, 0, 0.65)";
     label.textContent = "Recettes par ligne";
     wrap.appendChild(label);
 
     const btnRow = document.createElement("div");
-    btnRow.className = "flex items-center gap-1 p-2";
+    btnRow.className = "flex items-center gap-1 px-1.5 py-0.5";
     wrap.appendChild(btnRow);
 
     const buttons = new Map();
@@ -32,8 +32,8 @@
       btn.textContent = String(n);
       btn.setAttribute("aria-label", "Afficher " + n + " colonnes");
       btn.className =
-        "px-4 py-2.5 text-base font-semibold rounded-md transition focus:outline-none focus:ring-2 focus:ring-primary/30";
-      btn.style.minWidth = "3.25rem";
+        "px-3 py-1 text-sm font-semibold rounded-md transition focus:outline-none focus:ring-2 focus:ring-primary/30";
+      btn.style.minWidth = "2.5rem";
       btn.addEventListener("click", function () {
         onPick(n);
       });
@@ -98,6 +98,23 @@
 
     mount.appendChild(control.wrap);
     applyToGrids(gridSelector, current);
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const t = e.target;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) return;
+      const idx = allowed.indexOf(current);
+      if (idx === -1) return;
+      const nextIdx = e.key === "ArrowLeft" ? idx - 1 : idx + 1;
+      if (nextIdx < 0 || nextIdx >= allowed.length) return;
+      const n = allowed[nextIdx];
+      current = n;
+      applyToGrids(gridSelector, n);
+      control.setActive(n);
+      writeUrl(n);
+      e.preventDefault();
+    });
 
     return {
       setCols: function (n) {
