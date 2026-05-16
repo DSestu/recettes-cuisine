@@ -120,7 +120,7 @@
       param: (opts && opts.desktop && opts.desktop.param) || "cols",
     };
     const mobileProfile = {
-      allowed: (opts && opts.mobile && opts.mobile.allowed) || [1, 2, 3, 4],
+      allowed: (opts && opts.mobile && opts.mobile.allowed) || [1, 2, 3],
       defaultCols:
         (opts && opts.mobile && opts.mobile.defaultCols) || 2,
       param: (opts && opts.mobile && opts.mobile.param) || "colsm",
