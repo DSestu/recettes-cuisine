@@ -1,214 +1,112 @@
-# Spec: Full WebP migration (drop PNG/JPG originals)
+# SPEC — "Recettes utilisant ce composant" section on component pages
 
 ## Objective
 
-The recipe site currently keeps three parallel image variants per recipe — the original `images/<slug>.{png,jpg,…}` (full-res, also used by the zoom overlay), the 480 px card thumbnail under `images/cards/`, and the 1600 px WebP hero under `images/hero/`. The PNG/JPG originals dominate page weight (multi-MB) and are no longer necessary for any rendered surface.
+On component pages only (files in `_components/`), display a reverse-lookup list of all recipes that reference the component via their frontmatter `components:` field. This helps users browsing a component (sauce, marinade, vinaigrette, etc.) discover the parent dishes that use it.
 
-Migrate the entire site to a WebP-only image system. After migration:
+## Scope
 
-- No PNG/JPG/JPEG/AVIF lives under `images/` at any depth.
-- Every rendered surface — home cards, recipe hero, zoom overlay, inline body images — resolves to a `.webp` file.
-- The frontmatter `image:` field carries a **bare slug** (no extension); the layout appends `.webp`.
-- Pre-commit hooks regenerate all WebP derivatives idempotently.
-- The ComfyUI pipeline (`implement-recipe-from-image`) and its autoloaded rule produce WebP, not PNG.
+- Applies only when the currently rendered page belongs to the `components` collection.
+- Recipe pages (`_recipes/`) are unchanged.
+- No new build step, no new data file — the lookup is done in Liquid against `site.recipes` at build time.
 
-Target user: solo maintainer (you). Success = pages feel snappier on mobile, the repo stops accumulating heavy PNGs, and the toolchain has one source format.
+## Placement
 
-## Tech Stack
+In `_layouts/recipe.html`, insert the new section:
+- **After** the "Recherche similaires" button block (around line 529).
+- **Before** the ingredients/components/directions block (around line 545).
 
-- Jekyll (static site, GitHub Pages).
-- Python (Pillow) for image processing in `scripts/`.
-- `uv` for Python invocation.
-- `pre-commit` framework for hooks.
-- No new dependencies expected.
+Render only when:
+1. The current page is in the `components` collection, AND
+2. At least one recipe in `site.recipes` lists `page.title` inside its `components:` frontmatter array.
 
-## Image variant matrix (post-migration)
+If either condition fails, render nothing (no heading, no empty state).
 
-**Main recipe image** (one per recipe; lives at top of `images/`):
+## Detecting component pages
 
-| Variant | Path | Size | Quality | Consumer |
-|---|---|---|---|---|
-| Card | `images/cards/<slug>.webp` | 480 px wide | q82 | Home page card backgrounds, search results |
-| Hero | `images/hero/<slug>.webp` | 1600 px wide | q80 | Recipe page inline hero |
-| Full | `images/full/<slug>.webp` | 2400 px wide | q88 | Zoom overlay only |
-| Source | `images/<slug>.webp` | original res | q90 | Build input for the three derivatives above; NOT referenced directly by any page |
+Components live in the `components` Jekyll collection. Use `{% if page.collection == "components" %}` to gate the block. If the variable is unavailable in this Jekyll setup, fall back to `{% if page.url contains "/components/" %}` — verify before committing.
 
-Rationale for keeping a single source `.webp` at the top of `images/`: pre-commit needs a stable input to regenerate derivatives when a recipe's image changes, and `image: <slug>` in frontmatter needs to resolve to *something* unambiguously.
+## Matching semantics
 
-**Inline / embedded images** (step photos, illustrations inside a recipe body; live in `images/<slug>/`):
+A recipe `R` is considered to use component `C` when:
+- `R.components` exists, AND
+- `R.components` contains a string exactly equal to `C.title` (case-sensitive, trimmed).
 
-| Variant | Path | Size | Quality | Consumer |
-|---|---|---|---|---|
-| Small (default) | `images/<slug>/<step>.webp` | 1000 px wide | q82 | Inline `<img>` in recipe body |
-| Full (on click) | `images/<slug>/<step>.full.webp` | 2400 px wide | q88 | Fullscreen overlay when the user clicks the inline image |
+Mirrors the existing pattern at `_layouts/recipe.html:611` (`{% if recipe.title == component %}`).
 
-`<step>.full.webp` is the source of truth on disk; the small variant is derived from it. Markdown body links point at the small variant (`../images/<slug>/<step>.webp`); the lens/zoom JS rewrites the path to `<step>.full.webp` for the overlay. No `cards/`, `hero/` etc. derivatives for inline images — they're not used as cards or heroes.
+## Visual design
 
-## Commands
+Reuse the markup pattern of the existing **Suggestions** grid at `_layouts/recipe.html:693-700`:
 
-```bash
-# One-shot migration (run once on a clean working tree)
-uv run python scripts/migrate_to_webp.py            # see Tasks for what this does
+- Heading: `Recettes utilisant ce composant` (uppercase, primary color, `h2` matching sibling headings).
+- Card style identical to Suggestions: `aspect-video` canvas with `images/cards/<slug>.webp` background, title below, hover scale/rotate.
+- Grid: `grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6`.
+- **No limit** on number of cards shown.
+- Sort: alphabetical by `title` (use `sort_natural: "title"`).
 
-# Re-derive variants (idempotent, called by pre-commit)
-uv run python scripts/generate_card_thumbnails.py   # cards/<slug>.webp from images/<slug>.webp
-uv run python scripts/generate_hero_images.py       # hero/<slug>.webp from images/<slug>.webp
-uv run python scripts/generate_full_images.py       # full/<slug>.webp from images/<slug>.webp  (new)
-uv run python scripts/generate_inline_small.py      # <step>.webp (small) from <step>.full.webp  (new)
+## Data flow
 
-# Verify
-uv run python scripts/check_images.py               # NEW: completeness + dead-link check
-
-# Build / dev
-bundle exec jekyll serve                            # local dev
-docker compose up                                   # alternate local dev
-
-# Hooks
-pre-commit install
-pre-commit run --all-files
-```
-
-## Project Structure (changes only)
-
-```
-images/
-  <slug>.webp                   # source — committed, single per recipe
-  cards/<slug>.webp             # derivative (480 w)
-  hero/<slug>.webp              # derivative (1600 w)
-  full/<slug>.webp              # derivative (2400 w) — NEW
-  <slug>/                       # inline-image folder per recipe (when present)
-    <step>.full.webp            # source-of-truth for inline image (2400 w q88) — NEW
-    <step>.webp                 # derivative (1000 w q82) shown inline — NEW
-scripts/
-  generate_card_thumbnails.py   # updated: output .webp, accept .webp source only
-  generate_hero_images.py       # updated: accept .webp source only
-  generate_full_images.py       # NEW
-  generate_inline_small.py      # NEW: walks images/<slug>/*.full.webp → <step>.webp
-  migrate_to_webp.py            # NEW: one-shot, idempotent migration (top-level + subfolders)
-  check_images.py               # NEW: post-migration verification
-_recipes/*.md                   # frontmatter `image: <slug>` (bare); body links `../images/<slug>.webp`
-_components/*.md                # same convention
-_layouts/recipe.html            # drop `replace: '.png' → '.webp'` chain; assume `.webp` everywhere
-assets/js/*.js                  # card URL builders point at `images/cards/<slug>.webp`
-.pre-commit-config.yaml         # `generate-full-images` added; file regexes updated for `.webp`
-.claude/skills/implement-recipe-from-image/   # SKILL.md and run.py updated to produce .webp
-.claude/rules/implement-recipe-from-image.md  # updated mode descriptions
-.claude/rules/format-pasted-recipe.md         # updated frontmatter example
-```
-
-## Code Style
-
-Python image scripts mirror the existing pattern in `scripts/generate_hero_images.py`:
-
-```python
-HERO_MAX_WIDTH = 1600
-WEBP_QUALITY = 80
-IMAGES_DIR = "images"
-HERO_DIR = "images/hero"
-SOURCE_EXT = ".webp"          # post-migration: only .webp inputs
-EXCLUDE_SUBDIRS = {"cards", "hero", "full"}
-
-
-def needs_rebuild(src: Path, dst: Path) -> bool:
-    if not dst.exists():
-        return True
-    return src.stat().st_mtime > dst.stat().st_mtime
-
-
-def main() -> None:
-    repo_root = Path(__file__).resolve().parent.parent
-    src_dir = repo_root / IMAGES_DIR
-    out_dir = repo_root / HERO_DIR
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    for path in src_dir.iterdir():
-        if path.is_dir() or path.name in EXCLUDE_SUBDIRS:
-            continue
-        if path.suffix.lower() != SOURCE_EXT:
-            continue
-        ...
-```
-
-Jekyll layout assumes a single canonical filename:
+Pure Liquid, evaluated at build time. Pseudocode:
 
 ```liquid
-{% assign hero_file = page.image | append: '.webp' %}
-<img src="{{ site.baseurl }}/images/hero/{{ hero_file }}" ...>
+{% if page.collection == "components" %}
+  {% assign uses = "" | split: "" %}
+  {% for r in site.recipes %}
+    {% if r.components contains page.title %}
+      {% assign uses = uses | push: r %}
+    {% endif %}
+  {% endfor %}
+  {% if uses.size > 0 %}
+    {% assign uses = uses | sort_natural: "title" %}
+    <!-- render grid -->
+  {% endif %}
+{% endif %}
 ```
 
-Frontmatter:
+If the `push` filter is unavailable, use the standard single-item-array concat workaround.
 
-```yaml
----
-layout: recipe
-title: "Pâtes sauce tomate"
-image: pates_sauce_tomate    # bare slug, no extension
-tags: [...]
-ingredients: [...]
----
-```
+## Out of scope
 
-Inline body images (preferred Markdown form):
+- No JS-driven dynamic list (server-render in Liquid; data is static and small).
+- No image regeneration, no new derivatives.
+- No changes to `_components/` content, frontmatter schema, or the tag registry.
+- No changes to recipe pages' rendering.
 
-```markdown
-![Sauce finale](../images/pates_sauce_tomate/sauce_finale.webp)
-```
+## Acceptance criteria
 
-## Testing Strategy
-
-No formal test framework in the repo. Verification is manual + scripted:
-
-1. **Idempotency check** — run each `generate_*.py` twice in a row; second run must touch zero files.
-2. **Completeness check** — `scripts/check_images.py` (new) enumerates `_recipes/*.md` + `_components/*.md`, resolves each `image:` slug, and asserts `images/<slug>.webp`, `images/cards/<slug>.webp`, `images/hero/<slug>.webp`, `images/full/<slug>.webp` all exist. Exits non-zero on any miss. Wired into pre-commit.
-3. **Dead-link check** — same helper greps `_recipes/` and `_components/` for `](.*\.(png|jpe?g|avif))` and fails if any non-WebP path remains.
-4. **Local render** — `bundle exec jekyll serve`, manually browse home page (cards), one recipe page (hero + inline + zoom), one component page.
-5. **Page weight** — eyeball Network panel on a recipe page; pre/post page weight should drop substantially.
+1. Open a component page that is referenced by ≥1 recipe (e.g. `_components/sauce_orange.md`, referenced by `ribs_sauce_orange`). The section appears with the correct heading, between the "Recherche similaires" button and the ingredients list, listing the parent recipe(s) as cards.
+2. Open a component page that is referenced by no recipe. No section, no heading, no empty placeholder.
+3. Open any recipe page. No new section; the page is visually unchanged.
+4. Cards link to the parent recipe URL; image background uses the parent recipe's `images/cards/<slug>.webp`.
+5. `bundle exec jekyll build` succeeds with no new warnings.
 
 ## Boundaries
 
-**Always do**
-- Treat `images/<slug>.webp` as the single source for a recipe. Edit it (or replace it), then let pre-commit regenerate the three derivatives.
-- Keep WebP encoding parameters (quality, max width) in module constants at the top of each script — no magic numbers.
-- Use `Pillow.Image.save(..., method=6)` for the migration encode (slow but best size); use the default `method` in incremental pre-commit derivation (fast).
-- After moving/renaming any image, run `scripts/check_images.py`; ship only when it passes.
-- Update every skill / rule file that mentions `.png` paths so future automation produces WebP from the start.
+**Always do:**
+- Render server-side via Liquid; keep the section static HTML.
+- Reuse existing Tailwind utility classes and color tokens (`text-primary`, etc.).
+- Match the Suggestions grid markup for visual consistency.
 
-**Ask first**
-- Changing variant sizes (480 / 1600 / 2400) or quality (q82 / q80 / q88) — these are tuned numbers.
-- Adding a fourth variant (e.g. AVIF, or a 960 px tier for tablets) — adds build cost and complexity.
-- Deleting `images/<slug>.webp` (source) without a replacement.
-- Touching files unrelated to image plumbing during the migration (no opportunistic refactors).
+**Ask first:**
+- Before changing component frontmatter, the tag registry, or any image asset.
+- Before introducing new build scripts, data files, or JS for this feature.
 
-**Never do**
-- Commit a `.png`, `.jpg`, `.jpeg`, or `.avif` anywhere under `images/`. Pre-commit rejects them.
-- Reference an image with an extension in frontmatter (post-migration). Bare slug only.
-- Keep the original PNG "just in case" alongside the WebP. The migration is one-way.
-- Run `git add -A` or `git commit` as part of the migration script — the user reviews and commits.
-- Modify the ComfyUI workflow on the server. Mode outputs come back as PNG today; the local pipeline re-encodes to WebP before placing the file.
+**Never:**
+- Modify `_recipes/` files or recipe page rendering for this change.
+- Add JS to compute the reverse lookup (build-time Liquid is sufficient).
+- Add a "no parent recipe" empty state UI.
 
-## Success Criteria
+## Testing strategy
 
-- [ ] `git ls-files images/` returns zero `.png` / `.jpg` / `.jpeg` / `.avif` paths.
-- [ ] Every recipe + component has all four WebP files (source + 3 derivatives). `scripts/check_images.py` exits 0.
-- [ ] Every `_recipes/*.md` and `_components/*.md` has `image: <bare-slug>` (no extension) and no body link to a non-WebP path.
-- [ ] `_layouts/recipe.html` no longer contains the `replace: '.png' → '.webp'` chain; it appends `.webp` from a bare slug.
-- [ ] Home page card backgrounds, recipe page hero, recipe page zoom overlay, and inline body images all load `.webp` (verified via DevTools Network on at least three recipes).
-- [ ] Pre-commit hooks pass on a clean tree; running them twice is a no-op the second time.
-- [ ] `implement-recipe-from-image` skill (SKILL.md, run.py, autoloaded rule) writes `.webp` end to end. The card/hero/full derivatives are regenerated by the existing hooks; the skill no longer touches `.png`.
-- [ ] No regression in the home page, recipe pages, or component pages (manual smoke).
+Manual verification (no automated tests in this repo):
+1. `bundle exec jekyll serve` (or `docker compose up`).
+2. Visit a known component page with parents (`/components/sauce_orange/`).
+3. Visit a component page with no parent (pick one after grep-confirming).
+4. Visit a recipe page; confirm no change.
+5. Inspect HTML to confirm section is absent (not just hidden) when there are no matches.
 
-## Open Questions
+## Files touched
 
-1. **Source-image quality** — keep WebP at q90 for the source (good fidelity, ~30 % smaller than PNG)? Or q95 if you may re-derive from it later without quality accumulation? Default: **q90**.
-2. **Lossless WebP for the source** — for screenshots / line art (rare here) lossless WebP is smaller than lossy. Worth detecting? Default: **no**, treat everything as lossy.
-3. **Zoom overlay (`full` variant) target width** — 2400 px is my proposal. Originals appear ~4000 px+. 2400 covers retina displays at full screen; 3200 would be safer for larger displays. Default: **2400**.
-4. **Cards rewrite in JS** — confirm the home page JS (`assets/js/home.js`, `assets/js/search-page.js`) should build `<slug>.webp` from the bare slug to match the layout. Default: **yes**.
-5. **`to_implement/` directory** — out of scope (it's not under `images/`). Leave PNG sources there alone. OK?
+- `_layouts/recipe.html` — single insertion of the new Liquid block.
 
----
-
-Pause here for review. On greenlight, I move to:
-
-- **Phase 2 (Plan)** — component dependencies (scripts → layout → JS → skills), ordering, parallelisable vs. sequential, risks.
-- **Phase 3 (Tasks)** — discrete checklist with acceptance + verification per task.
-- **Phase 4 (Implement)** — task-by-task, no commits.
+No other files change.

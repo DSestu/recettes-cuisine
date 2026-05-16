@@ -542,6 +542,36 @@ layout: default
     <div class="nutrition">{% include nutritional-information.html %}</div>
     {% endif %}
 
+    {% if page.collection == "components" %}
+      {% assign used_in = "" | split: "" %}
+      {% for r in site.recipes %}
+        {% if r.components contains page.title %}
+          {% assign used_in = used_in | push: r %}
+        {% endif %}
+      {% endfor %}
+      {% if used_in.size > 0 %}
+      {% assign used_in = used_in | sort_natural: "title" %}
+      <div>
+        <h2 class="uppercase text-primary font-semibold mb-2">Recettes utilisant ce composant</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+          {% for r in used_in %}
+          {% assign card_slug = r.image | split: '.' | first %}
+          <a
+            href="{{ r.url | prepend: site.baseurl }}"
+            class="recipe relative md:hover:scale-105 md:hover:rotate-1 transition"
+          >
+            <canvas
+              class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"
+              style="background-image:url('{{ site.baseurl }}/images/cards/{{ card_slug }}.webp');"
+            ></canvas>
+            <h1 class="font-semibold leading-tight">{{ r.title }}</h1>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    {% endif %}
+
     <!-- call up recipe and directions -->
     <div class="">
       <div class="">
