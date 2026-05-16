@@ -107,7 +107,7 @@
 
       const title = document.createElement("h3");
       title.className =
-        "px-6 text-red-950 md:text-primary uppercase font-semibold mb-2 md:text-xl";
+        "px-6 text-primary uppercase font-semibold mb-2 text-lg md:text-xl";
       title.textContent = cat.label;
       section.appendChild(title);
 
@@ -131,7 +131,7 @@
 
       const title = document.createElement("h3");
       title.className =
-        "px-6 text-red-950 md:text-primary uppercase font-semibold mb-2 md:text-xl";
+        "px-6 text-primary uppercase font-semibold mb-2 text-lg md:text-xl";
       title.textContent = othersCat.label;
       section.appendChild(title);
 
