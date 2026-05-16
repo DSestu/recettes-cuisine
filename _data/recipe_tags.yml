@@ -631,3 +631,7 @@
   ingredient: true
 - id: perso
   ingredient: false
+- id: fond de veau
+  ingredient: true
+- id: chasseur
+  ingredient: false
