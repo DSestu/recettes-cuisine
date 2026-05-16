@@ -635,3 +635,11 @@
   ingredient: true
 - id: chasseur
   ingredient: false
+- id: lapin
+  ingredient: true
+- id: pomme
+  ingredient: true
+- id: romarin
+  ingredient: true
+- id: calvados
+  ingredient: true
