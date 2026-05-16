@@ -22,6 +22,52 @@
     return i === query.length;
   }
 
+  // Approximate substring match: needle appears in hay with up to `maxDist`
+  // total edits (insertion, deletion, substitution), of which at most
+  // `maxSubs` may be substitutions. Short needles (<= 3) require exact match.
+  function fuzzyContains(needle, hay, maxDist, maxSubs) {
+    if (!needle) return true;
+    if (hay.includes(needle)) return true;
+    if (needle.length <= 3) return false;
+    const m = needle.length;
+    const n = hay.length;
+    const K = maxSubs + 1; // sub-budget index 0..maxSubs
+    // dp[k][j] = min total edits to align needle[0..i] against hay ending at j,
+    // having used k substitutions so far. Row 0 (i=0) starts at 0 anywhere.
+    let prev = [];
+    let curr = [];
+    for (let k = 0; k < K; k++) {
+      prev.push(new Array(n + 1).fill(0));
+      curr.push(new Array(n + 1).fill(0));
+    }
+    for (let i = 1; i <= m; i++) {
+      for (let k = 0; k < K; k++) curr[k][0] = i;
+      let rowMin = i;
+      for (let j = 1; j <= n; j++) {
+        const match = needle.charCodeAt(i - 1) === hay.charCodeAt(j - 1);
+        for (let k = 0; k < K; k++) {
+          const ins = curr[k][j - 1] + 1;
+          const del = prev[k][j] + 1;
+          const diagMatch = match ? prev[k][j - 1] : Infinity;
+          const diagSub = !match && k > 0 ? prev[k - 1][j - 1] + 1 : Infinity;
+          const v = Math.min(ins, del, diagMatch, diagSub);
+          curr[k][j] = v;
+          if (v < rowMin) rowMin = v;
+        }
+      }
+      if (rowMin > maxDist) return false;
+      const tmp = prev;
+      prev = curr;
+      curr = tmp;
+    }
+    for (let k = 0; k < K; k++) {
+      for (let j = 0; j <= n; j++) {
+        if (prev[k][j] <= maxDist) return true;
+      }
+    }
+    return false;
+  }
+
   function setupHomeSearch() {
     const input = document.getElementById("home-search");
     if (!input) return;
@@ -61,7 +107,7 @@
 
       const title = document.createElement("h3");
       title.className =
-        "px-6 text-red-950 md:text-primary uppercase font-semibold mb-2 md:text-2xl";
+        "px-6 text-red-950 md:text-primary uppercase font-semibold mb-2 md:text-xl";
       title.textContent = cat.label;
       section.appendChild(title);
 
@@ -85,7 +131,7 @@
 
       const title = document.createElement("h3");
       title.className =
-        "px-6 text-red-950 md:text-primary uppercase font-semibold mb-2 md:text-2xl";
+        "px-6 text-red-950 md:text-primary uppercase font-semibold mb-2 md:text-xl";
       title.textContent = othersCat.label;
       section.appendChild(title);
 
@@ -373,7 +419,7 @@
         if (ok && hasTextFilter) {
           const norm = it.norm;
           for (const w of words) {
-            if (!norm.includes(w)) {
+            if (!fuzzyContains(w, norm, 2, 1)) {
               ok = false;
               break;
             }
@@ -409,7 +455,7 @@
           const norm = it.norm;
           let textOk = true;
           for (const w of words) {
-            if (!norm.includes(w)) { textOk = false; break; }
+            if (!fuzzyContains(w, norm, 2, 1)) { textOk = false; break; }
           }
           if (!textOk) continue;
         }
