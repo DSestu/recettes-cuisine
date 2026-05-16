@@ -79,7 +79,32 @@
     writeFromKindStorage();
     try {
       var destUrl = e.activation && e.activation.entry && e.activation.entry.url;
-      if (destUrl) adjustOutgoingNamesForDestination(destUrl);
+      if (destUrl) {
+        adjustOutgoingNamesForDestination(destUrl);
+        // Mobile recipe → home/search: when the recipe is scrolled, the
+        // slide-out curtains for vt-hero / vt-content can't visibly leave
+        // the screen (the snapshot's group is anchored at the captured
+        // element rect). Fall back to a plain fade by stripping the names
+        // so only the OLD/NEW roots participate. Desktop is unaffected.
+        var isMobile = window.matchMedia("(max-width: 767px)").matches;
+        var destKind = kindFromUrl(destUrl);
+        var scrolled =
+          (window.scrollY || document.documentElement.scrollTop || 0) > 80;
+        if (
+          isMobile &&
+          scrolled &&
+          pageKind() === "recipe" &&
+          (destKind === "home" || destKind === "search")
+        ) {
+          document
+            .querySelectorAll(".image, .post-content")
+            .forEach(function (el) {
+              if (el.style && el.style.viewTransitionName) {
+                el.style.viewTransitionName = "";
+              }
+            });
+        }
+      }
     } catch (err) { /* */ }
     if (e.viewTransition) {
       try { e.viewTransition.types.add("from-" + pageKind()); } catch (err) {}

@@ -6,8 +6,8 @@ Features:
 * ingredient calendar feature
 * constraint optimization for recipe planning
 * Batch cooking feature
-* catch ctrl+f in home page for search
 * home search: toggle ability to search not only by title but also by tags in fulltext
+* home search: make the distinction of search results matching: title matched in priority, tags matched in secondary. Maybe add borders of colors to cards (green for title, orange for tags).
 
 Shopping cart system:
 
@@ -21,9 +21,12 @@ Shopping cart system:
 Bugfix:
 
 * find a way to hunt ios safari navigation issues without phone
+* On mobile: the search page should go up the home page, and removed down when going back.
+* On mobile: when going down from scrolled recipe, the text don't go back all the way down the page.
 
 UI improvements:
 
 * search page: adding a tag from no tag should put other tags at the bottom lower with a smooth animation.
 * search page: removing a tag that lead to the emptying of a row, or completely removing all tags, should trigger a smooth animation of the tags moving up.
 * search page: adding a tag should appear smoothly, like it disappears currently.
+* search page: tags have a background shadow, but the shadows stop abruptly at the edges of the tag container.
