@@ -67,7 +67,8 @@
 
       const grid = document.createElement("div");
       grid.className =
-        "grid px-6 h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6";
+        "grid px-6 h-full grid-cols-2 gap-4 md:gap-6";
+      grid.setAttribute("data-cols-grid", "");
       section.appendChild(grid);
 
       recipesRoot.appendChild(section);
@@ -90,11 +91,20 @@
 
       const grid = document.createElement("div");
       grid.className =
-        "grid px-6 h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6";
+        "grid px-6 h-full grid-cols-2 gap-4 md:gap-6";
+      grid.setAttribute("data-cols-grid", "");
       section.appendChild(grid);
 
       recipesRoot.appendChild(section);
       othersSection = { section, grid };
+    }
+
+    if (typeof window.initColsSelector === "function") {
+      window.initColsSelector({
+        mount: document.getElementById("cols-selector-mount"),
+        gridSelector: "[data-cols-grid]",
+        defaultCols: 5,
+      });
     }
 
     function createRecipeCard(recipe) {

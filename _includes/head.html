@@ -257,6 +257,13 @@
   </style>
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tailwind.css" />
+  <style>
+    @media (min-width: 768px) {
+      [data-cols-grid] {
+        grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)) !important;
+      }
+    }
+  </style>
   <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -824,15 +824,19 @@ permalink: /recherche/
         </div>
       </div>
       <div>
-        <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center justify-between mb-2 gap-3 flex-wrap">
           <h2 class="uppercase text-primary font-semibold">Résultats</h2>
-          <div class="text-sm text-gray-600">
-            <span id="result-count">0</span> élément(s)
+          <div class="flex items-center gap-3 ml-auto">
+            <div id="cols-selector-mount"></div>
+            <div class="text-sm text-gray-600">
+              <span id="result-count">0</span> élément(s)
+            </div>
           </div>
         </div>
         <div
           id="results-grid"
-          class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+          data-cols-grid
+          class="grid grid-cols-2 gap-4 md:gap-6"
         ></div>
         <div id="reco-section" class="mt-6 hidden">
           <div class="flex items-center justify-between mb-2">
@@ -840,7 +844,8 @@ permalink: /recherche/
           </div>
           <div
             id="reco-grid"
-            class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+            data-cols-grid
+            class="grid grid-cols-2 gap-4 md:gap-6"
           ></div>
         </div>
       </div>
@@ -894,4 +899,16 @@ permalink: /recherche/
     BASE: {{ site.baseurl | jsonify }}
   };
 </script>
+<script src="{{ site.baseurl }}/assets/js/cols-selector.js"></script>
 <script src="{{ site.baseurl }}/assets/js/search-page.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof window.initColsSelector === "function") {
+      window.initColsSelector({
+        mount: document.getElementById("cols-selector-mount"),
+        gridSelector: "[data-cols-grid]",
+        defaultCols: 5,
+      });
+    }
+  });
+</script>

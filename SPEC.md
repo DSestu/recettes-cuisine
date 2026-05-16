@@ -1,112 +1,67 @@
-# SPEC — "Recettes utilisant ce composant" section on component pages
+# SPEC — Desktop "recipes per row" selector
 
-## Objective
+## 1. Objective
 
-On component pages only (files in `_components/`), display a reverse-lookup list of all recipes that reference the component via their frontmatter `components:` field. This helps users browsing a component (sauce, marinade, vinaigrette, etc.) discover the parent dishes that use it.
+Let desktop users choose how many recipe cards appear per row on the homepage (`index.html`) and the advanced search page (`recherche.html`). Mobile layout stays untouched.
 
-## Scope
+## 2. User-facing behaviour
 
-- Applies only when the currently rendered page belongs to the `components` collection.
-- Recipe pages (`_recipes/`) are unchanged.
-- No new build step, no new data file — the lookup is done in Liquid against `site.recipes` at build time.
+- A **segmented button group** at the top of each page lets the user pick **2 / 3 / 4 / 5** columns. Default: **4**.
+- The control is **visible only on desktop** (Tailwind `hidden md:flex`). Mobile layout (`grid-cols-2`) is never affected.
+- The choice is reflected in the **URL query parameter `?cols=N`** (N ∈ {2,3,4,5}). Reloads and shared links restore the chosen layout.
+- Switching values updates the grid live without a reload and rewrites the URL via `history.replaceState`.
+- Invalid / missing `cols` value falls back to the default (4). Values outside {2,3,4,5} are ignored.
 
-## Placement
+## 3. Scope of grids affected
 
-In `_layouts/recipe.html`, insert the new section:
-- **After** the "Recherche similaires" button block (around line 529).
-- **Before** the ingredients/components/directions block (around line 545).
+- **`index.html`**: every category grid built in `assets/js/home.js` (currently `grid-cols-2 md:grid-cols-3 gap-4 md:gap-6` at lines 70 and 93).
+- **`recherche.html`**: `#results-grid` (line 835) and `#reco-grid` (line 843), both currently `grid-cols-2 md:grid-cols-3 gap-4 md:gap-6`.
 
-Render only when:
-1. The current page is in the `components` collection, AND
-2. At least one recipe in `site.recipes` lists `page.title` inside its `components:` frontmatter array.
+Mobile classes (`grid-cols-2`, gaps) remain unchanged on all grids.
 
-If either condition fails, render nothing (no heading, no empty state).
+## 4. UI design — segmented control
 
-## Detecting component pages
+- Container: `hidden md:flex items-center gap-2` placed near the top of each page (homepage: in the toolbar row already at `index.html:72`; search page: in the "Résultats" header row near `recherche.html:828`).
+- Small grid icon + sr-only label ("Colonnes").
+- Buttons: pill-shaped segmented group styled with the existing primary palette:
+  - Inactive: `px-3 py-1 text-sm rounded-md text-red-900/70 hover:bg-primary/10`
+  - Active: `bg-primary text-white shadow-sm`
+  - Group wrapper: `inline-flex rounded-lg border border-primary/30 bg-white/70 backdrop-blur p-0.5`
+- Each button has `aria-pressed`, `data-cols="N"`, and `aria-label="Afficher N colonnes"`.
 
-Components live in the `components` Jekyll collection. Use `{% if page.collection == "components" %}` to gate the block. If the variable is unavailable in this Jekyll setup, fall back to `{% if page.url contains "/components/" %}` — verify before committing.
+## 5. Implementation approach
 
-## Matching semantics
+Tailwind classes are statically extracted at build time, so string-interpolated `md:grid-cols-${n}` won't work. Two options:
 
-A recipe `R` is considered to use component `C` when:
-- `R.components` exists, AND
-- `R.components` contains a string exactly equal to `C.title` (case-sensitive, trimmed).
+- **A. Safelist** the five exact class names and swap them via JS.
+- **B. CSS custom property** `--cols` on each affected grid: a small rule `@media (min-width: 768px) { [data-cols-grid] { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)) } }`. Tailwind classes stay; only the variable changes.
 
-Mirrors the existing pattern at `_layouts/recipe.html:611` (`{% if recipe.title == component %}`).
+Default to **B** (one source of truth, no safelist drift). Tag each affected grid with `data-cols-grid` and let the controller write `style.setProperty('--cols', N)`.
 
-## Visual design
+## 6. Shared module
 
-Reuse the markup pattern of the existing **Suggestions** grid at `_layouts/recipe.html:693-700`:
+- Add `assets/js/cols-selector.js` exposing `initColsSelector({ mountId, gridSelector, defaultCols })`. Both pages call it on `DOMContentLoaded`.
+- Resolution order: URL `?cols=` → default (4).
+- On change: update each grid's `--cols`, refresh active button state, `history.replaceState` with the new `?cols=`.
+- On the homepage, grids are created dynamically by `home.js` after the categories render — the selector must (a) initialise existing grids and (b) re-apply on a `MutationObserver` or be called by `home.js` after grids are appended. Simplest: have `home.js` add `data-cols-grid` directly when building each grid, then call `initColsSelector` after that loop.
 
-- Heading: `Recettes utilisant ce composant` (uppercase, primary color, `h2` matching sibling headings).
-- Card style identical to Suggestions: `aspect-video` canvas with `images/cards/<slug>.webp` background, title below, hover scale/rotate.
-- Grid: `grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6`.
-- **No limit** on number of cards shown.
-- Sort: alphabetical by `title` (use `sort_natural: "title"`).
+## 7. Boundaries
 
-## Data flow
+- **Always:** keep mobile layout exactly as today; keep user-visible text in French; follow existing Tailwind / palette conventions; minimal changes (no refactor of `home.js` or `search-page.js` beyond what's needed).
+- **Ask first:** before introducing localStorage, changing card aspect ratios / gaps, or touching the `md` breakpoint.
+- **Never:** modify recipe content, change default category ordering, alter search/filter logic, or add new dependencies.
 
-Pure Liquid, evaluated at build time. Pseudocode:
+## 8. Acceptance criteria
 
-```liquid
-{% if page.collection == "components" %}
-  {% assign uses = "" | split: "" %}
-  {% for r in site.recipes %}
-    {% if r.components contains page.title %}
-      {% assign uses = uses | push: r %}
-    {% endif %}
-  {% endfor %}
-  {% if uses.size > 0 %}
-    {% assign uses = uses | sort_natural: "title" %}
-    <!-- render grid -->
-  {% endif %}
-{% endif %}
-```
+- [ ] Visiting `/` with no query param renders 4 columns on desktop (≥768px) and 2 on mobile.
+- [ ] Clicking 2 / 3 / 5 updates both the visible layout and the URL (`?cols=N`) without reload.
+- [ ] Reloading `?cols=5` restores 5 columns immediately (no flash of 4-column).
+- [ ] `/recherche/?cols=2` renders both `#results-grid` and `#reco-grid` at 2 columns on desktop.
+- [ ] Resizing below 768px always falls back to the existing 2-column mobile layout regardless of `?cols`.
+- [ ] The segmented control is invisible below 768px.
+- [ ] No regression in tag filters, search input, category sections, or D3 graph.
 
-If the `push` filter is unavailable, use the standard single-item-array concat workaround.
+## 9. Testing
 
-## Out of scope
-
-- No JS-driven dynamic list (server-render in Liquid; data is static and small).
-- No image regeneration, no new derivatives.
-- No changes to `_components/` content, frontmatter schema, or the tag registry.
-- No changes to recipe pages' rendering.
-
-## Acceptance criteria
-
-1. Open a component page that is referenced by ≥1 recipe (e.g. `_components/sauce_orange.md`, referenced by `ribs_sauce_orange`). The section appears with the correct heading, between the "Recherche similaires" button and the ingredients list, listing the parent recipe(s) as cards.
-2. Open a component page that is referenced by no recipe. No section, no heading, no empty placeholder.
-3. Open any recipe page. No new section; the page is visually unchanged.
-4. Cards link to the parent recipe URL; image background uses the parent recipe's `images/cards/<slug>.webp`.
-5. `bundle exec jekyll build` succeeds with no new warnings.
-
-## Boundaries
-
-**Always do:**
-- Render server-side via Liquid; keep the section static HTML.
-- Reuse existing Tailwind utility classes and color tokens (`text-primary`, etc.).
-- Match the Suggestions grid markup for visual consistency.
-
-**Ask first:**
-- Before changing component frontmatter, the tag registry, or any image asset.
-- Before introducing new build scripts, data files, or JS for this feature.
-
-**Never:**
-- Modify `_recipes/` files or recipe page rendering for this change.
-- Add JS to compute the reverse lookup (build-time Liquid is sufficient).
-- Add a "no parent recipe" empty state UI.
-
-## Testing strategy
-
-Manual verification (no automated tests in this repo):
-1. `bundle exec jekyll serve` (or `docker compose up`).
-2. Visit a known component page with parents (`/components/sauce_orange/`).
-3. Visit a component page with no parent (pick one after grep-confirming).
-4. Visit a recipe page; confirm no change.
-5. Inspect HTML to confirm section is absent (not just hidden) when there are no matches.
-
-## Files touched
-
-- `_layouts/recipe.html` — single insertion of the new Liquid block.
-
-No other files change.
+- Manual: run the project's Jekyll build, exercise each option on both pages at desktop and mobile viewports.
+- A11y spot-check: `aria-pressed` reflects active option; control reachable by keyboard.
