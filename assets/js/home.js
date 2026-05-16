@@ -153,14 +153,26 @@
       });
     }
 
+    let cardIndex = 0;
+    const EAGER_CARD_COUNT = 8;
+
     function createRecipeCard(recipe) {
       const a = document.createElement("a");
       a.className = "recipe md:hover:scale-105 md:hover:rotate-1 transition";
       a.href = recipe.url;
 
-      const canvas = document.createElement("canvas");
-      canvas.className =
-        "aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center";
+      const eager = cardIndex < EAGER_CARD_COUNT;
+      cardIndex++;
+
+      const img = document.createElement("img");
+      img.className =
+        "aspect-video w-full rounded-xl bg-gray-100 mb-1 object-cover";
+      img.loading = eager ? "eager" : "lazy";
+      img.fetchPriority = eager ? "high" : "low";
+      img.decoding = "async";
+      img.width = 400;
+      img.height = 225;
+      img.alt = "";
       const images = Array.isArray(recipe.images)
         ? recipe.images
         : recipe.images
@@ -168,13 +180,10 @@
           : [];
       if (images.length > 0) {
         const slug = images[0].replace(/\.[^./]+$/, "");
-        canvas.style.backgroundImage = "url("
-          + HOME_BASE_URL
-          + "/images/cards/"
-          + slug
-          + ".webp)";
+        img.src =
+          HOME_BASE_URL + "/images/cards/" + slug + ".webp";
       }
-      a.appendChild(canvas);
+      a.appendChild(img);
 
       const h1 = document.createElement("h1");
       h1.className = "font-semibold leading-tight";

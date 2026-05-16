@@ -206,12 +206,9 @@
 
   function heroUrlFromCardLink(a) {
     if (!a) return "";
-    var canvas = a.querySelector("canvas");
-    if (!canvas) return "";
-    var bg = (canvas.style && canvas.style.backgroundImage) || "";
-    var m = bg.match(/url\(["']?([^"')]+)["']?\)/);
-    if (!m) return "";
-    var cardUrl = m[1];
+    var img = a.querySelector("img");
+    var cardUrl = (img && img.src) || "";
+    if (!cardUrl) return "";
     var idx = cardUrl.indexOf("/images/cards/");
     if (idx === -1) return "";
     return cardUrl.slice(0, idx) + "/images/" + cardUrl.slice(idx + "/images/cards/".length);

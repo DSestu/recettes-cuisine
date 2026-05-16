@@ -480,7 +480,10 @@
     const selectedCount = selectedTagsLower.size;
     const tagsFilterActiveForDisplay = sectionEnabled('tags') && selectedCount > 0;
     const isWhatIHave = (state.mode === 'what_i_have');
+    let cardIdx = 0;
     for (const it of items) {
+      const eager = cardIdx < 8;
+      cardIdx++;
       const itemIngTags = (isWhatIHave ? (it.ingredientTags || []) : (it.tags || [])).map(x => String(x).toLowerCase().trim());
       const itemTagSet = new Set(itemIngTags);
       let overlap = 0;
@@ -519,7 +522,7 @@
 
       a.innerHTML = `
         ${badgeHtml}
-        <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="${outlineStyle}background-image:url('${encodeURI(it.image)}');"></canvas>
+        <img class="aspect-video w-full rounded-xl bg-gray-100 mb-1 object-cover" loading="${eager ? 'eager' : 'lazy'}" fetchpriority="${eager ? 'high' : 'low'}" decoding="async" width="400" height="225" alt="" src="${encodeURI(it.image)}"${outlineStyle ? ` style="${outlineStyle}"` : ''}>
         <h1 class="font-semibold leading-tight">${window.escapeHtml(it.title)}</h1>
       `;
       // Attach fancy tooltip with present/missing tags when tolerance is active or in "what I have" mode
@@ -637,12 +640,15 @@
       }
       host.classList.remove('hidden');
       grid.innerHTML = '';
+      let rIdx = 0;
       for (const it of ranked) {
+        const eager = rIdx < 8;
+        rIdx++;
         const a = document.createElement('a');
         a.href = it.url;
         a.className = 'recipe relative md:hover:scale-105 md:hover:rotate-1 transition';
         a.innerHTML = `
-          <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('${encodeURI(it.image)}');"></canvas>
+          <img class="aspect-video w-full rounded-xl bg-gray-100 mb-1 object-cover" loading="${eager ? 'eager' : 'lazy'}" fetchpriority="${eager ? 'high' : 'low'}" decoding="async" width="400" height="225" alt="" src="${encodeURI(it.image)}">
           <h1 class="font-semibold leading-tight">${window.escapeHtml(it.title)}</h1>
         `;
         grid.appendChild(a);
