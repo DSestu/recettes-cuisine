@@ -656,14 +656,14 @@ layout: default
       {% for component in page.components %}
       <div class="sm-col sm-col-4 px2">
         {% for recipe in site.components %} {% if recipe.title == component %}
-        {% for image in recipe.image %}
-        {% assign comp_slug = image | split: '.' | first %}
+        {% if recipe.image %}
+        {% assign comp_slug = recipe.image | split: '.' | first %}
         <div
-          class="component-image ratio bg-cover relative mb-4"
+          class="component-image aspect-video w-full bg-cover bg-center relative mb-4"
           style="background-image:url({{site.baseurl}}/images/cards/{{ comp_slug }}.webp);"
         >
           <img
-            class="hide"
+            class="hidden"
             itemprop="photo"
             src="{{site.baseurl}}/images/cards/{{ comp_slug }}.webp"
           />
@@ -689,7 +689,7 @@ layout: default
           </a>
           {% endfor %} {% endif %}
         </div>
-        {% endfor %}
+        {% endif %}
 
         <h4 class="font-gelica text-3xl mb-6 mt-4">{{recipe.title}}</h4>
 
