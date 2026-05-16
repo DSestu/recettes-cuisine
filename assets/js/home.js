@@ -187,6 +187,7 @@
     }
 
     const activeCategoryIds = new Set();
+    const categoryBadges = new Map();
 
     function setupHomeCategories() {
       const container = document.getElementById("home-categories");
@@ -239,17 +240,16 @@
         labelSpan.textContent = cat.label;
         btn.appendChild(labelSpan);
 
-        // Compute total recipes/components assigned to this category
         const count = items.filter(
           (it) => it.categoryId === cat.id,
         ).length;
-        if (count > 0) {
-          const badge = document.createElement("span");
-          badge.className =
-            "ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/90 text-red-900 border border-red-200 w-5 h-5";
-          badge.textContent = String(count);
-          btn.appendChild(badge);
-        }
+        const badge = document.createElement("span");
+        badge.className =
+          "ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/90 text-red-900 border border-red-200 w-5 h-5";
+        badge.textContent = String(count);
+        if (count === 0) badge.style.display = "none";
+        btn.appendChild(badge);
+        categoryBadges.set(cat.id, badge);
 
         btn.addEventListener("click", () => {
           const isActive = activeCategoryIds.has(cat.id);
@@ -373,8 +373,7 @@
         if (ok && hasTextFilter) {
           const norm = it.norm;
           for (const w of words) {
-            if (norm.includes(w)) continue;
-            if (!isSubsequence(w, norm)) {
+            if (!norm.includes(w)) {
               ok = false;
               break;
             }
@@ -393,6 +392,36 @@
         ) {
           matches += 1;
         }
+      }
+
+      // Recompute per-category badge counts based on the text filter only,
+      // so badges show how many recipes each category would yield if selected.
+      const perCatCount = new Map();
+      for (const it of items) {
+        if (
+          !showComponentsInMain
+          && it.kind === "component"
+          && it.categoryId !== BASES_ID
+        ) {
+          continue;
+        }
+        if (hasTextFilter) {
+          const norm = it.norm;
+          let textOk = true;
+          for (const w of words) {
+            if (!norm.includes(w)) { textOk = false; break; }
+          }
+          if (!textOk) continue;
+        }
+        perCatCount.set(
+          it.categoryId,
+          (perCatCount.get(it.categoryId) || 0) + 1,
+        );
+      }
+      for (const [catId, badge] of categoryBadges.entries()) {
+        const n = perCatCount.get(catId) || 0;
+        badge.textContent = String(n);
+        badge.style.display = n === 0 ? "none" : "";
       }
 
       // Show/hide category sections
