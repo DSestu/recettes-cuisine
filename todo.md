@@ -21,8 +21,6 @@ Shopping cart system:
 Bugfix:
 
 * find a way to hunt ios safari navigation issues without phone
-* On mobile: the search page should go up the home page, and removed down when going back.
-* On mobile: when going down from scrolled recipe, the text don't go back all the way down the page.
 
 UI improvements:
 
