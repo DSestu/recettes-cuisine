@@ -643,3 +643,9 @@
   ingredient: true
 - id: calvados
   ingredient: true
+- id: bavette
+  ingredient: true
+- id: vin rouge
+  ingredient: true
+- id: piment de cayenne
+  ingredient: true
