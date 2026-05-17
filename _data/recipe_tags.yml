@@ -651,3 +651,5 @@
   ingredient: true
 - id: haricots rouges
   ingredient: true
+- id: veau
+  ingredient: true
