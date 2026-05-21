@@ -1,19 +1,23 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
-import { recipes } from './data/recipes'
-import { components } from './data/components'
-import { tags } from './data/tags'
-import { categories } from './data/categories'
+import { AppLayout } from './components/AppLayout'
+import { HomePage } from './pages/HomePage'
+import { RecipePage } from './pages/RecipePage'
+import { SearchPage } from './pages/SearchPage'
 
 const root = document.getElementById('root')!
 createRoot(root).render(
   <StrictMode>
-    <div className="font-inter bg-orange-50 text-orange-950 min-h-screen flex items-center justify-center flex-col gap-2">
-      <h1 className="font-gelica text-3xl text-primary">Recettes de cuisine</h1>
-      <p className="text-sm text-orange-700">
-        {recipes.length} recettes · {components.length} composants · {tags.length} tags · {categories.length} catégories
-      </p>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="recette/:slug" element={<RecipePage />} />
+          <Route path="recherche" element={<SearchPage />} />
+        </Route>
+      </Routes>
+    </HashRouter>
   </StrictMode>
 )
