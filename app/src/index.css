@@ -13,6 +13,13 @@
   .overflow-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
+/* ── Recipe grid cols (controlled via --cols CSS custom property) ── */
+@media (min-width: 768px) {
+  [style*='--cols'] {
+    grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)) !important;
+  }
+}
+
 /* ── Mobile nav ── */
 .mobile-nav {
   transition: transform 250ms ease, opacity 200ms ease;
