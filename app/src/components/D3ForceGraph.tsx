@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
+import type { LinkMode, WeightMode } from '../utils/search'
+
+export type { LinkMode, WeightMode }
 
 export interface GraphNode extends d3.SimulationNodeDatum {
   id: number
@@ -17,8 +20,6 @@ export interface GraphLink {
 }
 
 export type LayoutMode = 'force' | 'radial' | 'circle' | 'rings' | 'spiral'
-export type WeightMode = 'idf' | 'freq' | 'select' | 'uniform'
-export type LinkMode = 'recipe-token' | 'token-token' | 'recipe-recipe' | 'auto'
 
 interface Props {
   nodes: GraphNode[]

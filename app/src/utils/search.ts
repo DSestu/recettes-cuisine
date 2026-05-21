@@ -139,3 +139,170 @@ export function filterByTitle(recipes: Recipe[], query: string): Recipe[] {
     return t.includes(q) || isSubsequence(q, t)
   })
 }
+
+// ── Graph data types ─────────────────────────────────────────────────────────
+
+export type LinkMode = 'auto' | 'recipe-token' | 'token-token' | 'recipe-recipe'
+export type WeightMode = 'idf' | 'freq' | 'select' | 'uniform'
+
+export interface GraphNodeData {
+  id: number
+  label: string
+  type: 'tag' | 'recipe' | 'component'
+  url?: string
+}
+
+export interface GraphLinkData {
+  source: number
+  target: number
+  weightRaw: number
+}
+
+export function tagsForRecipe(recipe: Recipe): string[] {
+  const recipeTags = recipe.tags
+    .map(t => singularize(normalizeBasic(t)))
+    .filter(t => t.length > 2 && !FRENCH_STOPWORDS.has(t))
+  const ingTokens = recipe.ingredients.flatMap(i => tokenizeIngredient(i))
+  return Array.from(new Set([...recipeTags, ...ingTokens]))
+}
+
+export type SearchItem = Recipe & { itemType?: 'recipe' | 'component' }
+
+export function buildGraphData(
+  items: SearchItem[],
+  allItems: SearchItem[],
+  options: {
+    linkMode?: LinkMode
+    weightMode?: WeightMode
+    maxRecipes?: number
+    maxIngredients?: number
+    hideTopIngredients?: number
+    showTokens?: boolean
+    showRecipes?: boolean
+    showComponents?: boolean
+    selectedTags?: Set<string>
+    makeUrl?: (slug: string) => string
+  }
+): { nodes: GraphNodeData[]; links: GraphLinkData[] } {
+  const {
+    linkMode = 'auto',
+    weightMode = 'uniform',
+    maxRecipes = 60,
+    maxIngredients = 60,
+    hideTopIngredients = 0,
+    showTokens = true,
+    showRecipes = true,
+    showComponents = true,
+    selectedTags = new Set<string>(),
+    makeUrl = (slug) => `/recette/${slug}`,
+  } = options
+
+  const Ndocs = Math.max(1, allItems.length)
+  const df = new Map<string, number>()
+  for (const r of allItems) {
+    for (const tok of new Set(tagsForRecipe(r))) {
+      df.set(tok, (df.get(tok) || 0) + 1)
+    }
+  }
+
+  // Top tokens: skip most-frequent N, take up to maxIngredients
+  const sorted = Array.from(df.entries()).sort((a, b) => b[1] - a[1])
+  const topTokenSet = new Set<string>()
+  let skipCount = 0
+  for (const [tok] of sorted) {
+    if (skipCount < hideTopIngredients) { skipCount++; continue }
+    if (topTokenSet.size >= maxIngredients) break
+    topTokenSet.add(tok)
+  }
+
+  const nodes: GraphNodeData[] = []
+  const links: GraphLinkData[] = []
+  const tokenId = new Map<string, number>()
+  const recipeId = new Map<string, number>()
+  let id = 0
+
+  if (showTokens) {
+    for (const tok of topTokenSet) {
+      tokenId.set(tok, id)
+      nodes.push({ id: id++, label: tok, type: 'tag' })
+    }
+  }
+
+  const eligibleItems = items.filter(r =>
+    r.itemType === 'component' ? showComponents : showRecipes
+  )
+  const limitedItems = eligibleItems.slice(0, maxRecipes)
+  for (const r of limitedItems) {
+    recipeId.set(r.title, id)
+    nodes.push({
+      id: id++,
+      label: r.title,
+      type: r.itemType === 'component' ? 'component' : 'recipe',
+      url: makeUrl(r.slug),
+    })
+  }
+
+  const useRecipeToken =
+    linkMode === 'recipe-token' || (linkMode === 'auto' && (showRecipes || showComponents))
+  const useTokenToken =
+    linkMode === 'token-token' || (linkMode === 'auto' && !(showRecipes || showComponents))
+  const useRecipeRecipe = linkMode === 'recipe-recipe'
+
+  if (useRecipeToken) {
+    for (const r of limitedItems) {
+      const rid = recipeId.get(r.title)!
+      for (const tok of new Set(tagsForRecipe(r))) {
+        if (!topTokenSet.has(tok) || !showTokens) continue
+        const freq = df.get(tok) || 1
+        const idf = Math.log(1 + Ndocs / freq)
+        let wRaw = 1
+        if (weightMode === 'idf') wRaw = idf
+        else if (weightMode === 'freq') wRaw = freq
+        else if (weightMode === 'select') wRaw = selectedTags.has(tok) ? 2 : 1
+        links.push({ source: rid, target: tokenId.get(tok)!, weightRaw: wRaw })
+      }
+    }
+  } else if (useTokenToken && showTokens) {
+    const pairCount = new Map<string, number>()
+    for (const r of allItems) {
+      const toks = Array.from(new Set(tagsForRecipe(r).filter(t => topTokenSet.has(t))))
+      for (let i = 0; i < toks.length; i++) {
+        for (let j = i + 1; j < toks.length; j++) {
+          const a = toks[i] < toks[j] ? toks[i] : toks[j]
+          const b = toks[i] < toks[j] ? toks[j] : toks[i]
+          const key = `${a}||${b}`
+          pairCount.set(key, (pairCount.get(key) || 0) + 1)
+        }
+      }
+    }
+    for (const [key, count] of pairCount) {
+      const [a, b] = key.split('||')
+      if (!tokenId.has(a) || !tokenId.has(b)) continue
+      const fa = df.get(a) || 1, fb = df.get(b) || 1
+      const idfa = Math.log(1 + Ndocs / fa), idfb = Math.log(1 + Ndocs / fb)
+      let wRaw = count
+      if (weightMode === 'idf') wRaw = count * (idfa + idfb) / 2
+      links.push({ source: tokenId.get(a)!, target: tokenId.get(b)!, weightRaw: wRaw })
+    }
+  } else if (useRecipeRecipe) {
+    for (let i = 0; i < limitedItems.length; i++) {
+      for (let j = i + 1; j < limitedItems.length; j++) {
+        const a = limitedItems[i], b = limitedItems[j]
+        const setA = new Set(tagsForRecipe(a))
+        const setB = new Set(tagsForRecipe(b))
+        let shared = 0
+        for (const t of setA) if (setB.has(t)) shared++
+        if (shared > 0) {
+          links.push({ source: recipeId.get(a.title)!, target: recipeId.get(b.title)!, weightRaw: shared })
+        }
+      }
+    }
+  }
+
+  const usedIds = new Set<number>()
+  for (const l of links) { usedIds.add(l.source); usedIds.add(l.target) }
+  return {
+    nodes: nodes.filter(n => usedIds.has(n.id)),
+    links: links.filter(l => usedIds.has(l.source) && usedIds.has(l.target)),
+  }
+}
