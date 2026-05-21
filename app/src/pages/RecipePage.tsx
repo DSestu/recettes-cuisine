@@ -7,6 +7,7 @@ import { MarkdownRenderer, DirectionsList } from '../components/MarkdownRenderer
 import { TagPills } from '../components/TagPills'
 import { ComponentCards, ComponentDetails } from '../components/ComponentComposition'
 import { ImageOverlay } from '../components/ImageOverlay'
+import { useDocumentMeta } from '../hooks/useDocumentMeta'
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -26,6 +27,12 @@ export function RecipePage() {
   }
 
   const fullImgSrc = `${BASE}/images/full/${recipe.image}.webp`
+  const heroImgUrl = `${BASE}/images/hero/${recipe.image}.webp`
+
+  useDocumentMeta({
+    title: recipe.title,
+    image: heroImgUrl,
+  })
 
   const tagParam = recipe.tags.map(t => encodeURIComponent(t)).join(',')
 
