@@ -33,7 +33,7 @@ export function PageTransition({ children }: Props) {
         animate="animate"
         exit="exit"
         transition={{ duration: 0.18, ease: 'easeOut' }}
-        className="contents"
+        className="w-full h-full"
       >
         {children}
       </motion.div>

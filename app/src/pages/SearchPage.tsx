@@ -366,6 +366,12 @@ export function SearchPage() {
 
           {selectedTags.size > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
+              <button
+                onClick={clearTags}
+                className="px-2 py-0.5 rounded-full text-xs text-gray-500 border border-gray-200 hover:bg-gray-50"
+              >
+                Tout effacer
+              </button>
               {Array.from(selectedTags).map(t => (
                 <span
                   key={t}
@@ -375,12 +381,6 @@ export function SearchPage() {
                   <button onClick={() => removeTag(t)} className="hover:opacity-70 leading-none">✕</button>
                 </span>
               ))}
-              <button
-                onClick={clearTags}
-                className="px-2 py-0.5 rounded-full text-xs text-gray-500 border border-gray-200 hover:bg-gray-50"
-              >
-                Tout effacer
-              </button>
             </div>
           )}
         </div>
@@ -616,14 +616,14 @@ function SearchRecipeCard({ recipe, selectedTags, mode, ingredientTagIds, eager 
     >
       <div className="relative aspect-video overflow-hidden">
         <img
-          src={`${BASE}/images/card/${recipe.image}.webp`}
+          src={`${BASE}/images/cards/${recipe.image}.webp`}
           alt={recipe.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading={eager ? 'eager' : 'lazy'}
         />
         {selectedTags.size > 0 && (
           <span
-            className="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded text-white text-xs font-bold shadow"
+            className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-white text-xs font-bold shadow ring-2 ring-white"
             style={{ background: badgeColor }}
           >
             {ingPct !== null ? `${Math.round(ingPct * 100)}%` : `${matched}/${total}`}

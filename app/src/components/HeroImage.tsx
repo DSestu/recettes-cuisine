@@ -29,7 +29,7 @@ export function HeroImage({ recipe, onZoom }: Props & { onZoom?: () => void }) {
   }
 
   return (
-    <div className="recipe-image-panel relative aspect-video md:aspect-auto md:h-screen md:overflow-hidden">
+    <div className="recipe-image-panel relative aspect-video md:aspect-auto md:h-screen md:overflow-hidden" style={{ viewTransitionName: 'vt-hero' }}>
       <img
         src={heroSrc}
         alt={recipe.title}

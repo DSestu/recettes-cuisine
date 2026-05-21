@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function RecipeCard({ recipe }: Props) {
-  const cardImg = `${BASE}/images/card/${recipe.slug}.webp`
+  const cardImg = `${BASE}/images/cards/${recipe.image}.webp`
 
   return (
     <Link
@@ -30,7 +30,7 @@ export function RecipeCard({ recipe }: Props) {
         <h3 className="font-medium text-sm text-orange-950 leading-tight line-clamp-2">
           {recipe.title}
         </h3>
-        {recipe.tags.length > 0 && (
+        {/* {recipe.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
             {recipe.tags.slice(0, 3).map(tag => (
               <span
@@ -41,7 +41,7 @@ export function RecipeCard({ recipe }: Props) {
               </span>
             ))}
           </div>
-        )}
+        )} */}
       </div>
     </Link>
   )

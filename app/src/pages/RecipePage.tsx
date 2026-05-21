@@ -7,6 +7,7 @@ import { MarkdownRenderer, DirectionsList } from '../components/MarkdownRenderer
 import { TagPills } from '../components/TagPills'
 import { ComponentCards, ComponentDetails } from '../components/ComponentComposition'
 import { ImageOverlay } from '../components/ImageOverlay'
+import { RecipeSuggestions } from '../components/RecipeSuggestions'
 import { useDocumentMeta } from '../hooks/useDocumentMeta'
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
@@ -50,7 +51,7 @@ export function RecipePage() {
         />
 
         {/* Right: article */}
-        <article className="post-content bg-orange-50 p-8 md:p-12 flex flex-col gap-12 h-full md:overflow-y-scroll md:overflow-x-hidden mb-24">
+        <article className="post-content bg-orange-50 p-8 md:p-12 flex flex-col gap-12 h-full md:overflow-y-scroll md:overflow-x-hidden mb-24" style={{ viewTransitionName: 'vt-content' }}>
 
           <header className="flex flex-col gap-6 md:pt-16">
             <h1
@@ -105,6 +106,8 @@ export function RecipePage() {
           {recipe.components && (
             <ComponentDetails componentTitles={recipe.components} />
           )}
+
+          <RecipeSuggestions recipe={recipe} />
 
         </article>
       </div>

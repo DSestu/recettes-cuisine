@@ -103,6 +103,7 @@ export function Nav() {
           className="mobile-nav nav-visible w-screen md:w-full md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-5 md:gap-3 z-[9999] shadow-3xl md:shadow-none"
           id="main-nav"
           aria-expanded="false"
+          style={{ viewTransitionName: 'vt-nav' }}
         >
           <NavLink to="/" end className={linkClass}>
             <HomeIcon />

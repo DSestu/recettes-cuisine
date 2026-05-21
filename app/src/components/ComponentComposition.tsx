@@ -32,7 +32,7 @@ export function ComponentCards({ componentTitles }: Props) {
             className="recipe relative md:hover:scale-105 md:hover:rotate-1 transition"
           >
             <img
-              src={`${BASE}/images/card/${comp.image}.webp`}
+              src={`${BASE}/images/cards/${comp.image}.webp`}
               alt={comp.title}
               className="aspect-video w-full rounded-xl bg-gray-100 mb-1 object-cover"
               loading="lazy"
@@ -62,7 +62,7 @@ export function ComponentDetails({ componentTitles }: Props) {
           {comp.image && (
             <div className="component-image aspect-video w-full bg-cover bg-center mb-4 overflow-hidden rounded-xl">
               <img
-                src={`${BASE}/images/card/${comp.image}.webp`}
+                src={`${BASE}/images/cards/${comp.image}.webp`}
                 alt={comp.title}
                 className="w-full h-full object-cover"
                 loading="lazy"
