@@ -1,8 +1,10 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { recipes } from '../data/recipes'
 import { categories } from '../data/categories'
 import { CategorySection } from '../components/CategorySection'
 import { ColsSelector, useColsValue } from '../components/ColsSelector'
+import { useHomeSearch } from '../hooks/useHomeSearch'
 import type { HomeCategory, Recipe } from '../types'
 
 function assignToCategories(
@@ -25,7 +27,22 @@ function assignToCategories(
 
 export function HomePage() {
   const cols = useColsValue()
-  const assigned = assignToCategories(recipes, categories)
+  const { query, setQuery, filtered, clear } = useHomeSearch(recipes)
+  const searchRef = useRef<HTMLInputElement>(null)
+  const assigned = assignToCategories(filtered, categories)
+
+  // Cmd/Ctrl+F focuses search input
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.key === 'f' || e.key === 'F') && (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+        e.preventDefault()
+        searchRef.current?.focus()
+        searchRef.current?.select()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   return (
     <div className="content w-full h-full overflow-y-auto bg-orange-50 pb-24 md:pb-6">
@@ -50,6 +67,38 @@ export function HomePage() {
             Recherche avancée
           </Link>
         </div>
+      </div>
+
+      {/* Search bar */}
+      <div className="px-6 mt-4">
+        <div className="relative max-w-xl">
+          <input
+            ref={searchRef}
+            id="home-search"
+            type="search"
+            inputMode="search"
+            autoComplete="off"
+            placeholder="Rechercher une recette…"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            className="w-full rounded-xl border border-red-200/60 bg-white/80 backdrop-blur px-4 py-2 pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={clear}
+              aria-label="Effacer la recherche"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-400 hover:text-primary"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        {query && (
+          <p className="text-sm text-orange-700 mt-1">
+            {filtered.length} résultat{filtered.length !== 1 ? 's' : ''}
+          </p>
+        )}
       </div>
 
       {/* Toolbar: cols selector */}
