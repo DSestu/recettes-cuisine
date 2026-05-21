@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Hide scrollbars while keeping scroll functionality */
+  .overflow-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .overflow-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
