@@ -7,6 +7,12 @@ import { HomePage } from './pages/HomePage'
 import { RecipePage } from './pages/RecipePage'
 import { SearchPage } from './pages/SearchPage'
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/recettes-cuisine/serviceworker.js')
+  })
+}
+
 const root = document.getElementById('root')!
 createRoot(root).render(
   <StrictMode>
