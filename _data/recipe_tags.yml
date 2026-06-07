@@ -665,3 +665,7 @@
   ingredient: false
 - id: mousse
   ingredient: false
+- id: vinaigre balsamique
+  ingredient: true
+- id: gelee de cerise
+  ingredient: true
