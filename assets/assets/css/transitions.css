@@ -1,0 +1,229 @@
+/* Page-to-page View Transitions — route-pair choreography.
+ *
+ * Substrate: native cross-document VT (`@view-transition { navigation: auto }`
+ * in head.html). transitions.js adds these types to the active transition:
+ *   from-<kind>  in pageswap on the outgoing page
+ *   to-<kind>    in pagereveal on the incoming page
+ * (kind = home | search | recipe | other)
+ *
+ * Constraint: Chrome 147 evaluates `:active-view-transition-type()` ONLY for
+ * `::view-transition-new(*)` pseudos, not `::view-transition-old(*)`. So we
+ * pin every OLD pseudo to a static (no-animation) state and choreograph
+ * exclusively on the NEW side.
+ *
+ * Named regions on recipe: vt-hero, vt-content.
+ */
+
+/* ---------- OLD pseudos ---------- *
+ * OLD root stays put (the destination should appear ON it, not behind it).
+ * OLD vt-hero / vt-content slide out unconditionally — this fires for
+ * Recipe → Home/Search (opening curtains). For Recipe → Recipe the
+ * outgoing page strips the names in pageswap (see transitions.js), so the
+ * OLD pseudos for those names don't exist and these rules don't apply.
+ */
+::view-transition-old(root),
+::view-transition-old(vt-nav) {
+  animation: none !important;
+}
+::view-transition-old(vt-hero) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
+}
+::view-transition-old(vt-content) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-right !important;
+}
+
+/* ---------- NAV: identical on every page → morph in place, no animation.
+ *  Bring it above hero/content snapshots so it isn't covered by the curtains. */
+::view-transition-new(vt-nav),
+::view-transition-old(vt-nav) {
+  animation: none !important;
+}
+::view-transition-group(vt-nav) {
+  z-index: 1000;
+}
+
+/* ---------- NEW root: default short fade-in. ---------- */
+::view-transition-new(root) {
+  animation: 220ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in;
+}
+
+@keyframes rc-fade-in  { from { opacity: 0; } }
+@keyframes rc-fade-out { to   { opacity: 0; } }
+@keyframes rc-stay-hidden { 0%, 99% { opacity: 0; } 100% { opacity: 1; } }
+
+/* =========================================================================
+   Home/Search → Recipe — closing curtains
+   New hero slides in from left, new content slides in from right.
+   ========================================================================= */
+html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(vt-hero),
+html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-hero) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
+}
+html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(vt-content),
+html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-right !important;
+}
+
+/* Keep new root invisible during the curtain so the old (home/search)
+ * snapshot stays visible underneath until the curtains cover the screen. */
+html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(root),
+html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(root) {
+  animation: 500ms linear both rc-stay-hidden !important;
+}
+
+/* =========================================================================
+   Recipe → Home/Search — incoming page fades in over static recipe
+   (Spec wanted opening curtains; OLD-pseudo limitation forces inversion.
+   Search-arrival uses a slide-in for a bit more motion.)
+   ========================================================================= */
+/* Destination root fades in under the opening curtains. */
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-home)::view-transition-new(root),
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-search)::view-transition-new(root) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
+}
+
+/* =========================================================================
+   Recipe → Recipe — top-down scanner on hero + content crossfade
+   ========================================================================= */
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-hero),
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
+  animation: 1200ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
+}
+/* Suppress new root fade-in so the OLD recipe (with its old image) shows
+ * through behind the fading-in new hero / content — clean image crossfade. */
+html:active-view-transition-type(from-recipe):active-view-transition-type(to-recipe)::view-transition-new(root) {
+  animation: 1200ms linear both rc-stay-hidden !important;
+}
+
+/* =========================================================================
+   Home ↔ Search — home is a sliding card; search stays static behind.
+   ========================================================================= */
+/* Home → Search: outgoing home slides out left (name added in pageswap). */
+::view-transition-old(vt-page-out-left) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important;
+}
+/* Search → Home: NEW home root slides in from left. Search root stays. */
+html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-new(root) {
+  animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-left !important;
+}
+
+/* ---------- Shared keyframes ---------- */
+@keyframes rc-slide-in-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes rc-slide-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes rc-slide-out-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes rc-slide-out-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+@keyframes rc-scanner-reveal {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* =========================================================================
+   Mobile (< 768px): recipe layout stacks vertically (image top, content
+   bottom), so curtains run vertically too — image from the top, content
+   from the bottom; reverse for the opening.
+   ========================================================================= */
+@media (max-width: 767px) {
+  /* OLD vt-hero/vt-content: slide vertically out instead of horizontally. */
+  ::view-transition-old(vt-hero) {
+    animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-up !important;
+  }
+  ::view-transition-old(vt-content) {
+    animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-down !important;
+  }
+  /* Closing curtains (Home/Search → Recipe). */
+  html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(vt-hero),
+  html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-hero) {
+    animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-down !important;
+  }
+  html:active-view-transition-type(from-home):active-view-transition-type(to-recipe)::view-transition-new(vt-content),
+  html:active-view-transition-type(from-search):active-view-transition-type(to-recipe)::view-transition-new(vt-content) {
+    animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-in-up !important;
+  }
+  /* Floating chrome:
+   *   - QR: identical on every page → morph in place above the curtains.
+   *   - back, zoom: only on recipe pages → fade in.
+   *   - bottom nav: present on every page → identical crossfade.
+   */
+  a.back               { view-transition-name: vt-btn-back; }
+  #btn-qr-modal        { view-transition-name: vt-btn-qr; }
+  #btn-recipe-image-zoom { view-transition-name: vt-btn-zoom; }
+
+  /* Raise chrome groups above sliding hero/content snapshots and clip to
+   * a circle so the snapshot doesn't reveal a square white background
+   * outside the button's border-radius. */
+  ::view-transition-group(vt-btn-qr),
+  ::view-transition-group(vt-btn-back),
+  ::view-transition-group(vt-btn-zoom) {
+    z-index: 1000;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  /* All chrome: hide old instantly, fade new in. */
+  ::view-transition-old(vt-nav),
+  ::view-transition-old(vt-btn-back),
+  ::view-transition-old(vt-btn-qr),
+  ::view-transition-old(vt-btn-zoom) {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  ::view-transition-new(vt-nav),
+  ::view-transition-new(vt-btn-back),
+  ::view-transition-new(vt-btn-qr),
+  ::view-transition-new(vt-btn-zoom) {
+    animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in !important;
+  }
+  /* Home ↔ Search: plain crossfade. Suppress the vt-page-out-left
+   * curtain (the OLD .content snapshot would otherwise still slide
+   * horizontally on mobile) and crossfade the roots instead. */
+  ::view-transition-old(vt-page-out-left) {
+    animation: 500ms linear both rc-fade-out !important;
+  }
+  html:active-view-transition-type(from-home):active-view-transition-type(to-search)::view-transition-new(root),
+  html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-new(root) {
+    animation: 500ms ease-out both rc-fade-in !important;
+  }
+  html:active-view-transition-type(from-home):active-view-transition-type(to-search)::view-transition-old(root),
+  html:active-view-transition-type(from-search):active-view-transition-type(to-home)::view-transition-old(root) {
+    animation: 500ms ease-out both rc-fade-out !important;
+  }
+}
+
+@keyframes rc-slide-in-down {
+  from { transform: translateY(-100vh); }
+  to   { transform: translateY(0); }
+}
+@keyframes rc-slide-in-up {
+  from { transform: translateY(100vh); }
+  to   { transform: translateY(0); }
+}
+@keyframes rc-slide-out-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100vh); }
+}
+@keyframes rc-slide-out-down {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100vh); }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-new(*),
+  ::view-transition-old(*),
+  ::view-transition-group(*) {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+}
