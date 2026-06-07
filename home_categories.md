@@ -57,6 +57,8 @@ categories:
       - gateau
       - tiramisu
       - tarte
+      - crepes
+      - mousse
 
   - id: "drinks"
     label: "Boissons"
