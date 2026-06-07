@@ -207,9 +207,9 @@
 
 ::view-transition-new(root) { animation: 220ms cubic-bezier(0.22, 1, 0.36, 1) both rc-fade-in; }
 
-/* Fill the group area so the clipped content is never transparent during slide */
-::view-transition-image-pair(vt-content) { background: #fff7ed; }
-::view-transition-image-pair(vt-hero)    { background: #000; }
+/* Allow new pseudo-elements to slide in from fully off-screen (outside group bounds) */
+::view-transition-group(vt-hero),
+::view-transition-group(vt-content) { overflow: visible; }
 
 /* Named elements: slide out unconditionally when leaving a recipe page */
 ::view-transition-old(vt-hero)    { animation: 500ms cubic-bezier(0.22, 1, 0.36, 1) both rc-slide-out-left !important; }

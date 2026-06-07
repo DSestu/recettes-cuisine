@@ -30,6 +30,12 @@ jobs:
         run: npm run build
         working-directory: app
 
+      - name: Copy static assets into dist
+        run: |
+          cp -r images app/dist/images
+          cp -r icons app/dist/icons
+          [ -d assets ] && cp -r assets app/dist/assets || true
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
