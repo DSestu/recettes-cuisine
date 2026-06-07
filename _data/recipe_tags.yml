@@ -679,3 +679,45 @@
   ingredient: true
 - id: fruits secs
   ingredient: true
+- id: avoine
+  ingredient: true
+- id: fourme de montbrison
+  ingredient: true
+- id: piment vert
+  ingredient: true
+- id: sriracha
+  ingredient: true
+- id: cumin
+  ingredient: true
+- id: saint-nectaire
+  ingredient: true
+- id: brioche
+  ingredient: true
+- id: ghee
+  ingredient: true
+- id: cardamome
+  ingredient: true
+- id: garam massala
+  ingredient: true
+- id: piment
+  ingredient: true
+- id: petits pois
+  ingredient: true
+- id: menthe
+  ingredient: true
+- id: printemps
+  ingredient: false
+- id: frittata
+  ingredient: false
+- id: beaufort
+  ingredient: true
+- id: galette
+  ingredient: false
+- id: sarrasin
+  ingredient: true
+- id: vinaigre de riz
+  ingredient: true
+- id: paprika
+  ingredient: true
+- id: zaatar
+  ingredient: true
