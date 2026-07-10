@@ -136,13 +136,6 @@ def fetch_workflow(cfg: dict, mcfg: dict, required_node_keys: list[str] | None =
     return wf
 
 
-def patch_full_workflow(mcfg: dict, workflow: dict, ocr_name: str, restore_name: str) -> dict:
-    wf = copy.deepcopy(workflow)
-    wf[mcfg["loader_ocr_id"]].setdefault("inputs", {})["image"] = ocr_name
-    wf[mcfg["loader_restore_id"]].setdefault("inputs", {})["image"] = restore_name
-    return wf
-
-
 def queue_prompt(cfg: dict, workflow: dict, client_id: str) -> str:
     r = requests.post(
         f"{http_base(cfg)}/prompt",
@@ -270,15 +263,29 @@ def _read_ocr_text(mcfg: dict, outputs: dict) -> str:
     return ocr_text
 
 
-def fetch_outputs_full(cfg: dict, mcfg: dict, prompt_id: str) -> tuple[str, Path]:
-    outputs = _get_history_outputs(cfg, prompt_id)
-    return _read_ocr_text(mcfg, outputs), _fetch_preview_image(cfg, mcfg, prompt_id, outputs)
-
-
 def run_full(cfg: dict, image_path: Path, dry_run: bool) -> dict:
-    mcfg = mode_cfg(cfg, "full")
-    require_node_ids(mcfg, "full", ["loader_ocr_id", "loader_restore_id", "text_output_id", "preview_image_id"])
+    """Compose the two standalone workflows: OCR first, then restoration.
 
+    `modes.full` no longer references a single combined workflow — it carries
+    two sub-configs (`ocr` and `restore`), each mirroring the standalone `ocr`
+    and `image` mode entries. We run them as separate prompts and merge the
+    results into the same output shape callers already expect.
+    """
+    mcfg = mode_cfg(cfg, "full")
+    ocr_cfg = mcfg.get("ocr")
+    restore_cfg = mcfg.get("restore")
+    if not isinstance(ocr_cfg, dict) or not isinstance(restore_cfg, dict):
+        die(
+            "config modes.full must contain 'ocr' and 'restore' sub-objects, "
+            "each with its own workflow + node IDs (see config.json)."
+        )
+    require_node_ids(ocr_cfg, "full.ocr", ["loader_ocr_id", "loader_restore_id", "text_output_id"])
+    require_node_ids(restore_cfg, "full.restore", ["loader_image_id", "preview_image_id"])
+
+    # Resolve inputs (unchanged behaviour): a `<stem>_text` sibling feeds the OCR
+    # loader while the main image feeds restoration; otherwise the same image
+    # feeds both. `restore_name` is the uploaded main photo — restoration in
+    # full mode runs on that uploaded file directly, no slug lookup needed.
     text_sibling = find_text_sibling(image_path)
     if text_sibling:
         log(f"found text sibling: {text_sibling} — routing to OCR loader")
@@ -287,36 +294,62 @@ def run_full(cfg: dict, image_path: Path, dry_run: bool) -> dict:
         log(f"uploading OCR image {text_sibling}…")
         ocr_name = upload_image(cfg, text_sibling)["name"]
     else:
-        log(f"uploading {image_path} (same image to both loaders)…")
+        log(f"uploading {image_path} (same image to OCR + restore)…")
         ocr_name = restore_name = upload_image(cfg, image_path)["name"]
     log(f"OCR loader={ocr_name!r}, restore loader={restore_name!r}")
 
-    log(f"fetching workflow {mcfg['workflow']}…")
-    wf = fetch_workflow(cfg, mcfg, ["loader_ocr_id", "loader_restore_id", "text_output_id", "preview_image_id"])
+    # --- Prepare OCR workflow (OCR + dummy restore loader, as in `ocr` mode) ---
+    log(f"[ocr] fetching workflow {ocr_cfg['workflow']}…")
+    ocr_wf = fetch_workflow(cfg, ocr_cfg, ["loader_ocr_id", "loader_restore_id", "text_output_id"])
+    log("[ocr] patching workflow (OCR + dummy restore)…")
+    ocr_patched = copy.deepcopy(ocr_wf)
+    ocr_patched[ocr_cfg["loader_ocr_id"]].setdefault("inputs", {})["image"] = ocr_name
+    ocr_patched[ocr_cfg["loader_restore_id"]].setdefault("inputs", {})["image"] = restore_name
 
-    log("patching workflow…")
-    patched = patch_full_workflow(mcfg, wf, ocr_name, restore_name)
+    # --- Prepare restoration workflow (main photo → image loader) ---
+    log(f"[restore] fetching workflow {restore_cfg['workflow']}…")
+    restore_wf = fetch_workflow(cfg, restore_cfg, ["loader_image_id", "preview_image_id"])
+    log(f"[restore] patching loader_image_id={restore_cfg['loader_image_id']} with {restore_name!r}…")
+    restore_patched = copy.deepcopy(restore_wf)
+    restore_patched[restore_cfg["loader_image_id"]].setdefault("inputs", {})["image"] = restore_name
 
     if dry_run:
-        log("--dry-run: skipping /prompt; emitting patched workflow on stdout")
+        log("--dry-run: skipping /prompt; emitting both patched workflows on stdout")
         return {
             "dry_run": True,
             "ocr_name": ocr_name,
             "restore_name": restore_name,
-            "workflow": patched,
+            "ocr_workflow": ocr_patched,
+            "restore_workflow": restore_patched,
         }
 
-    client_id = str(uuid.uuid4())
-    log(f"queueing prompt (client_id={client_id})…")
-    prompt_id = queue_prompt(cfg, patched, client_id)
-    log(f"prompt_id={prompt_id}")
+    # --- Run 1: OCR (must yield text before we spend a restore run) ---
+    ocr_client = str(uuid.uuid4())
+    log(f"[ocr] queueing prompt (client_id={ocr_client})…")
+    ocr_pid = queue_prompt(cfg, ocr_patched, ocr_client)
+    log(f"[ocr] prompt_id={ocr_pid}")
+    wait_for_completion(cfg, ocr_client, ocr_pid)
+    log("[ocr] complete; reading text output…")
+    ocr_text = _read_ocr_text(ocr_cfg, _get_history_outputs(cfg, ocr_pid))
 
-    wait_for_completion(cfg, client_id, prompt_id)
-    log("workflow complete; fetching outputs…")
-
-    ocr_text, img_path = fetch_outputs_full(cfg, mcfg, prompt_id)
+    # --- Run 2: restoration ---
+    restore_client = str(uuid.uuid4())
+    log(f"[restore] queueing prompt (client_id={restore_client})…")
+    restore_pid = queue_prompt(cfg, restore_patched, restore_client)
+    log(f"[restore] prompt_id={restore_pid}")
+    wait_for_completion(cfg, restore_client, restore_pid)
+    log("[restore] complete; fetching preview image…")
+    restore_outputs = _get_history_outputs(cfg, restore_pid)
+    img_path = _fetch_preview_image(cfg, restore_cfg, restore_pid, restore_outputs)
     log(f"image saved to {img_path}")
-    return {"ocr_text": ocr_text, "image_temp_path": str(img_path), "prompt_id": prompt_id}
+
+    return {
+        "ocr_text": ocr_text,
+        "image_temp_path": str(img_path),
+        "ocr_prompt_id": ocr_pid,
+        "image_prompt_id": restore_pid,
+        "prompt_id": restore_pid,  # back-compat alias for the restoration run
+    }
 
 
 def run_ocr(cfg: dict, image_path: Path, dry_run: bool) -> dict:
@@ -475,8 +508,17 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.print_workflow:
             mcfg = mode_cfg(cfg, args.mode)
-            wf = fetch_workflow(cfg, mcfg)
-            print(json.dumps(wf, indent=2))
+            if args.mode == "full":
+                # full composes two sub-workflows; dump both.
+                out = {}
+                for sub in ("ocr", "restore"):
+                    scfg = mcfg.get(sub)
+                    if isinstance(scfg, dict) and scfg.get("workflow"):
+                        out[sub] = fetch_workflow(cfg, scfg)
+                print(json.dumps(out, indent=2))
+            else:
+                wf = fetch_workflow(cfg, mcfg)
+                print(json.dumps(wf, indent=2))
             return 0
 
         if args.mode in ("full", "ocr"):

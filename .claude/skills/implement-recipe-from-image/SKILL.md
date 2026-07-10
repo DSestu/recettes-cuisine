@@ -52,7 +52,7 @@ uv run python .claude/skills/implement-recipe-from-image/run.py --mode <full|ocr
 
 All progress logs go to stderr. The last line of stdout is JSON. Shape depends on mode:
 
-- `full` → `{"ocr_text": "...", "image_temp_path": "/abs/.tmp/comfyui/<id>.png", "prompt_id": "..."}`
+- `full` → `{"ocr_text": "...", "image_temp_path": "/abs/.tmp/comfyui/<id>.png", "ocr_prompt_id": "...", "image_prompt_id": "...", "prompt_id": "..."}` (`full` runs the OCR and restoration workflows as two separate prompts; `prompt_id` aliases `image_prompt_id` for back-compat)
 - `ocr` → `{"ocr_text": "...", "prompt_id": "..."}`
 - `image` / `prompt` → `{"image_temp_path": "...", "prompt_id": "..."}`
 
@@ -89,7 +89,7 @@ The restored/generated image is at `image_temp_path` (PNG, in `.tmp/comfyui/`). 
 
 ## Configuration
 
-`config.json` holds: ComfyUI host and a `modes` map. Each mode entry has its own `workflow` path on `/userdata/` and the node IDs it needs (loader IDs, text-output ID, preview-image ID, prompt-text ID + field). Edit there if any of those change — do not hardcode in `run.py`.
+`config.json` holds: ComfyUI host and a `modes` map. The `ocr`, `image`, and `prompt` modes each have their own `workflow` path on `/userdata/` and the node IDs it needs (loader IDs, text-output ID, preview-image ID, prompt-text ID + field). The `full` mode is different: instead of a single combined workflow it carries two sub-objects, `full.ocr` and `full.restore`, each shaped like the standalone `ocr` and `image` entries (their own `workflow` + node IDs). `run_full` runs those two workflows as separate prompts and merges the results. Edit these if any of them change — do not hardcode in `run.py`.
 
 ## Troubleshooting
 

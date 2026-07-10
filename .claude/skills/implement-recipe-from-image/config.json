@@ -3,11 +3,17 @@
   "preview_image_type": "temp",
   "modes": {
     "full": {
-      "workflow": "workflows/SDXL_recettes_cuisine_api.json",
-      "loader_ocr_id": "1933",
-      "loader_restore_id": "2001",
-      "text_output_id": "2003",
-      "preview_image_id": "465"
+      "ocr": {
+        "workflow": "workflows/SDXL_recettes_cuisine_ocr_api.json",
+        "loader_ocr_id": "1933",
+        "loader_restore_id": "2001",
+        "text_output_id": "2003"
+      },
+      "restore": {
+        "workflow": "workflows/SDXL_recettes_cuisine_image_api.json",
+        "loader_image_id": "2001",
+        "preview_image_id": "465"
+      }
     },
     "ocr": {
       "workflow": "workflows/SDXL_recettes_cuisine_ocr_api.json",
