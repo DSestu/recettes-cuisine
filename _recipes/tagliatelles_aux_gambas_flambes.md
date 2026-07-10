@@ -9,6 +9,7 @@ tags:
 - repas
 - crevettes
 - tomates
+- gambas
 - ail
 - coriandre
 - parmesan
