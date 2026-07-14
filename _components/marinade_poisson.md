@@ -8,7 +8,7 @@ tags:
 - marinade
 - vin blanc
 - vinaigre
-- carotte
+- carottes
 - oignon
 - thym
 - laurier

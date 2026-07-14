@@ -11,7 +11,7 @@ tags:
 - oeufs
 - fromage
 - beaufort
-- poireau
+- poireaux
 - champignons
 - fromage frais
 - beurre

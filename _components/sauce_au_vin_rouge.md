@@ -10,7 +10,7 @@ tags:
 - vin rouge
 - fond de veau
 - echalotes
-- carotte
+- carottes
 - laurier
 - concentre de tomate
 - beurre

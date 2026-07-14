@@ -37,6 +37,12 @@ repos:
         entry: scripts/reject_non_webp.sh
         language: system
         files: ^images/
+      - id: validate-seasonality
+        name: Validate seasonality.yml against recipe_tags.yml
+        entry: uv run python scripts/validate_seasonality.py
+        language: system
+        files: ^(_data/(recipe_tags|seasonality)\.yml|scripts/validate_seasonality\.py)$
+        pass_filenames: false
       - id: build-tailwind
         name: Compile static Tailwind CSS
         entry: uv run python scripts/build_tailwind.py

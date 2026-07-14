@@ -10,7 +10,7 @@ tags:
 - crevettes
 - saint-jacques
 - pommes de terre
-- carotte
+- carottes
 - celeri
 - persil
 - lait

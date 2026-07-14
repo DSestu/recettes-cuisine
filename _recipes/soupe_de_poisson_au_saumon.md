@@ -8,8 +8,8 @@ tags:
 - sestu
 - poisson
 - saumon
-- poireau
-- carotte
+- poireaux
+- carottes
 - pomme de terre
 - citron
 - creme

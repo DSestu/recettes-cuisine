@@ -10,7 +10,7 @@ tags:
 - chaud
 - patate douce
 - lentilles corail
-- carotte
+- carottes
 - oignon
 - oeufs
 - lait de coco

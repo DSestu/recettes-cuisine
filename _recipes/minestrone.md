@@ -11,7 +11,7 @@ tags:
 - saucisse de morteau
 - carottes
 - lentilles corail
-- poireau
+- poireaux
 - orge perlé
 - épeautre
 - oignon
