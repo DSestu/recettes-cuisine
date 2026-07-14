@@ -4,6 +4,17 @@ permalink: /calendrier/
 title: "Calendrier des ingrédients"
 ---
 
+<style>
+  /* Global CSS applies `overflow-x: hidden` on html/body which promotes them
+     to scroll containers and breaks `position: sticky` against the viewport.
+     `clip` visually clips overflow WITHOUT creating a scroll container, so
+     the calendar's month header can stick to the viewport top on scroll. */
+  html[data-page-kind="calendrier"],
+  html[data-page-kind="calendrier"] body {
+    overflow-x: clip !important;
+  }
+</style>
+
 <div class="content w-full md:w-full p-6 md:pl-16">
   <header class="mb-6">
     <h1 class="text-3xl md:text-4xl font-gelica text-orange-950">
@@ -19,6 +30,8 @@ title: "Calendrier des ingrédients"
     Chargement des données…
   </div>
 
+  <div id="calendrier-controls-mount" class="mb-3"></div>
+
   <div
     id="calendrier-root"
     data-url-index="{{ site.baseurl }}/assets/data/ingredient_index.json"
@@ -27,4 +40,5 @@ title: "Calendrier des ingrédients"
   ></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ site.baseurl }}/assets/js/calendrier.js" defer></script>
