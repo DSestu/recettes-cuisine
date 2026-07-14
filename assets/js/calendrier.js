@@ -48,11 +48,9 @@
     // URL wins so shared links land in the intended view.
     const fromUrl = new URLSearchParams(location.search).get(LAYOUT_URL_PARAM);
     if (fromUrl === "fit" || fromUrl === "wide") return fromUrl;
-    try {
-      const stored = localStorage.getItem("calendrier.layoutMode");
-      if (stored === "fit" || stored === "wide") return stored;
-    } catch (_) { /* localStorage unavailable */ }
-    // Sensible default: on narrow viewports the "fit" mode is too cramped.
+    // Viewport-based default takes priority over localStorage: layoutMode is
+    // inherently device-dependent, and users should get the right default when
+    // switching between desktop and mobile.
     return window.matchMedia && window.matchMedia("(max-width: 767px)").matches ? "wide" : "fit";
   }
 
@@ -278,7 +276,11 @@
       gridW = cellW * 24;
       svgWidth = LABEL_W + gridW + RIGHT_PAD;
     } else {
-      gridW = Math.max(600, containerWidth) - LABEL_W - RIGHT_PAD;
+      // In fit mode we must not force a min grid width larger than the viewport
+      // — that would cause the SVG to scale down uniformly (aspect ratio),
+      // clipping rows below the scaled content on narrow screens.
+      const minGrid = isMobile ? 24 * 14 : 24 * 22; // small floor to keep cells readable
+      gridW = Math.max(minGrid, containerWidth - LABEL_W - RIGHT_PAD);
       cellW = gridW / 24;
       svgWidth = LABEL_W + gridW + RIGHT_PAD;
     }
@@ -350,8 +352,10 @@
     const topRightSvg = topRow.append("svg")
       .attr("viewBox", `0 0 ${rightWidth} ${MONTH_HEADER_H}`)
       .attr("height", MONTH_HEADER_H)
+      .attr("preserveAspectRatio", "none")
       .attr("font-family", "Inter, ui-sans-serif, system-ui, sans-serif")
-      .style("display", "block");
+      .style("display", "block")
+      .style("height", MONTH_HEADER_H + "px");
     if (state.layoutMode === "wide") {
       topRightSvg
         .attr("width", rightWidth)
@@ -360,7 +364,6 @@
     } else {
       topRightSvg
         .attr("width", "100%")
-        .attr("preserveAspectRatio", "xMinYMin meet")
         .style("flex", "1 1 auto");
     }
 
@@ -426,8 +429,10 @@
     const rightSvg = bodyRow.append("svg")
       .attr("viewBox", `0 0 ${rightWidth} ${bodyH}`)
       .attr("height", bodyH)
+      .attr("preserveAspectRatio", "none")
       .attr("font-family", "Inter, ui-sans-serif, system-ui, sans-serif")
-      .style("display", "block");
+      .style("display", "block")
+      .style("height", bodyH + "px");
     if (state.layoutMode === "wide") {
       rightSvg
         .attr("width", rightWidth)
@@ -436,7 +441,6 @@
     } else {
       rightSvg
         .attr("width", "100%")
-        .attr("preserveAspectRatio", "xMinYMin meet")
         .style("flex", "1 1 auto");
     }
 
@@ -791,11 +795,9 @@
       }
       refreshStatus();
 
-      // Make the URL reflect the resolved state from the start (so copy-paste of
-      // the URL preserves the view, even when the initial values came from
-      // localStorage or the viewport-based default).
-      writeLayoutModeToUrl(state.layoutMode);
-      writeExploreToUrl(state.showExploratory);
+      // NB: we don't write layoutMode/explore to the URL on bootstrap. Fresh
+      // visits stay URL-empty and follow the viewport-based default; the URL
+      // only gets a param when the user explicitly picks one.
 
       const controlsMount = document.getElementById("calendrier-controls-mount");
       let modeControl = null;
