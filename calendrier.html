@@ -1,0 +1,30 @@
+---
+layout: default
+permalink: /calendrier/
+title: "Calendrier des ingrédients"
+---
+
+<div class="content w-full md:w-full p-6 md:pl-16">
+  <header class="mb-6">
+    <h1 class="text-3xl md:text-4xl font-gelica text-orange-950">
+      Calendrier des ingrédients
+    </h1>
+    <p class="mt-2 text-orange-900/80 max-w-2xl">
+      Saisonnalité des produits utilisés dans les recettes.
+      Cliquez sur un ingrédient pour voir les recettes correspondantes.
+    </p>
+  </header>
+
+  <div id="calendrier-status" class="text-sm text-orange-900/60 mb-4">
+    Chargement des données…
+  </div>
+
+  <div
+    id="calendrier-root"
+    data-url-index="{{ site.baseurl }}/assets/data/ingredient_index.json"
+    data-url-seasonality="{{ site.baseurl }}/assets/data/seasonality.json"
+    data-baseurl="{{ site.baseurl }}"
+  ></div>
+</div>
+
+<script src="{{ site.baseurl }}/assets/js/calendrier.js" defer></script>

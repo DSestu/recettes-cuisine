@@ -425,6 +425,32 @@
     <span class="text-sm md:text-xl font-medium md:font-gelica">Recherche</span>
   </a>
   <a
+    href="{{ site.baseurl }}/calendrier/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 {% if page.url == '/calendrier/' %}text-primary{% endif %}"
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3.5" y="5" width="17" height="15" rx="2" />
+      <path d="M8 3v4" />
+      <path d="M16 3v4" />
+      <path d="M3.5 10h17" />
+      <circle cx="8" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Calendrier</span>
+  </a>
+  <a
     href="https://github.com/DSestu/recettes-cuisine"
     class="flex flex-col md:flex-row items-center gap-0 md:gap-2"
     target="_blank"

@@ -43,6 +43,12 @@ repos:
         language: system
         files: ^(_data/(recipe_tags|seasonality)\.yml|scripts/validate_seasonality\.py)$
         pass_filenames: false
+      - id: generate-ingredient-index
+        name: Generate ingredient index (recipes ↔ seasonal ingredients)
+        entry: uv run python scripts/generate_ingredient_index.py
+        language: system
+        files: ^(_recipes/.*\.md|_data/seasonality\.yml|scripts/generate_ingredient_index\.py)$
+        pass_filenames: false
       - id: build-tailwind
         name: Compile static Tailwind CSS
         entry: uv run python scripts/build_tailwind.py
