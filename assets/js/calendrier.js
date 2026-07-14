@@ -40,7 +40,7 @@
   // scrollable without being unmanageable.
   const WIDE_CELL_W_BASE = 56;
   const WIDE_CELL_W_DESKTOP = WIDE_CELL_W_BASE * 2;   // 112 px per quinzaine
-  const WIDE_CELL_W_MOBILE = WIDE_CELL_W_BASE * 0.75; // 42 px per quinzaine
+  const WIDE_CELL_W_MOBILE = WIDE_CELL_W_BASE * 0.5;  // 28 px per quinzaine
 
   const LAYOUT_URL_PARAM = "vue";
 
@@ -144,6 +144,20 @@
   function displayName(id) {
     return id.charAt(0).toUpperCase() + id.slice(1);
   }
+
+  // Build a `/recherche/` URL: tag-search mode with the given tag list and
+  // either zero tolerance (single ingredient) or infinite (bulk / month).
+  function buildSearchUrl(tags, infinite) {
+    const root = document.getElementById("calendrier-root");
+    const baseurl = root?.dataset.baseurl || "";
+    const params = new URLSearchParams();
+    params.set("mode", "tag");
+    params.set("tags", tags.join(","));
+    if (infinite) params.set("inf", "1");
+    else { params.set("inf", "0"); params.set("mt", "0"); }
+    return `${baseurl}/recherche/?${params.toString()}`;
+  }
+
 
   // Wraps an ingredient name into up to two lines using <tspan>. Falls back to
   // ellipsis truncation on the last line if it still overflows (rare).
@@ -256,7 +270,7 @@
     const LABEL_PAD_R = 10;
     const BAR_W = showRecipeBar ? 60 : 0;
     const BAR_H = 9;
-    const LABEL_W = isMobile ? 140 : 300;
+    const LABEL_W = isMobile ? 100 : 300;
     const NAME_FONT = isMobile ? 12 : 14;
     const NAME_LINE_H = Math.round(NAME_FONT * 1.15);
     const BAR_X = LABEL_W - LABEL_PAD_R - BAR_W;
@@ -582,10 +596,23 @@
       // ----- Ingredient rows (yLocal starts at 0 inside cal-rows). -----
       let yLocal = 0;
       for (const ing of cat.ingredients) {
+        const clickable = ing.recipeCount > 0;
         const labelG = leftRows.append("g")
           .attr("class", "calendrier-row")
           .attr("data-ingredient", ing.id)
-          .attr("cursor", ing.recipeCount > 0 ? "pointer" : "default");
+          .attr("cursor", clickable ? "pointer" : "default")
+          .attr("role", clickable ? "link" : null)
+          .attr("aria-label", clickable ? `Recettes utilisant ${displayName(ing.id)}` : null);
+        if (clickable) {
+          labelG.on("click", () => {
+            window.location.href = buildSearchUrl([ing.id], false);
+          });
+          // Transparent hit rect so clicks land anywhere along the row.
+          labelG.append("rect")
+            .attr("x", 0).attr("y", yLocal)
+            .attr("width", LABEL_W).attr("height", ROW_H)
+            .attr("fill", "transparent");
+        }
 
         const nameText = labelG.append("text")
           .attr("x", 14).attr("y", yLocal + ROW_H / 2)
