@@ -1,96 +1,223 @@
 # Ingredient seasonality (metropolitan France) — quinzaine granularity.
-# Format: season = comma-separated tokens "<mon>-<1|2>:<start|peak|end>".
-# Months absent from the string are out of season.
 # Regenerate with: uv run python scripts/generate_seasonality_seed.py
 # Validate with:   uv run python scripts/validate_seasonality.py
 
-- id: chataigne
-  category: autre
-  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
-- id: marrons
-  category: autre
-  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
-- id: noisettes
-  category: autre
-  season: "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end"
-- id: noix
-  category: autre
-  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+- id: bolets
+  category: champignon
+  season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
 - id: cepes
+  category: champignon
+  season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+- id: chanterelles
+  category: champignon
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+- id: coulemelles
   category: champignon
   season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
 - id: girolles
   category: champignon
-  season: "jun-1:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end, nov-1:end"
+- id: lactaires
+  category: champignon
+  season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
 - id: morilles
   category: champignon
   season: "mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:end"
+- id: mousserons
+  category: champignon
+  season: "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:end"
+- id: pieds bleus
+  category: champignon
+  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
+- id: pieds de mouton
+  category: champignon
+  season: "jan-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: pleurotes
   category: champignon
-  season: "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: roses des pres
+  category: champignon
+  season: "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
 - id: trompettes de la mort
   category: champignon
-  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end"
+  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+- id: bulots
+  category: coquillage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+- id: calamar
+  category: coquillage
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: coques
+  category: coquillage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: crabe
+  category: coquillage
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: crevette grise
+  category: coquillage
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+- id: ecrevisse
+  category: coquillage
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+- id: etrille
+  category: coquillage
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: homard
+  category: coquillage
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: huitres
   category: coquillage
-  season: "sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: langouste
+  category: coquillage
+  season: "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: langoustines
+  category: coquillage
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
 - id: moules
   category: coquillage
-  season: "jul-1:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+  season: "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+- id: moules de bouchot
+  category: coquillage
+  season: "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+- id: oursin
+  category: coquillage
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+- id: palourdes
+  category: coquillage
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: petoncles
+  category: coquillage
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+- id: praires
+  category: coquillage
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: saint-jacques
   category: coquillage
-  season: "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, apr-2:end, may-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, apr-2:end, may-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: seiche
+  category: coquillage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: tourteau
+  category: coquillage
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: beaufort
   category: fromage
-  season: "jul-1:start, aug-1:peak, sep-1:peak, oct-1:peak, nov-1:peak, dec-1:end"
+  season: "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+- id: beaufort d'alpage
+  category: fromage
+  season: "aug-1:start, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
+- id: bleu de termignon
+  category: fromage
+  season: "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: brebis des pyrenees
+  category: fromage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
 - id: brousse de brebis
   category: fromage
-  season: "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
 - id: chevre
   category: fromage
-  season: "mar-1:start, apr-1:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: chevrotin
+  category: fromage
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+- id: crottin de chavignol
+  category: fromage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+- id: fourme de montbrison frais
+  category: fromage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: mont d'or
   category: fromage
-  season: "sep-2:start, oct-1:peak, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, apr-2:end, may-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: reblochon
+  category: fromage
+  season: "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: rocamadour
+  category: fromage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+- id: sainte-maure
+  category: fromage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+- id: salers
+  category: fromage
+  season: "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end, nov-1:end"
+- id: selles-sur-cher
+  category: fromage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+- id: tomme de savoie d'alpage
+  category: fromage
+  season: "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: vacherin des bauges
+  category: fromage
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+- id: valencay
+  category: fromage
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: abricot
   category: fruit
-  season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
+  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
 - id: agrumes
   category: fruit
-  season: "nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+- id: amandes fraiches
+  category: fruit
+  season: "aug-1:start, aug-2:peak, sep-1:peak, sep-2:end"
+- id: cassis
+  category: fruit
+  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:end"
 - id: cerises
   category: fruit
-  season: "may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end"
+  season: "may-2:start, jun-1:peak, jun-2:peak, jul-1:end, jul-2:end"
+- id: chataigne
+  category: fruit
+  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
 - id: citron
   category: fruit
-  season: "nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: clementine
   category: fruit
-  season: "oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+  season: "jan-1:end, jan-2:end, feb-1:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: coings
   category: fruit
-  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
 - id: figues
   category: fruit
   season: "aug-1:start, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: fraises
   category: fruit
   season: "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end"
+- id: fraises des bois
+  category: fruit
+  season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
 - id: framboises
   category: fruit
-  season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+  season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
+- id: grenade
+  category: fruit
+  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
 - id: groseilles
   category: fruit
   season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end"
 - id: kaki
   category: fruit
   season: "oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
+- id: kiwi
+  category: fruit
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: kumquat
   category: fruit
-  season: "dec-1:start, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, dec-1:start, dec-2:peak"
+- id: mandarine
+  category: fruit
+  season: "jan-1:end, jan-2:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: marrons
+  category: fruit
+  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
 - id: melon
   category: fruit
-  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
 - id: mirabelles
   category: fruit
   season: "aug-1:start, aug-2:peak, sep-1:peak, sep-2:end"
@@ -102,178 +229,304 @@
   season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:end"
 - id: myrtilles
   category: fruit
-  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+  season: "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
 - id: nectarines
   category: fruit
   season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: noisettes
+  category: fruit
+  season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+- id: noisettes fraiches
+  category: fruit
+  season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+- id: noix
+  category: fruit
+  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+- id: noix fraiches
+  category: fruit
+  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
 - id: orange
   category: fruit
-  season: "dec-1:start, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, dec-1:start, dec-2:peak"
+- id: pamplemousse
+  category: fruit
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, dec-1:start, dec-2:start"
 - id: pasteque
   category: fruit
   season: "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
 - id: peche
   category: fruit
   season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: physalis
+  category: fruit
+  season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
 - id: poire
   category: fruit
-  season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "jan-1:end, jan-2:end, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: pomelo
+  category: fruit
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, dec-1:start, dec-2:start"
 - id: pomme
   category: fruit
-  season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: prunes
   category: fruit
   season: "jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
+- id: quetsches
+  category: fruit
+  season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:end"
 - id: raisin
   category: fruit
   season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end"
+- id: reine claude
+  category: fruit
+  season: "aug-1:start, aug-2:peak, sep-1:peak, sep-2:end"
 - id: rhubarbe
   category: fruit
   season: "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
 - id: aneth
   category: herbe
-  season: "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, aug-2:end, sep-1:end"
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
 - id: basilic
   category: herbe
   season: "may-1:start, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
 - id: cerfeuil
   category: herbe
-  season: "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
 - id: ciboulette
   category: herbe
-  season: "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: coriandre
   category: herbe
-  season: "may-1:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
 - id: estragon
   category: herbe
-  season: "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: fenouil feuilles
+  category: herbe
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
 - id: menthe
   category: herbe
-  season: "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: origan
   category: herbe
-  season: "may-1:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
 - id: oseille
   category: herbe
-  season: "apr-1:start, may-1:peak, jun-1:peak, jul-1:peak, aug-1:end, sep-1:end"
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: sarriette
+  category: herbe
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
 - id: shiso
   category: herbe
-  season: "jun-1:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: verveine
+  category: herbe
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+- id: ail des ours
+  category: legume
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+- id: ail nouveau
+  category: legume
+  season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end"
+- id: artichaut violet
+  category: legume
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
 - id: artichauts
   category: legume
-  season: "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: asperges
+  category: legume
+  season: "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:end, jun-2:end"
+- id: asperges blanches
+  category: legume
+  season: "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+- id: asperges vertes
   category: legume
   season: "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:end, jun-2:end"
 - id: aubergines
   category: legume
-  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
 - id: betteraves
   category: legume
-  season: "jun-1:start, jul-1:peak, aug-1:peak, sep-1:peak, oct-1:peak, nov-1:peak, nov-2:end, dec-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:end, feb-2:end, mar-1:end, jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: blettes
   category: legume
-  season: "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, sep-1:peak, oct-1:peak, oct-2:end, nov-1:end"
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
 - id: brocolis
   category: legume
-  season: "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+  season: "jan-1:end, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
 - id: butternut
   category: legume
-  season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "jan-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: cardons
   category: legume
-  season: "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "jan-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: carottes
   category: legume
-  season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end, nov-2:end"
+- id: carottes nouvelles
+  category: legume
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end, aug-1:end"
 - id: celeri
   category: legume
-  season: "jul-1:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+  season: "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+- id: celeri rave
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: chou
   category: legume
-  season: "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: chou kale
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: chou pointu
+  category: legume
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
+- id: chou romanesco
+  category: legume
+  season: "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
 - id: chou rouge
   category: legume
-  season: "sep-1:start, oct-1:peak, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:end, mar-1:end"
+  season: "jan-1:peak, jan-2:end, feb-1:end, feb-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: chou vert frise
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: chou-fleur
   category: legume
-  season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "jan-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
 - id: choux de bruxelles
   category: legume
-  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: ciboule
+  category: legume
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end"
 - id: concombre
   category: legume
   season: "may-1:start, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
 - id: courge
   category: legume
-  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "jan-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
 - id: courgettes
   category: legume
   season: "may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: cresson
   category: legume
-  season: "mar-1:start, apr-1:peak, may-1:peak, jun-1:peak, jul-1:end, sep-1:start, oct-1:peak, nov-1:end"
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:end"
+- id: crosnes
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:end, nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: edamame
   category: legume
   season: "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
 - id: endives
   category: legume
-  season: "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: epinards
   category: legume
   season: "mar-1:start, mar-2:peak, apr-1:peak, apr-2:peak, may-1:peak, may-2:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:end"
 - id: fenouil
   category: legume
-  season: "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: feves
+  category: legume
+  season: "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
+- id: fleurs de courgette
+  category: legume
+  season: "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
+- id: haricots beurre
+  category: legume
+  season: "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+- id: haricots coco
+  category: legume
+  season: "jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
 - id: haricots verts
   category: legume
   season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
+- id: laitue
+  category: legume
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: mache
   category: legume
-  season: "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: mais frais
+  category: legume
+  season: "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+- id: mesclun
+  category: legume
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: navets
   category: legume
-  season: "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: navets nouveaux
+  category: legume
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
+- id: oignon nouveau
+  category: legume
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end, jul-2:end"
 - id: panais
   category: legume
-  season: "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: patate douce
   category: legume
-  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: persil racine
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: petits pois
   category: legume
   season: "may-1:start, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end, jul-2:end"
+- id: pissenlit
+  category: legume
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+- id: poireau baguette
+  category: legume
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
 - id: poireau japonais
   category: legume
-  season: "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: poireaux
   category: legume
-  season: "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: poivrons
   category: legume
-  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+- id: pommes de terre nouvelles
+  category: legume
+  season: "may-1:start, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end, aug-1:end"
 - id: potimarron
   category: legume
-  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end, dec-2:end"
 - id: potiron
   category: legume
-  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+  season: "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end, dec-2:end"
 - id: racine de bardane
   category: legume
-  season: "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+  season: "jan-1:end, jan-2:end, feb-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: racine de lotus
   category: legume
-  season: "nov-1:start, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
 - id: radis
   category: legume
-  season: "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+  season: "mar-2:start, apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+- id: radis noir
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: roquette
   category: legume
-  season: "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+- id: rutabaga
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: salsifis
   category: legume
-  season: "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: scorsonere
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: tetragone
+  category: legume
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: tomate cerise
   category: legume
   season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
@@ -282,31 +535,166 @@
   season: "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: topinambours
   category: legume
-  season: "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: trevise
+  category: legume
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: anchois
+  category: poisson
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: bar
+  category: poisson
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
+- id: barbue
+  category: poisson
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: bonite
   category: poisson
-  season: "aug-1:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+  season: "aug-1:start, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+- id: cabillaud
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: congre
+  category: poisson
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+- id: daurade royale
+  category: poisson
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: dorade
   category: poisson
-  season: "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, sep-1:peak, oct-1:end"
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: eglefin
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: eperlan
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+- id: espadon
+  category: poisson
+  season: "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+- id: hareng
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: julienne
+  category: poisson
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+- id: lieu jaune
+  category: poisson
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+- id: lieu noir
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: limande
+  category: poisson
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+- id: lotte
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: loup
+  category: poisson
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
 - id: maquereau
   category: poisson
-  season: "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end, sep-1:end"
+- id: merlan
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: merlu
+  category: poisson
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+- id: raie
+  category: poisson
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: rouget
+  category: poisson
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+- id: rouget grondin
+  category: poisson
+  season: "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+- id: saint-pierre
+  category: poisson
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: sardines
   category: poisson
-  season: "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, sep-1:peak, sep-2:end, oct-1:end"
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
 - id: sole
   category: poisson
-  season: "mar-1:start, apr-1:peak, may-1:peak, jun-1:peak, jul-1:end, aug-1:end"
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: thon
   category: poisson
-  season: "may-1:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  season: "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+- id: thon blanc
+  category: poisson
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+- id: thon rouge
+  category: poisson
+  season: "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+- id: turbot
+  category: poisson
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
 - id: agneau
   category: viande
-  season: "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+- id: agneau de lait
+  category: viande
+  season: "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:peak, apr-2:peak, may-1:peak, may-2:end, dec-2:start"
+- id: agneau de pauillac
+  category: viande
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
+- id: agneau pre-sale
+  category: viande
+  season: "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+- id: becasse
+  category: viande
+  season: "jan-1:peak, jan-2:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: biche
+  category: viande
+  season: "jan-1:end, jan-2:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: cabri
+  category: viande
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+- id: canard sauvage
+  category: viande
+  season: "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
+- id: cerf
+  category: viande
+  season: "jan-1:end, jan-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: chevreau
+  category: viande
+  season: "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+- id: chevreuil
+  category: viande
+  season: "jan-1:end, jan-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: faisan
+  category: viande
+  season: "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: foie gras
   category: viande
-  season: "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:end"
+  season: "jan-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
 - id: gibier
   category: viande
-  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:end, jan-2:end"
+  season: "jan-1:end, jan-2:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: grive
+  category: viande
+  season: "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: lapin sauvage
+  category: viande
+  season: "jan-1:peak, jan-2:peak, feb-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: lievre
+  category: viande
+  season: "sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+- id: marcassin
+  category: viande
+  season: "jan-1:peak, jan-2:peak, feb-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: palombe
+  category: viande
+  season: "oct-1:start, oct-2:peak, nov-1:peak, nov-2:end"
+- id: perdreau
+  category: viande
+  season: "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+- id: perdrix
+  category: viande
+  season: "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+- id: sanglier
+  category: viande
+  season: "jan-1:peak, jan-2:peak, feb-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"

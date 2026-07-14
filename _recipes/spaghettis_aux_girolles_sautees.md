@@ -7,7 +7,7 @@ tags:
 - plat
 - plat principal
 - pates
-- champignons
+- girolles
 - beurre
 - ail
 - persil

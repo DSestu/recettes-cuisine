@@ -12,6 +12,18 @@
         "pave_agneau_girolles_beurre_estragon"
       ]
     },
+    "agneau de lait": {
+      "category": "viande",
+      "recipes": []
+    },
+    "agneau de pauillac": {
+      "category": "viande",
+      "recipes": []
+    },
+    "agneau pre-sale": {
+      "category": "viande",
+      "recipes": []
+    },
     "agrumes": {
       "category": "fruit",
       "recipes": [
@@ -22,8 +34,28 @@
         "ribs_sauce_orange"
       ]
     },
+    "ail des ours": {
+      "category": "legume",
+      "recipes": []
+    },
+    "ail nouveau": {
+      "category": "legume",
+      "recipes": []
+    },
+    "amandes fraiches": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "anchois": {
+      "category": "poisson",
+      "recipes": []
+    },
     "aneth": {
       "category": "herbe",
+      "recipes": []
+    },
+    "artichaut violet": {
+      "category": "legume",
       "recipes": []
     },
     "artichauts": {
@@ -36,8 +68,24 @@
         "veloute_asperges"
       ]
     },
+    "asperges blanches": {
+      "category": "legume",
+      "recipes": []
+    },
+    "asperges vertes": {
+      "category": "legume",
+      "recipes": []
+    },
     "aubergines": {
       "category": "legume",
+      "recipes": []
+    },
+    "bar": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "barbue": {
+      "category": "poisson",
       "recipes": []
     },
     "basilic": {
@@ -57,16 +105,40 @@
         "galette_creme_de_poireau_beaufort"
       ]
     },
+    "beaufort d'alpage": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "becasse": {
+      "category": "viande",
+      "recipes": []
+    },
     "betteraves": {
       "category": "legume",
+      "recipes": []
+    },
+    "biche": {
+      "category": "viande",
       "recipes": []
     },
     "blettes": {
       "category": "legume",
       "recipes": []
     },
+    "bleu de termignon": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "bolets": {
+      "category": "champignon",
+      "recipes": []
+    },
     "bonite": {
       "category": "poisson",
+      "recipes": []
+    },
+    "brebis des pyrenees": {
+      "category": "fromage",
       "recipes": []
     },
     "brocolis": {
@@ -79,6 +151,10 @@
         "spaghettonis_a_la_creme_de_roquette_et_de_basilic"
       ]
     },
+    "bulots": {
+      "category": "coquillage",
+      "recipes": []
+    },
     "butternut": {
       "category": "legume",
       "recipes": [
@@ -86,6 +162,22 @@
         "magret_de_canard_clementines_corse_puree_de_butternut",
         "pates_courge_ail_sauge"
       ]
+    },
+    "cabillaud": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "cabri": {
+      "category": "viande",
+      "recipes": []
+    },
+    "calamar": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "canard sauvage": {
+      "category": "viande",
+      "recipes": []
     },
     "cardons": {
       "category": "legume",
@@ -108,6 +200,14 @@
         "veloute_patate_douce_lentilles_corail"
       ]
     },
+    "carottes nouvelles": {
+      "category": "legume",
+      "recipes": []
+    },
+    "cassis": {
+      "category": "fruit",
+      "recipes": []
+    },
     "celeri": {
       "category": "legume",
       "recipes": [
@@ -118,8 +218,16 @@
         "soupe_savoyarde"
       ]
     },
+    "celeri rave": {
+      "category": "legume",
+      "recipes": []
+    },
     "cepes": {
       "category": "champignon",
+      "recipes": []
+    },
+    "cerf": {
+      "category": "viande",
       "recipes": []
     },
     "cerfeuil": {
@@ -134,13 +242,29 @@
       "category": "fruit",
       "recipes": []
     },
+    "chanterelles": {
+      "category": "champignon",
+      "recipes": []
+    },
     "chataigne": {
-      "category": "autre",
+      "category": "fruit",
       "recipes": [
         "risotto_aux_champignons_et_aux_chataignes"
       ]
     },
     "chevre": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "chevreau": {
+      "category": "viande",
+      "recipes": []
+    },
+    "chevreuil": {
+      "category": "viande",
+      "recipes": []
+    },
+    "chevrotin": {
       "category": "fromage",
       "recipes": []
     },
@@ -155,7 +279,23 @@
         "soupe_nimoise"
       ]
     },
+    "chou kale": {
+      "category": "legume",
+      "recipes": []
+    },
+    "chou pointu": {
+      "category": "legume",
+      "recipes": []
+    },
+    "chou romanesco": {
+      "category": "legume",
+      "recipes": []
+    },
     "chou rouge": {
+      "category": "legume",
+      "recipes": []
+    },
+    "chou vert frise": {
       "category": "legume",
       "recipes": []
     },
@@ -171,6 +311,10 @@
         "chakchouka_epinards_choux_bruxelles",
         "filet_mignon_sauce_chasseur"
       ]
+    },
+    "ciboule": {
+      "category": "legume",
+      "recipes": []
     },
     "ciboulette": {
       "category": "herbe",
@@ -219,6 +363,14 @@
         "potage_au_concombre"
       ]
     },
+    "congre": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "coques": {
+      "category": "coquillage",
+      "recipes": []
+    },
     "coriandre": {
       "category": "herbe",
       "recipes": [
@@ -228,6 +380,10 @@
         "tagliatelles_aux_gambas_flambes"
       ]
     },
+    "coulemelles": {
+      "category": "champignon",
+      "recipes": []
+    },
     "courge": {
       "category": "legume",
       "recipes": []
@@ -236,12 +392,36 @@
       "category": "legume",
       "recipes": []
     },
+    "crabe": {
+      "category": "coquillage",
+      "recipes": []
+    },
     "cresson": {
       "category": "legume",
       "recipes": []
     },
+    "crevette grise": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "crosnes": {
+      "category": "legume",
+      "recipes": []
+    },
+    "crottin de chavignol": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "daurade royale": {
+      "category": "poisson",
+      "recipes": []
+    },
     "dorade": {
       "category": "poisson",
+      "recipes": []
+    },
+    "ecrevisse": {
+      "category": "coquillage",
       "recipes": []
     },
     "edamame": {
@@ -250,11 +430,19 @@
         "hijiki"
       ]
     },
+    "eglefin": {
+      "category": "poisson",
+      "recipes": []
+    },
     "endives": {
       "category": "legume",
       "recipes": [
         "soupe_ardennaise"
       ]
+    },
+    "eperlan": {
+      "category": "poisson",
+      "recipes": []
     },
     "epinards": {
       "category": "legume",
@@ -265,11 +453,23 @@
         "gratin_penne_champignons_bouillon"
       ]
     },
+    "espadon": {
+      "category": "poisson",
+      "recipes": []
+    },
     "estragon": {
       "category": "herbe",
       "recipes": [
         "pave_agneau_girolles_beurre_estragon"
       ]
+    },
+    "etrille": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "faisan": {
+      "category": "viande",
+      "recipes": []
     },
     "fenouil": {
       "category": "legume",
@@ -277,15 +477,35 @@
         "soupe_de_moules"
       ]
     },
+    "fenouil feuilles": {
+      "category": "herbe",
+      "recipes": []
+    },
+    "feves": {
+      "category": "legume",
+      "recipes": []
+    },
     "figues": {
       "category": "fruit",
+      "recipes": []
+    },
+    "fleurs de courgette": {
+      "category": "legume",
       "recipes": []
     },
     "foie gras": {
       "category": "viande",
       "recipes": []
     },
+    "fourme de montbrison frais": {
+      "category": "fromage",
+      "recipes": []
+    },
     "fraises": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "fraises des bois": {
       "category": "fruit",
       "recipes": []
     },
@@ -306,11 +526,32 @@
       "category": "champignon",
       "recipes": [
         "linguines_girolles_tomate",
-        "pave_agneau_girolles_beurre_estragon"
+        "pave_agneau_girolles_beurre_estragon",
+        "spaghettis_aux_girolles_sautees"
       ]
+    },
+    "grenade": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "grive": {
+      "category": "viande",
+      "recipes": []
     },
     "groseilles": {
       "category": "fruit",
+      "recipes": []
+    },
+    "hareng": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "haricots beurre": {
+      "category": "legume",
+      "recipes": []
+    },
+    "haricots coco": {
+      "category": "legume",
       "recipes": []
     },
     "haricots verts": {
@@ -319,11 +560,23 @@
         "champignons_en_salade"
       ]
     },
+    "homard": {
+      "category": "coquillage",
+      "recipes": []
+    },
     "huitres": {
       "category": "coquillage",
       "recipes": []
     },
+    "julienne": {
+      "category": "poisson",
+      "recipes": []
+    },
     "kaki": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "kiwi": {
       "category": "fruit",
       "recipes": []
     },
@@ -333,8 +586,60 @@
         "magret_orange_kumquat"
       ]
     },
+    "lactaires": {
+      "category": "champignon",
+      "recipes": []
+    },
+    "laitue": {
+      "category": "legume",
+      "recipes": []
+    },
+    "langouste": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "langoustines": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "lapin sauvage": {
+      "category": "viande",
+      "recipes": []
+    },
+    "lieu jaune": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "lieu noir": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "lievre": {
+      "category": "viande",
+      "recipes": []
+    },
+    "limande": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "lotte": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "loup": {
+      "category": "poisson",
+      "recipes": []
+    },
     "mache": {
       "category": "legume",
+      "recipes": []
+    },
+    "mais frais": {
+      "category": "legume",
+      "recipes": []
+    },
+    "mandarine": {
+      "category": "fruit",
       "recipes": []
     },
     "maquereau": {
@@ -343,8 +648,12 @@
         "maquereaux_marines"
       ]
     },
+    "marcassin": {
+      "category": "viande",
+      "recipes": []
+    },
     "marrons": {
-      "category": "autre",
+      "category": "fruit",
       "recipes": [
         "saumon_laque_au_gingembre_marron_choux_de_bruxelles"
       ]
@@ -359,6 +668,18 @@
         "frittata_petits_pois_poulet_menthe",
         "oeuf_a_la_creme"
       ]
+    },
+    "merlan": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "merlu": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "mesclun": {
+      "category": "legume",
+      "recipes": []
     },
     "mirabelles": {
       "category": "fruit",
@@ -377,6 +698,14 @@
       "recipes": [
         "soupe_de_moules"
       ]
+    },
+    "moules de bouchot": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "mousserons": {
+      "category": "champignon",
+      "recipes": []
     },
     "mures": {
       "category": "fruit",
@@ -398,22 +727,38 @@
         "soupe_au_chou"
       ]
     },
+    "navets nouveaux": {
+      "category": "legume",
+      "recipes": []
+    },
     "nectarines": {
       "category": "fruit",
       "recipes": []
     },
     "noisettes": {
-      "category": "autre",
+      "category": "fruit",
       "recipes": [
         "magret_de_canard_clementines_corse_puree_de_butternut"
       ]
     },
+    "noisettes fraiches": {
+      "category": "fruit",
+      "recipes": []
+    },
     "noix": {
-      "category": "autre",
+      "category": "fruit",
       "recipes": [
         "avoines_facon_risotto_courge_bleu_noix",
         "potage_au_concombre"
       ]
+    },
+    "noix fraiches": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "oignon nouveau": {
+      "category": "legume",
+      "recipes": []
     },
     "orange": {
       "category": "fruit",
@@ -433,6 +778,22 @@
     },
     "oseille": {
       "category": "herbe",
+      "recipes": []
+    },
+    "oursin": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "palombe": {
+      "category": "viande",
+      "recipes": []
+    },
+    "palourdes": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "pamplemousse": {
+      "category": "fruit",
       "recipes": []
     },
     "panais": {
@@ -457,11 +818,43 @@
         "gratin_peches_creme_amandes"
       ]
     },
+    "perdreau": {
+      "category": "viande",
+      "recipes": []
+    },
+    "perdrix": {
+      "category": "viande",
+      "recipes": []
+    },
+    "persil racine": {
+      "category": "legume",
+      "recipes": []
+    },
     "petits pois": {
       "category": "legume",
       "recipes": [
         "frittata_petits_pois_poulet_menthe"
       ]
+    },
+    "petoncles": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "physalis": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "pieds bleus": {
+      "category": "champignon",
+      "recipes": []
+    },
+    "pieds de mouton": {
+      "category": "champignon",
+      "recipes": []
+    },
+    "pissenlit": {
+      "category": "legume",
+      "recipes": []
     },
     "pleurotes": {
       "category": "champignon",
@@ -474,6 +867,10 @@
         "moelleux_poire_frangipane",
         "tarte_amandine_aux_poires"
       ]
+    },
+    "poireau baguette": {
+      "category": "legume",
+      "recipes": []
     },
     "poireau japonais": {
       "category": "legume",
@@ -501,11 +898,19 @@
       "category": "legume",
       "recipes": []
     },
+    "pomelo": {
+      "category": "fruit",
+      "recipes": []
+    },
     "pomme": {
       "category": "fruit",
       "recipes": [
         "lapin_mijote_pommes_cidre"
       ]
+    },
+    "pommes de terre nouvelles": {
+      "category": "legume",
+      "recipes": []
     },
     "potimarron": {
       "category": "legume",
@@ -519,7 +924,15 @@
         "veloute_de_potiron"
       ]
     },
+    "praires": {
+      "category": "coquillage",
+      "recipes": []
+    },
     "prunes": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "quetsches": {
       "category": "fruit",
       "recipes": []
     },
@@ -541,12 +954,32 @@
         "karaage"
       ]
     },
+    "radis noir": {
+      "category": "legume",
+      "recipes": []
+    },
+    "raie": {
+      "category": "poisson",
+      "recipes": []
+    },
     "raisin": {
+      "category": "fruit",
+      "recipes": []
+    },
+    "reblochon": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "reine claude": {
       "category": "fruit",
       "recipes": []
     },
     "rhubarbe": {
       "category": "fruit",
+      "recipes": []
+    },
+    "rocamadour": {
+      "category": "fromage",
       "recipes": []
     },
     "roquette": {
@@ -556,6 +989,22 @@
         "spaghettonis_a_la_creme_de_roquette_et_de_basilic"
       ]
     },
+    "roses des pres": {
+      "category": "champignon",
+      "recipes": []
+    },
+    "rouget": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "rouget grondin": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "rutabaga": {
+      "category": "legume",
+      "recipes": []
+    },
     "saint-jacques": {
       "category": "coquillage",
       "recipes": [
@@ -563,12 +1012,44 @@
         "saint_jacques_facon_chaudree"
       ]
     },
+    "saint-pierre": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "sainte-maure": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "salers": {
+      "category": "fromage",
+      "recipes": []
+    },
     "salsifis": {
       "category": "legume",
       "recipes": []
     },
+    "sanglier": {
+      "category": "viande",
+      "recipes": []
+    },
     "sardines": {
       "category": "poisson",
+      "recipes": []
+    },
+    "sarriette": {
+      "category": "herbe",
+      "recipes": []
+    },
+    "scorsonere": {
+      "category": "legume",
+      "recipes": []
+    },
+    "seiche": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "selles-sur-cher": {
+      "category": "fromage",
       "recipes": []
     },
     "shiso": {
@@ -581,11 +1062,23 @@
       "category": "poisson",
       "recipes": []
     },
+    "tetragone": {
+      "category": "legume",
+      "recipes": []
+    },
     "thon": {
       "category": "poisson",
       "recipes": [
         "pomme_de_terre_farcie_aux_rillettes_de_thon"
       ]
+    },
+    "thon blanc": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "thon rouge": {
+      "category": "poisson",
+      "recipes": []
     },
     "tomate cerise": {
       "category": "legume",
@@ -608,12 +1101,40 @@
         "tartinable_chevre_chorizo"
       ]
     },
+    "tomme de savoie d'alpage": {
+      "category": "fromage",
+      "recipes": []
+    },
     "topinambours": {
+      "category": "legume",
+      "recipes": []
+    },
+    "tourteau": {
+      "category": "coquillage",
+      "recipes": []
+    },
+    "trevise": {
       "category": "legume",
       "recipes": []
     },
     "trompettes de la mort": {
       "category": "champignon",
+      "recipes": []
+    },
+    "turbot": {
+      "category": "poisson",
+      "recipes": []
+    },
+    "vacherin des bauges": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "valencay": {
+      "category": "fromage",
+      "recipes": []
+    },
+    "verveine": {
+      "category": "herbe",
       "recipes": []
     }
   },
@@ -1141,6 +1662,13 @@
         "poireaux"
       ],
       "title": "Soupe savoyarde"
+    },
+    "spaghettis_aux_girolles_sautees": {
+      "image": "spaghettis_aux_girolles_sautees",
+      "ingredients": [
+        "girolles"
+      ],
+      "title": "Spaghettis aux girolles sautées"
     },
     "spaghettonis_a_la_creme_de_roquette_et_de_basilic": {
       "image": "spaghettonis_a_la_creme_de_roquette_et_de_basilic",

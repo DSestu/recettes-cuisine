@@ -1,31 +1,79 @@
 {
   "abricot": {
     "category": "fruit",
-    "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
+    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
   },
   "agneau": {
     "category": "viande",
-    "season": "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+  },
+  "agneau de lait": {
+    "category": "viande",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:peak, apr-2:peak, may-1:peak, may-2:end, dec-2:start"
+  },
+  "agneau de pauillac": {
+    "category": "viande",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
+  },
+  "agneau pre-sale": {
+    "category": "viande",
+    "season": "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
   },
   "agrumes": {
     "category": "fruit",
-    "season": "nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+  },
+  "ail des ours": {
+    "category": "legume",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+  },
+  "ail nouveau": {
+    "category": "legume",
+    "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end"
+  },
+  "amandes fraiches": {
+    "category": "fruit",
+    "season": "aug-1:start, aug-2:peak, sep-1:peak, sep-2:end"
+  },
+  "anchois": {
+    "category": "poisson",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
   },
   "aneth": {
     "category": "herbe",
-    "season": "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, aug-2:end, sep-1:end"
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+  },
+  "artichaut violet": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
   },
   "artichauts": {
     "category": "legume",
-    "season": "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
   "asperges": {
     "category": "legume",
     "season": "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:end, jun-2:end"
   },
+  "asperges blanches": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+  },
+  "asperges vertes": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:end, jun-2:end"
+  },
   "aubergines": {
     "category": "legume",
-    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+  },
+  "bar": {
+    "category": "poisson",
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
+  },
+  "barbue": {
+    "category": "poisson",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
   },
   "basilic": {
     "category": "herbe",
@@ -33,203 +81,475 @@
   },
   "beaufort": {
     "category": "fromage",
-    "season": "jul-1:start, aug-1:peak, sep-1:peak, oct-1:peak, nov-1:peak, dec-1:end"
+    "season": "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+  },
+  "beaufort d'alpage": {
+    "category": "fromage",
+    "season": "aug-1:start, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
+  },
+  "becasse": {
+    "category": "viande",
+    "season": "jan-1:peak, jan-2:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "betteraves": {
     "category": "legume",
-    "season": "jun-1:start, jul-1:peak, aug-1:peak, sep-1:peak, oct-1:peak, nov-1:peak, nov-2:end, dec-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, feb-2:end, mar-1:end, jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "biche": {
+    "category": "viande",
+    "season": "jan-1:end, jan-2:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "blettes": {
     "category": "legume",
-    "season": "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, sep-1:peak, oct-1:peak, oct-2:end, nov-1:end"
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "bleu de termignon": {
+    "category": "fromage",
+    "season": "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "bolets": {
+    "category": "champignon",
+    "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
   },
   "bonite": {
     "category": "poisson",
-    "season": "aug-1:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+    "season": "aug-1:start, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+  },
+  "brebis des pyrenees": {
+    "category": "fromage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
   },
   "brocolis": {
     "category": "legume",
-    "season": "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+    "season": "jan-1:end, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
   },
   "brousse de brebis": {
     "category": "fromage",
-    "season": "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:end"
+  },
+  "bulots": {
+    "category": "coquillage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
   },
   "butternut": {
     "category": "legume",
-    "season": "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "jan-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "cabillaud": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "cabri": {
+    "category": "viande",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+  },
+  "calamar": {
+    "category": "coquillage",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "canard sauvage": {
+    "category": "viande",
+    "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
   },
   "cardons": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "jan-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "carottes": {
     "category": "legume",
-    "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end, nov-2:end"
+  },
+  "carottes nouvelles": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end, aug-1:end"
+  },
+  "cassis": {
+    "category": "fruit",
+    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:end"
   },
   "celeri": {
     "category": "legume",
-    "season": "jul-1:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+    "season": "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+  },
+  "celeri rave": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "cepes": {
     "category": "champignon",
     "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
   },
+  "cerf": {
+    "category": "viande",
+    "season": "jan-1:end, jan-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
   "cerfeuil": {
     "category": "herbe",
-    "season": "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end"
   },
   "cerises": {
     "category": "fruit",
-    "season": "may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end"
+    "season": "may-2:start, jun-1:peak, jun-2:peak, jul-1:end, jul-2:end"
+  },
+  "chanterelles": {
+    "category": "champignon",
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
   },
   "chataigne": {
-    "category": "autre",
-    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+    "category": "fruit",
+    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
   },
   "chevre": {
     "category": "fromage",
-    "season": "mar-1:start, apr-1:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  },
+  "chevreau": {
+    "category": "viande",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+  },
+  "chevreuil": {
+    "category": "viande",
+    "season": "jan-1:end, jan-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "chevrotin": {
+    "category": "fromage",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
   },
   "chou": {
     "category": "legume",
-    "season": "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "chou kale": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "chou pointu": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
+  },
+  "chou romanesco": {
+    "category": "legume",
+    "season": "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
   },
   "chou rouge": {
     "category": "legume",
-    "season": "sep-1:start, oct-1:peak, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:end, mar-1:end"
+    "season": "jan-1:peak, jan-2:end, feb-1:end, feb-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "chou vert frise": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "chou-fleur": {
     "category": "legume",
-    "season": "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "jan-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
   },
   "choux de bruxelles": {
     "category": "legume",
-    "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "ciboule": {
+    "category": "legume",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end"
   },
   "ciboulette": {
     "category": "herbe",
-    "season": "mar-1:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
   "citron": {
     "category": "fruit",
-    "season": "nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "clementine": {
     "category": "fruit",
-    "season": "oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+    "season": "jan-1:end, jan-2:end, feb-1:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "coings": {
     "category": "fruit",
-    "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
   },
   "concombre": {
     "category": "legume",
     "season": "may-1:start, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
   },
+  "congre": {
+    "category": "poisson",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+  },
+  "coques": {
+    "category": "coquillage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
   "coriandre": {
     "category": "herbe",
-    "season": "may-1:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  },
+  "coulemelles": {
+    "category": "champignon",
+    "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
   },
   "courge": {
     "category": "legume",
-    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "jan-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
   },
   "courgettes": {
     "category": "legume",
     "season": "may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
+  "crabe": {
+    "category": "coquillage",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
   "cresson": {
     "category": "legume",
-    "season": "mar-1:start, apr-1:peak, may-1:peak, jun-1:peak, jul-1:end, sep-1:start, oct-1:peak, nov-1:end"
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "crevette grise": {
+    "category": "coquillage",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "crosnes": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, nov-1:start, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "crottin de chavignol": {
+    "category": "fromage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
+  "daurade royale": {
+    "category": "poisson",
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
   },
   "dorade": {
     "category": "poisson",
-    "season": "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, sep-1:peak, oct-1:end"
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "ecrevisse": {
+    "category": "coquillage",
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
   },
   "edamame": {
     "category": "legume",
     "season": "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   },
+  "eglefin": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
   "endives": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "eperlan": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
   },
   "epinards": {
     "category": "legume",
     "season": "mar-1:start, mar-2:peak, apr-1:peak, apr-2:peak, may-1:peak, may-2:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:end"
   },
+  "espadon": {
+    "category": "poisson",
+    "season": "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+  },
   "estragon": {
     "category": "herbe",
-    "season": "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  },
+  "etrille": {
+    "category": "coquillage",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "faisan": {
+    "category": "viande",
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "fenouil": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "fenouil feuilles": {
+    "category": "herbe",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+  },
+  "feves": {
+    "category": "legume",
+    "season": "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
   },
   "figues": {
     "category": "fruit",
     "season": "aug-1:start, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
   },
+  "fleurs de courgette": {
+    "category": "legume",
+    "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
+  },
   "foie gras": {
     "category": "viande",
-    "season": "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:end"
+    "season": "jan-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "fourme de montbrison frais": {
+    "category": "fromage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
   },
   "fraises": {
     "category": "fruit",
     "season": "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end"
   },
+  "fraises des bois": {
+    "category": "fruit",
+    "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end"
+  },
   "framboises": {
     "category": "fruit",
-    "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+    "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
   },
   "gibier": {
     "category": "viande",
-    "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:end, jan-2:end"
+    "season": "jan-1:end, jan-2:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "girolles": {
     "category": "champignon",
-    "season": "jun-1:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end, nov-1:end"
+  },
+  "grenade": {
+    "category": "fruit",
+    "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
+  },
+  "grive": {
+    "category": "viande",
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "groseilles": {
     "category": "fruit",
     "season": "jun-1:start, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end"
   },
+  "hareng": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "haricots beurre": {
+    "category": "legume",
+    "season": "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+  },
+  "haricots coco": {
+    "category": "legume",
+    "season": "jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
+  },
   "haricots verts": {
     "category": "legume",
     "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
   },
+  "homard": {
+    "category": "coquillage",
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
   "huitres": {
     "category": "coquillage",
-    "season": "sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "julienne": {
+    "category": "poisson",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
   },
   "kaki": {
     "category": "fruit",
     "season": "oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
   },
+  "kiwi": {
+    "category": "fruit",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
   "kumquat": {
     "category": "fruit",
-    "season": "dec-1:start, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, dec-1:start, dec-2:peak"
+  },
+  "lactaires": {
+    "category": "champignon",
+    "season": "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "laitue": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
+  "langouste": {
+    "category": "coquillage",
+    "season": "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  },
+  "langoustines": {
+    "category": "coquillage",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+  },
+  "lapin sauvage": {
+    "category": "viande",
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "lieu jaune": {
+    "category": "poisson",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+  },
+  "lieu noir": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "lievre": {
+    "category": "viande",
+    "season": "sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+  },
+  "limande": {
+    "category": "poisson",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+  },
+  "lotte": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "loup": {
+    "category": "poisson",
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
   },
   "mache": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "mais frais": {
+    "category": "legume",
+    "season": "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+  },
+  "mandarine": {
+    "category": "fruit",
+    "season": "jan-1:end, jan-2:end, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "maquereau": {
     "category": "poisson",
-    "season": "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end, sep-1:end"
+  },
+  "marcassin": {
+    "category": "viande",
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "marrons": {
-    "category": "autre",
+    "category": "fruit",
     "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
   },
   "melon": {
     "category": "fruit",
-    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   },
   "menthe": {
     "category": "herbe",
-    "season": "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
+  "merlan": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, may-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "merlu": {
+    "category": "poisson",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+  },
+  "mesclun": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
   "mirabelles": {
     "category": "fruit",
@@ -237,7 +557,7 @@
   },
   "mont d'or": {
     "category": "fromage",
-    "season": "sep-2:start, oct-1:peak, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, apr-2:end, may-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "morilles": {
     "category": "champignon",
@@ -245,7 +565,15 @@
   },
   "moules": {
     "category": "coquillage",
-    "season": "jul-1:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+    "season": "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+  },
+  "moules de bouchot": {
+    "category": "coquillage",
+    "season": "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+  },
+  "mousserons": {
+    "category": "champignon",
+    "season": "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:end"
   },
   "mures": {
     "category": "fruit",
@@ -257,39 +585,71 @@
   },
   "myrtilles": {
     "category": "fruit",
-    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+    "season": "jul-1:start, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   },
   "navets": {
     "category": "legume",
-    "season": "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "navets nouveaux": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
   },
   "nectarines": {
     "category": "fruit",
     "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   },
   "noisettes": {
-    "category": "autre",
-    "season": "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end"
+    "category": "fruit",
+    "season": "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "noisettes fraiches": {
+    "category": "fruit",
+    "season": "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
   },
   "noix": {
-    "category": "autre",
-    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+    "category": "fruit",
+    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end, dec-1:end"
+  },
+  "noix fraiches": {
+    "category": "fruit",
+    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:end, nov-2:end"
+  },
+  "oignon nouveau": {
+    "category": "legume",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end, jul-2:end"
   },
   "orange": {
     "category": "fruit",
-    "season": "dec-1:start, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, dec-1:start, dec-2:peak"
   },
   "origan": {
     "category": "herbe",
-    "season": "may-1:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   },
   "oseille": {
     "category": "herbe",
-    "season": "apr-1:start, may-1:peak, jun-1:peak, jul-1:peak, aug-1:end, sep-1:end"
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+  },
+  "oursin": {
+    "category": "coquillage",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+  },
+  "palombe": {
+    "category": "viande",
+    "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:end"
+  },
+  "palourdes": {
+    "category": "coquillage",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, apr-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "pamplemousse": {
+    "category": "fruit",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, dec-1:start, dec-2:start"
   },
   "panais": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "pasteque": {
     "category": "fruit",
@@ -297,99 +657,231 @@
   },
   "patate douce": {
     "category": "legume",
-    "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "peche": {
     "category": "fruit",
     "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   },
+  "perdreau": {
+    "category": "viande",
+    "season": "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "perdrix": {
+    "category": "viande",
+    "season": "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "persil racine": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
   "petits pois": {
     "category": "legume",
     "season": "may-1:start, may-2:peak, jun-1:peak, jun-2:peak, jul-1:end, jul-2:end"
   },
+  "petoncles": {
+    "category": "coquillage",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:peak, apr-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+  },
+  "physalis": {
+    "category": "fruit",
+    "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "pieds bleus": {
+    "category": "champignon",
+    "season": "oct-1:start, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end"
+  },
+  "pieds de mouton": {
+    "category": "champignon",
+    "season": "jan-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "pissenlit": {
+    "category": "legume",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:end"
+  },
   "pleurotes": {
     "category": "champignon",
-    "season": "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "jan-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "poire": {
     "category": "fruit",
-    "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "jan-1:end, jan-2:end, aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "poireau baguette": {
+    "category": "legume",
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
   },
   "poireau japonais": {
     "category": "legume",
-    "season": "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "poireaux": {
     "category": "legume",
-    "season": "sep-1:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, apr-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "poivrons": {
     "category": "legume",
-    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+    "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end"
+  },
+  "pomelo": {
+    "category": "fruit",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, dec-1:start, dec-2:start"
   },
   "pomme": {
     "category": "fruit",
-    "season": "sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, sep-1:start, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "pommes de terre nouvelles": {
+    "category": "legume",
+    "season": "may-1:start, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:end, aug-1:end"
   },
   "potimarron": {
     "category": "legume",
-    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end, dec-2:end"
   },
   "potiron": {
     "category": "legume",
-    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:end, jan-1:end"
+    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end, dec-2:end"
+  },
+  "praires": {
+    "category": "coquillage",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "prunes": {
     "category": "fruit",
     "season": "jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end"
   },
+  "quetsches": {
+    "category": "fruit",
+    "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:end"
+  },
   "racine de bardane": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:end, feb-1:end"
+    "season": "jan-1:end, jan-2:end, feb-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "racine de lotus": {
     "category": "legume",
-    "season": "nov-1:start, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
   },
   "radis": {
     "category": "legume",
-    "season": "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+    "season": "mar-2:start, apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+  },
+  "radis noir": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "raie": {
+    "category": "poisson",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, mar-2:end, sep-1:start, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "raisin": {
     "category": "fruit",
     "season": "aug-2:start, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end"
   },
+  "reblochon": {
+    "category": "fromage",
+    "season": "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "reine claude": {
+    "category": "fruit",
+    "season": "aug-1:start, aug-2:peak, sep-1:peak, sep-2:end"
+  },
   "rhubarbe": {
     "category": "fruit",
     "season": "apr-1:start, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:end, jul-1:end"
   },
+  "rocamadour": {
+    "category": "fromage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
   "roquette": {
     "category": "legume",
-    "season": "apr-1:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:end, aug-2:end"
+  },
+  "roses des pres": {
+    "category": "champignon",
+    "season": "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:peak, nov-1:end"
+  },
+  "rouget": {
+    "category": "poisson",
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "rouget grondin": {
+    "category": "poisson",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:peak, oct-2:end, nov-1:end"
+  },
+  "rutabaga": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "saint-jacques": {
     "category": "coquillage",
-    "season": "oct-1:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak, jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, apr-2:end, may-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, apr-2:end, may-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "saint-pierre": {
+    "category": "poisson",
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "sainte-maure": {
+    "category": "fromage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
+  "salers": {
+    "category": "fromage",
+    "season": "apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end, nov-1:end"
   },
   "salsifis": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "sanglier": {
+    "category": "viande",
+    "season": "jan-1:peak, jan-2:peak, feb-1:end, sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "sardines": {
     "category": "poisson",
-    "season": "may-1:start, jun-1:peak, jul-1:peak, aug-1:peak, sep-1:peak, sep-2:end, oct-1:end"
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
+  "sarriette": {
+    "category": "herbe",
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:end, sep-1:end"
+  },
+  "scorsonere": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "seiche": {
+    "category": "coquillage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "selles-sur-cher": {
+    "category": "fromage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
   "shiso": {
     "category": "herbe",
-    "season": "jun-1:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   },
   "sole": {
     "category": "poisson",
-    "season": "mar-1:start, apr-1:peak, may-1:peak, jun-1:peak, jul-1:end, aug-1:end"
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "tetragone": {
+    "category": "legume",
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
   "thon": {
     "category": "poisson",
-    "season": "may-1:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+    "season": "may-1:start, may-2:start, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
+  "thon blanc": {
+    "category": "poisson",
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end, sep-2:end"
+  },
+  "thon rouge": {
+    "category": "poisson",
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
   "tomate cerise": {
     "category": "legume",
@@ -399,12 +891,40 @@
     "category": "legume",
     "season": "jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
   },
+  "tomme de savoie d'alpage": {
+    "category": "fromage",
+    "season": "jul-1:start, jul-2:start, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
   "topinambours": {
     "category": "legume",
-    "season": "oct-1:start, nov-1:peak, dec-1:peak, jan-1:peak, feb-1:peak, mar-1:end"
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:end, mar-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
+  },
+  "tourteau": {
+    "category": "coquillage",
+    "season": "apr-1:start, apr-2:start, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "trevise": {
+    "category": "legume",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:peak, mar-2:end, apr-1:end, oct-1:start, oct-2:start, nov-1:peak, nov-2:peak, dec-1:peak, dec-2:peak"
   },
   "trompettes de la mort": {
     "category": "champignon",
-    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:end"
+    "season": "sep-2:start, oct-1:peak, oct-2:peak, nov-1:peak, nov-2:peak, dec-1:end"
+  },
+  "turbot": {
+    "category": "poisson",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:peak, oct-1:end, oct-2:end"
+  },
+  "vacherin des bauges": {
+    "category": "fromage",
+    "season": "jan-1:peak, jan-2:peak, feb-1:peak, feb-2:peak, mar-1:end, nov-1:start, nov-2:start, dec-1:peak, dec-2:peak"
+  },
+  "valencay": {
+    "category": "fromage",
+    "season": "mar-1:start, mar-2:start, apr-1:peak, apr-2:peak, may-1:peak, may-2:peak, jun-1:peak, jun-2:peak, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:peak, sep-2:end, oct-1:end"
+  },
+  "verveine": {
+    "category": "herbe",
+    "season": "jun-1:start, jun-2:start, jul-1:peak, jul-2:peak, aug-1:peak, aug-2:peak, sep-1:end"
   }
 }

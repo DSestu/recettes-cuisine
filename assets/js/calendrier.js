@@ -301,6 +301,17 @@
     }
     let { cats: catLayout, bodyH } = computeCatLayout();
 
+    // fullBodyH = height when ALL categories are expanded. The SVGs are
+    // rendered at this size once and never resized; a wrapping `overflow:hidden`
+    // container clips to the current bodyH. This way content never stretches.
+    const fullBodyH = (() => {
+      let cy = 0;
+      for (const g of rows) {
+        cy += GROUP_HEADER_H + g.ingredients.length * ROW_H + GROUP_GAP;
+      }
+      return Math.max(1, cy - GROUP_GAP);
+    })();
+
     const rightWidth = svgWidth - LABEL_W; // = gridW + RIGHT_PAD
 
     // Split into two vertical bands. The outer container has NO overflow, so
@@ -388,11 +399,16 @@
     }
 
     // ---- Body band: labels (sticky-left) + grid. ----
-    const bodyWrap = scrollWrap.append("div");
+    // Two-layer wrapper: outer bodyWrap handles horizontal scroll + vertical
+    // clipping (animated height); inner bodyRow holds the two SVGs at their
+    // FULL height so accordion collapse just clips empty space at the bottom.
+    const bodyWrap = scrollWrap.append("div")
+      .style("overflow-y", "hidden")
+      .style("height", bodyH + "px")
+      .style("transition", "height 320ms cubic-bezier(0.4, 0, 0.2, 1)");
     if (state.layoutMode === "wide") {
       bodyWrap
         .style("overflow-x", "auto")
-        .style("overflow-y", "visible")
         .style("-webkit-overflow-scrolling", "touch");
     }
 
@@ -415,8 +431,8 @@
     }
 
     const leftSvg = bodyRow.append("svg")
-      .attr("viewBox", `0 0 ${LABEL_W} ${bodyH}`)
-      .attr("width", LABEL_W).attr("height", bodyH)
+      .attr("viewBox", `0 0 ${LABEL_W} ${fullBodyH}`)
+      .attr("width", LABEL_W).attr("height", fullBodyH)
       .attr("font-family", "Inter, ui-sans-serif, system-ui, sans-serif")
       .style("display", "block")
       .style("flex", `0 0 ${LABEL_W}px`)
@@ -427,12 +443,12 @@
       .style("box-shadow", "2px 0 6px rgba(0,0,0,0.06)");
 
     const rightSvg = bodyRow.append("svg")
-      .attr("viewBox", `0 0 ${rightWidth} ${bodyH}`)
-      .attr("height", bodyH)
+      .attr("viewBox", `0 0 ${rightWidth} ${fullBodyH}`)
+      .attr("height", fullBodyH)
       .attr("preserveAspectRatio", "none")
       .attr("font-family", "Inter, ui-sans-serif, system-ui, sans-serif")
       .style("display", "block")
-      .style("height", bodyH + "px");
+      .style("height", fullBodyH + "px");
     if (state.layoutMode === "wide") {
       rightSvg
         .attr("width", rightWidth)
@@ -459,37 +475,39 @@
         .attr("stroke", colr).attr("stroke-width", 2);
     }
 
-    // Current-quinzaine highlight band (body-right SVG, spans full body height).
+    // Full-height decoratives use fullBodyH — the outer wrapper crops the
+    // extra empty space during accordion collapse.
     rightSvg.append("rect")
       .attr("class", "cal-fullh-rect")
       .attr("x", currentDisplayCol * cellW).attr("y", 0)
-      .attr("width", cellW).attr("height", bodyH)
+      .attr("width", cellW).attr("height", fullBodyH)
       .attr("fill", "#f97316").attr("opacity", 0.10)
       .attr("pointer-events", "none");
 
-    // Month-boundary vertical lines.
     for (let c = 1; c < 24; c++) {
       const isBoundary = Math.floor(displaySlots[c] / 2) !== Math.floor(displaySlots[c - 1] / 2);
       if (!isBoundary) continue;
       rightSvg.append("line")
         .attr("class", "cal-fullh-line")
         .attr("x1", c * cellW).attr("x2", c * cellW)
-        .attr("y1", 0).attr("y2", bodyH)
+        .attr("y1", 0).attr("y2", fullBodyH)
         .attr("stroke", "#fed7aa").attr("stroke-width", 1);
     }
 
     // clipPath defs per category / side — animate their rect height for accordion.
+    // NB: rows are drawn inside a group translated by GROUP_HEADER_H, so the
+    // clip rect must be anchored at y=GROUP_HEADER_H to actually overlap them.
     const clipDefs = leftSvg.append("defs");
     const clipDefsR = defs;
     for (const cat of catLayout) {
       clipDefs.append("clipPath").attr("id", `cal-clip-${cat.category}-l`)
         .append("rect")
         .attr("class", `cal-clip-rect-${cat.category}`)
-        .attr("x", 0).attr("y", 0).attr("width", LABEL_W).attr("height", cat.contentH);
+        .attr("x", 0).attr("y", GROUP_HEADER_H).attr("width", LABEL_W).attr("height", cat.contentH);
       clipDefsR.append("clipPath").attr("id", `cal-clip-${cat.category}-r`)
         .append("rect")
         .attr("class", `cal-clip-rect-${cat.category}`)
-        .attr("x", 0).attr("y", 0).attr("width", rightWidth).attr("height", cat.contentH);
+        .attr("x", 0).attr("y", GROUP_HEADER_H).attr("width", rightWidth).attr("height", cat.contentH);
     }
 
     // --- Category groups: rendered inside <g transform="translate(0, y)">
@@ -642,7 +660,7 @@
     todayLayer.append("line")
       .attr("class", "cal-today-line")
       .attr("x1", todayX).attr("x2", todayX)
-      .attr("y1", 0).attr("y2", bodyH)
+      .attr("y1", 0).attr("y2", fullBodyH)
       .attr("stroke", "#dc2626").attr("stroke-width", 1.25);
     todayLayer.append("path")
       .attr("d", `M ${todayX - 4} 0 L ${todayX + 4} 0 L ${todayX} 5 Z`)
@@ -650,6 +668,9 @@
     todayLayer.append("title").text("Aujourd'hui");
 
     // ---- Toggle animation ----
+    // Only three things animate: the wrapper's height (CSS), each category
+    // group's y-translate (D3), and each category's clip-path rect height
+    // (D3). The SVGs themselves stay at fullBodyH so nothing stretches.
     function toggleCategory(catId) {
       if (state.collapsedCategories.has(catId)) state.collapsedCategories.delete(catId);
       else state.collapsedCategories.add(catId);
@@ -661,6 +682,9 @@
 
       const D = 320;
       const ease = d3.easeCubicInOut;
+
+      // Wrapper height (CSS transition already declared on bodyWrap).
+      bodyWrap.style("height", newBodyH + "px");
 
       for (const cat of newCats) {
         leftSvg.selectAll(`.cal-cat-${cat.category}`)
@@ -676,21 +700,6 @@
           .transition().duration(D).ease(ease)
           .attr("transform", `translate(${LABEL_W - 20}, ${GROUP_HEADER_H / 2}) rotate(${cat.collapsed ? -90 : 0})`);
       }
-
-      // Body SVG heights + viewBox (month header row stays constant).
-      leftSvg.transition().duration(D).ease(ease)
-        .attr("height", newBodyH)
-        .attr("viewBox", `0 0 ${LABEL_W} ${newBodyH}`);
-      rightSvg.transition().duration(D).ease(ease)
-        .attr("height", newBodyH)
-        .attr("viewBox", `0 0 ${rightWidth} ${newBodyH}`);
-
-      rightSvg.selectAll(".cal-fullh-rect")
-        .transition().duration(D).ease(ease)
-        .attr("height", newBodyH);
-      rightSvg.selectAll(".cal-fullh-line, .cal-today-line")
-        .transition().duration(D).ease(ease)
-        .attr("y2", newBodyH);
     }
   }
 
