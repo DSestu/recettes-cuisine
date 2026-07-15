@@ -1073,12 +1073,21 @@
 
   // Segmented toggle mirroring the home page's "recipes per row" selector
   // (see assets/js/cols-selector.js). Sliding indicator + labelled buttons.
-  function buildSegmentedToggle(mount, options, ariaLabel, onPick) {
+  function buildSegmentedToggle(mount, options, ariaLabel, onPick, labelText) {
     const wrap = document.createElement("div");
     wrap.className =
       "inline-flex items-stretch rounded-lg border border-primary/40 bg-white/70 backdrop-blur shadow-sm overflow-hidden";
     wrap.setAttribute("role", "group");
     wrap.setAttribute("aria-label", ariaLabel);
+
+    if (labelText) {
+      const label = document.createElement("span");
+      label.className =
+        "flex items-center text-white font-bold text-sm px-3 py-1 whitespace-nowrap";
+      label.style.backgroundColor = "rgba(245, 50, 0, 0.65)";
+      label.textContent = labelText;
+      wrap.appendChild(label);
+    }
 
     const btnRow = document.createElement("div");
     btnRow.className = "relative flex items-center gap-1 px-1.5 py-0.5";
@@ -1172,16 +1181,9 @@
       refreshNow = () => renderNowSection(seasonality, index, nowSectionEl);
       syncFromNow = () => { refreshNow(); renderGantt(root, rows); };
       let rows = buildRows(index, seasonality);
-      const total = Object.keys(seasonality).length;
 
-      function refreshStatus() {
-        const n = rows.reduce((s, g) => s + g.ingredients.length, 0);
-        const hidden = total - n;
-        status.textContent = state.showExploratory
-          ? `Mode exploration : ${n} ingrédients affichés (${total} au total).`
-          : `${n} ingrédients affichés (${hidden} exploratoires masqués).`;
-      }
-      refreshStatus();
+      // Status element is now reserved for error messages only; no per-render text.
+      function refreshStatus() { /* no-op */ }
 
       // NB: we don't write layoutMode/explore to the URL on bootstrap. Fresh
       // visits stay URL-empty and follow the viewport-based default; the URL
@@ -1238,7 +1240,8 @@
             refreshStatus();
             renderNowSection(seasonality, index, nowSectionEl);
             renderGantt(root, rows);
-          }
+          },
+          "Ingrédients"
         );
         requestAnimationFrame(() => {
           modeControl.setActive(state.layoutMode);
@@ -1262,7 +1265,7 @@
     } catch (err) {
       console.error("[calendrier] load failed", err);
       status.textContent = `Erreur de chargement : ${err.message}`;
-      status.classList.add("text-red-700");
+      status.classList.remove("hidden");
     }
   });
 

@@ -28,6 +28,10 @@ title: "Calendrier des ingrédients"
     gap: 0.5rem 0.75rem;
     margin-bottom: 0.75rem;
   }
+  @media (max-width: 767px) {
+    #calendrier-now > header { justify-content: center; }
+    #calendrier-controls-mount { justify-content: center; }
+  }
   #calendrier-now .now-toggle {
     display: flex;
     align-items: center;
@@ -64,6 +68,16 @@ title: "Calendrier des ingrédients"
     flex-shrink: 0;
     transition: transform 220ms ease-out;
   }
+  @media (max-width: 520px) {
+    #calendrier-now .now-toggle-icon {
+      background: transparent;
+      color: rgb(245 50 0);
+      font-size: 1.9rem;
+      line-height: 1;
+      width: auto;
+      height: auto;
+    }
+  }
   #calendrier-now[data-collapsed="true"] .now-toggle-icon {
     transform: rotate(-90deg);
   }
@@ -77,13 +91,48 @@ title: "Calendrier des ingrédients"
   #calendrier-now .now-toggle-card {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.05rem;
-    padding: 0.35rem 0.6rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.1rem;
+    padding: 0.55rem 0.75rem;
     border-radius: 0.5rem;
     background: white;
     border: 1px solid rgb(254 215 170);
     min-width: 0;
+  }
+  /* Lifecycle palette (A) + directional gradient (D):
+     - incoming = sage/spring green, gradient brightens toward the right
+     - current  = warm sun gold, symmetric fill (peak)
+     - leaving  = russet/rust, gradient brightens toward the left (fades right) */
+  #calendrier-now .now-toggle-card[data-bucket="incoming"] {
+    background: linear-gradient(90deg,
+      white 0%,
+      color-mix(in srgb, #65a30d 6%, white) 45%,
+      color-mix(in srgb, #65a30d 22%, white) 100%);
+    border-color: color-mix(in srgb, #65a30d 40%, white);
+  }
+  #calendrier-now .now-toggle-card[data-bucket="incoming"] .now-toggle-glyph {
+    color: #65a30d;
+  }
+  #calendrier-now .now-toggle-card[data-bucket="current"] {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, #f59e0b 12%, white) 0%,
+      color-mix(in srgb, #f59e0b 20%, white) 100%);
+    border-color: color-mix(in srgb, #f59e0b 55%, white);
+  }
+  #calendrier-now .now-toggle-card[data-bucket="current"] .now-toggle-glyph {
+    color: #d97706;
+  }
+  #calendrier-now .now-toggle-card[data-bucket="leaving"] {
+    background: linear-gradient(90deg,
+      color-mix(in srgb, #a16207 22%, white) 0%,
+      color-mix(in srgb, #a16207 6%, white) 55%,
+      white 100%);
+    border-color: color-mix(in srgb, #a16207 40%, white);
+  }
+  #calendrier-now .now-toggle-card[data-bucket="leaving"] .now-toggle-glyph {
+    color: #a16207;
   }
   #calendrier-now .now-toggle-card-row {
     display: inline-flex;
@@ -105,29 +154,37 @@ title: "Calendrier des ingrédients"
     line-height: 1;
   }
   #calendrier-now .now-toggle-num {
-    font-size: 1.35rem;
+    font-size: 1.7rem;
     font-weight: 700;
     line-height: 1;
     color: rgb(60 20 5);
     font-variant-numeric: tabular-nums;
   }
   #calendrier-now .now-toggle-card-primary .now-toggle-num {
-    font-size: 1.55rem;
+    font-size: 2rem;
+  }
+  #calendrier-now .now-toggle-glyph {
+    font-size: 1.75rem;
+  }
+  #calendrier-now .now-toggle-glyph svg {
+    width: 1.4rem;
+    height: 1.4rem;
   }
   #calendrier-now .now-toggle-verb {
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     text-transform: lowercase;
     letter-spacing: 0.02em;
-    color: rgb(120 53 15 / 0.75);
+    color: rgb(120 53 15 / 0.85);
   }
   @media (max-width: 520px) {
     #calendrier-now .now-toggle-summary { gap: 0.35rem; }
-    #calendrier-now .now-toggle-card { padding: 0.3rem 0.45rem; }
-    #calendrier-now .now-toggle-card-row { gap: 0.2rem; }
-    #calendrier-now .now-toggle-num { font-size: 1.15rem; }
-    #calendrier-now .now-toggle-card-primary .now-toggle-num { font-size: 1.3rem; }
-    #calendrier-now .now-toggle-verb { font-size: 0.65rem; }
-    #calendrier-now .now-toggle-glyph { width: 1.15rem; height: 1.15rem; font-size: 0.85rem; }
+    #calendrier-now .now-toggle-card { padding: 0.4rem 0.5rem; }
+    #calendrier-now .now-toggle-card-row { gap: 0.25rem; }
+    #calendrier-now .now-toggle-num { font-size: 1.25rem; }
+    #calendrier-now .now-toggle-card-primary .now-toggle-num { font-size: 1.45rem; }
+    #calendrier-now .now-toggle-verb { font-size: 0.72rem; }
+    #calendrier-now .now-toggle-glyph { font-size: 1.7rem; }
+    #calendrier-now .now-toggle-glyph svg { width: 0.9rem; height: 0.9rem; }
   }
   #calendrier-now .now-collapsible {
     overflow: hidden;
@@ -151,20 +208,6 @@ title: "Calendrier des ingrédients"
     gap: 0.3rem;
     margin: 0;
     flex: 1 1 auto;
-  }
-  #calendrier-now .now-explore {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
-  }
-  #calendrier-now .now-explore-label {
-    font-size: 0.78rem;
-    color: rgb(120 53 15 / 0.85);
-    white-space: nowrap;
-  }
-  @media (max-width: 640px) {
-    #calendrier-now .now-explore-label { display: none; }
   }
   #calendrier-now .now-filter-btn {
     display: inline-flex;
@@ -370,16 +413,11 @@ title: "Calendrier des ingrédients"
     </p>
   </header>
 
-  <div id="calendrier-status" class="text-sm text-orange-900/60 mb-4">
-    Chargement des données…
-  </div>
+  <div id="calendrier-status" class="text-sm text-red-700 mb-4 hidden"></div>
 
   <section id="calendrier-now" aria-label="Aperçu de la saison actuelle" data-collapsed="false" hidden>
     <header>
-      <div class="now-explore">
-        <span class="now-explore-label">Afficher les ingrédients :</span>
-        <div id="calendrier-now-controls"></div>
-      </div>
+      <div id="calendrier-now-controls"></div>
       <div class="now-filters" role="group" aria-label="Filtrer par catégorie"></div>
     </header>
     <button
