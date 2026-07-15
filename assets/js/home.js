@@ -80,13 +80,13 @@
 
     // Initial state from URL
     let initialCategoryId = null;
-    let showComponentsInMain = true;
+    let showComponentsInMain = false;
     try {
       const params = new URLSearchParams(window.location.search);
       const catParam = params.get("cat");
       if (catParam) initialCategoryId = catParam;
       const basesParam = params.get("bases");
-      if (basesParam === "0") showComponentsInMain = false;
+      if (basesParam === "1") showComponentsInMain = true;
       const urlQ = params.get("q") || params.get("query");
       if (urlQ) {
         input.value = urlQ;
