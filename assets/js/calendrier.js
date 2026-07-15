@@ -105,10 +105,30 @@
     }
   }
 
+  const ING_URL_PARAM = "ing";
+  function initialIngredientFilter() {
+    try {
+      const raw = new URLSearchParams(location.search).get(ING_URL_PARAM);
+      return raw ? raw.trim().toLowerCase() : null;
+    } catch (_) { return null; }
+  }
+  function writeIngredientFilterToUrl(id) {
+    try {
+      const url = new URL(window.location.href);
+      if (id) url.searchParams.set(ING_URL_PARAM, id);
+      else url.searchParams.delete(ING_URL_PARAM);
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
   const state = {
     showExploratory: initialShowExploratory(),
     layoutMode: initialLayoutMode(),
     collapsedCategories: initialCollapsedCategories(),
+    filterIngredient: initialIngredientFilter(),
   };
 
   function currentQuinzaineIdx() {
@@ -282,14 +302,14 @@
     paint(textEl.text(), null);
   }
 
-  function buildRows(index, seasonality) {
+  function buildRows(index, seasonality, forceAll) {
     const rows = [];
     for (const cat of CATEGORY_ORDER) {
       const ings = [];
       for (const [id, meta] of Object.entries(seasonality)) {
         if (meta.category !== cat) continue;
         const nRecipes = (index.ingredients[id]?.recipes || []).length;
-        if (!state.showExploratory && nRecipes === 0) continue;
+        if (!forceAll && !state.showExploratory && nRecipes === 0) continue;
         ings.push({
           id,
           category: cat,
@@ -303,8 +323,42 @@
     return rows;
   }
 
+  // When a single-ingredient filter is active, replace rows with a single flat
+  // group containing only that ingredient (bypassing showExploratory so the
+  // filter always wins).
+  function applyIngredientFilter(rows, index, seasonality) {
+    if (!state.filterIngredient) return rows;
+    let found = null;
+    for (const g of rows) {
+      for (const ing of g.ingredients) {
+        if (ing.id === state.filterIngredient) { found = { g, ing }; break; }
+      }
+      if (found) break;
+    }
+    if (!found) {
+      const all = buildRows(index, seasonality, true);
+      for (const g of all) {
+        for (const ing of g.ingredients) {
+          if (ing.id === state.filterIngredient) { found = { g, ing }; break; }
+        }
+        if (found) break;
+      }
+    }
+    if (!found) return [];
+    return [{ category: found.g.category, ingredients: [found.ing] }];
+  }
+
   function renderGantt(container, rows) {
+    // Preserve persistent overlays (ingredient filter) across re-renders.
+    // Detach BEFORE the d3 wipe — `selectAll("*")` also picks up the filter's
+    // internal children, and `.remove()` would strip them from the filter
+    // subtree even though the filter itself is a detached reference.
+    const persistentFilter = container.querySelector("#calendrier-ingredient-filter");
+    if (persistentFilter && persistentFilter.parentNode) {
+      persistentFilter.parentNode.removeChild(persistentFilter);
+    }
     d3.select(container).selectAll("*").remove();
+    const filterActive = !!state.filterIngredient && rows.length > 0;
 
     // Global max recipe count — used to scale the recipe data-bar width.
     let maxRecipes = 0;
@@ -331,6 +385,7 @@
     const BAR_W = showRecipeBar ? 60 : 0;
     const BAR_H = 9;
     const LABEL_W = isMobile ? 115 : 300;
+    container.style.setProperty("--cal-label-w", LABEL_W + "px");
     const NAME_FONT = isMobile ? 12 : 14;
     const NAME_LINE_H = Math.round(NAME_FONT * 1.15);
     const BAR_X = LABEL_W - LABEL_PAD_R - BAR_W;
@@ -339,8 +394,11 @@
     const NAME_MAX_WIDTH = NAME_MAX_X - 14;
     const ROW_H = 34;
     const GROUP_HEADER_H = 38;
+    // Hide the category header row when a single-ingredient filter is active.
+    const HDR_H = filterActive ? 0 : GROUP_HEADER_H;
     const GROUP_GAP = 8;
-    const MONTH_HEADER_H = 40;
+    // Tall enough for rotated vertical month labels on narrow mobile screens.
+    const MONTH_HEADER_H = isMobile && state.layoutMode === "fit" ? 60 : 40;
     const RIGHT_PAD = 14;
 
     const containerWidth = container.clientWidth || 900;
@@ -365,11 +423,13 @@
       const cats = [];
       let cy = 0;
       for (const g of rows) {
-        const collapsed = state.collapsedCategories.has(g.category);
+        // Category collapse is ignored while an ingredient filter is active —
+        // the single-row view always shows the ingredient regardless.
+        const collapsed = !filterActive && state.collapsedCategories.has(g.category);
         const fullContentH = g.ingredients.length * ROW_H;
         const contentH = collapsed ? 0 : fullContentH;
         cats.push({ ...g, y: cy, contentH, fullContentH, collapsed });
-        cy += GROUP_HEADER_H + contentH + GROUP_GAP;
+        cy += HDR_H + contentH + GROUP_GAP;
       }
       return { cats, bodyH: Math.max(1, cy - GROUP_GAP) };
     }
@@ -381,7 +441,7 @@
     const fullBodyH = (() => {
       let cy = 0;
       for (const g of rows) {
-        cy += GROUP_HEADER_H + g.ingredients.length * ROW_H + GROUP_GAP;
+        cy += HDR_H + g.ingredients.length * ROW_H + GROUP_GAP;
       }
       return Math.max(1, cy - GROUP_GAP);
     })();
@@ -418,39 +478,58 @@
       topRow.style("width", "100%");
     }
 
-    const topLeftSvg = topRow.append("svg")
-      .attr("viewBox", `0 0 ${LABEL_W} ${MONTH_HEADER_H}`)
-      .attr("width", LABEL_W).attr("height", MONTH_HEADER_H)
-      .attr("font-family", "Inter, ui-sans-serif, system-ui, sans-serif")
-      .style("display", "block")
+    // Sticky wrapper so the top-left cell (SVG + ingredient filter) stays
+    // pinned to the left edge during horizontal scroll in wide mode.
+    const topLeftHolder = topRow.append("div")
       .style("flex", `0 0 ${LABEL_W}px`)
       .style("position", "sticky")
       .style("left", "0")
       .style("z-index", "4")
       .style("background", "#fff7ed")
-      .style("box-shadow", "2px 0 6px rgba(0,0,0,0.06)");
+      .style("box-shadow", "2px 0 6px rgba(0,0,0,0.06)")
+      .style("width", LABEL_W + "px")
+      .style("height", MONTH_HEADER_H + "px");
+
+    const topLeftSvg = topLeftHolder.append("svg")
+      .attr("viewBox", `0 0 ${LABEL_W} ${MONTH_HEADER_H}`)
+      .attr("width", LABEL_W).attr("height", MONTH_HEADER_H)
+      .attr("font-family", "Inter, ui-sans-serif, system-ui, sans-serif")
+      .style("display", "block");
     topLeftSvg.append("rect")
       .attr("x", 0).attr("y", 0)
       .attr("width", LABEL_W).attr("height", MONTH_HEADER_H)
       .attr("fill", "#fff7ed");
 
-    const topRightSvg = topRow.append("svg")
+    // Mount the persistent ingredient filter inside the sticky holder so it
+    // stays anchored to the top-left corner during both vertical and
+    // horizontal scrolls.
+    if (persistentFilter) {
+      topLeftHolder.node().appendChild(persistentFilter);
+      persistentFilter.style.setProperty("--cal-label-w", LABEL_W + "px");
+    }
+
+    // Wrapper around topRightSvg so we can overlay HTML month labels on top
+    // (needed for rotated text — SVG text distorts under preserveAspectRatio).
+    const topRightHolder = topRow.append("div")
+      .style("position", "relative")
+      .style("height", MONTH_HEADER_H + "px");
+    if (state.layoutMode === "wide") {
+      topRightHolder
+        .style("flex", `0 0 ${rightWidth}px`)
+        .style("min-width", rightWidth + "px")
+        .style("width", rightWidth + "px");
+    } else {
+      topRightHolder.style("flex", "1 1 auto");
+    }
+
+    const topRightSvg = topRightHolder.append("svg")
       .attr("viewBox", `0 0 ${rightWidth} ${MONTH_HEADER_H}`)
       .attr("height", MONTH_HEADER_H)
       .attr("preserveAspectRatio", "none")
       .attr("font-family", "Inter, ui-sans-serif, system-ui, sans-serif")
       .style("display", "block")
+      .style("width", "100%")
       .style("height", MONTH_HEADER_H + "px");
-    if (state.layoutMode === "wide") {
-      topRightSvg
-        .attr("width", rightWidth)
-        .style("flex", `0 0 ${rightWidth}px`)
-        .style("min-width", rightWidth + "px");
-    } else {
-      topRightSvg
-        .attr("width", "100%")
-        .style("flex", "1 1 auto");
-    }
 
     // Month header cells + labels (top-right SVG).
     let col = 0;
@@ -463,12 +542,36 @@
         .attr("x", col * cellW).attr("y", 0)
         .attr("width", w).attr("height", MONTH_HEADER_H)
         .attr("fill", monthIdx % 2 === 0 ? "#fff7ed" : "#ffedd5");
-      topRightSvg.append("text")
-        .attr("x", col * cellW + w / 2).attr("y", MONTH_HEADER_H / 2 + 6)
-        .attr("text-anchor", "middle")
-        .attr("fill", "#7c2d12")
-        .attr("font-size", 15).attr("font-weight", 600)
-        .text(MONTH_LABELS_FR[monthIdx]);
+      // On mobile in "fit" mode, cells are too narrow for horizontal labels —
+      // render labels as HTML overlays rotated with CSS. SVG text can't be
+      // rotated cleanly here because preserveAspectRatio="none" stretches it.
+      const rotateLabel = isMobile && state.layoutMode === "fit";
+      const cx = col * cellW + w / 2;
+      const label = MONTH_LABELS_FR[monthIdx];
+      if (!rotateLabel) {
+        topRightSvg.append("text")
+          .attr("x", cx).attr("y", MONTH_HEADER_H / 2 + 6)
+          .attr("text-anchor", "middle")
+          .attr("fill", "#7c2d12")
+          .attr("font-size", 15).attr("font-weight", 600)
+          .text(label);
+      } else {
+        const leftPct = (cx / rightWidth) * 100;
+        topRightHolder.append("div")
+          .attr("class", "cal-month-label-rot")
+          .style("position", "absolute")
+          .style("left", leftPct + "%")
+          .style("top", (MONTH_HEADER_H / 2) + "px")
+          .style("transform", "translate(-50%, -50%) rotate(-90deg)")
+          .style("transform-origin", "center center")
+          .style("font-size", "12px")
+          .style("font-weight", "600")
+          .style("color", "#7c2d12")
+          .style("white-space", "nowrap")
+          .style("pointer-events", "none")
+          .style("line-height", "1")
+          .text(label);
+      }
       col = end;
     }
 
@@ -476,9 +579,13 @@
     // Two-layer wrapper: outer bodyWrap handles horizontal scroll + vertical
     // clipping (animated height); inner bodyRow holds the two SVGs at their
     // FULL height so accordion collapse just clips empty space at the bottom.
+    // In wide mode a horizontal scrollbar appears at the bottom of bodyWrap
+    // and eats into its height — reserve extra space so it doesn't overlap
+    // the last calendar row.
+    const scrollbarPad = state.layoutMode === "wide" ? 18 : 0;
     const bodyWrap = scrollWrap.append("div")
       .style("overflow-y", "hidden")
-      .style("height", bodyH + "px")
+      .style("height", (bodyH + scrollbarPad) + "px")
       .style("transition", "height 320ms cubic-bezier(0.4, 0, 0.2, 1)");
     if (state.layoutMode === "wide") {
       bodyWrap
@@ -577,11 +684,11 @@
       clipDefs.append("clipPath").attr("id", `cal-clip-${cat.category}-l`)
         .append("rect")
         .attr("class", `cal-clip-rect-${cat.category}`)
-        .attr("x", 0).attr("y", GROUP_HEADER_H).attr("width", LABEL_W).attr("height", cat.contentH);
+        .attr("x", 0).attr("y", HDR_H).attr("width", LABEL_W).attr("height", cat.contentH);
       clipDefsR.append("clipPath").attr("id", `cal-clip-${cat.category}-r`)
         .append("rect")
         .attr("class", `cal-clip-rect-${cat.category}`)
-        .attr("x", 0).attr("y", GROUP_HEADER_H).attr("width", rightWidth).attr("height", cat.contentH);
+        .attr("x", 0).attr("y", HDR_H).attr("width", rightWidth).attr("height", cat.contentH);
     }
 
     // --- Category groups: rendered inside <g transform="translate(0, y)">
@@ -595,32 +702,34 @@
         .attr("data-cat", cat.category)
         .attr("transform", `translate(0, ${cat.y})`);
 
-      // Colored left "spine". Length encodes collapsed state: header-only when
-      // collapsed, full category height when expanded.
-      const barFullH = GROUP_HEADER_H + cat.contentH;
-      leftCatG.append("rect")
-        .attr("class", `cal-bar cal-bar-${cat.category}`)
-        .attr("x", 0).attr("y", 0).attr("width", 4)
-        .attr("height", cat.collapsed ? GROUP_HEADER_H : barFullH)
-        .attr("fill", color)
-        .attr("pointer-events", "none");
+      if (!filterActive) {
+        // Colored left "spine". Length encodes collapsed state: header-only
+        // when collapsed, full category height when expanded.
+        const barFullH = GROUP_HEADER_H + cat.contentH;
+        leftCatG.append("rect")
+          .attr("class", `cal-bar cal-bar-${cat.category}`)
+          .attr("x", 0).attr("y", 0).attr("width", 4)
+          .attr("height", cat.collapsed ? GROUP_HEADER_H : barFullH)
+          .attr("fill", color)
+          .attr("pointer-events", "none");
 
-      // Header: clickable label row.
-      const leftHdr = leftCatG.append("g")
-        .attr("class", "cal-hdr")
-        .attr("cursor", "pointer")
-        .attr("role", "button")
-        .attr("aria-label", `Replier ou déplier ${CATEGORY_LABELS[cat.category]}`)
-        .style("user-select", "none")
-        .on("click", () => toggleCategory(cat.category));
-      leftHdr.append("rect")
-        .attr("x", 4).attr("y", 0).attr("width", LABEL_W - 4).attr("height", GROUP_HEADER_H)
-        .attr("fill", "#fff7ed");
-      leftHdr.append("text")
-        .attr("x", 14).attr("y", GROUP_HEADER_H / 2 + 6)
-        .attr("fill", "#431407")
-        .attr("font-size", isMobile ? 13 : 17).attr("font-weight", 700)
-        .text(CATEGORY_LABELS[cat.category]);
+        // Header: clickable label row.
+        const leftHdr = leftCatG.append("g")
+          .attr("class", "cal-hdr")
+          .attr("cursor", "pointer")
+          .attr("role", "button")
+          .attr("aria-label", `Replier ou déplier ${CATEGORY_LABELS[cat.category]}`)
+          .style("user-select", "none")
+          .on("click", () => toggleCategory(cat.category));
+        leftHdr.append("rect")
+          .attr("x", 4).attr("y", 0).attr("width", LABEL_W - 4).attr("height", GROUP_HEADER_H)
+          .attr("fill", "#fff7ed");
+        leftHdr.append("text")
+          .attr("x", 14).attr("y", GROUP_HEADER_H / 2 + 6)
+          .attr("fill", "#431407")
+          .attr("font-size", isMobile ? 13 : 17).attr("font-weight", 700)
+          .text(CATEGORY_LABELS[cat.category]);
+      }
 
       // Rows wrapper — clipped so overflowing rows are hidden during animation.
       const leftRowsWrap = leftCatG.append("g")
@@ -628,7 +737,7 @@
         .attr("clip-path", `url(#cal-clip-${cat.category}-l)`);
       const leftRows = leftRowsWrap.append("g")
         .attr("class", "cal-rows")
-        .attr("transform", `translate(0, ${GROUP_HEADER_H})`);
+        .attr("transform", `translate(0, ${HDR_H})`);
 
       // ----- RIGHT side -----
       const rightCatG = rightSvg.append("g")
@@ -645,7 +754,7 @@
         .attr("clip-path", `url(#cal-clip-${cat.category}-r)`);
       const rightRows = rightRowsWrap.append("g")
         .attr("class", "cal-rows")
-        .attr("transform", `translate(0, ${GROUP_HEADER_H})`);
+        .attr("transform", `translate(0, ${HDR_H})`);
 
       // ----- Ingredient rows (yLocal starts at 0 inside cal-rows). -----
       let yLocal = 0;
@@ -767,7 +876,7 @@
       const ease = d3.easeCubicInOut;
 
       // Wrapper height (CSS transition already declared on bodyWrap).
-      bodyWrap.style("height", newBodyH + "px");
+      bodyWrap.style("height", (newBodyH + scrollbarPad) + "px");
 
       for (const cat of newCats) {
         leftSvg.selectAll(`.cal-cat-${cat.category}`)
@@ -1055,6 +1164,161 @@
     }
   }
 
+  function setupIngredientFilter(root, index, seasonality, onChange) {
+    const wrap = root.querySelector("#calendrier-ingredient-filter");
+    if (!wrap) return;
+    const input = wrap.querySelector(".cal-ing-input");
+    const pill = wrap.querySelector(".cal-ing-selected");
+    const suggest = wrap.querySelector(".cal-ing-suggest");
+    // Portal the dropdown to <body> so it escapes topWrap's overflow clipping.
+    if (suggest.parentNode !== document.body) document.body.appendChild(suggest);
+    const positionSuggest = () => {
+      const r = wrap.getBoundingClientRect();
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+      const w = Math.max(r.width, Math.min(300, vw - 16));
+      const left = Math.min(r.left, vw - w - 8);
+      suggest.style.top = (r.bottom + 4) + "px";
+      suggest.style.left = Math.max(8, left) + "px";
+      suggest.style.width = w + "px";
+    };
+    const allIds = Object.keys(seasonality).sort((a, b) => a.localeCompare(b, "fr"));
+    let activeIdx = -1;
+    let matches = [];
+
+    function foldFr(s) {
+      return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    const pillName = pill.querySelector(".cal-ing-selected-name");
+
+    function render() {
+      wrap.hidden = false;
+      const active = state.filterIngredient;
+      if (active) {
+        input.hidden = true;
+        input.style.display = "none";
+        pill.hidden = false;
+        pill.style.display = "";
+        if (pillName) pillName.textContent = displayName(active);
+        const cat = seasonality[active]?.category || "autre";
+        pill.style.setProperty("--cat-color", CATEGORY_COLORS[cat] || CATEGORY_COLORS.autre);
+        suggest.hidden = true;
+      } else {
+        input.hidden = false;
+        input.style.display = "";
+        pill.hidden = true;
+        pill.style.display = "none";
+      }
+    }
+
+    function computeMatches(q) {
+      if (!q) return allIds.slice(0, 30);
+      const fq = foldFr(q);
+      const starts = [], contains = [];
+      for (const id of allIds) {
+        const f = foldFr(id);
+        if (f === fq) { starts.unshift(id); continue; }
+        if (f.startsWith(fq)) starts.push(id);
+        else if (f.includes(fq)) contains.push(id);
+      }
+      return starts.concat(contains).slice(0, 30);
+    }
+
+    function paintDropdown() {
+      suggest.innerHTML = "";
+      if (matches.length === 0) {
+        const p = document.createElement("div");
+        p.className = "cal-ing-suggest-empty";
+        p.textContent = "Aucun ingrédient trouvé.";
+        suggest.appendChild(p);
+        suggest.hidden = false;
+        return;
+      }
+      matches.forEach((id, i) => {
+        const item = document.createElement("div");
+        item.className = "cal-ing-suggest-item";
+        item.setAttribute("role", "option");
+        item.setAttribute("aria-selected", i === activeIdx ? "true" : "false");
+        const dot = document.createElement("span");
+        dot.className = "cal-ing-suggest-dot";
+        const cat = seasonality[id]?.category || "autre";
+        dot.style.setProperty("--cat-color", CATEGORY_COLORS[cat] || CATEGORY_COLORS.autre);
+        const name = document.createElement("span");
+        name.textContent = displayName(id);
+        const catLabel = document.createElement("span");
+        catLabel.className = "cal-ing-suggest-cat";
+        catLabel.textContent = CATEGORY_LABELS[cat] || cat;
+        item.append(dot, name, catLabel);
+        item.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          pick(id);
+        });
+        suggest.appendChild(item);
+      });
+      positionSuggest();
+      suggest.hidden = false;
+    }
+
+    function pick(id) {
+      input.value = "";
+      suggest.hidden = true;
+      activeIdx = -1;
+      matches = [];
+      onChange(id);
+      render();
+    }
+
+    function clear() {
+      input.value = "";
+      suggest.hidden = true;
+      activeIdx = -1;
+      matches = [];
+      onChange(null);
+      render();
+    }
+
+    input.addEventListener("input", () => {
+      matches = computeMatches(input.value.trim());
+      activeIdx = matches.length ? 0 : -1;
+      paintDropdown();
+    });
+    input.addEventListener("focus", () => {
+      matches = computeMatches(input.value.trim());
+      activeIdx = matches.length ? 0 : -1;
+      paintDropdown();
+    });
+    input.addEventListener("blur", () => {
+      // Delay so mousedown on a suggestion can fire first.
+      setTimeout(() => { suggest.hidden = true; }, 120);
+    });
+    input.addEventListener("keydown", (e) => {
+      if (suggest.hidden) return;
+      if (e.key === "ArrowDown") {
+        activeIdx = Math.min(matches.length - 1, activeIdx + 1);
+        paintDropdown();
+        e.preventDefault();
+      } else if (e.key === "ArrowUp") {
+        activeIdx = Math.max(0, activeIdx - 1);
+        paintDropdown();
+        e.preventDefault();
+      } else if (e.key === "Enter") {
+        if (activeIdx >= 0 && matches[activeIdx]) {
+          pick(matches[activeIdx]);
+          e.preventDefault();
+        }
+      } else if (e.key === "Escape") {
+        suggest.hidden = true;
+      }
+    });
+    pill.addEventListener("click", clear);
+
+    const reposition = () => { if (!suggest.hidden) positionSuggest(); };
+    window.addEventListener("scroll", reposition, true);
+    window.addEventListener("resize", reposition);
+
+    render();
+  }
+
   async function loadData(root) {
     const [indexRes, seasonRes] = await Promise.all([
       fetch(root.dataset.urlIndex),
@@ -1174,7 +1438,9 @@
       setupNowCollapse(nowSectionEl);
       refreshNow = () => renderNowSection(seasonality, index, nowSectionEl);
       syncFromNow = () => { refreshNow(); renderGantt(root, rows); };
-      let rows = buildRows(index, seasonality);
+      const computeRows = () =>
+        applyIngredientFilter(buildRows(index, seasonality), index, seasonality);
+      let rows = computeRows();
 
       // Status element is now reserved for error messages only; no per-render text.
       function refreshStatus() { /* no-op */ }
@@ -1230,7 +1496,7 @@
             try { localStorage.setItem("calendrier.showExploratory", wanted ? "1" : "0"); } catch (_) { /* ignore */ }
             writeExploreToUrl(wanted);
             exploreControl.setActive(wanted ? "all" : "recipes");
-            rows = buildRows(index, seasonality);
+            rows = computeRows();
             refreshStatus();
             renderNowSection(seasonality, index, nowSectionEl);
             renderGantt(root, rows);
@@ -1243,13 +1509,32 @@
         });
       }
 
+      setupIngredientFilter(root, index, seasonality, (id) => {
+        state.filterIngredient = id;
+        writeIngredientFilterToUrl(id);
+        rows = computeRows();
+        renderGantt(root, rows);
+      });
+
       renderGantt(root, rows);
       window.__calendrier = {
         index, seasonality, get rows() { return rows; }, state,
         __buckets(date) { return bucketsFor(seasonality, computeNowQuinzaine(date).absIdx); },
       };
 
+      let lastResizeWidth = window.innerWidth;
       window.addEventListener("resize", debounce(() => {
+        // Skip re-render while the ingredient filter input is focused —
+        // mobile keyboards fire resize on open/close and re-rendering would
+        // detach the input and close the keyboard mid-typing.
+        const filterInput = root.querySelector(".cal-ing-input");
+        if (filterInput && document.activeElement === filterInput) return;
+        // Ignore height-only resizes (mobile URL bar auto-hide/show) — width
+        // is what actually affects layout. This prevents phantom re-renders
+        // that were causing the page to periodically scroll to the top.
+        const w = window.innerWidth;
+        if (w === lastResizeWidth) return;
+        lastResizeWidth = w;
         // In "wide" mode the SVG has a fixed pixel width so no re-render is
         // needed on resize; the scroll wrapper handles it.
         if (state.layoutMode === "fit") renderGantt(root, rows);
