@@ -13,6 +13,350 @@ title: "Calendrier des ingrédients"
   html[data-page-kind="calendrier"] body {
     overflow-x: clip !important;
   }
+
+  #calendrier-now {
+    margin-bottom: 1.25rem;
+    border-top: 1px solid rgb(254 215 170);
+    border-bottom: 1px solid rgb(254 215 170);
+    padding: 0.9rem 0.25rem;
+  }
+  #calendrier-now > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  #calendrier-now .now-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    margin: 0.6rem 0 0;
+    border: 1px solid rgb(254 215 170);
+    border-radius: 0.6rem;
+    background: linear-gradient(180deg, rgb(255 251 246), rgb(255 247 237));
+    color: rgb(120 53 15);
+    cursor: pointer;
+    text-align: left;
+    transition: background 140ms ease-out, border-color 140ms ease-out;
+  }
+  #calendrier-now .now-toggle:hover {
+    background: linear-gradient(180deg, rgb(255 247 237), rgb(254 243 226));
+    border-color: rgb(251 191 137);
+  }
+  #calendrier-now .now-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(245 50 0 / 0.35);
+  }
+  #calendrier-now .now-toggle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: rgb(245 50 0);
+    color: white;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: transform 220ms ease-out;
+  }
+  #calendrier-now[data-collapsed="true"] .now-toggle-icon {
+    transform: rotate(-90deg);
+  }
+  #calendrier-now .now-toggle-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  #calendrier-now .now-toggle-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.05rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.5rem;
+    background: white;
+    border: 1px solid rgb(254 215 170);
+    min-width: 0;
+  }
+  #calendrier-now .now-toggle-card-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  #calendrier-now .now-toggle-card-primary {
+    background: linear-gradient(180deg, white, rgb(255 247 237));
+    border-color: rgb(251 191 137);
+    box-shadow: 0 1px 2px 0 rgb(120 53 15 / 0.06);
+  }
+  #calendrier-now .now-toggle-glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(245 50 0);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  #calendrier-now .now-toggle-num {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+    color: rgb(60 20 5);
+    font-variant-numeric: tabular-nums;
+  }
+  #calendrier-now .now-toggle-card-primary .now-toggle-num {
+    font-size: 1.55rem;
+  }
+  #calendrier-now .now-toggle-verb {
+    font-size: 0.72rem;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    color: rgb(120 53 15 / 0.75);
+  }
+  @media (max-width: 520px) {
+    #calendrier-now .now-toggle-summary { gap: 0.35rem; }
+    #calendrier-now .now-toggle-card { padding: 0.3rem 0.45rem; }
+    #calendrier-now .now-toggle-card-row { gap: 0.2rem; }
+    #calendrier-now .now-toggle-num { font-size: 1.15rem; }
+    #calendrier-now .now-toggle-card-primary .now-toggle-num { font-size: 1.3rem; }
+    #calendrier-now .now-toggle-verb { font-size: 0.65rem; }
+    #calendrier-now .now-toggle-glyph { width: 1.15rem; height: 1.15rem; font-size: 0.85rem; }
+  }
+  #calendrier-now .now-collapsible {
+    overflow: hidden;
+    transition: max-height 220ms ease-out, opacity 180ms ease-out;
+  }
+  #calendrier-now .now-body {
+    padding-top: 1rem;
+  }
+  #calendrier-now[data-collapsed="true"] .now-collapsible {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #calendrier-now .now-collapsible,
+    #calendrier-now .now-collapse-icon {
+      transition: none;
+    }
+  }
+  #calendrier-now .now-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 0;
+    flex: 1 1 auto;
+  }
+  #calendrier-now .now-explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  #calendrier-now .now-explore-label {
+    font-size: 0.78rem;
+    color: rgb(120 53 15 / 0.85);
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    #calendrier-now .now-explore-label { display: none; }
+  }
+  #calendrier-now .now-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--cat-color) 40%, white);
+    background: white;
+    font-size: 0.75rem;
+    color: rgb(60 20 5);
+    cursor: pointer;
+    transition: background 140ms ease-out, opacity 140ms ease-out;
+  }
+  #calendrier-now .now-filter-btn[aria-pressed="false"] {
+    opacity: 0.4;
+    background: rgb(255 255 255 / 0.5);
+  }
+  #calendrier-now .now-filter-btn:hover {
+    background: color-mix(in srgb, var(--cat-color) 10%, white);
+  }
+  #calendrier-now .now-filter-btn:focus-visible {
+    outline: 2px solid var(--cat-color);
+    outline-offset: 2px;
+  }
+  #calendrier-now .now-filter-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--cat-color);
+  }
+  #calendrier-now .now-filter-count {
+    font-size: 0.68rem;
+    color: rgb(120 53 15 / 0.7);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Matches the "clear selected tags" button on /recherche/
+     (see assets/js/search-page.js updateSelectedChips). */
+  #calendrier-now .now-filter-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    border: 1px solid rgb(245 50 0);
+    background: rgb(245 50 0);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    transition: opacity 140ms ease-out;
+  }
+  #calendrier-now .now-filter-reset:hover { opacity: 0.9; }
+  #calendrier-now .now-filter-reset:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(245 50 0 / 0.4);
+  }
+  #calendrier-now .now-filter-reset svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  #calendrier-now .now-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    #calendrier-now .now-body {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  #calendrier-now .now-bucket-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgb(154 52 18);
+    margin: 0 0 0.15rem;
+  }
+  #calendrier-now .now-bucket-subtitle {
+    font-size: 0.8rem;
+    color: rgb(120 53 15 / 0.7);
+    margin: 0 0 0.5rem;
+  }
+  #calendrier-now .now-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  #calendrier-now .now-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.28rem 0.55rem 0.28rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid var(--cat-color, rgb(120 53 15 / 0.3));
+    background: color-mix(in srgb, var(--cat-color) 8%, white);
+    font-size: 0.82rem;
+    line-height: 1;
+    color: rgb(60 20 5);
+    text-decoration: none;
+    transition: background 140ms ease-out, transform 140ms ease-out;
+  }
+  #calendrier-now .now-chip:hover {
+    background: color-mix(in srgb, var(--cat-color) 18%, white);
+    transform: translateY(-1px);
+  }
+  #calendrier-now .now-chip:focus-visible {
+    outline: 2px solid var(--cat-color);
+    outline-offset: 2px;
+  }
+  #calendrier-now .now-chip[data-intensity="peak"] {
+    background: color-mix(in srgb, var(--cat-color) 16%, white);
+    font-weight: 600;
+  }
+  /* Directional gradient (cue #2): "start" chip brightens toward the right
+     (energy incoming), "end" chip brightens toward the left (fading out). */
+  #calendrier-now .now-chip[data-intensity="start"] {
+    background: linear-gradient(90deg,
+      white 0%,
+      color-mix(in srgb, var(--cat-color) 8%, white) 35%,
+      color-mix(in srgb, var(--cat-color) 45%, white) 100%);
+  }
+  #calendrier-now .now-chip[data-intensity="end"] {
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--cat-color) 45%, white) 0%,
+      color-mix(in srgb, var(--cat-color) 8%, white) 65%,
+      white 100%);
+  }
+  #calendrier-now .now-chip-dot {
+    position: relative;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 999px;
+    background: var(--cat-color);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  /* Cue #1 — half-filled dot (waxing → full → waning). Cue #3 — hatch
+     direction on the filled half (45° for start, −45° for end). */
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-dot,
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-dot {
+    background: color-mix(in srgb, var(--cat-color) 20%, white);
+    border: 1px solid var(--cat-color);
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-dot::before,
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-dot::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background:
+      repeating-linear-gradient(45deg,
+        color-mix(in srgb, var(--cat-color) 90%, black) 0 1.5px,
+        var(--cat-color) 1.5px 3px);
+  }
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-dot::before {
+    right: 0;
+  }
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-dot::before {
+    left: 0;
+    background:
+      repeating-linear-gradient(-45deg,
+        color-mix(in srgb, var(--cat-color) 90%, black) 0 1.5px,
+        var(--cat-color) 1.5px 3px);
+  }
+  /* Cue #4 — chevron glyph prepended to the proximity tag. */
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-tag::before {
+    content: "↗ ";
+    color: var(--cat-color);
+    font-weight: 700;
+  }
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-tag::before {
+    content: "↘ ";
+    color: var(--cat-color);
+    font-weight: 700;
+  }
+  #calendrier-now .now-chip-tag {
+    font-size: 0.7rem;
+    color: rgb(120 53 15 / 0.7);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  #calendrier-now .now-empty {
+    font-size: 0.82rem;
+    color: rgb(120 53 15 / 0.6);
+    font-style: italic;
+    margin: 0;
+  }
 </style>
 
 <div class="content w-full md:w-full p-6 md:pl-16">
@@ -29,6 +373,62 @@ title: "Calendrier des ingrédients"
   <div id="calendrier-status" class="text-sm text-orange-900/60 mb-4">
     Chargement des données…
   </div>
+
+  <section id="calendrier-now" aria-label="Aperçu de la saison actuelle" data-collapsed="false" hidden>
+    <header>
+      <div class="now-explore">
+        <span class="now-explore-label">Afficher les ingrédients :</span>
+        <div id="calendrier-now-controls"></div>
+      </div>
+      <div class="now-filters" role="group" aria-label="Filtrer par catégorie"></div>
+    </header>
+    <button
+      type="button"
+      class="now-toggle"
+      aria-expanded="true"
+      aria-controls="calendrier-now-collapsible"
+    >
+      <span class="now-toggle-icon" aria-hidden="true">▾</span>
+      <span class="now-toggle-summary">
+        <span class="now-toggle-card" data-bucket="incoming">
+          <span class="now-toggle-card-row">
+            <span class="now-toggle-num" data-bucket-count="incoming">0</span>
+            <span class="now-toggle-glyph" aria-hidden="true">↗</span>
+          </span>
+          <span class="now-toggle-verb">arrivent</span>
+        </span>
+        <span class="now-toggle-card now-toggle-card-primary" data-bucket="current">
+          <span class="now-toggle-card-row">
+            <span class="now-toggle-num" data-bucket-count="current">0</span>
+            <span class="now-toggle-glyph" aria-hidden="true">
+              <svg viewBox="0 0 12 12" width="14" height="14"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>
+            </span>
+          </span>
+          <span class="now-toggle-verb">en saison</span>
+        </span>
+        <span class="now-toggle-card" data-bucket="leaving">
+          <span class="now-toggle-card-row">
+            <span class="now-toggle-num" data-bucket-count="leaving">0</span>
+            <span class="now-toggle-glyph" aria-hidden="true">↘</span>
+          </span>
+          <span class="now-toggle-verb">partent</span>
+        </span>
+      </span>
+    </button>
+    <div class="now-collapsible" id="calendrier-now-collapsible">
+    <div class="now-body">
+      <div class="now-bucket" data-bucket="incoming">
+        <p class="now-bucket-title">Ça arrive</p>
+      </div>
+      <div class="now-bucket" data-bucket="current">
+        <p class="now-bucket-title">En ce moment</p>
+      </div>
+      <div class="now-bucket" data-bucket="leaving">
+        <p class="now-bucket-title">Dernière chance</p>
+      </div>
+    </div>
+    </div>
+  </section>
 
   <div id="calendrier-controls-mount" class="mb-3"></div>
 

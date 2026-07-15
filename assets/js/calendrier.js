@@ -126,6 +126,66 @@
     return (d - 16) / Math.max(1, lastDay - 15);
   }
 
+  // Absolute quinzaine index [0..23] for a date. Q1 = days 1..15, Q2 = 16..end.
+  // Dev override: `?now=YYYY-MM-DD` in the page URL shifts "now" for testing
+  // seasonal transitions (e.g. Dec→Jan wrap). Not documented in the UI.
+  let nowOverrideLogged = false;
+  function computeNowQuinzaine(dateOverride) {
+    let d = dateOverride instanceof Date && !isNaN(dateOverride) ? dateOverride : null;
+    if (!d) {
+      try {
+        const raw = new URLSearchParams(location.search).get("now");
+        if (raw && /^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+          const parsed = new Date(raw + "T12:00:00");
+          if (!isNaN(parsed)) {
+            d = parsed;
+            if (!nowOverrideLogged) {
+              console.info(`[calendrier] "now" overridden via ?now=${raw}`);
+              nowOverrideLogged = true;
+            }
+          }
+        }
+      } catch (_) { /* ignore */ }
+    }
+    if (!d) d = new Date();
+    const monthIdx = d.getMonth();
+    const half = d.getDate() <= 15 ? 1 : 2;
+    return { monthIdx, half, absIdx: monthIdx * 2 + (half - 1) };
+  }
+
+  // Groups ingredients into three buckets around `nowAbsIdx`:
+  //   current  — has any token at nowAbsIdx (start/peak/end)
+  //   incoming — no token at nowAbsIdx AND a `start` token at nowAbsIdx+1 or +2
+  //   leaving  — an `end` token at nowAbsIdx, +1, or +2
+  // `distance` is the number of quinzaines to the state boundary (0 for
+  // current; 1 or 2 for incoming/leaving). Wrap Dec→Jan via mod 24.
+  function bucketsFor(seasonality, nowAbsIdx) {
+    const incoming = [];
+    const current = [];
+    const leaving = [];
+    for (const [id, meta] of Object.entries(seasonality)) {
+      const seasonMap = parseSeason(meta.season);
+      const hereIntensity = seasonMap.get(nowAbsIdx);
+      if (hereIntensity) {
+        current.push({ id, category: meta.category, intensity: hereIntensity, distance: 0 });
+      } else {
+        for (const k of [1, 2]) {
+          if (seasonMap.get((nowAbsIdx + k) % 24) === "start") {
+            incoming.push({ id, category: meta.category, intensity: "start", distance: k });
+            break;
+          }
+        }
+      }
+      for (const k of [0, 1, 2]) {
+        if (seasonMap.get((nowAbsIdx + k) % 24) === "end") {
+          leaving.push({ id, category: meta.category, intensity: "end", distance: k });
+          break;
+        }
+      }
+    }
+    return { incoming, current, leaving };
+  }
+
   function parseSeason(seasonStr) {
     const out = new Map();
     if (!seasonStr) return out;
@@ -702,6 +762,8 @@
       if (state.collapsedCategories.has(catId)) state.collapsedCategories.delete(catId);
       else state.collapsedCategories.add(catId);
       persistCollapsedCategories(state.collapsedCategories);
+      writeCategoriesToUrl();
+      refreshNow();
 
       const { cats: newCats, bodyH: newBodyH } = computeCatLayout();
       catLayout = newCats;
@@ -727,6 +789,275 @@
           .transition().duration(D).ease(ease)
           .attr("transform", `translate(${LABEL_W - 20}, ${GROUP_HEADER_H / 2}) rotate(${cat.collapsed ? -90 : 0})`);
       }
+    }
+  }
+
+  const APERCU_URL_PARAM = "apercu";
+
+  function loadNowCollapsed() {
+    // URL is the sole source: fresh navigation defaults to expanded. State
+    // only persists when the URL is preserved (shared link or same-tab back).
+    return new URLSearchParams(location.search).get(APERCU_URL_PARAM) === "0";
+  }
+  function saveNowCollapsed(v) {
+    try {
+      const url = new URL(window.location.href);
+      if (v) url.searchParams.set(APERCU_URL_PARAM, "0");
+      else url.searchParams.delete(APERCU_URL_PARAM);
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
+  // Shared state: the now-section's category filter and the calendar's
+  // category collapse are the same set (state.collapsedCategories).
+  // - Filter click in the section  → re-render section + full calendar
+  //   re-render (loses the calendar's smooth toggle animation).
+  // - Chevron click in the calendar → keep its animation and just refresh
+  //   the section chips + filter aria-pressed state via refreshNow().
+  const nowState = {
+    collapsed: loadNowCollapsed(),
+  };
+  let refreshNow = () => {};
+  let syncFromNow = () => {};
+
+  function setupNowCollapse(sectionEl) {
+    if (!sectionEl) return;
+    const btn = sectionEl.querySelector(".now-toggle");
+    const body = sectionEl.querySelector(".now-collapsible");
+    if (!btn || !body) return;
+    const prefersReduced = window.matchMedia
+      && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function apply(collapsed, animate) {
+      sectionEl.dataset.collapsed = collapsed ? "true" : "false";
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      if (!animate || prefersReduced) {
+        body.style.maxHeight = collapsed ? "0px" : "none";
+        return;
+      }
+      // Animate max-height between 0 and the measured content height, then
+      // release to `none` so later filter/collapse changes reflow naturally.
+      if (collapsed) {
+        // Lock the current rendered height in px, force reflow, then drop to 0
+        // so the transition has two concrete endpoints to interpolate between.
+        const target = body.scrollHeight;
+        body.style.maxHeight = target + "px";
+        void body.offsetHeight;
+        requestAnimationFrame(() => { body.style.maxHeight = "0px"; });
+      } else {
+        body.style.maxHeight = "0px";
+        void body.offsetHeight;
+        const target = body.scrollHeight;
+        requestAnimationFrame(() => { body.style.maxHeight = target + "px"; });
+        const onEnd = (e) => {
+          if (e.propertyName !== "max-height") return;
+          body.style.maxHeight = "none";
+          body.removeEventListener("transitionend", onEnd);
+        };
+        body.addEventListener("transitionend", onEnd);
+      }
+    }
+
+    apply(nowState.collapsed, false);
+    btn.addEventListener("click", () => {
+      nowState.collapsed = !nowState.collapsed;
+      saveNowCollapsed(nowState.collapsed);
+      apply(nowState.collapsed, true);
+    });
+  }
+
+  const EMPTY_COPY = {
+    incoming: "Pas de nouveaux arrivages cette quinzaine.",
+    current: "Rien en saison — c'est inhabituel.",
+    leaving: "Rien ne s'en va bientôt.",
+  };
+
+  function proximityLabel(bucketKey, item) {
+    if (bucketKey === "current") {
+      if (item.intensity === "peak") return "";
+      if (item.intensity === "start") return "début";
+      return "bientôt fini";
+    }
+    if (bucketKey === "incoming") {
+      return item.distance === 1 ? "dans 2 sem." : "dans 1 mois";
+    }
+    if (item.distance === 0) return "cette quinzaine";
+    return item.distance === 1 ? "encore 2 sem." : "encore 1 mois";
+  }
+
+  function renderChip(bucketKey, item) {
+    const a = document.createElement("a");
+    a.className = "now-chip";
+    a.href = buildSearchUrl([item.id], false);
+    a.dataset.intensity = item.intensity;
+    a.style.setProperty("--cat-color", CATEGORY_COLORS[item.category] || CATEGORY_COLORS.autre);
+    const dot = document.createElement("span");
+    dot.className = "now-chip-dot";
+    dot.setAttribute("aria-hidden", "true");
+    a.appendChild(dot);
+    const name = document.createElement("span");
+    name.className = "now-chip-name";
+    name.textContent = displayName(item.id);
+    a.appendChild(name);
+    const tag = proximityLabel(bucketKey, item);
+    if (tag) {
+      const t = document.createElement("span");
+      t.className = "now-chip-tag";
+      t.textContent = tag;
+      a.appendChild(t);
+    }
+    return a;
+  }
+
+  const CATS_URL_PARAM = "cats";
+
+  function writeCategoriesToUrl() {
+    try {
+      const url = new URL(window.location.href);
+      const active = CATEGORY_ORDER.filter((c) => !state.collapsedCategories.has(c));
+      if (active.length === CATEGORY_ORDER.length) {
+        url.searchParams.delete(CATS_URL_PARAM);
+      } else {
+        url.searchParams.set(CATS_URL_PARAM, active.join(","));
+      }
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
+  // Rules (see spec §5):
+  //  - default (all visible active): click X → keep only X active
+  //  - only X active and click X    → reset to all active
+  //  - otherwise                    → toggle X (add if inactive, remove if active)
+  function applyFilterClick(cat, visibleCats) {
+    const activeVisible = visibleCats.filter((c) => !state.collapsedCategories.has(c));
+    if (activeVisible.length === visibleCats.length) {
+      for (const c of visibleCats) if (c !== cat) state.collapsedCategories.add(c);
+    } else if (activeVisible.length === 1 && activeVisible[0] === cat) {
+      for (const c of visibleCats) state.collapsedCategories.delete(c);
+    } else if (state.collapsedCategories.has(cat)) {
+      state.collapsedCategories.delete(cat);
+    } else {
+      state.collapsedCategories.add(cat);
+    }
+    persistCollapsedCategories(state.collapsedCategories);
+    writeCategoriesToUrl();
+  }
+
+  function renderNowFilters(filtersEl, buckets) {
+    filtersEl.innerHTML = "";
+    const counts = new Map();
+    for (const key of ["incoming", "current", "leaving"]) {
+      for (const it of buckets[key]) counts.set(it.category, (counts.get(it.category) || 0) + 1);
+    }
+    const cats = CATEGORY_ORDER.filter((c) => counts.has(c));
+    if (cats.length === 0) { filtersEl.hidden = true; return; }
+    filtersEl.hidden = false;
+
+    const activeVisible = cats.filter((c) => !state.collapsedCategories.has(c));
+    const hasFilter = activeVisible.length !== cats.length;
+
+    for (const cat of cats) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "now-filter-btn";
+      btn.style.setProperty("--cat-color", CATEGORY_COLORS[cat] || CATEGORY_COLORS.autre);
+      const active = !state.collapsedCategories.has(cat);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+      const dot = document.createElement("span");
+      dot.className = "now-filter-dot";
+      dot.setAttribute("aria-hidden", "true");
+      const label = document.createElement("span");
+      label.textContent = CATEGORY_LABELS[cat];
+      const count = document.createElement("span");
+      count.className = "now-filter-count";
+      count.textContent = counts.get(cat);
+      btn.append(dot, label, count);
+      btn.addEventListener("click", () => {
+        applyFilterClick(cat, cats);
+        syncFromNow();
+      });
+      filtersEl.appendChild(btn);
+    }
+
+    if (hasFilter) {
+      const reset = document.createElement("button");
+      reset.type = "button";
+      reset.className = "now-filter-reset";
+      reset.setAttribute("aria-label", "Effacer les filtres");
+      reset.title = "Effacer les filtres";
+      reset.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M6 6l12 12M18 6l-12 12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      reset.addEventListener("click", () => {
+        for (const c of cats) state.collapsedCategories.delete(c);
+        persistCollapsedCategories(state.collapsedCategories);
+        writeCategoriesToUrl();
+        syncFromNow();
+      });
+      filtersEl.appendChild(reset);
+    }
+  }
+
+  function renderNowSection(seasonality, index, sectionEl) {
+    if (!sectionEl) return;
+    const now = computeNowQuinzaine();
+    let buckets = bucketsFor(seasonality, now.absIdx);
+    if (!state.showExploratory) {
+      const hasRecipes = (id) => (index.ingredients[id]?.recipes || []).length > 0;
+      buckets = {
+        incoming: buckets.incoming.filter((it) => hasRecipes(it.id)),
+        current: buckets.current.filter((it) => hasRecipes(it.id)),
+        leaving: buckets.leaving.filter((it) => hasRecipes(it.id)),
+      };
+    }
+    sectionEl.hidden = false;
+    sectionEl.dataset.nowAbsIdx = String(now.absIdx);
+
+    const filtersEl = sectionEl.querySelector(".now-filters");
+    if (filtersEl) {
+      renderNowFilters(filtersEl, buckets);
+    }
+    buckets = {
+      incoming: buckets.incoming.filter((it) => !state.collapsedCategories.has(it.category)),
+      current: buckets.current.filter((it) => !state.collapsedCategories.has(it.category)),
+      leaving: buckets.leaving.filter((it) => !state.collapsedCategories.has(it.category)),
+    };
+
+    for (const key of ["incoming", "current", "leaving"]) {
+      const c = sectionEl.querySelector(`[data-bucket-count="${key}"]`);
+      if (c) c.textContent = buckets[key].length;
+    }
+
+    const catRank = new Map(CATEGORY_ORDER.map((c, i) => [c, i]));
+    const sortItems = (arr) => arr.slice().sort((a, b) => {
+      if (a.distance !== b.distance) return a.distance - b.distance;
+      const ca = catRank.get(a.category) ?? 99;
+      const cb = catRank.get(b.category) ?? 99;
+      if (ca !== cb) return ca - cb;
+      return a.id.localeCompare(b.id, "fr");
+    });
+
+    for (const key of ["incoming", "current", "leaving"]) {
+      const bucketEl = sectionEl.querySelector(`.now-bucket[data-bucket="${key}"]`);
+      if (!bucketEl) continue;
+      bucketEl.querySelectorAll(".now-chips, .now-empty").forEach((n) => n.remove());
+      const items = sortItems(buckets[key]);
+      bucketEl.dataset.count = String(items.length);
+      if (items.length === 0) {
+        const p = document.createElement("p");
+        p.className = "now-empty";
+        p.textContent = EMPTY_COPY[key];
+        bucketEl.appendChild(p);
+        continue;
+      }
+      const list = document.createElement("div");
+      list.className = "now-chips";
+      for (const item of items) list.appendChild(renderChip(key, item));
+      bucketEl.appendChild(list);
     }
   }
 
@@ -819,6 +1150,27 @@
 
     try {
       const { index, seasonality } = await loadData(root);
+      // Apply category filter from URL param (`cats=fruit,legume,...`). Any
+      // CATEGORY_ORDER value not present in the list is added to the collapsed
+      // set. Absent param → leave state.collapsedCategories untouched (fall
+      // back to localStorage-restored default).
+      try {
+        const raw = new URLSearchParams(location.search).get(CATS_URL_PARAM);
+        if (raw !== null) {
+          const activeSet = new Set(raw.split(",").map((s) => s.trim()).filter(Boolean));
+          for (const c of CATEGORY_ORDER) {
+            if (activeSet.has(c)) state.collapsedCategories.delete(c);
+            else state.collapsedCategories.add(c);
+          }
+          persistCollapsedCategories(state.collapsedCategories);
+        }
+      } catch (_) { /* ignore */ }
+
+      const nowSectionEl = document.getElementById("calendrier-now");
+      renderNowSection(seasonality, index, nowSectionEl);
+      setupNowCollapse(nowSectionEl);
+      refreshNow = () => renderNowSection(seasonality, index, nowSectionEl);
+      syncFromNow = () => { refreshNow(); renderGantt(root, rows); };
       let rows = buildRows(index, seasonality);
       const total = Object.keys(seasonality).length;
 
@@ -846,9 +1198,11 @@
         controlsMount.style.alignItems = "center";
 
         const modeMount = document.createElement("div");
-        const exploreMount = document.createElement("div");
         controlsMount.appendChild(modeMount);
-        controlsMount.appendChild(exploreMount);
+        // The "Avec recettes / Tous" toggle lives in the now-section header so
+        // it visually applies to both the section and the calendar below.
+        const exploreMount = document.getElementById("calendrier-now-controls")
+          || (() => { const d = document.createElement("div"); controlsMount.appendChild(d); return d; })();
 
         modeControl = buildSegmentedToggle(
           modeMount,
@@ -882,6 +1236,7 @@
             exploreControl.setActive(wanted ? "all" : "recipes");
             rows = buildRows(index, seasonality);
             refreshStatus();
+            renderNowSection(seasonality, index, nowSectionEl);
             renderGantt(root, rows);
           }
         );
@@ -892,7 +1247,10 @@
       }
 
       renderGantt(root, rows);
-      window.__calendrier = { index, seasonality, get rows() { return rows; }, state };
+      window.__calendrier = {
+        index, seasonality, get rows() { return rows; }, state,
+        __buckets(date) { return bucketsFor(seasonality, computeNowQuinzaine(date).absIdx); },
+      };
 
       window.addEventListener("resize", debounce(() => {
         // In "wide" mode the SVG has a fixed pixel width so no re-render is

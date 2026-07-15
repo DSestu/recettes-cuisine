@@ -1,71 +1,41 @@
-# TODO — Calendrier des ingrédients
+# Todo — "En ce moment" & "Ça arrive / Dernière chance"
 
-Companion to `plan.md`. Check items off as they land. Do not skip checkpoints.
+Feature spec: `SPEC.md`. Detailed plan: `tasks/plan.md`.
 
-## Phase 0 — Data foundation
+## Phase 1 — Data
 
-- [ ] **T1** Generate `_data/seasonality.yml` seed
-  - [ ] Write `scripts/generate_seasonality_seed.py` (with embedded FR mapping)
-  - [ ] Write `scripts/validate_seasonality.py`
-  - [ ] Run seed generator, hand-review, flag ambiguities for user
-  - [ ] Add validator to `.pre-commit-config.yaml`
-  - [ ] **Checkpoint:** user reviews `_data/seasonality.yml`, approves before continuing
-- [ ] **T2** Ingredient → recipes index
-  - [ ] Write `scripts/generate_ingredient_index.py`
-  - [ ] Emit `assets/data/ingredient_index.json` + `assets/data/seasonality.json`
-  - [ ] Wire into pre-commit
-  - [ ] Verify idempotency
-  - [ ] **Checkpoint:** Phase 0 done — data layer complete
+- [ ] **T1** — Quinzaine math + `bucketsFor(seasonality, nowAbsIdx)` in `assets/js/calendrier.js`. Reuse `TOKEN_RE`, `MONTHS`, `parseSeason`. Handle Dec→Jan wrap. Expose dev hook on `window.__calendrier.__buckets`.
 
-## Phase 1 — Page ships
+## Phase 2 — Walking skeleton
 
-- [ ] **T3** Page skeleton + nav wiring
-  - [ ] Create `calendrier.html` (permalink `/calendrier/`)
-  - [ ] Extend `data-page-kind` switch in `_layouts/default.html`
-  - [ ] Ask user: floating button vs sidebar entry for nav
-  - [ ] Create `assets/js/calendrier.js` (fetch data, log counts)
-  - [ ] Include script in the page
-  - [ ] **Checkpoint:** `/calendrier/` returns 200, console logs data counts
+- [ ] **T2** — Add `<section id="calendrier-now">` above `#calendrier-controls-mount` in `calendrier.html`; empty bucket titles; inline `<style>`. Add `renderNowSection` stub called from `DOMContentLoaded` after `loadData`.
 
-## Phase 2 — Gantt + interactions
+## Phase 3 — First shippable slice (→ CP-A)
 
-- [ ] **T4** D3 Gantt render
-  - [ ] Layout: 24 columns, rows by category
-  - [ ] Bars with intensity → opacity, per-category color
-  - [ ] Current-quinzaine highlight
-  - [ ] Wrap handling (rotate axis so current is leftmost)
-- [ ] **T5** Clic ingrédient → panneau recettes
-  - [ ] Side panel markup + styles
-  - [ ] Click handler → render recipe cards from index
-  - [ ] Close controls (button, click-outside, Escape)
-- [ ] **T6** Filtres
-  - [ ] Multi-select catégories
-  - [ ] Toggle "de saison maintenant"
-  - [ ] Toggle vue mois courant / année
-  - [ ] URL query-param state
-  - [ ] **Checkpoint:** Phase 2 done — main UX validated by user
+- [ ] **T3** — Render chips from `bucketsFor` output. `<a>` chips, category dot, name, proximity tag. `peak` filled, `start`/`end` outlined+hatched. Sort by `distance` then locale id. Empty-bucket placeholder.
+- [ ] **CP-A** — Screenshot at today's date. Confirm bucket membership against `seasonality.json` spot-check.
 
-## Phase 3 — Bonus features
+## Phase 4 — Interactivity (→ CP-B)
 
-- [ ] **T7** Vue inverse "Que cuisiner en [mois]?"
-  - [ ] Compute peak ingredients + 100%-in-season recipes
-  - [ ] Two-panel render
-  - [ ] Mode toggle at top of page
-- [ ] **T8** Export .ics
-  - [ ] Client-side .ics generation with yearly RRULE
-  - [ ] Test import into a calendar app
+- [ ] **T4** — `buildNowUrl(id)` → `/recherche/?mode=tag&tags=<id>&inf=0&mt=0` with baseurl. Set `href` on chips.
+- [ ] **T5** — Category filter toolbar. Union of categories across three buckets in `CATEGORY_ORDER`. Persist hidden set to `localStorage["calendrier.now.categoryFilters"]`. Re-render on toggle.
+- [ ] **T6** — Collapse toggle with `aria-expanded`, `aria-controls`. `max-height` animation, 220 ms. Respect `prefers-reduced-motion`. Persist `localStorage["calendrier.now.collapsed"]`.
+- [ ] **CP-B** — Demo click / filter / collapse. Reload → state restored. Reduced-motion emulation → instant.
 
-## Phase 4 — Polish
+## Phase 5 — Testing affordance
 
-- [ ] **T9** Responsive, a11y, cross-page checks
-  - [ ] Mobile layout (375px) with sticky ingredient column
-  - [ ] `aria-label` on bars, keyboard nav
-  - [ ] Full `jekyll build` clean
-  - [ ] Pre-commit green
-  - [ ] Zero regression on `/recherche/` and `/`
+- [ ] **T7** — `?now=YYYY-MM-DD` override in `computeNowQuinzaine`. Console info when active. Invalid dates ignored.
 
-## Post-MVP (not tracked here)
+## Phase 6 — Polish (→ CP-C)
 
-- Extend tag-management skill to prompt for seasonality when adding an ingredient
-- "De saison" bonus score in advanced search
-- Homepage "sort de saison bientôt" hints
+- [ ] **T8** — Mobile stacking, keyboard order + focus rings, warm French empty-copy, section `aria-label`, remove one decorative element.
+- [ ] **CP-C** — Full manual pass: desktop, mobile, keyboard-only, reduced-motion, Dec→Jan wrap via `?now=2026-12-20` and `?now=2026-01-05`.
+
+## Definition of done
+
+- All chips at today's date match expectation.
+- Chip click reaches `/recherche/` with correct tag + zero tolerance.
+- Filter and collapse state persist across reload; no URL pollution.
+- Reduced-motion respected.
+- No console errors or warnings.
+- Existing calendar behavior unchanged (regression check).
