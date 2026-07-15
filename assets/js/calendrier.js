@@ -636,10 +636,9 @@
         .attr("data-cat", cat.category)
         .attr("transform", `translate(0, ${cat.y})`);
 
-      rightCatG.append("rect")
-        .attr("class", "cal-hdr-bg")
-        .attr("x", 0).attr("y", 0).attr("width", rightWidth).attr("height", GROUP_HEADER_H)
-        .attr("fill", "#fff7ed");
+      // Header row on the right side is left transparent so the current
+      // quinzaine highlight and month divider lines stay continuous across
+      // category boundaries.
 
       const rightRowsWrap = rightCatG.append("g")
         .attr("class", "cal-rows-wrap")
