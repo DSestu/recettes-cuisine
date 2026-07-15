@@ -79,7 +79,7 @@
       {{ content }}
     </main>
 
-    {% unless page.permalink == '/recherche/' or page.url == '/recherche/' %}
+    {% unless page.permalink == '/recherche/' or page.url == '/recherche/' or page.permalink == '/calendrier/' or page.url == '/calendrier/' %}
     <a
       href="{{ site.baseurl }}/recherche/"
       class="fixed bottom-5 right-5 bg-primary text-white rounded-full p-4 shadow-lg hover:scale-105 hover:rotate-3 transition"

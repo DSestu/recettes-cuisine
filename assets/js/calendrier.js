@@ -595,7 +595,17 @@
         .attr("data-cat", cat.category)
         .attr("transform", `translate(0, ${cat.y})`);
 
-      // Header: clickable, contains chevron + colored bar + label.
+      // Colored left "spine". Length encodes collapsed state: header-only when
+      // collapsed, full category height when expanded.
+      const barFullH = GROUP_HEADER_H + cat.contentH;
+      leftCatG.append("rect")
+        .attr("class", `cal-bar cal-bar-${cat.category}`)
+        .attr("x", 0).attr("y", 0).attr("width", 4)
+        .attr("height", cat.collapsed ? GROUP_HEADER_H : barFullH)
+        .attr("fill", color)
+        .attr("pointer-events", "none");
+
+      // Header: clickable label row.
       const leftHdr = leftCatG.append("g")
         .attr("class", "cal-hdr")
         .attr("cursor", "pointer")
@@ -604,28 +614,13 @@
         .style("user-select", "none")
         .on("click", () => toggleCategory(cat.category));
       leftHdr.append("rect")
-        .attr("x", 0).attr("y", 0).attr("width", LABEL_W).attr("height", GROUP_HEADER_H)
+        .attr("x", 4).attr("y", 0).attr("width", LABEL_W - 4).attr("height", GROUP_HEADER_H)
         .attr("fill", "#fff7ed");
-      leftHdr.append("rect")
-        .attr("x", 0).attr("y", 0).attr("width", 4).attr("height", GROUP_HEADER_H)
-        .attr("fill", color);
       leftHdr.append("text")
         .attr("x", 14).attr("y", GROUP_HEADER_H / 2 + 6)
         .attr("fill", "#431407")
-        .attr("font-size", 17).attr("font-weight", 700)
+        .attr("font-size", isMobile ? 13 : 17).attr("font-weight", 700)
         .text(CATEGORY_LABELS[cat.category]);
-      // Chevron on the far right of the header. Rotates 0° when expanded, −90° when collapsed.
-      leftHdr.append("g")
-        .attr("class", `cal-chevron cal-chevron-${cat.category}`)
-        .attr("transform", `translate(${LABEL_W - 20}, ${GROUP_HEADER_H / 2}) rotate(${cat.collapsed ? -90 : 0})`)
-        .attr("pointer-events", "none")
-        .append("path")
-        .attr("d", "M -6 -3 L 0 3 L 6 -3")
-        .attr("fill", "none")
-        .attr("stroke", "#7c2d12")
-        .attr("stroke-width", 2)
-        .attr("stroke-linecap", "round")
-        .attr("stroke-linejoin", "round");
 
       // Rows wrapper — clipped so overflowing rows are hidden during animation.
       const leftRowsWrap = leftCatG.append("g")
@@ -785,9 +780,9 @@
         d3.selectAll(`.cal-clip-rect-${cat.category}`)
           .transition().duration(D).ease(ease)
           .attr("height", cat.contentH);
-        leftSvg.select(`.cal-chevron-${cat.category}`)
+        leftSvg.select(`.cal-bar-${cat.category}`)
           .transition().duration(D).ease(ease)
-          .attr("transform", `translate(${LABEL_W - 20}, ${GROUP_HEADER_H / 2}) rotate(${cat.collapsed ? -90 : 0})`);
+          .attr("height", GROUP_HEADER_H + (cat.collapsed ? 0 : cat.contentH));
       }
     }
   }
