@@ -330,7 +330,7 @@
     const LABEL_PAD_R = 10;
     const BAR_W = showRecipeBar ? 60 : 0;
     const BAR_H = 9;
-    const LABEL_W = isMobile ? 100 : 300;
+    const LABEL_W = isMobile ? 115 : 300;
     const NAME_FONT = isMobile ? 12 : 14;
     const NAME_LINE_H = Math.round(NAME_FONT * 1.15);
     const BAR_X = LABEL_W - LABEL_PAD_R - BAR_W;
