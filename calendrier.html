@@ -919,35 +919,50 @@ title: "Calendrier des ingrédients"
     display: block;
     width: 100%;
     height: 42px;
-    padding: 4px 0;
     position: relative;
   }
   .cal-strip-svg {
     display: block;
     width: 100%;
     height: 100%;
-    position: relative;
-    z-index: 1;
+    position: absolute;
+    inset: 0;
   }
+  .cal-strip-svg-back  { z-index: 1; }
+  .cal-strip-svg-front { z-index: 3; }
   .cal-strip-hatch {
     position: absolute;
-    inset: 4px 0;
+    inset: 0;
     pointer-events: none;
     z-index: 2;
-    background: repeating-linear-gradient(
-      -45deg,
-      transparent 0 4px,
-      var(--hatch-color, #0A2B21) 4px 5.2px
-    );
-    opacity: 0.55;
-    -webkit-mask-image: var(--hatch-mask);
-            mask-image: var(--hatch-mask);
-    -webkit-mask-size: 100% 100%;
-            mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-    -webkit-mask-position: 0 0;
-            mask-position: 0 0;
+    /* Colour source: same 24-stop score-driven gradient the SVG stroke uses.
+       Set inline via JS so each recipe's hatch tracks its own curve colours. */
+    opacity: 0.75;
+    /* Two masks: (1) the area shape under the curve, (2) the diagonal stripe
+       pattern. `mask-composite: intersect` keeps only the intersection — so
+       stripes appear only where both masks are opaque. */
+    -webkit-mask-image:
+      var(--hatch-mask),
+      repeating-linear-gradient(
+        -45deg,
+        black 0 1.4px,
+        transparent 1.4px 5.4px
+      );
+            mask-image:
+      var(--hatch-mask),
+      repeating-linear-gradient(
+        -45deg,
+        black 0 1.4px,
+        transparent 1.4px 5.4px
+      );
+    -webkit-mask-size: 100% 100%, auto;
+            mask-size: 100% 100%, auto;
+    -webkit-mask-repeat: no-repeat, repeat;
+            mask-repeat: no-repeat, repeat;
+    -webkit-mask-position: 0 0, 0 0;
+            mask-position: 0 0, 0 0;
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
   }
   .cal-strip-grid {
     display: grid;

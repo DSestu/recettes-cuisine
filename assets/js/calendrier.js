@@ -1626,8 +1626,10 @@
     { at: 0.5, rgb: [63, 154, 95] },   // #3F9A5F fresh green
     { at: 1.0, rgb: [15, 76, 58] },    // #0F4C3A deep teal-green
   ];
-  // Hatch stroke colour for the diagonal overlay across the filled area.
-  const STRIP_HATCH_COLOR = "#0A2B21";
+  // Hatch colour source is the horizontal score ramp itself (see the
+  // `.cal-strip-hatch` CSS): each stripe takes the palette colour at its
+  // horizontal position so the hatch reads as the same left→right shift as
+  // the curve stroke above it.
   function scoreColor(score) {
     if (score <= 0) return "rgb(234, 221, 208)";
     if (score >= 1) return "rgb(47, 143, 63)";
@@ -1654,8 +1656,16 @@
     const bottom = H - 1;
     const uid = `s${Math.random().toString(36).slice(2, 9)}`;
 
+    // Two stacked SVGs bracket the CSS hatch layer so the paint order is:
+    //   svgBack (area fill)  ←  hatch (CSS)  ←  svgFront (strokes/marker)
+    const svgBack = d3.select(container).append("svg")
+      .attr("class", "cal-strip-svg cal-strip-svg-back")
+      .attr("viewBox", `0 0 ${W} ${H}`)
+      .attr("preserveAspectRatio", "none")
+      .attr("aria-hidden", "true");
+    // Placeholder for the hatch layer — inserted after svgBack, before svgFront.
     const svg = d3.select(container).append("svg")
-      .attr("class", "cal-strip-svg")
+      .attr("class", "cal-strip-svg cal-strip-svg-front")
       .attr("viewBox", `0 0 ${W} ${H}`)
       .attr("preserveAspectRatio", "none")
       .attr("aria-hidden", "true");
@@ -1708,28 +1718,41 @@
       .y1((v) => yFor(v))
       .curve(d3.curveMonotoneX);
 
-    // Colored area fill under the curve.
+    // ── Back layer: colored area fill under the curve ─────────────────
     const areaPath = area(series);
-    svg.append("path")
+    // Duplicate the gradient <defs> in svgBack so the area fill can reference it.
+    svgBack.append("defs").html(
+      `<linearGradient id="grad-back-${uid}" x1="0" x2="1" y1="0" y2="0">${stops.join("")}</linearGradient>`
+    );
+    svgBack.append("path")
       .attr("d", areaPath)
-      .attr("fill", `url(#grad-${uid})`)
+      .attr("fill", `url(#grad-back-${uid})`)
       .attr("opacity", 0.30);
 
-    // Diagonal hatch overlay — mirrors the ingredient calendar's hatch style
-    // (thin 45° strokes). Rendered as an HTML/CSS layer outside the SVG so
-    // the diagonals stay at true 45° on screen instead of distorting under
-    // the SVG's non-uniform preserveAspectRatio="none" stretch. Clipped to
-    // the area shape via a mask-image derived from the same `areaPath`.
+    // ── Middle layer: diagonal hatch (CSS) clipped to the area shape ──
+    // Rendered as an HTML/CSS layer outside the SVG so the diagonals stay at
+    // true 45° on screen instead of distorting under preserveAspectRatio="none".
     const maskSvg =
       `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} ${H}' ` +
       `preserveAspectRatio='none'>` +
       `<path d='${areaPath}' fill='white'/></svg>`;
     const maskUri = `url("data:image/svg+xml;utf8,${encodeURIComponent(maskSvg)}")`;
+
+    // Same 24-stop score-driven gradient the SVG line stroke uses.
+    const cssStops = [];
+    for (let i = 0; i < 24; i++) {
+      const pct = (((i + 0.5) / 24) * 100).toFixed(3);
+      cssStops.push(`${scoreColor(series[i])} ${pct}%`);
+    }
+    const hatchGradient = `linear-gradient(to right, ${cssStops.join(", ")})`;
+
     const hatchLayer = document.createElement("div");
     hatchLayer.className = "cal-strip-hatch";
     hatchLayer.style.setProperty("--hatch-mask", maskUri);
-    hatchLayer.style.setProperty("--hatch-color", STRIP_HATCH_COLOR);
-    container.appendChild(hatchLayer);
+    hatchLayer.style.background = hatchGradient;
+    // Insert between svgBack and svg (the front layer) so paint order is
+    // back → hatch → front.
+    container.insertBefore(hatchLayer, svg.node());
 
     // Curve outline — thicker so it stays legible against the fill.
     svg.append("path")
