@@ -124,12 +124,218 @@
     }
   }
 
+  // Top-level page mode. `ingredients` = ingredient Gantt calendar (existing);
+  // `recettes-de-saison` = ranked recipe list scored by seasonality (new).
+  const AFFICHAGE_URL_PARAM = "affichage";
+  const MODE_INGREDIENTS = "ingredients";
+  const MODE_RECETTES = "recettes-de-saison";
+
+  function initialAffichage() {
+    const fromUrl = new URLSearchParams(location.search).get(AFFICHAGE_URL_PARAM);
+    if (fromUrl === MODE_INGREDIENTS || fromUrl === MODE_RECETTES) return fromUrl;
+    return MODE_INGREDIENTS;
+  }
+
+  function writeAffichageToUrl(mode) {
+    try {
+      const url = new URL(window.location.href);
+      if (mode === MODE_INGREDIENTS) url.searchParams.delete(AFFICHAGE_URL_PARAM);
+      else url.searchParams.set(AFFICHAGE_URL_PARAM, mode);
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
+  // Selected quinzaine for the "recettes de saison" mode. URL-persisted as
+  // `?quinzaine=jul-2`; absent → current fortnight from new Date().
+  const QUINZAINE_URL_PARAM = "quinzaine";
+  const MONTH_LONG_FR = [
+    "janvier", "février", "mars", "avril", "mai", "juin",
+    "juillet", "août", "septembre", "octobre", "novembre", "décembre",
+  ];
+
+  function parseQuinzaine(raw) {
+    if (typeof raw !== "string") return null;
+    const m = /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)-([12])$/.exec(raw.trim());
+    if (!m) return null;
+    return MONTHS.indexOf(m[1]) * 2 + (Number(m[2]) - 1);
+  }
+
+  function formatQuinzaine(idx) {
+    const m = MONTHS[Math.floor(idx / 2)];
+    return `${m}-${(idx % 2) + 1}`;
+  }
+
+  function formatQuinzaineLong(idx) {
+    const half = idx % 2 === 0 ? "Première" : "Deuxième";
+    const month = MONTH_LONG_FR[Math.floor(idx / 2)];
+    return `${half} quinzaine de ${month}`;
+  }
+
+  function initialQuinzaine() {
+    const raw = new URLSearchParams(location.search).get(QUINZAINE_URL_PARAM);
+    const parsed = parseQuinzaine(raw);
+    if (parsed !== null) return parsed;
+    return null; // resolved to current at render time
+  }
+
+  function writeQuinzaineToUrl(idx, isDefault) {
+    try {
+      const url = new URL(window.location.href);
+      if (isDefault) url.searchParams.delete(QUINZAINE_URL_PARAM);
+      else url.searchParams.set(QUINZAINE_URL_PARAM, formatQuinzaine(idx));
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
+  // Temporal categories included in the seasonality scoring for the recipes
+  // mode. URL-persisted as `?categories-saison=legumes,fruits,champignons,coquillages`
+  // (French plural for legibility). Absent → all four active; empty string → none.
+  const CATS_SAISON_URL_PARAM = "categories-saison";
+  const TEMPORAL_CATS_ORDER = [
+    "legume", "fruit", "herbe", "champignon",
+    "poisson", "coquillage", "viande", "fromage",
+  ];
+  const TEMPORAL_CAT_URL = {
+    legume: "legumes",
+    fruit: "fruits",
+    herbe: "herbes",
+    champignon: "champignons",
+    poisson: "poissons",
+    coquillage: "coquillages",
+    viande: "viandes",
+    fromage: "fromages",
+  };
+  const TEMPORAL_CAT_FROM_URL = Object.fromEntries(
+    Object.entries(TEMPORAL_CAT_URL).map(([k, v]) => [v, k])
+  );
+
+  function initialCategoriesSaison() {
+    const raw = new URLSearchParams(location.search).get(CATS_SAISON_URL_PARAM);
+    if (raw === null) return new Set(TEMPORAL_CATS_ORDER);
+    // Empty string → deliberate empty state (all off).
+    if (raw === "") return new Set();
+    const out = new Set();
+    for (const part of raw.split(",")) {
+      const key = TEMPORAL_CAT_FROM_URL[part.trim()];
+      if (key) out.add(key);
+    }
+    // No valid entries in a non-empty string → treat as malformed, fall back
+    // to defaults so a shared bogus URL still loads a usable view.
+    if (out.size === 0) return new Set(TEMPORAL_CATS_ORDER);
+    return out;
+  }
+
+  function writeCategoriesSaisonToUrl(set) {
+    try {
+      const url = new URL(window.location.href);
+      const isDefault = set.size === TEMPORAL_CATS_ORDER.length &&
+        TEMPORAL_CATS_ORDER.every((c) => set.has(c));
+      if (isDefault) {
+        url.searchParams.delete(CATS_SAISON_URL_PARAM);
+      } else {
+        const parts = TEMPORAL_CATS_ORDER
+          .filter((c) => set.has(c))
+          .map((c) => TEMPORAL_CAT_URL[c]);
+        url.searchParams.set(CATS_SAISON_URL_PARAM, parts.join(","));
+      }
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
+  // Whether _components/*.md entries are included alongside _recipes/*.md
+  // in the ranked list. URL-persisted as `?inclure-composants=1`; absent or
+  // `0` → off. Any other value treated as absent.
+  const COMPOSANTS_URL_PARAM = "inclure-composants";
+
+  function initialIncludeComponents() {
+    const raw = new URLSearchParams(location.search).get(COMPOSANTS_URL_PARAM);
+    return raw === "1";
+  }
+
+  function writeIncludeComponentsToUrl(on) {
+    try {
+      const url = new URL(window.location.href);
+      if (on) url.searchParams.set(COMPOSANTS_URL_PARAM, "1");
+      else url.searchParams.delete(COMPOSANTS_URL_PARAM);
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
   const state = {
     showExploratory: initialShowExploratory(),
     layoutMode: initialLayoutMode(),
     collapsedCategories: initialCollapsedCategories(),
     filterIngredient: initialIngredientFilter(),
+    affichage: initialAffichage(),
+    quinzaineIdx: initialQuinzaine(), // null → current at render time
+    activeSeasonCategories: initialCategoriesSaison(),
+    includeComponents: initialIncludeComponents(),
   };
+
+  // Toggle visibility of the two modes' DOM subtrees. Called on init and on
+  // toggle click. Does not touch data loading or renderers.
+  function renderMode() {
+    const ingredientsSections = [
+      document.getElementById("calendrier-now"),
+      document.getElementById("calendrier-controls-mount"),
+      document.getElementById("calendrier-root"),
+    ];
+    const recipesSection = document.getElementById("calendrier-recipes");
+    const showRecipes = state.affichage === MODE_RECETTES;
+    for (const el of ingredientsSections) {
+      if (!el) continue;
+      el.hidden = showRecipes;
+    }
+    if (recipesSection) recipesSection.hidden = !showRecipes;
+
+    const toggle = document.getElementById("calendrier-mode-toggle");
+    if (toggle) {
+      for (const btn of toggle.querySelectorAll(".cal-mode-btn")) {
+        const active = btn.dataset.mode === state.affichage;
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+      }
+    }
+  }
+
+  // Re-hydrate all recipes-mode state from the current URL and re-render.
+  // Called on back/forward navigation so the view always matches the URL.
+  let rehydrateFromUrl = () => {};
+
+  function setupModeToggle() {
+    const toggle = document.getElementById("calendrier-mode-toggle");
+    if (!toggle) return;
+    toggle.addEventListener("click", (ev) => {
+      const btn = ev.target.closest(".cal-mode-btn");
+      if (!btn) return;
+      const mode = btn.dataset.mode;
+      if (mode !== MODE_INGREDIENTS && mode !== MODE_RECETTES) return;
+      if (state.affichage === mode) return;
+      state.affichage = mode;
+      writeAffichageToUrl(mode);
+      renderMode();
+    });
+    window.addEventListener("popstate", () => {
+      const nextAffichage = initialAffichage();
+      state.affichage = nextAffichage;
+      state.quinzaineIdx = initialQuinzaine();
+      state.activeSeasonCategories = initialCategoriesSaison();
+      state.includeComponents = initialIncludeComponents();
+      rehydrateFromUrl();
+      renderMode();
+    });
+  }
 
   function currentQuinzaineIdx() {
     const now = new Date();
@@ -1329,6 +1535,611 @@
     return { index: await indexRes.json(), seasonality: await seasonRes.json() };
   }
 
+  async function loadRecipeSeasonality(recipesEl) {
+    const url = recipesEl?.dataset.urlRecipeSeasonality;
+    if (!url) throw new Error("missing data-url-recipe-seasonality");
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`recipe-seasonality.json → ${res.status}`);
+    return await res.json();
+  }
+
+  // --- Scoring engine (pure) --------------------------------------------
+  // Fortnight index math: (month - 1) * 2 + (day <= 15 ? 0 : 1). Range 0..23.
+  function currentFortnightIdx(date) {
+    const d = date || new Date();
+    return d.getMonth() * 2 + (d.getDate() <= 15 ? 0 : 1);
+  }
+
+  // Score a recipe at a given fortnight, restricted to `activeCategories`.
+  // Returns null when the recipe has no *active* temporal ingredients — the
+  // caller pins such recipes below the ranked list as "Sans contrainte".
+  // Otherwise:
+  //   score        – weighted-in / total          (0..1, tabular-friendly)
+  //   weightedIn   – sum of phase weights this fortnight
+  //   peakCount    – # ingredients at `peak`
+  //   startCount   – # at `start`
+  //   endCount     – # at `end`
+  //   total        – # active temporal ingredients (denominator)
+  //   outOfSeason  – ids of active temporal ingredients with weight 0 here
+  const PHASE_WEIGHTS = { peak: 1.0, start: 0.5, end: 0.5 };
+
+  function scoreRecipe(recipe, fortnightIdx, activeCategories) {
+    const active = recipe.temporal_ingredients.filter(
+      (t) => activeCategories.has(t.category)
+    );
+    if (active.length === 0) return null;
+    const key = String(fortnightIdx);
+    let weightedIn = 0;
+    let peakCount = 0;
+    let startCount = 0;
+    let endCount = 0;
+    const outOfSeason = [];
+    for (const ing of active) {
+      const phase = ing.phases[key];
+      if (phase === "peak") { weightedIn += 1.0; peakCount += 1; }
+      else if (phase === "start") { weightedIn += 0.5; startCount += 1; }
+      else if (phase === "end") { weightedIn += 0.5; endCount += 1; }
+      else { outOfSeason.push(ing.id); }
+    }
+    return {
+      score: weightedIn / active.length,
+      weightedIn,
+      peakCount,
+      startCount,
+      endCount,
+      total: active.length,
+      outOfSeason,
+    };
+  }
+
+  // --- Seasonality strip (signature) ------------------------------------
+  // Smooth spline curve: Y = weighted score at each fortnight, X = 24 slots
+  // spanning the full width so cell boundaries line up with the header's month
+  // grid (every 2 x-steps = 1 month column). Fill is a horizontal gradient
+  // whose stops track the per-fortnight colour along the parchment → mustard
+  // → peak-green ramp.
+
+  // Weighted score in [0..1] per fortnight, restricted to active categories.
+  function scoreSeries(recipe, activeCategories) {
+    const active = recipe.temporal_ingredients.filter(
+      (t) => activeCategories.has(t.category)
+    );
+    const out = new Float32Array(24);
+    if (!active.length) return out;
+    for (let idx = 0; idx < 24; idx++) {
+      const key = String(idx);
+      let w = 0;
+      for (const ing of active) {
+        const p = ing.phases[key];
+        if (p === "peak") w += 1.0;
+        else if (p === "start" || p === "end") w += 0.5;
+      }
+      out[idx] = w / active.length;
+    }
+    return out;
+  }
+
+  // Ripening green ramp (G3): unripe lime → fresh green → deep teal-green.
+  // Reads like a fruit's hue shifting as it matures.
+  const STRIP_STOPS = [
+    { at: 0.0, rgb: [212, 230, 138] }, // #D4E68A unripe lime
+    { at: 0.5, rgb: [63, 154, 95] },   // #3F9A5F fresh green
+    { at: 1.0, rgb: [15, 76, 58] },    // #0F4C3A deep teal-green
+  ];
+  // Hatch stroke colour for the diagonal overlay across the filled area.
+  const STRIP_HATCH_COLOR = "#0A2B21";
+  function scoreColor(score) {
+    if (score <= 0) return "rgb(234, 221, 208)";
+    if (score >= 1) return "rgb(47, 143, 63)";
+    let lo = STRIP_STOPS[0], hi = STRIP_STOPS[STRIP_STOPS.length - 1];
+    for (let i = 0; i < STRIP_STOPS.length - 1; i++) {
+      if (score >= STRIP_STOPS[i].at && score <= STRIP_STOPS[i + 1].at) {
+        lo = STRIP_STOPS[i]; hi = STRIP_STOPS[i + 1]; break;
+      }
+    }
+    const t = (score - lo.at) / (hi.at - lo.at);
+    const r = Math.round(lo.rgb[0] + (hi.rgb[0] - lo.rgb[0]) * t);
+    const g = Math.round(lo.rgb[1] + (hi.rgb[1] - lo.rgb[1]) * t);
+    const b = Math.round(lo.rgb[2] + (hi.rgb[2] - lo.rgb[2]) * t);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function renderStrip(container, series, currentIdx) {
+    container.innerHTML = "";
+    // viewBox uses 24-unit width so points align with the 12-month header grid
+    // (each month = 2 units). Height 20 gives a comfortable curve amplitude.
+    const W = 24;
+    const H = 20;
+    const top = 1.5;
+    const bottom = H - 1;
+    const uid = `s${Math.random().toString(36).slice(2, 9)}`;
+
+    const svg = d3.select(container).append("svg")
+      .attr("class", "cal-strip-svg")
+      .attr("viewBox", `0 0 ${W} ${H}`)
+      .attr("preserveAspectRatio", "none")
+      .attr("aria-hidden", "true");
+
+    // Current-quinzaine marker — a slim dashed rule in deep cocoa. Contrasts
+    // against the monochromatic terracotta strip which would swallow an orange
+    // fill wash.
+    svg.append("line")
+      .attr("x1", currentIdx + 0.5).attr("x2", currentIdx + 0.5)
+      .attr("y1", 0).attr("y2", H)
+      .attr("stroke", "#431407")
+      .attr("stroke-width", 0.6)
+      .attr("stroke-dasharray", "1 1")
+      .attr("opacity", 0.55)
+      .attr("vector-effect", "non-scaling-stroke");
+
+    // Month-boundary hairlines every 2 units (11 rules).
+    for (let c = 2; c < 24; c += 2) {
+      svg.append("line")
+        .attr("x1", c).attr("x2", c)
+        .attr("y1", 0).attr("y2", H)
+        .attr("stroke", "#fed7aa")
+        .attr("stroke-width", 0.15)
+        .attr("vector-effect", "non-scaling-stroke");
+    }
+
+    // Gradient stops — one per fortnight, positioned at the midpoint of the cell
+    // so the colour tracks the curve rather than the cell boundary.
+    const stops = [];
+    for (let i = 0; i < 24; i++) {
+      const pct = ((i + 0.5) / 24) * 100;
+      stops.push(`<stop offset="${pct.toFixed(3)}%" stop-color="${scoreColor(series[i])}"/>`);
+    }
+    svg.append("defs").html(
+      `<linearGradient id="grad-${uid}" x1="0" x2="1" y1="0" y2="0">${stops.join("")}</linearGradient>`
+    );
+
+    // Build the spline. Points at cell midpoints (i + 0.5, y(score)).
+    const xs = [];
+    for (let i = 0; i < 24; i++) xs.push(i + 0.5);
+    const yFor = (v) => bottom - v * (bottom - top);
+
+    const line = d3.line()
+      .x((_, i) => xs[i])
+      .y((v) => yFor(v))
+      .curve(d3.curveMonotoneX);
+    const area = d3.area()
+      .x((_, i) => xs[i])
+      .y0(bottom)
+      .y1((v) => yFor(v))
+      .curve(d3.curveMonotoneX);
+
+    // Colored area fill under the curve.
+    const areaPath = area(series);
+    svg.append("path")
+      .attr("d", areaPath)
+      .attr("fill", `url(#grad-${uid})`)
+      .attr("opacity", 0.30);
+
+    // Diagonal hatch overlay — mirrors the ingredient calendar's hatch style
+    // (thin 45° strokes). Rendered as an HTML/CSS layer outside the SVG so
+    // the diagonals stay at true 45° on screen instead of distorting under
+    // the SVG's non-uniform preserveAspectRatio="none" stretch. Clipped to
+    // the area shape via a mask-image derived from the same `areaPath`.
+    const maskSvg =
+      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} ${H}' ` +
+      `preserveAspectRatio='none'>` +
+      `<path d='${areaPath}' fill='white'/></svg>`;
+    const maskUri = `url("data:image/svg+xml;utf8,${encodeURIComponent(maskSvg)}")`;
+    const hatchLayer = document.createElement("div");
+    hatchLayer.className = "cal-strip-hatch";
+    hatchLayer.style.setProperty("--hatch-mask", maskUri);
+    hatchLayer.style.setProperty("--hatch-color", STRIP_HATCH_COLOR);
+    container.appendChild(hatchLayer);
+
+    // Curve outline — thicker so it stays legible against the fill.
+    svg.append("path")
+      .attr("d", line(series))
+      .attr("fill", "none")
+      .attr("stroke", `url(#grad-${uid})`)
+      .attr("stroke-width", 4)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-linejoin", "round")
+      .attr("vector-effect", "non-scaling-stroke");
+
+    // Full-peak emphasis: the base curve is overlaid with two extra strokes
+    // whose visibility fades in progressively with the score. Both extra
+    // strokes trace the ENTIRE spline (identical shape to the base) and use
+    // a horizontal linear gradient as their mask — the gradient's opacity at
+    // each fortnight midpoint is a nonlinear function of the score there:
+    //   opacity(score) = clamp((score - 0.6) / 0.4, 0, 1) ^ 1.6
+    // so nothing shows below 0.6, and the emphasis ramps in smoothly toward
+    // peak. Between fortnights the linearGradient blends stops naturally,
+    // giving a continuous fade rather than hard edges.
+    if (series.some((v) => v >= 0.6)) {
+      const emph = (score) => {
+        const t = Math.max(0, (score - 0.6) / 0.4);
+        return Math.min(1, t) ** 1.6;
+      };
+      const maskStops = [];
+      for (let i = 0; i < 24; i++) {
+        const pct = ((i + 0.5) / 24) * 100;
+        const op = emph(series[i]).toFixed(3);
+        maskStops.push(
+          `<stop offset="${pct.toFixed(3)}%" stop-color="white" stop-opacity="${op}"/>`
+        );
+      }
+      const maskId = `peak-mask-${uid}`;
+      const maskGradId = `peak-mask-grad-${uid}`;
+      const defs = svg.select("defs");
+      defs.append("linearGradient")
+        .attr("id", maskGradId)
+        .attr("x1", "0").attr("x2", "1").attr("y1", "0").attr("y2", "0")
+        .html(maskStops.join(""));
+      defs.append("mask")
+        .attr("id", maskId)
+        .attr("maskUnits", "userSpaceOnUse")
+        .attr("x", 0).attr("y", 0)
+        .attr("width", W).attr("height", H)
+        .html(`<rect x="0" y="0" width="${W}" height="${H}" fill="url(#${maskGradId})"/>`);
+
+      // Halo — wide, translucent fresh green; visibility ramps with score.
+      svg.append("path")
+        .attr("d", line(series))
+        .attr("fill", "none")
+        .attr("stroke", "#3F9A5F")
+        .attr("stroke-width", 10)
+        .attr("stroke-linecap", "round")
+        .attr("stroke-linejoin", "round")
+        .attr("opacity", 0.32)
+        .attr("mask", `url(#${maskId})`)
+        .attr("vector-effect", "non-scaling-stroke");
+      // Emphasis — thicker deep teal-green stroke, same mask.
+      svg.append("path")
+        .attr("d", line(series))
+        .attr("fill", "none")
+        .attr("stroke", "#0F4C3A")
+        .attr("stroke-width", 6.5)
+        .attr("stroke-linecap", "round")
+        .attr("stroke-linejoin", "round")
+        .attr("mask", `url(#${maskId})`)
+        .attr("vector-effect", "non-scaling-stroke");
+    }
+  }
+
+  // Per-ingredient row rendered like the ingredient calendar: 24 cells across,
+  // solid category colour for `peak`, diagonal hatch for `start` / `end`, empty
+  // otherwise. Month rules every 2 cells; current quinzaine highlighted.
+  function renderIngredientStrip(container, ing, currentIdx) {
+    container.innerHTML = "";
+    const grid = document.createElement("div");
+    grid.className = "cal-strip-grid";
+    const color = CATEGORY_COLORS[ing.category] || CATEGORY_COLORS.autre;
+    for (let c = 0; c < 24; c++) {
+      const cell = document.createElement("div");
+      cell.className = "cal-strip-cell";
+      if (c % 2 === 0 && c > 0) cell.classList.add("cal-strip-cell-month-start");
+      const p = ing.phases[String(c)];
+      if (p) {
+        cell.classList.add(`cal-strip-cell-${p}`);
+        cell.style.setProperty("--cell-color", color);
+      }
+      if (c === currentIdx) cell.classList.add("cal-strip-cell-now");
+      grid.appendChild(cell);
+    }
+    container.appendChild(grid);
+  }
+
+  // --- Renderer ---------------------------------------------------------
+  function formatScore(n) {
+    return n.toFixed(2).replace(".", ","); // French decimal
+  }
+
+  function formatBreakdown(s) {
+    const parts = [];
+    if (s.peakCount) parts.push(`${s.peakCount} pleine`);
+    if (s.startCount) parts.push(`${s.startCount} début`);
+    if (s.endCount) parts.push(`${s.endCount} fin`);
+    const head = parts.length ? parts.join(", ") : "0 en saison";
+    return `${head} / ${s.total}`;
+  }
+
+  function buildBaseurl() {
+    const root = document.getElementById("calendrier-root");
+    return root?.dataset.baseurl || "";
+  }
+
+  // Full-frame layout mirroring the ingredient calendar:
+  //   ┌────────────── (sticky) month header ──────────────┐
+  //   │ Jan │ Feb │ Mar │ … │ Dec │
+  //   ├──────┬─────────────────────────────────────────────┤
+  //   │ RcpA │  cells across 24 fortnights                 │
+  //   │ RcpB │  …                                          │
+  //   └──────┴─────────────────────────────────────────────┘
+  function resolveFortnightIdx() {
+    return state.quinzaineIdx !== null ? state.quinzaineIdx : currentFortnightIdx();
+  }
+
+  function renderQuinzainePicker(mount, data, mountRoot) {
+    mount.innerHTML = "";
+    const idx = resolveFortnightIdx();
+
+    const prev = document.createElement("button");
+    prev.type = "button";
+    prev.className = "cal-recipes-picker-nav";
+    prev.setAttribute("aria-label", "Quinzaine précédente");
+    prev.textContent = "‹";
+
+    const label = document.createElement("div");
+    label.className = "cal-recipes-picker-label";
+    const long = document.createElement("span");
+    long.className = "cal-recipes-picker-long";
+    long.textContent = formatQuinzaineLong(idx);
+    const short = document.createElement("span");
+    short.className = "cal-recipes-picker-short";
+    short.textContent = formatQuinzaine(idx);
+    label.append(long, short);
+
+    const next = document.createElement("button");
+    next.type = "button";
+    next.className = "cal-recipes-picker-nav";
+    next.setAttribute("aria-label", "Quinzaine suivante");
+    next.textContent = "›";
+
+    const step = (delta) => {
+      const cur = resolveFortnightIdx();
+      const nextIdx = ((cur + delta) % 24 + 24) % 24;
+      state.quinzaineIdx = nextIdx;
+      writeQuinzaineToUrl(nextIdx, false);
+      renderRecipesList(data, mountRoot);
+    };
+    prev.addEventListener("click", () => step(-1));
+    next.addEventListener("click", () => step(1));
+
+    mount.append(prev, label, next);
+  }
+
+  function renderCategoryPills(mount, data, mountRoot) {
+    mount.innerHTML = "";
+    const heading = document.createElement("span");
+    heading.className = "cal-recipes-pills-heading";
+    heading.textContent = "Catégories comptées :";
+    mount.appendChild(heading);
+
+    for (const cat of TEMPORAL_CATS_ORDER) {
+      const pill = document.createElement("button");
+      pill.type = "button";
+      pill.className = "cal-recipes-pill";
+      const active = state.activeSeasonCategories.has(cat);
+      pill.dataset.category = cat;
+      pill.setAttribute("aria-pressed", active ? "true" : "false");
+      pill.style.setProperty("--cat-color", CATEGORY_COLORS[cat]);
+      pill.textContent = CATEGORY_LABELS[cat];
+      pill.addEventListener("click", () => {
+        if (state.activeSeasonCategories.has(cat)) {
+          state.activeSeasonCategories.delete(cat);
+        } else {
+          state.activeSeasonCategories.add(cat);
+        }
+        writeCategoriesSaisonToUrl(state.activeSeasonCategories);
+        renderRecipesList(data, mountRoot);
+      });
+      mount.appendChild(pill);
+    }
+  }
+
+  function renderRecipesList(data, mount) {
+    if (!mount) return;
+    const fortnightIdx = resolveFortnightIdx();
+    const activeCategories = state.activeSeasonCategories;
+    const baseurl = buildBaseurl();
+
+    const kindOk = (r) =>
+      r.kind === "recipe" || (state.includeComponents && r.kind === "component");
+    const ranked = [];
+    const pinned = [];
+    for (const recipe of data.recipes) {
+      if (!kindOk(recipe)) continue;
+      const s = scoreRecipe(recipe, fortnightIdx, activeCategories);
+      if (s === null) pinned.push(recipe);
+      else ranked.push({ recipe, s });
+    }
+    ranked.sort((a, b) =>
+      b.s.score - a.s.score || a.recipe.title.localeCompare(b.recipe.title, "fr")
+    );
+    pinned.sort((a, b) => a.title.localeCompare(b.title, "fr"));
+
+    mount.innerHTML = "";
+
+    const picker = document.createElement("div");
+    picker.className = "cal-recipes-picker";
+    renderQuinzainePicker(picker, data, mount);
+    mount.appendChild(picker);
+
+    const pills = document.createElement("div");
+    pills.className = "cal-recipes-pills";
+    renderCategoryPills(pills, data, mount);
+    // Components toggle sits at the end of the pill row.
+    const compWrap = document.createElement("label");
+    compWrap.className = "cal-recipes-comp-toggle";
+    const compBox = document.createElement("input");
+    compBox.type = "checkbox";
+    compBox.checked = state.includeComponents;
+    compBox.addEventListener("change", () => {
+      state.includeComponents = compBox.checked;
+      writeIncludeComponentsToUrl(compBox.checked);
+      renderRecipesList(data, mount);
+    });
+    const compLabel = document.createElement("span");
+    compLabel.textContent = "Inclure les composants";
+    compWrap.append(compBox, compLabel);
+    pills.appendChild(compWrap);
+    mount.appendChild(pills);
+
+    if (activeCategories.size === 0) {
+      const empty = document.createElement("p");
+      empty.className = "cal-recipes-empty";
+      empty.textContent =
+        "Sélectionnez au moins une catégorie pour classer les recettes.";
+      mount.appendChild(empty);
+      // Still show the "sans contrainte" list below — all entries fall into it.
+      const allEntries = data.recipes.filter(
+        (r) => r.kind === "recipe" || (state.includeComponents && r.kind === "component")
+      );
+      allEntries.sort((a, b) => a.title.localeCompare(b.title, "fr"));
+      renderPinnedList(mount, allEntries, baseurl);
+      return;
+    }
+
+    const frame = document.createElement("div");
+    frame.className = "cal-recipes-frame";
+    mount.appendChild(frame);
+
+    // ---- Sticky month header --------------------------------------------
+    const header = document.createElement("div");
+    header.className = "cal-recipes-header";
+    header.appendChild(document.createElement("div")).className = "cal-recipes-header-left";
+    const headerRight = document.createElement("div");
+    headerRight.className = "cal-recipes-header-right";
+    for (let m = 0; m < 12; m++) {
+      const cell = document.createElement("div");
+      cell.className = "cal-recipes-month-cell";
+      cell.textContent = MONTH_LABELS_FR[m];
+      // Alternating month band — matches the ingredient calendar's tint.
+      if (m % 2 === 1) cell.classList.add("cal-recipes-month-cell-alt");
+      headerRight.appendChild(cell);
+    }
+    header.appendChild(headerRight);
+    frame.appendChild(header);
+
+    // ---- Body: one row per recipe ---------------------------------------
+    const body = document.createElement("div");
+    body.className = "cal-recipes-body";
+    for (const { recipe, s } of ranked) {
+      const item = document.createElement("div");
+      item.className = "cal-recipes-item";
+      // Focusable so keyboard users trigger :focus-within on Tab.
+      item.tabIndex = -1;
+
+      const row = document.createElement("div");
+      row.className = "cal-recipes-row";
+
+      const left = document.createElement("a");
+      left.className = "cal-recipes-row-left";
+      left.href = `${baseurl}${recipe.url}`;
+
+      const thumb = document.createElement("img");
+      thumb.className = "cal-recipes-thumb";
+      thumb.loading = "lazy";
+      thumb.decoding = "async";
+      thumb.alt = "";
+      thumb.src = `${baseurl}/images/cards/${recipe.image}.webp`;
+
+      const info = document.createElement("span");
+      info.className = "cal-recipes-info";
+
+      const title = document.createElement("span");
+      title.className = "cal-recipes-title";
+      title.textContent = recipe.title;
+      if (recipe.kind === "component") {
+        const badge = document.createElement("span");
+        badge.className = "cal-recipes-badge";
+        badge.textContent = "composant";
+        title.appendChild(document.createTextNode(" "));
+        title.appendChild(badge);
+      }
+
+      const scoreLine = document.createElement("span");
+      scoreLine.className = "cal-recipes-scoreline";
+      const score = document.createElement("span");
+      score.className = "cal-recipes-score";
+      score.textContent = formatScore(s.score);
+      const meta = document.createElement("span");
+      meta.className = "cal-recipes-meta";
+      meta.textContent = formatBreakdown(s);
+      scoreLine.append(score, meta);
+
+      info.append(title, scoreLine);
+      if (s.outOfSeason.length) {
+        const oos = document.createElement("span");
+        oos.className = "cal-recipes-oos";
+        oos.textContent = `hors saison : ${s.outOfSeason.join(", ")}`;
+        info.appendChild(oos);
+      }
+      left.append(thumb, info);
+      row.appendChild(left);
+
+      const right = document.createElement("div");
+      right.className = "cal-recipes-row-right";
+      const strip = document.createElement("div");
+      strip.className = "cal-strip";
+      renderStrip(strip, scoreSeries(recipe, activeCategories), fortnightIdx);
+      right.appendChild(strip);
+      row.appendChild(right);
+
+      // Pre-rendered per-ingredient block; CSS-only accordion via
+      // `.cal-recipes-item:hover / :focus-within` animates the wrapping grid
+      // from `grid-template-rows: 0fr` to `1fr`.
+      const detailWrap = document.createElement("div");
+      detailWrap.className = "cal-recipes-detail-wrap";
+      const detail = document.createElement("div");
+      detail.className = "cal-recipes-detail";
+      const active = recipe.temporal_ingredients.filter(
+        (t) => activeCategories.has(t.category)
+      );
+      for (const ing of active) {
+        const sub = document.createElement("div");
+        sub.className = "cal-recipes-subrow";
+        const label = document.createElement("div");
+        label.className = "cal-recipes-subrow-left";
+        const dot = document.createElement("span");
+        dot.className = "cal-recipes-subrow-dot";
+        dot.style.setProperty("--cat-color", CATEGORY_COLORS[ing.category] || CATEGORY_COLORS.autre);
+        const name = document.createElement("span");
+        name.className = "cal-recipes-subrow-name";
+        name.textContent = ing.id;
+        label.append(dot, name);
+        const subRight = document.createElement("div");
+        subRight.className = "cal-recipes-subrow-right";
+        const subStrip = document.createElement("div");
+        subStrip.className = "cal-strip cal-strip-mini";
+        renderIngredientStrip(subStrip, ing, fortnightIdx);
+        subRight.appendChild(subStrip);
+        sub.append(label, subRight);
+        detail.appendChild(sub);
+      }
+      detailWrap.appendChild(detail);
+
+      item.append(row, detailWrap);
+      body.appendChild(item);
+    }
+    frame.appendChild(body);
+
+    renderPinnedList(mount, pinned, baseurl);
+  }
+
+  function renderPinnedList(mount, recipes, baseurl) {
+    if (!recipes.length) return;
+    const heading = document.createElement("h3");
+    heading.className = "cal-recipes-pinned-heading";
+    heading.textContent = "Sans contrainte de saison";
+    mount.appendChild(heading);
+
+    const pinnedList = document.createElement("ul");
+    pinnedList.className = "cal-recipes-pinned";
+    for (const recipe of recipes) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.className = "cal-recipes-pinned-link";
+      a.href = `${baseurl}${recipe.url}`;
+      a.textContent = recipe.title;
+      if (recipe.kind === "component") {
+        a.appendChild(document.createTextNode(" "));
+        const badge = document.createElement("span");
+        badge.className = "cal-recipes-badge";
+        badge.textContent = "composant";
+        a.appendChild(badge);
+      }
+      li.appendChild(a);
+      pinnedList.appendChild(li);
+    }
+    mount.appendChild(pinnedList);
+  }
+
   // Segmented toggle mirroring the home page's "recipes per row" selector
   // (see assets/js/cols-selector.js). Sliding indicator + labelled buttons.
   function buildSegmentedToggle(mount, options, ariaLabel, onPick, labelText) {
@@ -1415,6 +2226,9 @@
     const root = document.getElementById("calendrier-root");
     if (!status || !root) return;
 
+    setupModeToggle();
+    renderMode();
+
     try {
       const { index, seasonality } = await loadData(root);
       // Apply category filter from URL param (`cats=fruit,legume,...`). Any
@@ -1436,6 +2250,43 @@
       const nowSectionEl = document.getElementById("calendrier-now");
       renderNowSection(seasonality, index, nowSectionEl);
       setupNowCollapse(nowSectionEl);
+
+      const recipesEl = document.getElementById("calendrier-recipes");
+      if (recipesEl) {
+        try {
+          const recipeSeasonality = await loadRecipeSeasonality(recipesEl);
+          renderRecipesList(recipeSeasonality, recipesEl);
+          rehydrateFromUrl = () => renderRecipesList(recipeSeasonality, recipesEl);
+
+          // Keyboard ←/→ steps the quinzaine picker while recipes mode is
+          // active. Ignores presses whose target is a text field so users can
+          // still type in the ingredient filter (or a future search).
+          document.addEventListener("keydown", (ev) => {
+            if (state.affichage !== MODE_RECETTES) return;
+            if (ev.key !== "ArrowLeft" && ev.key !== "ArrowRight") return;
+            const t = ev.target;
+            if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+            const delta = ev.key === "ArrowLeft" ? -1 : 1;
+            const cur = resolveFortnightIdx();
+            const nextIdx = ((cur + delta) % 24 + 24) % 24;
+            state.quinzaineIdx = nextIdx;
+            writeQuinzaineToUrl(nextIdx, false);
+            renderRecipesList(recipeSeasonality, recipesEl);
+            ev.preventDefault();
+          });
+        } catch (err) {
+          recipesEl.innerHTML = "";
+          const p = document.createElement("p");
+          p.className = "cal-recipes-placeholder";
+          p.textContent = "Erreur de chargement des recettes.";
+          recipesEl.appendChild(p);
+          console.error(err);
+        }
+      }
+
+      // renderNowSection un-hides the now-section unconditionally; re-apply
+      // the mode toggle so recipes mode stays clean.
+      renderMode();
       refreshNow = () => renderNowSection(seasonality, index, nowSectionEl);
       syncFromNow = () => { refreshNow(); renderGantt(root, rows); };
       const computeRows = () =>

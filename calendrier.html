@@ -524,6 +524,500 @@ title: "Calendrier des ingrédients"
     font-style: italic;
     margin: 0;
   }
+
+  /* Mode toggle — segmented control between the two calendrier views. */
+  .cal-mode-toggle {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    margin-bottom: 1.25rem;
+    background: rgb(254 215 170 / 0.5);
+    border: 1px solid rgb(254 215 170);
+    border-radius: 0.6rem;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+  .cal-mode-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: rgb(120 53 15 / 0.75);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.45rem;
+    cursor: pointer;
+    transition: background-color 140ms ease-out, color 140ms ease-out;
+  }
+  .cal-mode-btn:hover { color: rgb(60 20 5); }
+  .cal-mode-btn[aria-selected="true"] {
+    background: white;
+    color: rgb(245 50 0);
+    box-shadow: 0 1px 2px rgb(60 20 5 / 0.08);
+  }
+  .cal-mode-btn:focus-visible {
+    outline: 2px solid rgb(245 50 0 / 0.5);
+    outline-offset: 2px;
+  }
+
+  /* Recettes de saison — Gantt-style frame mirroring the ingredient calendar. */
+  .cal-recipes {
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: rgb(60 20 5);
+    --cal-recipes-label-w: 300px;
+  }
+  .cal-recipes-picker {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding: 0.4rem 0.2rem 1rem 0.2rem;
+    user-select: none;
+  }
+  .cal-recipes-picker-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    flex: 1 1 auto;
+  }
+  .cal-recipes-picker-long {
+    font-family: "Gelica", ui-serif, Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: rgb(60 20 5);
+  }
+  .cal-recipes-picker-short {
+    font-size: 0.75rem;
+    color: rgb(120 53 15 / 0.6);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+    margin-top: 0.2rem;
+  }
+  .cal-recipes-picker-nav {
+    appearance: none;
+    border: 1px solid rgb(254 215 170);
+    background: white;
+    color: rgb(245 50 0);
+    font-size: 1.4rem;
+    line-height: 1;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out;
+    flex: 0 0 auto;
+    align-self: center;
+  }
+  .cal-recipes-picker-nav:hover {
+    background: rgb(245 50 0);
+    color: white;
+    border-color: rgb(245 50 0);
+  }
+  .cal-recipes-picker-nav:focus-visible {
+    outline: 2px solid rgb(245 50 0 / 0.5);
+    outline-offset: 2px;
+  }
+  @media (max-width: 640px) {
+    .cal-recipes-picker-long { font-size: 1.1rem; }
+    .cal-recipes-picker-nav { width: 2rem; height: 2rem; font-size: 1.1rem; }
+  }
+  .cal-recipes-pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0 0.2rem 1rem 0.2rem;
+  }
+  .cal-recipes-pills-heading {
+    font-size: 0.82rem;
+    color: rgb(120 53 15 / 0.75);
+    margin-right: 0.35rem;
+  }
+  .cal-recipes-pill {
+    appearance: none;
+    border: 1px solid color-mix(in srgb, var(--cat-color) 40%, transparent);
+    background: color-mix(in srgb, var(--cat-color) 8%, transparent);
+    color: color-mix(in srgb, var(--cat-color) 85%, black);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, opacity 140ms ease-out;
+  }
+  .cal-recipes-pill[aria-pressed="true"] {
+    background: var(--cat-color);
+    color: white;
+    border-color: var(--cat-color);
+  }
+  .cal-recipes-pill[aria-pressed="false"] {
+    opacity: 0.55;
+    text-decoration: line-through;
+  }
+  .cal-recipes-pill:hover {
+    opacity: 1;
+  }
+  .cal-recipes-pill:focus-visible {
+    outline: 2px solid var(--cat-color);
+    outline-offset: 2px;
+  }
+  .cal-recipes-empty {
+    padding: 1.5rem 0.5rem;
+    color: rgb(120 53 15 / 0.7);
+    font-style: italic;
+  }
+  .cal-recipes-comp-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: auto;
+    font-size: 0.82rem;
+    color: rgb(120 53 15 / 0.85);
+    cursor: pointer;
+    user-select: none;
+  }
+  .cal-recipes-comp-toggle input[type="checkbox"] {
+    accent-color: rgb(245 50 0);
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+  }
+  .cal-recipes-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.05rem 0.35rem;
+    border-radius: 999px;
+    background: rgb(254 215 170 / 0.55);
+    color: rgb(120 53 15 / 0.9);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  @media (max-width: 767px) {
+    .cal-recipes { --cal-recipes-label-w: 130px; }
+  }
+  .cal-recipes-placeholder {
+    color: rgb(120 53 15 / 0.6);
+    font-style: italic;
+    padding: 2rem 0;
+  }
+  .cal-recipes-frame {
+    background: #fff7ed;
+    border: 1px solid rgb(254 215 170);
+    border-radius: 0.4rem;
+    /* No `overflow` here — a scrolling ancestor would trap the sticky
+       month header. `html[data-page-kind="calendrier"]` uses `overflow-x: clip`
+       so the page scroll happens against the viewport. */
+  }
+  .cal-recipes-header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #fff7ed;
+    border-bottom: 1px solid rgb(254 215 170);
+    box-shadow: 0 2px 6px rgb(60 20 5 / 0.05);
+    height: 40px;
+  }
+  .cal-recipes-header-left {
+    flex: 0 0 var(--cal-recipes-label-w);
+    background: #fff7ed;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 0.06);
+  }
+  .cal-recipes-header-right {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .cal-recipes-month-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff7ed;
+    color: #7c2d12;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .cal-recipes-month-cell-alt {
+    background: #ffedd5;
+  }
+  @media (max-width: 767px) {
+    .cal-recipes-header { height: 60px; }
+    .cal-recipes-month-cell {
+      font-size: 12px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+  }
+  .cal-recipes-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .cal-recipes-row {
+    display: flex;
+    align-items: stretch;
+    border-top: 1px solid rgb(254 215 170 / 0.6);
+    min-height: 76px;
+    max-height: 84px;
+  }
+  .cal-recipes-row-left {
+    flex: 0 0 var(--cal-recipes-label-w);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.4rem 0.7rem;
+    text-decoration: none;
+    color: inherit;
+    background: #fff7ed;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 0.06);
+    transition: background-color 140ms ease-out;
+    z-index: 1;
+  }
+  .cal-recipes-thumb {
+    flex: 0 0 auto;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    background: rgb(254 215 170);
+  }
+  .cal-recipes-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  @media (max-width: 767px) {
+    .cal-recipes-thumb { display: none; }
+  }
+  .cal-recipes-row-left:hover { background: #ffedd5; }
+  .cal-recipes-row-left:focus-visible {
+    outline: 2px solid rgb(245 50 0 / 0.5);
+    outline-offset: -2px;
+  }
+  .cal-recipes-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgb(60 20 5);
+    line-height: 1.25;
+    word-break: break-word;
+  }
+  .cal-recipes-scoreline {
+    display: flex;
+    gap: 0.55rem;
+    align-items: baseline;
+    margin-top: 0.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .cal-recipes-score {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgb(245 50 0);
+  }
+  .cal-recipes-meta {
+    font-size: 0.75rem;
+    color: rgb(120 53 15 / 0.75);
+    white-space: nowrap;
+  }
+  .cal-recipes-oos {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.2rem;
+    font-size: 0.72rem;
+    color: rgb(120 53 15 / 0.6);
+    font-style: italic;
+    line-height: 1.25;
+  }
+  .cal-recipes-row-right {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+  /* CSS-only accordion: hover or keyboard focus on the item expands the
+     detail block via `grid-template-rows: 0fr → 1fr`, which animates from 0
+     to the natural content height. On unhover / blur it collapses back. */
+  .cal-recipes-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .cal-recipes-item:hover .cal-recipes-row-right,
+  .cal-recipes-item:focus-within .cal-recipes-row-right {
+    background: rgb(254 215 170 / 0.22);
+  }
+  .cal-recipes-item:focus-within {
+    outline: 2px solid rgb(245 50 0 / 0.35);
+    outline-offset: -2px;
+    border-radius: 0.25rem;
+  }
+  .cal-recipes-detail-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 260ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .cal-recipes-item:hover .cal-recipes-detail-wrap,
+  .cal-recipes-item:focus-within .cal-recipes-detail-wrap {
+    grid-template-rows: 1fr;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cal-recipes-detail-wrap { transition: none; }
+  }
+  .cal-recipes-detail {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #fffaf3;
+    border-top: 1px dashed rgb(254 215 170);
+  }
+  .cal-recipes-subrow {
+    display: flex;
+    align-items: stretch;
+    height: 28px;
+    border-top: 1px solid rgb(254 215 170 / 0.4);
+  }
+  .cal-recipes-subrow:first-child { border-top: 0; }
+  .cal-recipes-subrow-left {
+    flex: 0 0 var(--cal-recipes-label-w);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 0.7rem 0 1rem;
+    background: #fffaf3;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 0.04);
+  }
+  .cal-recipes-subrow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cat-color);
+    flex: 0 0 auto;
+  }
+  .cal-recipes-subrow-name {
+    font-size: 0.78rem;
+    color: rgb(120 53 15 / 0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cal-recipes-subrow-right {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+  .cal-strip-mini { height: 24px !important; padding: 2px 0 !important; }
+  .cal-strip {
+    display: block;
+    width: 100%;
+    height: 42px;
+    padding: 4px 0;
+    position: relative;
+  }
+  .cal-strip-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  .cal-strip-hatch {
+    position: absolute;
+    inset: 4px 0;
+    pointer-events: none;
+    z-index: 2;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent 0 4px,
+      var(--hatch-color, #0A2B21) 4px 5.2px
+    );
+    opacity: 0.55;
+    -webkit-mask-image: var(--hatch-mask);
+            mask-image: var(--hatch-mask);
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: 0 0;
+            mask-position: 0 0;
+  }
+  .cal-strip-grid {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    height: 100%;
+    position: relative;
+  }
+  .cal-strip-cell {
+    position: relative;
+    border-left: 1px solid transparent;
+    margin: 2px 0;
+    background: transparent;
+  }
+  .cal-strip-cell-month-start { border-left-color: rgb(254 215 170); }
+  .cal-strip-cell-peak { background: var(--cell-color); border-radius: 2px; }
+  .cal-strip-cell-start,
+  .cal-strip-cell-end {
+    background:
+      repeating-linear-gradient(
+        45deg,
+        var(--cell-color) 0,
+        var(--cell-color) 1.5px,
+        color-mix(in srgb, var(--cell-color) 12%, transparent) 1.5px,
+        color-mix(in srgb, var(--cell-color) 12%, transparent) 4.5px
+      );
+    border-radius: 2px;
+  }
+  .cal-strip-cell-now { background-color: rgb(249 115 22 / 0.10); }
+  .cal-strip-cell-now.cal-strip-cell-peak,
+  .cal-strip-cell-now.cal-strip-cell-start,
+  .cal-strip-cell-now.cal-strip-cell-end {
+    box-shadow: inset 0 0 0 1.5px rgb(249 115 22 / 0.55);
+  }
+  @media (max-width: 767px) {
+    .cal-recipes-title { font-size: 0.85rem; }
+    .cal-recipes-score { font-size: 0.85rem; }
+    .cal-recipes-meta { font-size: 0.7rem; white-space: normal; }
+  }
+  .cal-recipes-pinned-heading {
+    margin: 1.6rem 0 0.6rem 0;
+    font-family: "Gelica", ui-serif, Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: rgb(120 53 15 / 0.7);
+    letter-spacing: 0.02em;
+  }
+  .cal-recipes-pinned {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+  }
+  .cal-recipes-pinned-link {
+    text-decoration: none;
+    color: rgb(120 53 15 / 0.85);
+    font-size: 0.9rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.3rem;
+    transition: background-color 140ms ease-out;
+  }
+  .cal-recipes-pinned-link::before {
+    content: "· ";
+    color: rgb(120 53 15 / 0.4);
+  }
+  .cal-recipes-pinned-link:hover {
+    background: rgb(254 215 170 / 0.4);
+    color: rgb(60 20 5);
+  }
 </style>
 
 <div class="content w-full md:w-full p-2 md:p-6 md:pl-16">
@@ -536,6 +1030,28 @@ title: "Calendrier des ingrédients"
       Cliquez sur un ingrédient pour voir les recettes correspondantes.
     </p>
   </header>
+
+  <div
+    id="calendrier-mode-toggle"
+    class="cal-mode-toggle"
+    role="tablist"
+    aria-label="Mode d'affichage du calendrier"
+  >
+    <button
+      type="button"
+      role="tab"
+      data-mode="ingredients"
+      class="cal-mode-btn"
+      aria-selected="true"
+    >Ingrédients</button>
+    <button
+      type="button"
+      role="tab"
+      data-mode="recettes-de-saison"
+      class="cal-mode-btn"
+      aria-selected="false"
+    >Recettes de saison</button>
+  </div>
 
   <div id="calendrier-status" class="text-sm text-red-700 mb-4 hidden"></div>
 
@@ -619,6 +1135,16 @@ title: "Calendrier des ingrédients"
       <div class="cal-ing-suggest" role="listbox" hidden></div>
     </div>
   </div>
+
+  <section
+    id="calendrier-recipes"
+    class="cal-recipes"
+    aria-label="Recettes classées par saisonnalité"
+    data-url-recipe-seasonality="{{ site.baseurl }}/assets/data/recipe-seasonality.json"
+    hidden
+  >
+    <p class="cal-recipes-placeholder">Chargement…</p>
+  </section>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>

@@ -1,107 +1,271 @@
-# SPEC — "En ce moment" & "Ça arrive / Dernière chance"
+# SPEC — "Recettes de saison" mode on `/calendrier/`
 
-Feature spec for a new header section on `/calendrier/`. Extends the existing project spec (`SPEC.md`); does not replace it.
+Status: **DRAFT**, awaiting confirmation.
 
 ## 1. Objective
 
-Add a header above the ingredient calendar that surfaces what's actionable *right now* and *very soon*, so a visitor lands on the page and immediately sees what to cook this fortnight and what to plan for.
+Add a second view mode to `/calendrier/`. Today the page renders a Gantt-style calendar
+of *ingredients* over 24 quinzaines; this new mode renders a **ranked list of recipes**
+for a chosen quinzaine, scored by how much of each recipe's produce is currently in
+season. The mode toggle lives at the top of the page.
 
-Target user: a home cook browsing to pick a recipe. They already know how to click ingredients to reach the advanced search; this section shortens the path for the two most common intents — "what's peak now?" and "what should I use up / try next?".
+Target user: home cook browsing "what should I cook right now" — mobile-first. The list
+format survives narrow viewports better than a heatmap alternative.
 
-## 2. Scope
+## 2. Core mechanic
 
-Three-part header, rendered above `#calendrier-controls-mount`:
+For each (recipe, quinzaine) compute a score:
 
-1. **Ça arrive** — ingredients whose season starts within the next 1–2 quinzaines (~1 month) and are not currently in season.
-2. **En ce moment** — ingredients whose current quinzaine token is `start`, `peak`, or `end`.
-3. **Dernière chance** — ingredients currently at `end` that will exit within the next 1–2 quinzaines.
+    score = n_temporal_in_season / n_temporal_total
 
-An ingredient in `end` state appears in **both** "En ce moment" and "Dernière chance"; the overlap is intentional (peak visibility right before it disappears).
+where "temporal ingredients" are the recipe's canonical ingredient tags whose category
+in `_data/seasonality.yml` is in the **temporal set**:
 
-## 3. Data model
+    TEMPORAL_CATEGORIES = { legume, fruit, champignon, coquillage }
 
-Reuse `assets/data/seasonality.json`. Compute the current quinzaine from `new Date()` (month index + `1` if day ≤ 15 else `2`). Parse each entry's `season` string into a `{ monthIdx, half, intensity }` list, then evaluate:
+- Ingredients from other categories (`viande`, `poisson`, `fromage`, `herbe`) and
+  ingredients without a seasonality entry do **not** count in numerator or denominator —
+  they are treated as always available and do not gate the score.
+- **Phase weighting**: `peak` counts as `1.0`, `start` and `end` count as `0.5`. The
+  numerator sums these weights; the denominator sums `1.0` per temporal ingredient
+  regardless of when it's in season. So a recipe with two temporal ingredients — one
+  at `peak`, one at `start` — scores `(1.0 + 0.5) / 2 = 0.75`.
+- If an ingredient has *no* phase token at the selected quinzaine, its weight is `0`.
+- A recipe with `n_temporal_total == 0` gets `score = null` and is pinned below the
+  ranked list under "Sans contrainte de saison".
 
-- **En ce moment**: entry has a token matching the current quinzaine.
-- **Ça arrive**: no token at the current quinzaine, and a `start` token exists at current+1 or current+2 (wrap Dec→Jan).
-- **Dernière chance**: `end` token at current, current+1, or current+2.
+**Dynamic category exclusion.** The user can toggle any of the four temporal categories
+off. When a category is excluded, its ingredients are removed from both numerator and
+denominator (scope narrowing, not recipe filtering — a recipe containing an excluded
+category still appears). If all four are off, the whole list collapses into "Sans
+contrainte" and an empty-state message replaces the ranked section.
 
-Store distance-to-next-state per item so lists sort by proximity ("dans 2 semaines" before "dans 1 mois").
+## 3. UX
 
-## 4. UI
+**Mode toggle** at the top of `/calendrier/`:
 
-Markup mount:
+    [ Ingrédients ]  [ Recettes de saison ]
 
-```
-<section id="calendrier-now">
-  <header>
-    <h2>Cette quinzaine</h2>
-    <div class="now-filters">…category toggles…</div>
-    <button data-collapse-toggle aria-expanded="true">…</button>
-  </header>
-  <div class="now-body" data-collapsed="false">
-    <div class="now-bucket" data-bucket="incoming">…</div>
-    <div class="now-bucket" data-bucket="current">…</div>
-    <div class="now-bucket" data-bucket="leaving">…</div>
-  </div>
-</section>
-```
+**"Recettes de saison" mode layout:**
 
-- Three columns on desktop (`md:grid-cols-3`); stacked on mobile.
-- Each bucket has a title, a short subtitle ("Nouveaux arrivages", "En pleine saison", "Dernière chance avant l'année prochaine"), then a flat list of ingredient chips.
-- Chip: category dot (reuses `CATEGORY_COLORS`) + ingredient name + small proximity tag ("dans 2 sem.", "encore 1 mois"). Inside "En ce moment", `peak` chips are filled; `start`/`end` are outlined with a hatched category dot.
-- **Show everything** — no per-bucket cap.
-- **Category filters** — compact toolbar in the section header with one toggle per category present in the data (reuses `CATEGORY_ORDER` / `CATEGORY_LABELS`). Toggling hides chips of that category across all three buckets. Filter state persists to `localStorage` under `calendrier.now.categoryFilters`. Does not touch the URL. Does not affect the main calendar below.
-- **Collapse** — the whole section is collapsible on both desktop and mobile. Collapsed state persists to `localStorage` under `calendrier.now.collapsed`. Default: expanded. Animate `max-height`; respect `prefers-reduced-motion`.
+    ── Cette quinzaine (jul-2) ──   [ ‹ ] [ › ]
+    Catégories comptées:  [x] légumes  [x] fruits  [x] champignons  [x] coquillages
+    [ ] Inclure les composants (sauces, marinades, etc.)
 
-## 5. Interaction
+    ★★★  Ratatouille                     score 1.00 · 5 pleine saison / 5
+    ★★★  Tarte aux tomates               score 0.95 · 3 pleine, 1 début / 4
+    ★★☆  Salade niçoise                  score 0.75 · 2 pleine, 1 début / 4 — hors saison: câpres
+    ★☆☆  Velouté d'asperges              score 0.25 · 0 pleine, 1 fin / 3 — hors saison: petits pois, fèves
+    ★☆☆  Tajine d'agneau                 score 0.25 · 1 pleine / 4 — hors saison: aubergine, courgette, poivron
+    ─── Sans contrainte de saison ───
+    ·    Aiguillettes de poulet
+    ·    …
 
-- **Chip click** → `/{{ site.baseurl }}/recherche/?tags=<ingredient-id>&tol=0` (same as clicking an ingredient row in the calendar, zero tolerance).
-- **Keyboard** — chips are focusable, `Enter` activates, visible focus ring.
-- **Collapse toggle** — `aria-expanded` and `aria-controls` on the button.
+Details:
+- **Quinzaine picker**: defaults to the current quinzaine (from `new Date()`).
+  Left/right arrows step through 24 quinzaines; keyboard `←` / `→` when the section is
+  focused. Displays the quinzaine as `mmm-N` (e.g. `jul-2`) with a French long-form
+  tooltip ("Deuxième quinzaine de juillet").
+- **Category toggles**: four checkboxes for the temporal categories, all on by default.
+- **"Inclure les composants" toggle**: off by default. When on, sub-recipes from
+  `_components/*.md` are added to the same ranked list, marked with a small "composant"
+  badge. State persists via a URL parameter (see §5).
+- **Row**: title (link to recipe), 0–3 stars (score binned at `< 0.33` = 0★,
+  `< 0.66` = 1★, `< 1.0` = 2★, `= 1.0` = 3★), the numeric score to two decimals, a
+  compact breakdown (`P pleine, S début, E fin / N`), then a muted inline list of the
+  *out-of-season* temporal ingredients. Clicking the row = navigate to the recipe.
+- **Sort**: score desc, then title asc for stable ordering. Recipes with `score = 0`
+  still appear (0★) above the "Sans contrainte" pinned section.
+- **Empty state**: if all four toggles are off, show "Aucune catégorie sélectionnée"
+  and hide the ranked list; keep the pinned section visible.
 
-## 6. Files touched
+Ingredient mode (existing calendar) is untouched.
 
-- `calendrier.html` — mount point `<section id="calendrier-now">` above `#calendrier-controls-mount`.
-- `assets/js/calendrier.js` — new module section: quinzaine math + `renderNowSection(seasonality, ingredientIndex, mountEl)`. Called from the same init path that renders the calendar, so it reuses already-loaded data.
-- `assets/css/*` (or inline `<style>` in `calendrier.html`) — styles for the section, chips, bucket columns, collapse animation.
+## 4. Data flow
 
-No changes to `_data/`, `scripts/`, or the main calendar rendering path.
+Build a static JSON blob at Jekyll build time:
 
-## 7. Code style
+    assets/data/recipe-seasonality.json
 
-- Vanilla JS, no new dependencies. Match the IIFE + `"use strict"` pattern in `calendrier.js`.
-- Reuse existing constants (`MONTHS`, `CATEGORY_ORDER`, `CATEGORY_LABELS`, `CATEGORY_COLORS`, `TOKEN_RE`) — do not duplicate.
-- Tailwind utility classes for layout where the rest of the page uses them; custom CSS only for chip visuals and the collapse animation.
-- French user-facing strings; ASCII canonical ingredient ids in URL params.
+Shape:
 
-## 8. Testing / verification
+    {
+      "fortnights": ["jan-1","jan-2", …, "dec-2"],
+      "temporal_categories": ["legume","fruit","champignon","coquillage"],
+      "phase_weights": { "peak": 1.0, "start": 0.5, "end": 0.5 },
+      "recipes": [
+        {
+          "slug": "ratatouille",
+          "title": "Ratatouille",
+          "url": "/ratatouille/",
+          "kind": "recipe",
+          "temporal_ingredients": [
+            { "id": "tomates",   "category": "legume",
+              "phases": { "10": "peak", "11": "peak", "12": "peak", "13": "peak" } },
+            { "id": "aubergine", "category": "legume",
+              "phases": { "12": "start", "13": "peak", "14": "peak", "15": "end" } },
+            …
+          ]
+        },
+        {
+          "slug": "sauce_aromatique_karaage",
+          "title": "Sauce aromatique pour Karaage",
+          "url": "/composants/sauce_aromatique_karaage/",
+          "kind": "component",
+          "temporal_ingredients": []
+        },
+        …
+      ]
+    }
 
-- Manual, `bundle exec jekyll serve`, open `/calendrier/`. At 2026-07-15 (quinzaine `jul-2`) verify:
-  - "En ce moment" contains e.g. `abricot`, `anchois`, `ail nouveau` (all `jul-2:peak`).
-  - "Ça arrive" contains ingredients whose first `start` token is `aug-1` or `aug-2`.
-  - "Dernière chance" contains ingredients with `end` at `jul-2`, `aug-1`, or `aug-2`.
-- Test wrap-around by temporarily overriding "now" via a dev-only `?now=YYYY-MM-DD` query param (not documented in the UI). Verify Dec→Jan works for both incoming and leaving buckets.
-- Chip click lands on `/recherche/?tags=<id>&tol=0` with the correct ingredient tag applied.
-- Collapse state persists across reload.
-- Category filter persists across reload; does not affect the calendar grid below.
-- `prefers-reduced-motion`: collapse is instant.
-- Mobile (<768px): stacks vertically, chips wrap, no horizontal scroll.
+- `phases` is a map from fortnight index (0..23, string keys since JSON) to phase
+  string (`start` | `peak` | `end`). Absence from the map = ingredient not in season
+  that fortnight (weight = 0).
+- `kind` is `recipe` (from `_recipes/*.md`) or `component` (from `_components/*.md`);
+  the UI toggle in §3 filters on this.
+- Every recipe / component with at least one canonical ingredient tag is included,
+  regardless of whether any of its tags are temporal.
 
-## 9. Boundaries
+**Scoring lives client-side** so category toggles re-score instantly with no network.
+
+Generator: `scripts/generate_recipe_seasonality.py`, uv-managed, `pyyaml` + stdlib
+only. Mirrors the layout of the existing `scripts/generate_seasonality_seed.py`.
+Reads `_recipes/*.md`, `_data/seasonality.yml`, `_data/recipe_tags.yml`. Writes the
+JSON blob. Wired into `.pre-commit-config.yaml` alongside the other generators.
+
+## 5. URL state
+
+Piggyback on the existing URL-as-source-of-truth convention in `calendrier.js`. The
+existing `vue=fit|wide` param is orthogonal (layout mode for the ingredient calendar)
+and must not be repurposed. New parameters use verbose, self-explanatory names so a
+shared / QR-encoded URL is legible.
+
+Params introduced by this feature:
+
+    ?affichage=recettes-de-saison
+        Selects the new mode. When absent (or set to `ingredients`), the page renders
+        the existing ingredient calendar exactly as today. Fully backwards-compatible.
+
+    ?quinzaine=jul-2
+        Selected quinzaine, encoded as `<month3>-<half>`. Valid values: `jan-1`,
+        `jan-2`, `feb-1`, …, `dec-2` (24 total). Absent → current quinzaine derived
+        client-side from `new Date()`. Only meaningful when
+        `affichage=recettes-de-saison`.
+
+    ?categories-saison=legumes,fruits,champignons,coquillages
+        Comma-separated list of temporal categories currently enabled. Values map
+        1:1 to the canonical seasonality categories in `_data/seasonality.yml`
+        (URL uses plural French labels for readability; JS maps them to the canonical
+        singular ASCII ids `legume`, `fruit`, `champignon`, `coquillage`).
+        Absent → all four enabled. Empty string → none enabled (empty-state view).
+
+    ?inclure-composants=1
+        Include `_components/*.md` in the list alongside `_recipes/*.md`. Absent or
+        `0` → only top-level recipes. Any other value → treated as absent.
+
+Behaviour:
+
+- Every state change (mode toggle, quinzaine step, category checkbox, components
+  toggle) writes back to the URL via `history.replaceState` — no navigation, no
+  reload.
+- The existing QR-code regeneration hook fires on every URL write so the on-page
+  QR always encodes the current view.
+- Absent params fall through to sensible defaults; malformed values are ignored
+  (fall back to default). Never throw on bad input.
+- Back-button restores the previous URL and re-renders from URL state — do not
+  cache in-memory state that diverges from the URL.
+
+## 6. Commands
+
+- `bundle exec jekyll serve` — dev server (existing).
+- `docker compose up` — containerised dev (existing).
+- `uv run python scripts/generate_recipe_seasonality.py` — build the JSON blob.
+  Also runs via pre-commit.
+- No new test runner (site has no JS test suite today).
+
+## 7. Project structure
+
+    scripts/generate_recipe_seasonality.py     # new: build-time JSON generator
+    assets/data/recipe-seasonality.json        # new: generated artefact, committed to git
+    calendrier.html                            # modified: mount + inline styles for new mode
+    assets/js/calendrier.js                    # modified: mode switch, list renderer,
+                                               #   category toggles, components toggle,
+                                               #   quinzaine picker, URL sync
+    .pre-commit-config.yaml                    # modified: add hook for the new generator
+
+    _data/seasonality.yml                      # unchanged
+    _data/recipe_tags.yml                      # unchanged
+    _recipes/*.md                              # unchanged
+
+## 8. Code style
+
+- **HTML/CSS in `calendrier.html`**: reuse the existing inline `<style>` conventions
+  and colour tokens already present (`rgb(60 20 5)`, `rgb(245 50 0 / …)`, orange
+  palette). No new CSS framework.
+- **JS in `calendrier.js`**: IIFE + `"use strict"`, vanilla ES, D3 already imported.
+  Reuse existing helpers:
+  - Quinzaine parsing / `TOKEN_RE` / `MONTHS`.
+  - `CATEGORY_ORDER` / `CATEGORY_LABELS` / `CATEGORY_COLORS`.
+  - URL param helpers and QR-regeneration hook already in the file.
+- **Python generator**: Python 3.12, uv PEP-723 script header, `pyyaml` + stdlib only.
+- French user-facing text; canonical ASCII ids in URL params.
+- No JSDoc; no TS.
+
+## 9. Testing strategy
+
+**Python generator**: manual smoke test — run it, spot-check a hand-picked recipe's
+`temporal_ingredients` against `_data/seasonality.yml`. No unit tests unless requested.
+
+**JS (manual browser)** on `/calendrier/?affichage=recettes-de-saison`:
+
+- Desktop wide + mobile narrow.
+- Quinzaine arrows and keyboard `←`/`→`; wrap-around at Dec-2 ↔ Jan-1.
+- Each of the 16 category-toggle combinations at least loads without error; spot-check
+  a few for correct re-scoring.
+- `inclure-composants=1` adds components to the list with the "composant" badge;
+  toggling off removes them without a reload.
+- Recipe with 0 temporal ingredients lands in "Sans contrainte" pinned section.
+- Recipe with mixed phases (some `peak`, some `start`/`end`): score reflects the
+  1.0/0.5 weighting, breakdown shows the correct `P pleine, S début, E fin / N`.
+- At least one recipe per star bucket (0★, 1★, 2★, 3★) appears in the current
+  quinzaine at 2026-07-17.
+- Mode toggle preserves other URL params; back button restores mode.
+- Malformed URL params (`quinzaine=xxx`, `categories-saison=bogus`) fall back to
+  defaults silently.
+- QR code on page updates on every state change and encodes the currently-visible URL.
+
+## 10. Boundaries
 
 **Always:**
-- Compute "now" from `new Date()` client-side; no build-time snapshot.
-- Reuse existing category tokens/colors and the `/recherche/` URL contract (`tags`, `tol`).
-- Keep the section purely additive — no changes to existing calendar behavior.
+- Reuse canonical tag ids (`_data/recipe_tags.yml`); never introduce variant spellings.
+- Keep ingredient mode fully backwards-compatible; all existing URL params and behaviour
+  untouched.
+- Regenerate `assets/data/recipe-seasonality.json` via pre-commit so it can't go stale;
+  the file is committed to git and expected to appear in review diffs when recipes,
+  tags, or seasonality data change.
+- Reuse existing category constants (`CATEGORY_ORDER`, `CATEGORY_LABELS`,
+  `CATEGORY_COLORS`) — do not duplicate.
+- Weight phases as `peak = 1.0`, `start = 0.5`, `end = 0.5`.
 
 **Ask first:**
-- Any change to `seasonality.json` schema or the quinzaine encoding.
-- Adding a new URL parameter to `/calendrier/` or `/recherche/`.
+- Any change to the JSON schema in §4 (new fields, renamed fields, phase weight
+  changes).
+- Any change to the URL parameter names in §5 once implementation has begun.
 - Introducing a JS dependency.
+- Changing where the mode toggle sits on the page or how it looks.
 
 **Never:**
-- Duplicate the seasonality data or category constants.
-- Cap or truncate the lists silently (user chose "show everything").
-- Write collapse or filter state to the URL (localStorage only).
-- Modify the main calendar rendering path.
+- Change recipe frontmatter (`tags`, `ingredients`, `image`).
+- Add heavyweight JS dependencies; D3 + vanilla only.
+- Add a server component; everything static.
+- Auto-filter out recipes containing an excluded category — exclusion is scoring-scope
+  only.
+- Duplicate seasonality data or category constants (share with the ingredient calendar).
+- Modify the existing ingredient-calendar rendering path.
+- Gitignore `assets/data/recipe-seasonality.json` — it is a committed artefact.
+
+---
+
+**Next step:** confirm this spec (or edit inline). On confirmation, break into tasks:
+generator → JSON blob → mode toggle in HTML + JS → list renderer → category toggles
+→ URL sync → QR regeneration → manual test pass.
