@@ -2099,7 +2099,13 @@
       const monthIdx = Math.floor(displaySlots[d * 2] / 2);
       const cell = document.createElement("div");
       cell.className = "cal-recipes-month-cell";
-      cell.textContent = MONTH_LABELS_FR[monthIdx];
+      // Label wrapped in a span so the mobile rotation applies to the TEXT only —
+      // rotating the whole cell would swing its box (and background band) wider
+      // than the column, overlapping neighbours and hiding their text.
+      const lbl = document.createElement("span");
+      lbl.className = "cal-recipes-month-label";
+      lbl.textContent = MONTH_LABELS_FR[monthIdx];
+      cell.appendChild(lbl);
       // Alternating month band keyed to ABSOLUTE month parity, so January stays
       // cream and the tint matches the ingredient calendar regardless of rotation.
       if (monthIdx % 2 === 1) cell.classList.add("cal-recipes-month-cell-alt");
@@ -2271,6 +2277,11 @@
         detail.appendChild(sub);
       }
       detailWrap.appendChild(detail);
+      // Mobile: tapping the ingredient detail collapses the section too.
+      detailWrap.addEventListener("click", () => {
+        if (!window.matchMedia("(max-width: 767px)").matches) return;
+        item.classList.remove("is-expanded");
+      });
 
       item.append(row, detailWrap);
       body.appendChild(item);

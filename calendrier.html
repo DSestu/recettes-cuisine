@@ -748,12 +748,13 @@ title: "Calendrier des ingrédients"
     .cal-recipes-month-cell { font-size: 12px; }
     /* Vertical rotated labels are a FIT-mode trait only. In wide mode the
        month cells are wide enough for horizontal labels (matches the ingredient
-       Gantt's `rotateLabel = isMobile && layoutMode === "fit"`). */
+       Gantt's `rotateLabel = isMobile && layoutMode === "fit"`). Rotate the LABEL
+       (text) only — not the cell — so the cell box + background band stay within
+       their column and don't overlap the neighbours. */
     .cal-recipes-frame:not(.is-wide) .cal-recipes-header { height: 60px; }
-    .cal-recipes-frame:not(.is-wide) .cal-recipes-month-cell {
-      /* Rotate the same direction as the ingredient calendar (rotate(-90deg))
-         rather than writing-mode. */
+    .cal-recipes-frame:not(.is-wide) .cal-recipes-month-label {
       transform: rotate(-90deg);
+      white-space: nowrap;
     }
   }
   .cal-recipes-body {
@@ -970,16 +971,16 @@ title: "Calendrier des ingrédients"
     /* The one and only navigation to the recipe — a prominent CTA button. */
     .cal-recipes-photo-link {
       position: absolute;
-      bottom: 12px;
-      right: 12px;
+      bottom: 10px;
+      right: 10px;
       background: rgb(245 50 0 / 0.96);
       color: #fff;
-      font-size: 0.95rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      padding: 9px 18px;
+      padding: 6px 13px;
       border-radius: 9999px;
       text-decoration: none;
-      box-shadow: 0 2px 10px rgb(0 0 0 / 0.35);
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
     }
     /* When expanded, the photo lives in the banner up top — drop the dim scrim
        image behind the title so it isn't shown twice. */
@@ -991,7 +992,11 @@ title: "Calendrier des ingrédients"
       .cal-recipes-photo-wrap { transition: none; }
     }
   }
-  .cal-recipes-row-left:hover { background: #ffedd5; }
+  /* Desktop-only hover tint; on mobile a lingering tap-hover would replace the
+     scrim+photo background with solid tan and hide the image after collapsing. */
+  @media (hover: hover) {
+    .cal-recipes-row-left:hover { background: #ffedd5; }
+  }
   .cal-recipes-row-left:focus-visible {
     outline: 2px solid rgb(245 50 0 / 0.5);
     outline-offset: -2px;
@@ -1043,9 +1048,13 @@ title: "Calendrier des ingrédients"
     transition: border-color 140ms ease-out;
   }
   .cal-recipes-item.is-expanded::after { border-color: rgb(245 50 0 / 0.9); }
-  .cal-recipes-item:hover .cal-recipes-row-right,
-  .cal-recipes-item:focus-within .cal-recipes-row-right {
-    background: rgb(254 215 170 / 0.22);
+  /* Hover tint behind the graph — desktop only. Gated so tapping on mobile
+     (which can trigger :focus-within) doesn't colour the strip background. */
+  @media (hover: hover) {
+    .cal-recipes-item:hover .cal-recipes-row-right,
+    .cal-recipes-item:focus-within .cal-recipes-row-right {
+      background: rgb(254 215 170 / 0.22);
+    }
   }
   @media (hover: hover) {
     .cal-recipes-item:hover::after,
@@ -1118,6 +1127,24 @@ title: "Calendrier des ingrédients"
     min-width: 0;
   }
   .cal-strip-mini { height: 24px !important; padding: 2px 0 !important; }
+  @media (max-width: 767px) {
+    /* Stack each ingredient: name on its own row, data grid full-width below —
+       so the mini-grids span the same width as the main graph + month header and
+       all fortnight columns line up. */
+    .cal-recipes-subrow {
+      flex-direction: column;
+      align-items: stretch;
+      height: auto;
+    }
+    .cal-recipes-subrow-left {
+      flex: none;
+      width: 100%;
+      padding: 0.25rem 0.6rem 0.1rem;
+      background: transparent;
+      box-shadow: none;
+    }
+    .cal-recipes-subrow-right { width: 100%; }
+  }
   .cal-strip {
     display: block;
     width: 100%;
