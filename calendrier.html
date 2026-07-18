@@ -745,16 +745,87 @@ title: "Calendrier des ingrédients"
     background: #ffedd5;
   }
   @media (max-width: 767px) {
-    .cal-recipes-header { height: 60px; }
-    .cal-recipes-month-cell {
-      font-size: 12px;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
+    .cal-recipes-month-cell { font-size: 12px; }
+    /* Vertical rotated labels are a FIT-mode trait only. In wide mode the
+       month cells are wide enough for horizontal labels (matches the ingredient
+       Gantt's `rotateLabel = isMobile && layoutMode === "fit"`). */
+    .cal-recipes-frame:not(.is-wide) .cal-recipes-header { height: 60px; }
+    .cal-recipes-frame:not(.is-wide) .cal-recipes-month-cell {
+      /* Rotate the same direction as the ingredient calendar (rotate(-90deg))
+         rather than writing-mode. */
+      transform: rotate(-90deg);
     }
   }
   .cal-recipes-body {
     display: flex;
     flex-direction: column;
+    /* Positioned ancestor for the full-height grid backdrop overlay. */
+    position: relative;
+  }
+  /* Continuous grid backdrop across all recipe rows: month-boundary lines and
+     a current-fortnight highlight column, mirroring the ingredient Gantt. Sits
+     behind the transparent strips; offset left past the label column. */
+  .cal-recipes-grid-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--cal-recipes-label-w);
+    right: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cal-recipes-grid-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgb(254 215 170);
+  }
+  .cal-recipes-grid-now {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgb(249 115 22 / 0.10);
+  }
+  /* Horizontal-scroll wrapper around the body. Transparent passthrough in fit;
+     the horizontal scroller in wide. The month header is a frame-level sibling
+     (kept out of this wrapper) so it stays sticky to the viewport vertically. */
+  .cal-recipes-body-scroll { width: 100%; }
+  /* ---- Wide ("Vue large") layout: fixed wide cells + horizontal scroll ---- */
+  .cal-recipes-frame.is-wide .cal-recipes-body-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-header {
+    /* Clipped; JS mirrors bodyScroll.scrollLeft onto this element. */
+    overflow-x: hidden;
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-header-left {
+    position: sticky;
+    left: 0;
+    z-index: 6;
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-header-right {
+    flex: 0 0 var(--cal-grid-w);
+    width: var(--cal-grid-w);
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-body {
+    width: calc(var(--cal-recipes-label-w) + var(--cal-grid-w));
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-row-left,
+  .cal-recipes-frame.is-wide .cal-recipes-subrow-left {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
+  /* Contain the strip's internal layers (svg-back/hatch/svg-front use z-index
+     1/2/3) in their own stacking context BELOW the sticky left panel — without
+     this, svg-front (z-index 3) escapes into the row context and paints over
+     the label when the body is scrolled horizontally. */
+  .cal-recipes-frame.is-wide .cal-recipes-row-right,
+  .cal-recipes-frame.is-wide .cal-recipes-subrow-right {
+    position: relative;
+    z-index: 1;
   }
   .cal-recipes-row {
     display: flex;
@@ -762,6 +833,9 @@ title: "Calendrier des ingrédients"
     border-top: 1px solid rgb(254 215 170 / 0.6);
     min-height: 76px;
     max-height: 84px;
+    /* Paint above the grid overlay; transparent strips let the backdrop show. */
+    position: relative;
+    z-index: 1;
   }
   .cal-recipes-row-left {
     flex: 0 0 var(--cal-recipes-label-w);

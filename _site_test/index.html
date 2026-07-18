@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+
+
+<html class="h-full" data-page-kind="home">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+  <title>
+    DSestu - Recettes de cuisine
+  </title>
+  <meta
+    name="description"
+    content="Plein de recettes de cuisine"
+  />
+
+  <link
+    rel="canonical"
+    href="/recettes-cuisine/"
+  />
+  <link rel="alternate" type="application/rss+xml" title="DSestu - Recettes de cuisine"
+  href="/recettes-cuisine/feed.xml" />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/recettes-cuisine/icons/apple-touch-icon.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/recettes-cuisine/icons/favicon-32x32.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="/recettes-cuisine/icons/favicon-512x512.png"
+  />
+  <link rel="manifest" href="/recettes-cuisine/manifest.json" />
+  <link rel="shortcut icon" href="/recettes-cuisine/icons/favicon.ico" />
+  <meta name="msapplication-TileColor" content="#F53200" />
+  <meta
+    name="msapplication-config"
+    content="/recettes-cuisine/icons/browserconfig.xml"
+  />
+  <meta name="theme-color" content="#F53200" />
+
+  <!-- Facebook Meta Tags -->
+  <meta
+    property="og:url"
+    content="/recettes-cuisine"
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:title"
+    content="DSestu - Recettes de cuisine"
+  />
+  <meta
+    property="og:description"
+    content="Plein de recettes de cuisine"
+  />
+  <meta
+    property="og:image"
+    content="/recettes-cuisine/assets/social.png"
+  />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="dsestu.github.io" />
+  <meta
+    property="twitter:url"
+    content="/recettes-cuisine"
+  />
+  <meta
+    name="twitter:title"
+    content="DSestu - Recettes de cuisine"
+  />
+  <meta
+    name="twitter:description"
+    content="Plein de recettes de cuisine"
+  />
+  <meta
+    name="twitter:image"
+    content="/recettes-cuisine/assets/social.png"
+  />
+
+  <style>
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    @view-transition {
+      navigation: auto;
+      types: home;
+    }
+    .overflow-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .overflow-scroll {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    /* Mobile nav smooth hide/show */
+    .mobile-nav {
+      transition: transform 250ms ease, opacity 200ms ease;
+      will-change: transform, opacity;
+      background: rgba(255, 247, 237, 0.9); /* orange-50 with alpha */
+      backdrop-filter: saturate(160%) blur(10px);
+      -webkit-backdrop-filter: saturate(160%) blur(10px);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .mobile-nav.nav-hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mobile-nav.nav-visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Mobile-only compaction for navbar: smaller bar, icons, and labels */
+    @media (max-width: 767px) {
+      .mobile-nav {
+        padding: 4px 8px;
+        gap: 6px;
+        /* ensure safe-area preserved but tighter */
+        padding-bottom: calc(env(safe-area-inset-bottom) + 4px);
+      }
+      .mobile-nav a {
+        gap: 2px;
+      }
+      .mobile-nav a svg {
+        width: 1.25rem !important; /* ~20px */
+        height: 1.25rem !important;
+      }
+      .mobile-nav a span {
+        font-size: 0.75rem !important; /* ~12px */
+        line-height: 1.05;
+      }
+    }
+
+    /* Desktop: left-edge strip and overlay panel (hover-to-expand) */
+    @media (max-width: 767px) {
+      .desktop-sidebar-wrap {
+        display: contents;
+      }
+      .desktop-sidebar-panel {
+        display: contents;
+      }
+    }
+    @media (min-width: 768px) {
+      .desktop-sidebar-wrap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        z-index: 9990;
+        pointer-events: none;
+      }
+      .desktop-sidebar-wrap * {
+        pointer-events: auto;
+      }
+      #desktop-edge-strip {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 36px;
+        --desktop-strip-intensity: 0;
+        background: linear-gradient(
+          to right,
+          rgba(0, 0, 0, calc(0.42 * var(--desktop-strip-intensity))) 0%,
+          rgba(0, 0, 0, calc(0.15 * var(--desktop-strip-intensity))) 50%,
+          transparent 100%
+        );
+        transition: opacity 0.2s ease;
+        z-index: 9990;
+        opacity: 0;
+        pointer-events: none;
+      }
+      #desktop-edge-strip.desktop-edge-strip--visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded #desktop-edge-strip {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .desktop-sidebar-panel {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 14rem;
+        z-index: 9998;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        transform: translateX(calc(-100% + 16px));
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+      }
+      @media (min-width: 1024px) {
+        .desktop-sidebar-panel {
+          width: 16rem;
+          transform: translateX(calc(-100% + 16px));
+        }
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded .desktop-sidebar-panel {
+        transform: translateX(0);
+      }
+      #desktop-sidebar-open-btn {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 56px;
+        border: none;
+        border-radius: 8px 0 0 8px;
+        background: rgba(255, 247, 237, 0.98);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+        color: #78716c;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      @media (min-width: 768px) {
+        #desktop-sidebar-open-btn {
+          display: flex;
+        }
+      }
+      #desktop-sidebar-open-btn:hover {
+        background: rgba(255, 237, 213, 0.98);
+        color: #57534e;
+      }
+      #desktop-sidebar-open-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+      .desktop-sidebar-panel .mobile-nav {
+        flex: 1;
+        min-width: 0;
+        position: relative;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.25rem;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="/recettes-cuisine/assets/css/tailwind.css" />
+  <style>
+    [data-cols-grid] {
+      grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)) !important;
+    }
+    @media (min-width: 768px) {
+      [data-cols-grid] {
+        grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)) !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    defer
+  ></script>
+
+  <link rel="stylesheet" href="/recettes-cuisine/assets/css/transitions.css" />
+
+  <script>
+    document.addEventListener("keydown", function (e) {
+      if (!(e.key === "f" || e.key === "F")) return;
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.altKey || e.shiftKey) return;
+      const input =
+        document.getElementById("tag-input") ||
+        document.getElementById("home-search") ||
+        document.getElementById("title-search");
+      if (!input) return;
+      e.preventDefault();
+      try {
+        input.focus({ preventScroll: true });
+      } catch (_) {
+        input.focus();
+      }
+      if (typeof input.select === "function") input.select();
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  </script>
+
+  <!-- Speculation Rules: prefetch same-origin pages on hover/touch.
+       Warms the HTTP cache so View Transitions don't pause as long waiting
+       on the destination HTML. Does NOT prerender (prerender activation can
+       bypass cross-document View Transitions in some Chrome versions).
+       Other browsers ignore the script harmlessly. -->
+  <script type="speculationrules">
+    {
+      "prefetch": [
+        {
+          "where": {
+            "and": [
+              { "href_matches": "/*" },
+              { "not": { "href_matches": "/*.xml" } },
+              { "not": { "href_matches": "/*.json" } },
+              { "not": { "selector_matches": "[target='_blank']" } },
+              { "not": { "selector_matches": "[rel~='external']" } }
+            ]
+          },
+          "eagerness": "moderate"
+        }
+      ]
+    }
+  </script>
+
+  <script src="/recettes-cuisine/assets/js/escape-html.js"></script>
+  <script src="/recettes-cuisine/assets/js/transitions.js"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      if (navigator.serviceWorker.controller) {
+        console.log("An active service worker found, no need to register");
+      } else {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("/recettes-cuisine/serviceworker.js", {
+            scope: "./",
+          })
+          .then(function (reg) {
+            console.log(
+              "Service worker has been registered for scope: " + reg.scope
+            );
+          });
+      }
+    }
+  </script>
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@chowdownapp" />
+  <meta name="twitter:creator" content="@clarklab" />
+  
+  <meta name="twitter:title" content="Chowdown" />
+   
+  <meta name="twitter:url" content="/recettes-cuisine/" />
+   
+  <meta name="twitter:description" content="{% assign home_cats_page = site.pages | where: "name", "home_categories.md" | first %}{% if home_cats_page %}  {% assign home_categories = home_cats_page.categories %}{% else %}  {% assign home_cat..." />
+   
+  <meta
+    name="twitter:image:src"
+    content="/recettes-cuisine/assets/social.png"
+  />
+  
+</head>
+
+<div class="desktop-sidebar-wrap" id="desktop-sidebar-wrap">
+  <div id="desktop-edge-strip" class="md:block hidden" aria-hidden="true"></div>
+  <div class="desktop-sidebar-panel">
+    <nav
+      class="mobile-nav nav-visible w-screen md:w-full md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-5 md:gap-3 z-[9999] shadow-3xl md:shadow-none"
+      id="main-nav"
+      aria-expanded="false"
+      style="view-transition-name: vt-nav;"
+    >
+  <a
+    href="/recettes-cuisine/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 text-primary"
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M18 16.25H15V7.5H12V16.25H9V7.5H6V16.25C6 18.9 8.49 21.05 11.625 21.2125V32.5H15.375V21.2125C18.51 21.05 21 18.9 21 16.25V7.5H18V16.25ZM25.5 12.5V22.5H29.25V32.5H33V7.5C28.86 7.5 25.5 10.3 25.5 12.5Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Acceuil</span>
+  </a>
+
+  <a
+    href="/recettes-cuisine/recherche/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 "
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M13 21.5C13 16.8056 16.8056 13 21.5 13C26.1944 13 30 16.8056 30 21.5C30 23.8248 29.0667 25.9315 27.5544 27.4661C27.5392 27.4801 27.5241 27.4946 27.5093 27.5093C27.4946 27.5241 27.4801 27.5392 27.4661 27.5544C25.9315 29.0667 23.8248 30 21.5 30C16.8056 30 13 26.1944 13 21.5ZM28.502 30.6233C26.5628 32.1139 24.1349 33 21.5 33C15.1487 33 10 27.8513 10 21.5C10 15.1487 15.1487 10 21.5 10C27.8513 10 33 15.1487 33 21.5C33 24.1349 32.1139 26.5628 30.6233 28.502L37.5607 35.4393C38.1464 36.0251 38.1464 36.9749 37.5607 37.5607C36.9749 38.1465 36.0251 38.1465 35.4393 37.5607L28.502 30.6233Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Recherche</span>
+  </a>
+  <a
+    href="/recettes-cuisine/calendrier/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 "
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3.5" y="5" width="17" height="15" rx="2" />
+      <path d="M8 3v4" />
+      <path d="M16 3v4" />
+      <path d="M3.5 10h17" />
+      <circle cx="8" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Calendrier</span>
+  </a>
+  <a
+    href="https://github.com/DSestu/recettes-cuisine"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2"
+    target="_blank"
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M24 8C17.9256 8 13 12.9256 13 19V28.5C13 29.8816 11.8816 31 10.5 31C9.67157 31 9 31.6716 9 32.5C9 33.3284 9.67157 34 10.5 34H37.5C38.3284 34 39 33.3284 39 32.5C39 31.6716 38.3284 31 37.5 31C36.1184 31 35 29.8816 35 28.5V19C35 12.9256 30.0744 8 24 8ZM32 28.5C32 29.4003 32.2161 30.25 32.5994 31H15.4006C15.7839 30.25 16 29.4003 16 28.5V19C16 14.5824 19.5824 11 24 11C28.4176 11 32 14.5824 32 19V28.5ZM26.4 36C26.702 36 26.986 36.136 27.176 36.37C27.366 36.604 27.442 36.912 27.38 37.206C27.034 38.85 25.644 40 24.002 40C22.36 40 20.97 38.85 20.624 37.206C20.562 36.912 20.636 36.604 20.826 36.37C21.016 36.136 21.3 36 21.602 36H26.4Z"
+        fill="#212121"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica"
+      >Repository</span
+    >
+  </a>
+
+  <div
+    class="hidden md:flex flex-col items-center gap-3 mt-4 pt-4 border-t border-orange-200"
+  >
+    <p class="text-xs text-orange-900/80 text-center px-2">
+      Accès rapide via QR code
+    </p>
+    <div
+      id="desktop-qr"
+      class="w-full aspect-square rounded-2xl border border-orange-200 shadow-md bg-white overflow-hidden flex items-center justify-center cursor-pointer"
+      role="button"
+      tabindex="0"
+      aria-label="Voir le QR code en grand"
+      title="Voir en grand"
+    ></div>
+    <noscript>
+      <img
+        src="/recettes-cuisine/qr-code.jpg"
+        alt="QR code vers Recettes Cuisine"
+        class="w-full h-auto rounded-2xl border border-orange-200 shadow-md object-cover bg-white mt-2"
+        loading="lazy"
+      />
+    </noscript>
+    <button
+      id="btn-qr-modal-desktop"
+      type="button"
+      class="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-orange-300 bg-white text-orange-900 text-xs hover:bg-orange-50 shadow-sm mt-1"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-4 h-4"
+      >
+        <path
+          d="M3 3h4v4H3V3zm2 2v0h0zm6-2h4v4h-4V3zm2 2v0h0zM3 11h4v4H3v-4zm2 2v0h0zm8-2h4v2h-2v2h2v2h-4v-6zm-4 0h2v2h-2v-2zm0 4h2v2h-2v-2zm8-4h2v2h-2v-2zm0 4h2v4h-4v-2h2v-2z"
+        />
+      </svg>
+      <span>Voir en grand</span>
+    </button>
+  </div>
+</nav>
+    <button type="button" id="desktop-sidebar-open-btn" class="hidden md:flex" aria-label="Ouvrir le menu" title="Ouvrir le menu">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+
+
+  <style>
+    @media (max-width: 767px) {
+      #btn-qr-modal.btn-hidden {
+        opacity: 0;
+        transform: translateY(-140%);
+      }
+      /* Hide QR modal close button on mobile */
+      #qr-modal [data-qr-modal-close] {
+        display: none !important;
+      }
+    }
+    @media (min-width: 768px) {
+      #btn-qr-modal {
+        display: none;
+      }
+    }
+
+    #qr-modal {
+      z-index: 9999; /* ensure overlay is above recipe content and image */
+    }
+
+    #qr-modal.qr-modal-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+
+  <body
+    class="flex min-h-screen w-full font-inter bg-orange-50 text-orange-950"
+  >
+    <main class="relative flex-1 w-full">
+      <button
+        id="btn-qr-modal"
+        type="button"
+        class="fixed top-4 right-4 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
+        title="Afficher le QR code"
+        aria-label="Afficher le QR code"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6 md:size-8"
+        >
+          <path
+            d="M3 3h4v4H3V3zm2 2v0h0zm6-2h4v4h-4V3zm2 2v0h0zM3 11h4v4H3v-4zm2 2v0h0zm8-2h4v2h-2v2h2v2h-4v-6zm-4 0h2v2h-2v-2zm0 4h2v2h-2v-2zm8-4h2v2h-2v-2zm0 4h2v4h-4v-2h2v-2z"
+          />
+        </svg>
+      </button>
+      <button
+        id="toggle-sidebar"
+        class="hidden absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50"
+        title="Afficher/masquer le menu"
+        aria-hidden="true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+      
+
+
+<div class="content w-full md:w-full h-full overflow-scroll bg-orange-50">
+  <div class="px-6 pt-6">
+    <div
+      class="w-full rounded-2xl bg-gradient-to-r from-red-200 to-orange-100 p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+    >
+      <div>
+        <h2 class="font-gelica text-2xl md:text-3xl text-primary">
+          Pas d'idée ? Essayez la recherche avancée
+        </h2>
+        <p class="text-sm text-red-900/80">
+          Filtrez par ingrédients disponibles, tags, et explorez visuellement le
+          catalogue.
+        </p>
+      </div>
+      <a
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:scale-105 hover:rotate-1 transition"
+        href="/recettes-cuisine/recherche/"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Recherche avancée
+      </a>
+    </div>
+  </div>
+
+  <div class="px-6 mt-4">
+    <label for="home-search" class="sr-only">Rechercher une recette</label>
+    <div class="relative max-w-xl">
+      <input
+        id="home-search"
+        type="search"
+        inputmode="search"
+        autocomplete="off"
+        placeholder="Rechercher une recette…"
+        class="w-full rounded-xl border border-red-200/60 bg-white/80 backdrop-blur px-4 py-2 pr-10 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40"
+      />
+      <button
+        id="home-search-clear"
+        type="button"
+        class="absolute right-2 top-1/2 -translate-y-1/2 text-red-900/60 hover:text-primary/90 hidden"
+        aria-label="Effacer la recherche"
+      >
+        ✕
+      </button>
+    </div>
+    <p
+      id="home-search-count"
+      class="text-sm text-red-900/70 mt-2"
+      style="display: none"
+    ></p>
+    <div class="mt-3 flex flex-wrap items-center gap-3">
+      <div
+        id="home-categories"
+        class="flex flex-wrap gap-2 items-center text-sm"
+      ></div>
+      <button
+        id="components-toggle"
+        type="button"
+        class="text-xs px-2 py-1 rounded-full border border-primary/40 bg-primary/5 text-primary hover:bg-primary/10 transition whitespace-nowrap"
+        title="Afficher ou masquer les bases dans les autres catégories"
+      >
+        Bases seulement dans leur section
+      </button>
+      <div id="cols-selector-mount" class="w-full"></div>
+    </div>
+  </div>
+
+  <div class="recipes mb-24 py-8" id="recipes-by-category"></div>
+
+  <!-- components now appear under the \"Bases & composants\" category on the homepage -->
+</div>
+
+<script>
+  const HOME_CATEGORIES = [
+    
+      
+      {
+        id: "Perso",
+        label: "Perso",
+        tags: ["perso"],
+        mode: ""
+      },
+      
+      {
+        id: "condiments",
+        label: "Sauces & condiments",
+        tags: ["condiment"],
+        mode: ""
+      },
+      
+      {
+        id: "starters",
+        label: "Entrées",
+        tags: ["entree"],
+        mode: ""
+      },
+      
+      {
+        id: "pates",
+        label: "Pâtes",
+        tags: ["pates"],
+        mode: ""
+      },
+      
+      {
+        id: "japan",
+        label: "Japon & Asie",
+        tags: ["japon","asiatique"],
+        mode: ""
+      },
+      
+      {
+        id: "main_dishes",
+        label: "Plats principaux",
+        tags: ["plat","plat principal","repas"],
+        mode: ""
+      },
+      
+      {
+        id: "soups",
+        label: "Soupes & veloutés",
+        tags: ["soupe","potage","veloute"],
+        mode: ""
+      },
+      
+      {
+        id: "desserts",
+        label: "Desserts",
+        tags: ["dessert","gateau","tiramisu","tarte","crepes","mousse"],
+        mode: ""
+      },
+      
+      {
+        id: "drinks",
+        label: "Boissons",
+        tags: ["boisson"],
+        mode: ""
+      },
+      
+      {
+        id: "bases",
+        label: "Bases & composants",
+        tags: [],
+        mode: ""
+      },
+      
+      {
+        id: "others",
+        label: "Autres",
+        tags: [],
+        mode: "other"
+      }
+      
+    
+  ];
+
+  const HOME_RECIPES = [
+    
+    
+    {
+      title: "Boulettes de tofu avec sauce Ankake aux champignons",
+      url: "/recettes-cuisine/recipes/%20tofu_meatball_with_mushroom_ankake_sauce.html",
+      tags: ["entrée","japon","voyage","poulet","tofu","poireau japonais","fécule de pomme de terre","sel","saké","boulettes","poêle","vapeur"],
+      images: "tofu_meatball_with_mushroom_ankake_sauce",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Aiguillettes de poulet au miel et au cidre",
+      url: "/recettes-cuisine/recipes/aiguillettes_de_poulet_au_miel_et_au_cidre.html",
+      tags: ["repas","plat","poele","sucre-sale","facile","poulet","miel","cidre","poire","oignon","echalotes","persil","creme","sauce soja","livre","gourmand"],
+      images: "aiguillettes_de_poulet_au_miel_et_au_cidre",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Avoines façon risotto, courge, bleu et noix",
+      url: "/recettes-cuisine/recipes/avoines_facon_risotto_courge_bleu_noix.html",
+      tags: ["repas","plat","plat principal","chaud","automne","hiver","vegetarien","risotto","avoine","butternut","oignon","ail","fourme de montbrison","bleu","fromage","noix","bouillon","vin blanc","huile d'olive"],
+      images: "avoines_facon_risotto_courge_bleu_noix",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Bavette sauce au vin",
+      url: "/recettes-cuisine/recipes/bavette_sauce_au_vin.html",
+      tags: ["repas","plat","plat principal","viande","boeuf","bavette","vin rouge","sauce","fond de veau","beurre","chaud","gourmand"],
+      images: "bavette_sauce_au_vin",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Beignets italiens à la ricotta",
+      url: "/recettes-cuisine/recipes/beignets_italiens_ricotta.html",
+      tags: ["dessert","sestu","beignets","friture","ricotta","farine","sucre","oeufs","lait","huile","levure chimique"],
+      images: "beignets_italiens_ricotta",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Blanquette de veau",
+      url: "/recettes-cuisine/recipes/blanquette_de_veau.html",
+      tags: ["repas","plat","gourmand","chaud","veau","champignons","carottes","celeri","oignon","laurier","creme","beurre","farine","clous de girofle","citron","ciboulette"],
+      images: "blanquette_de_veau",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Bouillon Emilia",
+      url: "/recettes-cuisine/recipes/bouillon_emilia.html",
+      tags: ["ail","bouillon","carottes","céleri","clous de girofle","laurier","oignon","poireaux","pommes de terre","repas","sestu","soupe","thym","tomates","traditionnel","viande","emilia"],
+      images: "bouillon_emilia",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Bûche framboise & mascarpone",
+      url: "/recettes-cuisine/recipes/buche_framboise_mascarpone.html",
+      tags: ["dessert","sestu","buche","framboises","mascarpone","rhum","vanille","farine","oeufs","sucre","sucre glace","levure chimique"],
+      images: "buche_framboise_mascarpone",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Chakchouka aux épinards et choux de Bruxelles",
+      url: "/recettes-cuisine/recipes/chakchouka_epinards_choux_bruxelles.html",
+      tags: ["repas","plat","plat principal","chaud","vegetarien","mediterranee","epinards","choux de bruxelles","oignon","ail","citron","piment vert","coriandre","oeufs","yaourt","sriracha","huile d'olive","cumin","poele"],
+      images: "chakchouka_epinards_choux_bruxelles",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Champignons en salade",
+      url: "/recettes-cuisine/recipes/champignons_en_salade.html",
+      tags: ["salade","champignons","haricots verts","entrée","froid","bocuse","echalote","huile d'arachide","vinaigre de vin","moutarde","sel","poivre","entree"],
+      images: "champignons_en_salade",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Chili con carne",
+      url: "/recettes-cuisine/recipes/chili_con_carne.html",
+      tags: ["repas","plat","gourmand","chaud","boeuf","viande de boeuf hachee","oignon","ail","citron vert","origan","laurier","haricots rouges","pulpe de tomate","concentre de tomate","huile d'olive"],
+      images: "chili_con_carne",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Chouquettes",
+      url: "/recettes-cuisine/recipes/chouquettes.html",
+      tags: ["dessert","beurre","oeufs","farine","sucre","classique","facile","sestu"],
+      images: "chouquettes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Coquilles Saint-Jacques gratinées",
+      url: "/recettes-cuisine/recipes/coquilles_saint_jacques_gratinees.html",
+      tags: ["entree","sestu","saint-jacques","vin blanc","fumet de poisson","bechamel","champignons","gruyere","chapelure","beurre"],
+      images: "coquilles_saint_jacques_gratinees",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Crème brûlée",
+      url: "/recettes-cuisine/recipes/creme_brulee.html",
+      tags: ["dessert","classique","vanille","creme fraiche","sestu","oeufs","sucre","cassonade"],
+      images: "creme_brulee",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Crêpes Broquet",
+      url: "/recettes-cuisine/recipes/crepes_broquet.html",
+      tags: ["dessert","crepes","facile","classique","farine","lait","oeufs","sucre","sucre vanille","levure chimique","broquet"],
+      images: "crepes_broquet",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Croque-madame au saint-nectaire, à l'oignon rouge et aux épinards sautés",
+      url: "/recettes-cuisine/recipes/croque_madame_saint_nectaire_oignon_rouge_epinards_sautes.html",
+      tags: ["repas","plat","chaud","gourmand","vegetarien","oeufs","fromage","epinards","roquette","oignon","citron","huile de sesame","sesame","pain","brioche","saint-nectaire","beurre","salade","poele"],
+      images: "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Curry d'œuf massala",
+      url: "/recettes-cuisine/recipes/curry_oeuf_massala.html",
+      tags: ["repas","plat","plat principal","chaud","vegetarien","asiatique","curry","oeufs","oignon","citron vert","gingembre","ail","piment","coriandre","lait de coco","ghee","tomates","cumin","cardamome","garam massala"],
+      images: "curry_oeuf_massala",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Entremet framboises & mascarpone au kirsch",
+      url: "/recettes-cuisine/recipes/entremet_framboises_mascarpone_kirsch.html",
+      tags: ["dessert","sestu","entremet","genoise","framboises","mascarpone","kirsch","gelatine","miel","vanille","farine","oeufs","sucre"],
+      images: "entremet_framboises_mascarpone_kirsch",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Faux-filet, sauce au poivre",
+      url: "/recettes-cuisine/recipes/faux_fillet_sauce_poivre.html",
+      tags: ["repas","plat","gourmand","chaud","boeuf","champignons","pommes de terre","cerfeuil","beurre","huile d'olive","echalotes"],
+      images: "faux_fillet_sauce_poivre",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Filet de poulet à la crème et aux champignons",
+      url: "/recettes-cuisine/recipes/filet_de_poulet_creme_champignons.html",
+      tags: ["repas","plat","gourmand","chaud","poulet","champignons","oignon","creme","beurre","persil","bouillon de volaille","farine","muscade","sauce worcestershire","huile"],
+      images: "filet_de_poulet_creme_champignons",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Filet mignon sauce chasseur",
+      url: "/recettes-cuisine/recipes/filet_mignon_sauce_chasseur.html",
+      tags: ["plat principal","porc","bacon","choux de bruxelles","pommes de terre","ail","oignons","champignons","chasseur","four","gourmand"],
+      images: "filet_mignon_sauce_chasseur",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Frittata aux petits pois, au poulet et à la menthe",
+      url: "/recettes-cuisine/recipes/frittata_petits_pois_poulet_menthe.html",
+      tags: ["repas","plat","chaud","printemps","oeufs","poulet","petits pois","epinards","oignon","citron","ail","menthe","lait","feta","beurre","huile","mediterranee","four","frittata"],
+      images: "frittata_petits_pois_poulet_menthe",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Galette à la crème de poireau et beaufort",
+      url: "/recettes-cuisine/recipes/galette_creme_de_poireau_beaufort.html",
+      tags: ["repas","plat","chaud","gourmand","oeufs","fromage","beaufort","poireaux","champignons","fromage frais","beurre","galette","sarrasin","poele"],
+      images: "galette_creme_de_poireau_beaufort",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gambas sautées à la persillade et aux pêches",
+      url: "/recettes-cuisine/recipes/gambas_sautees_peche.html",
+      tags: ["plat","marmiton","gambas","peche","citron","ail","echalotes","persil","huile d'olive","ete","rapide","poele"],
+      images: "gambas_sautees_peche",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gateau de riz",
+      url: "/recettes-cuisine/recipes/gateau_de_riz.html",
+      tags: ["sestu","dessert","riz","lait","oeufs","beurre","sucre","rhum","vanille"],
+      images: "gateau_de_riz",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gâteau marbré",
+      url: "/recettes-cuisine/recipes/gateau_marbre.html",
+      tags: ["beurre","chocolat","dessert","farine","gâteau","lait","levure","marbré","oeufs","sestu","sucre"],
+      images: "gateau_marbre",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gnocchi maison à la sauce tomate",
+      url: "/recettes-cuisine/recipes/gnocchi_maison_sauce_tomate.html",
+      tags: ["plat principal","sestu","gnocchi","pomme de terre","beurre","oeufs","gruyere","muscade","bouillon","coulis de tomate","farine"],
+      images: "gnocchi_maison_sauce_tomate",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gratin patate douce, bœuf haché & feta",
+      url: "/recettes-cuisine/recipes/gratin_patate_douce_boeuf_feta.html",
+      tags: ["plat principal","sestu","gratin","patate douce","boeuf","feta","mozzarella","oeufs","lait","ail","oignon","concentre de tomate","origan"],
+      images: "gratin_patate_douce_boeuf_feta",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gratin de pêches à la crème d'amandes",
+      url: "/recettes-cuisine/recipes/gratin_peches_creme_amandes.html",
+      tags: ["dessert","sestu","gratin","peche","poudre d'amande","amandes effilees","creme","maizena","citron vert","sucre vanille","beurre"],
+      images: "gratin_peches_creme_amandes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gratin de pennes et champignons au bouillon",
+      url: "/recettes-cuisine/recipes/gratin_penne_champignons_bouillon.html",
+      tags: ["repas","plat principal","pates","penne","gratin","champignons","epinards","echalotes","ail","parmesan","creme","bouillon","muscade","beurre","farine","huile","four","chaud"],
+      images: "gratin_penne_champignons_bouillon",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Gratinée lyonnaise",
+      url: "/recettes-cuisine/recipes/gratinee_lyonnaise.html",
+      tags: ["repas","soupe","oignon","gruyere","pain","bocuse","beurre","farine","bouquet garni","sel","poivre","madere","oeufs","jaunes d'oeufs"],
+      images: "gratinee_lyonnaise",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Salade de racine de lotus et algue hijiki au miso",
+      url: "/recettes-cuisine/recipes/hijiki.html",
+      tags: ["entrée","japon","voyage","salade","racine de lotus","algue hijiki","tomates","edamame","fèves de soja vertes","dashi","sésame","miso","tomate cerise","casserole"],
+      images: "hijiki",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Joue de bœuf au cidre",
+      url: "/recettes-cuisine/recipes/joue_de_boeuf_au_cidre.html",
+      tags: ["repas","plat","plat principal","chaud","gourmand","hiver","boeuf","oignons","ail","persil","gingembre","bouquet garni","beurre","cidre","bouillon de boeuf","concentre de tomate","farine","huile","poivre","pommes de terre","carottes","lait","huile d'olive"],
+      images: "joue_de_boeuf_au_cidre",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Karaage - Poulet frit japonais avec sauce aromatique",
+      url: "/recettes-cuisine/recipes/karaage.html",
+      tags: ["entrée","japon","voyage","frit","poulet","sauce soja foncée","sauce soja","saké","gingembre","fécule de pomme de terre","vinaigre","mirin","prune salée","radis","pousses de radis","shiso","cuisse de poulet","marinade","friture","dashi"],
+      images: "karaage",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Kinpira Gobo - Racine de bardane et carotte sautées",
+      url: "/recettes-cuisine/recipes/kinpira_gobo.html",
+      tags: ["entrée","japon","voyage","carotte","racine de bardane","huile de sésame","sésame","teriyaki","sauté","sauce teriyaki","légumes","poêle"],
+      images: "kinpira_gobo",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Lapin mijoté aux pommes et au cidre",
+      url: "/recettes-cuisine/recipes/lapin_mijote_pommes_cidre.html",
+      tags: ["repas","plat","plat principal","viande","lapin","pomme","cidre","creme fraiche","thym","romarin","calvados","chaud","automne","gourmand"],
+      images: "lapin_mijote_pommes_cidre",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Lasagnes",
+      url: "/recettes-cuisine/recipes/lasagnes.html",
+      tags: ["sestu","gratin","pâtes","fromage","boeuf","repas","lait","noix de muscade","farine","beurre","sel","poivre","sucre","parmesan","emmental","herbes aromatiques","huile d'olive","ail","oignon","viande de bœuf hachée","pulpe de tomate","tomates fraîches"],
+      images: "lasagnes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Limoncello",
+      url: "/recettes-cuisine/recipes/limoncello.html",
+      tags: ["boisson","citron","sucre","alcool","classique","traditionnel","sestu"],
+      images: "limoncello",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Limoncello tiramisu",
+      url: "/recettes-cuisine/recipes/limoncello_tiramisu.html",
+      tags: ["dessert","tiramisu","mascarpone","citron","limoncello","oeufs","sucre","classique","sestu"],
+      images: "limoncello_tiramisu",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Linguines aux girolles et à la tomate",
+      url: "/recettes-cuisine/recipes/linguines_girolles_tomate.html",
+      tags: ["repas","plat principal","pates","linguines","girolles","tomates","lentilles vertes","oignon","ail","bouquet garni","persil","emmental","gourmand"],
+      images: "linguines_girolles_tomate",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Linguines ricotta, pecorino et guanciale",
+      url: "/recettes-cuisine/recipes/linguines_ricotta_pecorino_et_guanciale.html",
+      tags: ["plat","plat principal","pates","ricotta","pecorino","guanciale","basilic","huile d'olive","fromage","rapide","repas","sel","poivre"],
+      images: "linguines_ricotta_pecorino_et_guanciale",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Magret de canard, clémentines de Corse et purée de butternut",
+      url: "/recettes-cuisine/recipes/magret_de_canard_clementines_corse_puree_de_butternut.html",
+      tags: ["plat","plat principal","viande","canard","clementine","agrumes","butternut","puree","noisettes","miel","biere","vinaigre","fond","muscade","thym","sel","poivre"],
+      images: "magret_de_canard_clementines_corse_puree_de_butternut",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Magret à l'orange et kumquat",
+      url: "/recettes-cuisine/recipes/magret_orange_kumquat.html",
+      tags: ["repas","plat","plat principal","chaud","gourmand","sucre-sale","canard","pommes de terre","orange","kumquat","agrumes","ail","persil","vin blanc","vinaigre balsamique","miel","huile d'olive","poele","four"],
+      images: "magret_orange_kumquat",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Magret sauce fruitée",
+      url: "/recettes-cuisine/recipes/magret_sauce_fruitee.html",
+      tags: ["repas","plat","plat principal","chaud","gourmand","sucre-sale","canard","carottes","clementine","orange","agrumes","echalotes","beurre","creme fraiche","vin blanc","vinaigre balsamique","gelee de cerise","fruits","poele","puree"],
+      images: "magret_sauce_fruitee",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Maquereaux marinés",
+      url: "/recettes-cuisine/recipes/maquereaux_marines.html",
+      tags: ["poisson","maquereau","marinade","plat","froid","bocuse","sel","poivre","vin blanc","vinaigre","carottes","oignon","thym","laurier","citron"],
+      images: "maquereaux_marines",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Meringue aux amandes",
+      url: "/recettes-cuisine/recipes/meringue_aux_amandes.html",
+      tags: ["dessert","amandes","oeufs","sucre","classique","facile","sestu"],
+      images: "meringue_aux_amandes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Minestrone",
+      url: "/recettes-cuisine/recipes/minestrone.html",
+      tags: ["soupe","chou","lardons","saucisse de morteau","carottes","lentilles corail","poireaux","orge perlé","épeautre","oignon","ail","pommes de terre","tomates","légumes","sestu"],
+      images: "minestrone",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Moelleux au chocolat",
+      url: "/recettes-cuisine/recipes/moelleux_au_chocolat.html",
+      tags: ["beurre","chocolat","dessert","facile","fondant","gâteau","oeufs","rapide","sestu","sucre"],
+      images: "moelleux_au_chocolat",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Moelleux à la poire et à la frangipane",
+      url: "/recettes-cuisine/recipes/moelleux_poire_frangipane.html",
+      tags: ["dessert","gateau","frangipane","poire","amandes","amandes effilees","poudre d'amande","oeufs","yaourt","beurre","farine","sucre","levure chimique","four","automne","hiver"],
+      images: "moelleux_poire_frangipane",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Mousse au citron Broquet",
+      url: "/recettes-cuisine/recipes/mousse_au_citron_broquet.html",
+      tags: ["dessert","mousse","citron","agrumes","sucre","sucre vanille","maizena","oeufs","froid","facile","broquet"],
+      images: "mousse_au_citron_broquet",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Nouilles de riz complet sautées express",
+      url: "/recettes-cuisine/recipes/nouilles_riz_complet_sautee_express.html",
+      tags: ["repas","plat","chaud","rapide","asiatique","nouilles","oeufs","oignon","sauce soja","vinaigre de riz","huile de sesame","huile","poivre"],
+      images: "nouilles_riz_complet_sautee_express",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Œufs à la crème",
+      url: "/recettes-cuisine/recipes/oeuf_a_la_creme.html",
+      tags: ["repas","entree","chaud","mediterranee","oeufs","yaourt","citron","menthe","pain","ail","huile d'olive","ghee","vinaigre","paprika","zaatar"],
+      images: "oeuf_a_la_creme",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Œuf en croûte de pain au fromage",
+      url: "/recettes-cuisine/recipes/oeuf_en_croute_de_pain_au_fromage.html",
+      tags: ["repas","plat principal","pain","fromage","tomme de savoie","cantal","fromage blanc","oeufs","lait","beurre","farine","levure de boulanger deshydratee","persil","four","gourmand"],
+      images: "oeuf_en_croute_de_pain_au_fromage",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Œufs en meurette",
+      url: "/recettes-cuisine/recipes/oeuf_en_meurette.html",
+      tags: ["repas","entree","chaud","traditionnel","classique","oeufs","lard","champignons","oignon","ail","bouquet garni","beurre","vin rouge","vinaigre","farine","sucre","pain","croutons"],
+      images: "oeuf_en_meurette",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Okonomiyaki",
+      url: "/recettes-cuisine/recipes/okonomiyaki.html",
+      tags: ["japon","voyage","repas","crevettes","chou","dashi","oeufs","farine a gateau","flocons de tempura","gingembre rouge","sauce okonomiyaki","algue sechee","aonori","frit","poele"],
+      images: "okonomiyaki",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Osso-buco et polenta crémeuse",
+      url: "/recettes-cuisine/recipes/osso_buco_polenta_cremeuse.html",
+      tags: ["repas","plat","plat principal","chaud","gourmand","mediterranee","veau","oignons","ail","thym","laurier","tomates","bouillon de volaille","vin blanc","huile","citron","persil","creme","parmesan","polenta","four"],
+      images: "osso_buco_polenta_cremeuse",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Pappardelles aux champignons, bleu, comté et poulet",
+      url: "/recettes-cuisine/recipes/pappardelles_champignons_bleu_comte_poulet.html",
+      tags: ["repas","plat principal","pates","pappardelles","poulet","champignons","echalotes","ciboulette","bleu","comte","creme fraiche","beurre","gourmand"],
+      images: "pappardelles_champignons_bleu_comte_poulet",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Pâtes crémeuses à la courge rôtie, à l'ail et à la sauge",
+      url: "/recettes-cuisine/recipes/pates_courge_ail_sauge.html",
+      tags: ["repas","plat principal","pates","pates fraiches","butternut","ail","sauge","pancetta","parmesan","mascarpone","ricotta","huile d'olive","four","automne","gourmand"],
+      images: "pates_courge_ail_sauge",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Pâtes sauce tomate",
+      url: "/recettes-cuisine/recipes/pates_sauce_tomate.html",
+      tags: ["repas","plat principal","pates","tomates","boeuf","viande","oignon","basilic","perso"],
+      images: "pates_sauce_tomate",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Pavé d'agneau et girolles au beurre d'estragon",
+      url: "/recettes-cuisine/recipes/pave_agneau_girolles_beurre_estragon.html",
+      tags: ["repas","plat principal","viande","agneau","girolles","echalotes","estragon","beurre","huile d'olive","automne","gourmand"],
+      images: "pave_agneau_girolles_beurre_estragon",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Pomme de terre farcie aux rillettes de thon",
+      url: "/recettes-cuisine/recipes/pomme_de_terre_farcie_aux_rillettes_de_thon.html",
+      tags: ["repas","plat","facile","four","pommes de terre","thon","poisson","fromage frais","ciboulette","persil","citron","huile d'olive","gourmand","livre"],
+      images: "pomme_de_terre_farcie_aux_rillettes_de_thon",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Potage au concombre",
+      url: "/recettes-cuisine/recipes/potage_au_concombre.html",
+      tags: ["repas","soupe","concombre","yaourt","noix","froid","bocuse","ciboulette","ail","huile d'olive","sel","poivre"],
+      images: "potage_au_concombre",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Potage Dubarry",
+      url: "/recettes-cuisine/recipes/potage_de_chou-fleur.html",
+      tags: ["repas","soupe","chou-fleur","pommes de terre","creme fraiche","bocuse","beurre","lait","bouillon blanc","sel","cerfeuil","croûtons"],
+      images: "potage_de_chou-fleur",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Poulet curry",
+      url: "/recettes-cuisine/recipes/poulet_curry.html",
+      tags: ["repas","poulet","curry","riz","oignon","sauce huitre","poivre","piment d'espelette","creme fraiche","perso"],
+      images: "poulet_curry",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Boulettes poulet Yakitori",
+      url: "/recettes-cuisine/recipes/poulet_yakitori.html",
+      tags: ["chapelure","japon","oignon","poulet","repas","sauce","sestu","yakitori","miel"],
+      images: "poulet_yakitori",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Pounchkis (beignets fourrés)",
+      url: "/recettes-cuisine/recipes/pounchkis.html",
+      tags: ["beignets","beurre","blanc d'oeuf","chocolat","confiture","dessert","farine","friture","huile de friture","jaunes d'oeufs","lait","levure","levure de boulanger déshydratée","margarine","oeufs","pâte levée","sel","sestu","sucre","sucre en poudre","sucre semoule"],
+      images: "pounchkis",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Punch frais",
+      url: "/recettes-cuisine/recipes/punch.html",
+      tags: ["apéritif","boisson","cocktail","été","frais","fruits","jus d'ananas","jus d'orange","jus de banane","jus de citron vert","jus de goyave","poivre","punch","rhum","sucre de canne","vanille","vanille liquide","sestu"],
+      images: "punch",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Quatre quart Emilia",
+      url: "/recettes-cuisine/recipes/quatre_quart_emilia.html",
+      tags: ["quatre-quarts","gâteau","dessert","sucre","farine","oeufs","huile","sucre vanillé","levure","fruits","sestu","emilia"],
+      images: "quatre_quart_emilia",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Ramen maison",
+      url: "/recettes-cuisine/recipes/ramen_maison.html",
+      tags: ["plat principal","ramen","nouilles","pâtes fraîches","farine à pain","porc","char siu","soupe","bouillon","japon","voyage","fait maison","saké","mirin","sauce soja","gingembre","ail","chou","pousses de soja","saindoux","fond chinois","dashi"],
+      images: "ramen_maison",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Raviolis sestu (WIP)",
+      url: "/recettes-cuisine/recipes/raviolis_sestu.html",
+      tags: ["plat principal","pates","ricotta","pommes de terre","parmesan","sestu","noix de muscade","oignons","echalotes","perso"],
+      images: "raviolis_sestu",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Ribs sauce à l'orange",
+      url: "/recettes-cuisine/recipes/ribs_sauce_orange.html",
+      tags: ["plat","plat principal","porc","viande","four","orange","agrumes","sucre-sale","gourmand","repas","fait maison"],
+      images: "ribs_sauce_orange",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Risotto aux gambas et chorizo à la sauce tomate",
+      url: "/recettes-cuisine/recipes/risoto_gambas_chorizo_sauce_tomate.html",
+      tags: ["repas","plat","plat principal","chaud","gourmand","risotto","riz","crevettes","chorizo","oignon","basilic","persil","parmesan","beurre","bouillon","pulpe de tomate","vin blanc","huile d'olive","mediterranee"],
+      images: "risoto_gambas_chorizo_sauce_tomate",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Risotto aux champignons et aux châtaignes",
+      url: "/recettes-cuisine/recipes/risotto_aux_champignons_et_aux_chataignes.html",
+      tags: ["plat","plat principal","risotto","champignons","chataigne","oignon","ail","parmesan","beurre","bouillon","riz","vin blanc","huile d'olive","repas","casserole"],
+      images: "risotto_aux_champignons_et_aux_chataignes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Riz au lait aux framboises en verrines",
+      url: "/recettes-cuisine/recipes/riz_au_lait_framboises.html",
+      tags: ["dessert","sestu","riz","lait","creme","sucre","vanille","framboises","gelatine","biscuits secs"],
+      images: "riz_au_lait_framboises",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Saint-Jacques façon chaudrée",
+      url: "/recettes-cuisine/recipes/saint_jacques_facon_chaudree.html",
+      tags: ["entree","repas","poisson","crevettes","saint-jacques","pommes de terre","carottes","celeri","persil","lait","creme fraiche","laurier","vin blanc","beurre","chaud","livre","marmiton"],
+      images: "saint_jacques_facon_chaudree",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Salade de chou rouge",
+      url: "/recettes-cuisine/recipes/salade_chou_rouge.html",
+      tags: ["salade","chou","marinade","entrée","froid","bocuse","ail","laurier","vinaigre","huile d'olive","sel","poivre","entree"],
+      images: "salade_chou_rouge",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Saumon laqué au gingembre, poêlée de marrons et choux de Bruxelles",
+      url: "/recettes-cuisine/recipes/saumon_laque_au_gingembre_marron_choux_de_bruxelles.html",
+      tags: ["poisson","saumon","gingembre","choux de Bruxelles","marrons","asiatique","automne","plat principal","facile","repas","marmiton","sauce soja","basilic","hiver","four","marinade","sucré-salé"],
+      images: "saumon_laque_gingembre_marron_choux_bruxelles",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Sauté de porc aux abricots, sauce soja et citron vert",
+      url: "/recettes-cuisine/recipes/saute_de_porc_aux_abricots_sauce_soja_citron_vert.html",
+      tags: ["plat","plat principal","porc","viande","oignon","abricot","citron","coriandre","sauce soja","miel","huile d'olive","asiatique","repas","casserole","sucre-sale"],
+      images: "saute_de_porc_aux_abricots_sauce_soja_citron_vert",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Sauté de porc au vin doux",
+      url: "/recettes-cuisine/recipes/saute_porc_vin_doux.html",
+      tags: ["repas","plat","plat principal","chaud","gourmand","sucre-sale","porc","carottes","oignon","echalotes","ail","cerfeuil","thym","fruits secs","bouillon de volaille","muscat","huile d'olive","concentre de tomate","miel"],
+      images: "saute_porc_vin_doux",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe à l'oignon",
+      url: "/recettes-cuisine/recipes/soupe_a_loignon.html",
+      tags: ["repas","soupe","oignon","gruyere","chaud","bocuse","beurre","farine","bouillon","pain","chapelure","sel","poivre","jaunes d'oeufs","creme fraiche","porto","muscade"],
+      images: "soupe_a_loignon",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe ardennaise",
+      url: "/recettes-cuisine/recipes/soupe_ardennaise.html",
+      tags: ["repas","soupe","endives","poireaux","pommes de terre","pain","bocuse","beurre","eau","sel","lait"],
+      images: "0_TBD",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe au chou",
+      url: "/recettes-cuisine/recipes/soupe_au_chou.html",
+      tags: ["repas","soupe","chou","lard","chaud","légumes","bocuse","pommes de terre","carottes","navets","poireaux","oignon","clou de girofle","eau","saindoux","sel","poivre","pain"],
+      images: "soupe_au_chou",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe de moules",
+      url: "/recettes-cuisine/recipes/soupe_de_moules.html",
+      tags: ["ail","beurre","bocuse","creme fraiche","eau","echalotes","fenouil","fromage","huile d'olive","laurier","mediterranee","moules","oignon","pain","persil","poireaux","poisson","poivre","repas","safran","sel","soupe","thym","tomates","vin blanc"],
+      images: "soupe_de_moules",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe de poisson au saumon",
+      url: "/recettes-cuisine/recipes/soupe_de_poisson_au_saumon.html",
+      tags: ["soupe","sestu","poisson","saumon","poireaux","carottes","pomme de terre","citron","creme","bouillon","fumet de poisson"],
+      images: "soupe_de_poisson_au_saumon",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe de lentilles au lard, aux carottes, au céleri et à l'œuf poché",
+      url: "/recettes-cuisine/recipes/soupe_lentille_lard_carottes_celerie_oeuf_poche.html",
+      tags: ["repas","plat","soupe","chaud","hiver","lentilles","lard","lardons","carottes","oignon","celeri","oeufs","vinaigre","concentre de tomate","huile d'olive"],
+      images: "soupe_lentille_lard_carottes_celerie_oeuf_poche",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe nîmoise",
+      url: "/recettes-cuisine/recipes/soupe_nimoise.html",
+      tags: ["repas","soupe","poireaux","chou","celeri","orge","riz","basilic","bocuse","sel","beurre","eau","gruyere"],
+      images: "soupe_nimoise",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe de poireaux et pommes de terre",
+      url: "/recettes-cuisine/recipes/soupe_poireau_pommes_de_terres.html",
+      tags: ["beurre","bocuse","couennes","creme fraiche","poireaux","poivre","pommes de terre","repas","sel","soupe"],
+      images: "soupe_poireau_pommes_de_terres",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Soupe savoyarde",
+      url: "/recettes-cuisine/recipes/soupe_savoyarde.html",
+      tags: ["repas","soupe","poireaux","oignon","celeri","pommes de terre","lard","pain","gruyere","bocuse","lait","eau","sel"],
+      images: "soupe_savoyarde",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Spaghettis aux girolles sautées",
+      url: "/recettes-cuisine/recipes/spaghettis_aux_girolles_sautees.html",
+      tags: ["plat","plat principal","pates","girolles","beurre","ail","persil","parmesan","fromage","saute","repas","sel","poivre"],
+      images: "spaghettis_aux_girolles_sautees",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Spaghettonis à la crème de roquette et de basilic",
+      url: "/recettes-cuisine/recipes/spaghettonis_a_la_creme_de_roquette_et_de_basilic.html",
+      tags: ["plat","plat principal","pates","roquette","basilic","brousse de brebis","mascarpone","parmesan","huile d'olive","fromage","rapide","repas","sel","poivre"],
+      images: "spaghettonis_a_la_creme_de_roquette_et_de_basilic",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Tagliatelles aux gambas flambées",
+      url: "/recettes-cuisine/recipes/tagliatelles_aux_gambas_flambes.html",
+      tags: ["pates","plat principal","repas","crevettes","tomates","gambas","ail","coriandre","parmesan","huile d'olive","alcool","chaud","facile","whisky"],
+      images: "tagliatelles_aux_gambas_flambes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Tarte amandine aux poires",
+      url: "/recettes-cuisine/recipes/tarte_amandine_aux_poires.html",
+      tags: ["dessert","tarte","sestu","poire","poudre d'amande","farine","beurre","oeufs","sucre","citron"],
+      images: "tarte_amandine_aux_poires",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Tartinable chèvre chorizo",
+      url: "/recettes-cuisine/recipes/tartinable_chevre_chorizo.html",
+      tags: ["apéritif","entree","chèvre","chorizo","tomates","facile","pain","tartinade","fromage","sésame"],
+      images: "tartinable_chevre_chorizo",
+      kind: "recipe"
+    },
+    
+    {
+      title: "New templating example",
+      url: "/recettes-cuisine/recipes/test.html",
+      tags: ["example","tag"],
+      images: "0_TBD",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Tiramisu à l'orange",
+      url: "/recettes-cuisine/recipes/tiramisu_a_l_orange.html",
+      tags: ["biscuits cuillere","cacao","cointreau","dessert","froid","gourmand","mascarpone","oeufs","orange","sucre","tiramisu"],
+      images: "tiramisu_a_l_orange",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Tiramisu aux framboises",
+      url: "/recettes-cuisine/recipes/tiramisu_aux_framboises.html",
+      tags: ["dessert","framboises","sestu","mascarpone","speculoos","pistaches","oeufs","sucre en poudre","sucre","pistaches natures","tiramisu"],
+      images: "tiramisu_framboise",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Tiramisu (classique au café)",
+      url: "/recettes-cuisine/recipes/tiramisu_classique.html",
+      tags: ["amaretto","biscuits cuillère","cacao","café","dessert","marsala","mascarpone","oeufs","sestu","sucre","tiramisu"],
+      images: "tiramisu",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Travers de porc à la moutarde, au miel et aux pommes",
+      url: "/recettes-cuisine/recipes/travers_de_porc_moutarde_miel_pommes.html",
+      tags: ["plat","plat principal","porc","viande","four","miel","moutarde","pommes de terre","sucre-sale","marinade","automne","repas","fait maison"],
+      images: "travers_de_porc_moutarde_miel_pommes",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Velouté d'asperges",
+      url: "/recettes-cuisine/recipes/veloute_asperges.html",
+      tags: ["repas","soupe","asperges","creme fraiche","chaud","bocuse","oignon","persil","fécule","beurre","sel","poivre"],
+      images: "veloute_asperges",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Velouté de champignons de Paris au tahini",
+      url: "/recettes-cuisine/recipes/veloute_de_champignons_de_paris_au_tahini.html",
+      tags: ["soupe","veloute","champignons","tahini","oignon","pommes de terre","ail","bouillon","huile d'olive","huile de sesame","sesame","pain","croutons","repas","casserole"],
+      images: "veloute_de_champignons_de_paris_au_tahini",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Velouté de potiron aux épices douces",
+      url: "/recettes-cuisine/recipes/veloute_de_potiron.html",
+      tags: ["soupe","potiron","végétarien","automne","mascarpone","épices","facile","velouté","entrée","marmiton"],
+      images: "veloute_de_potiron",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Velouté de patate douce, lentilles corail et œuf poché",
+      url: "/recettes-cuisine/recipes/veloute_patate_douce_lentilles_corail.html",
+      tags: ["repas","soupe","veloute","chaud","patate douce","lentilles corail","carottes","oignon","oeufs","lait de coco","curry","persil","pain","croutons","gourmand"],
+      images: "veloute_patate_douce_lentilles_corail",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Velouté de potimarron au bleu et au bacon grillé",
+      url: "/recettes-cuisine/recipes/veloute_potimarron_bleu_bacon.html",
+      tags: ["repas","soupe","veloute","potimarron","bleu","bacon","creme","echalotes","persil","beurre","bouillon","automne","hiver","chaud"],
+      images: "veloute_potimarron_bleu_bacon",
+      kind: "recipe"
+    },
+    
+    {
+      title: "Vichyssoise",
+      url: "/recettes-cuisine/recipes/vichyssoise.html",
+      tags: ["repas","soupe","poireaux","pommes de terre","creme fraiche","bocuse","beurre","eau","thym","persil","ciboulette","sel","poivre"],
+      images: "vichyssoise",
+      kind: "recipe"
+    }
+    
+    
+    ,
+    
+    {
+      title: "Char siu (porc doré au chalumeau)",
+      url: "/recettes-cuisine/components/char_siu_porc_dore_au_chalumeau.html",
+      tags: ["composant","porc","poitrine de porc","char siu","viande","cuiseur a riz","chalumeau","japon","voyage","sake","sauce soja","sucre","ail","mayonnaise","assaisonnement","sucre-sale"],
+      images: "char_siu_porc_chalumeau",
+      kind: "component"
+    },
+    
+    {
+      title: "Dashi",
+      url: "/recettes-cuisine/components/dashi.html",
+      tags: ["japon","voyage","bouillon","dashi","konbu","bonite","niban","base","fond","algue"],
+      images: "dashi",
+      kind: "component"
+    },
+    
+    {
+      title: "Gremolata",
+      url: "/recettes-cuisine/components/gremolata.html",
+      tags: ["condiment","citron","agrumes","ail","persil","mediterranee","froid"],
+      images: "gremolata",
+      kind: "component"
+    },
+    
+    {
+      title: "Marinade au vinaigre, ail et laurier",
+      url: "/recettes-cuisine/components/marinade_vinaigre_ail_laurier.html",
+      tags: ["condiment","marinade","vinaigre","ail","laurier","bocuse","fait maison"],
+      images: "marinade_vinaigre_ail_laurier",
+      kind: "component"
+    },
+    
+    {
+      title: "Marinade cuite pour poisson",
+      url: "/recettes-cuisine/components/marinade_poisson.html",
+      tags: ["condiment","marinade","vin blanc","vinaigre","carottes","oignon","thym","laurier","poisson","bocuse","fait maison"],
+      images: "marinade_poisson",
+      kind: "component"
+    },
+    
+    {
+      title: "Marinade gingembre-soja",
+      url: "/recettes-cuisine/components/marinade_gingembre_soja.html",
+      tags: ["condiment","marinade","gingembre","sauce soja","miel","citron vert","ail","asiatique","sucre-sale","fait maison"],
+      images: "marinade_gingembre_soja",
+      kind: "component"
+    },
+    
+    {
+      title: "Marinade moutarde-miel",
+      url: "/recettes-cuisine/components/marinade_moutarde_miel.html",
+      tags: ["condiment","marinade","moutarde","miel","sucre-sale","fait maison"],
+      images: "marinade_moutarde_miel",
+      kind: "component"
+    },
+    
+    {
+      title: "Pâtes fraîches / à raviolis",
+      url: "/recettes-cuisine/components/pates_fraiches_raviolis.html",
+      tags: ["farine","oeufs","pates","base","facile","sestu","perso"],
+      images: "pates_fraiches_raviolis",
+      kind: "component"
+    },
+    
+    {
+      title: "Rillettes de thon",
+      url: "/recettes-cuisine/components/rillettes_de_thon.html",
+      tags: ["composant","thon","poisson","fromage frais","citron","facile"],
+      images: "rillettes_de_thon",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce Yakitori",
+      url: "/recettes-cuisine/components/sauce_yakitori.html",
+      tags: ["japon","yakitori","sauce","soja","sucre","eau","miel","gingembre"],
+      images: "sauce_yakitori",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce ankake aux champignons",
+      url: "/recettes-cuisine/components/ankake_sauce.html",
+      tags: ["japon","voyage","sauce","shimeji","gingembre","dashi","sauce soja claire","sauce soja","mirin","sake","fecule de pomme de terre","eau","assaisonnement","condiment","ankake","champignons"],
+      images: "ankake_sauce",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce aromatique pour Karaage",
+      url: "/recettes-cuisine/components/aromatic_sauce_for_karaage.html",
+      tags: ["japon","voyage","sauce","sauce soja","sauce soja foncee","vinaigre","mirin","dashi","prune salee","radis","pousses de radis","shiso","assaisonnement","condiment"],
+      images: "aromatic_karaage",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce au foie gras",
+      url: "/recettes-cuisine/components/sauce_au_foie_gras.html",
+      tags: ["condiment","sauce","sestu","foie gras","bouillon de volaille","creme"],
+      images: "sauce_au_foie_gras",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce au poivre",
+      url: "/recettes-cuisine/components/sauce_au_poivre.html",
+      tags: ["condiment","sauce","boeuf","echalotes","poivre vert","cognac","creme","fond de veau","beurre"],
+      images: "sauce_au_poivre",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce au vin rouge",
+      url: "/recettes-cuisine/components/sauce_au_vin_rouge.html",
+      tags: ["condiment","sauce","viande","vin rouge","fond de veau","echalotes","carottes","laurier","concentre de tomate","beurre"],
+      images: "sauce_au_vin_rouge",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce bolognaise",
+      url: "/recettes-cuisine/components/sauce_bolognaise.html",
+      tags: ["condiment","sauce","pates","viande","boeuf","viande de boeuf hachee","tomates","pulpe de tomate","herbes aromatiques","ail","oignon","classique","fait maison"],
+      images: "sauce_bolognaise",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce caramel",
+      url: "/recettes-cuisine/components/sauce_caramel.html",
+      tags: ["sucre","eau","sauce","caramel","dessert","assaisonnement","condiment"],
+      images: "sauce_caramel",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce chasseur",
+      url: "/recettes-cuisine/components/sauce_chasseur.html",
+      tags: ["condiment","sauce","champignons","echalotes","vin blanc","fond de veau","concentre de tomate","thym","laurier","beurre","farine","chasseur","classique"],
+      images: "sauce_chasseur",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce fruitée",
+      url: "/recettes-cuisine/components/sauce_fruitee.html",
+      tags: ["condiment","sauce","agrumes","clementine","orange","echalotes","vin blanc","vinaigre balsamique","gelee de cerise","beurre","canard","sucre-sale","gourmand"],
+      images: "sauce_fruitee",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce orange et kumquat",
+      url: "/recettes-cuisine/components/sauce_orange_kumquat.html",
+      tags: ["condiment","sauce","agrumes","orange","kumquat","ail","vin blanc","vinaigre balsamique","miel","canard","sucre-sale","gourmand"],
+      images: "sauce_orange_kumquat",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce teriyaki",
+      url: "/recettes-cuisine/components/sauce_teriyaki.html",
+      tags: ["japon","voyage","soja","sauce soja foncee","teriyaki","sauce","mirin","assaisonnement","condiment"],
+      images: "sauce_teriyaki",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce teriyaki pour nouilles sautées",
+      url: "/recettes-cuisine/components/sauce_teriyaki_maison.html",
+      tags: ["japon","marinade","sake","sauce soja claire","sauce soja foncee","sauce soja","sucre","teriyaki","sauce","assaisonnement","condiment"],
+      images: "sauce_teriyaki",
+      kind: "component"
+    },
+    
+    {
+      title: "Sauce à l'orange",
+      url: "/recettes-cuisine/components/sauce_orange.html",
+      tags: ["condiment","sauce","orange","agrumes","ail","echalotes","sucre-sale","fait maison"],
+      images: "sauce_orange",
+      kind: "component"
+    },
+    
+    {
+      title: "Vinaigrette miso",
+      url: "/recettes-cuisine/components/miso_dressing.html",
+      tags: ["japon","voyage","entree","sesame","sauce soja","sauce soja foncee","vinaigre","mirin","miso blanc","vinaigrette","sauce","assaisonnement","condiment"],
+      images: "vinaigrette_miso",
+      kind: "component"
+    },
+    
+    {
+      title: "Vinaigrette à la moutarde",
+      url: "/recettes-cuisine/components/vinaigrette_moutarde.html",
+      tags: ["condiment","vinaigrette","sauce","moutarde","huile d'arachide","vinaigre de vin","bocuse","fait maison"],
+      images: "vinaigrette_moutarde",
+      kind: "component"
+    }
+    
+  ];
+
+  const HOME_BASE_URL = "/recettes-cuisine";
+</script>
+
+<script src="/recettes-cuisine/assets/js/cols-selector.js"></script>
+<script src="/recettes-cuisine/assets/js/home.js"></script>
+
+    </main>
+
+    
+    <a
+      href="/recettes-cuisine/recherche/"
+      class="fixed bottom-5 right-5 bg-primary text-white rounded-full p-4 shadow-lg hover:scale-105 hover:rotate-3 transition"
+      title="Recherche avancée"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="size-7"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.06l3.245 3.245a.75.75 0 1 0 1.06-1.06l-3.245-3.245A6.75 6.75 0 0 0 10.5 3.75ZM5.25 10.5a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </a>
+    
+
+    <div
+      id="qr-modal"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-200"
+      aria-hidden="true"
+    >
+      <div
+        data-qr-modal-panel
+        class="relative bg-white rounded-2xl p-4 md:p-6 shadow-3xl w-[95%] md:w-[80%] max-w-3xl max-h-[90vh] flex flex-col items-center gap-4"
+      >
+        <button
+          type="button"
+          data-qr-modal-close
+          class="absolute top-3 right-3 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-gray-700 hover:bg-gray-50 w-8 h-8 md:w-9 md:h-9 shadow-sm"
+          aria-label="Fermer le QR code"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-4 h-4 md:w-5 md:h-5"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+        <h2 class="text-lg font-semibold text-center text-orange-950">
+          Scanner ce QR code pour accéder au site
+        </h2>
+        <div
+          id="modal-qr"
+          class="w-full max-h-[80vh] aspect-square rounded-xl border border-gray-200 bg-white overflow-hidden flex items-center justify-center"
+        ></div>
+        <noscript>
+          <img
+            src="/recettes-cuisine/qr-code.jpg"
+            alt="QR code vers Recettes Cuisine"
+            class="w-full h-auto max-h-[70vh] object-contain rounded-xl border border-gray-200 bg-white"
+            loading="lazy"
+          />
+        </noscript>
+      </div>
+    </div>
+
+    <script src="/recettes-cuisine/assets/js/nav.js"></script>
+    <script src="/recettes-cuisine/assets/js/qr.js"></script>
+  </body>
+</html>

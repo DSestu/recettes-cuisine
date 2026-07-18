@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+
+
+<html class="h-full" data-page-kind="calendrier">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+  <title>
+    Calendrier des ingrédients
+  </title>
+  <meta
+    name="description"
+    content="Plein de recettes de cuisine"
+  />
+
+  <link
+    rel="canonical"
+    href="/recettes-cuisine/calendrier/"
+  />
+  <link rel="alternate" type="application/rss+xml" title="DSestu - Recettes de cuisine"
+  href="/recettes-cuisine/feed.xml" />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/recettes-cuisine/icons/apple-touch-icon.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/recettes-cuisine/icons/favicon-32x32.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="/recettes-cuisine/icons/favicon-512x512.png"
+  />
+  <link rel="manifest" href="/recettes-cuisine/manifest.json" />
+  <link rel="shortcut icon" href="/recettes-cuisine/icons/favicon.ico" />
+  <meta name="msapplication-TileColor" content="#F53200" />
+  <meta
+    name="msapplication-config"
+    content="/recettes-cuisine/icons/browserconfig.xml"
+  />
+  <meta name="theme-color" content="#F53200" />
+
+  <!-- Facebook Meta Tags -->
+  <meta
+    property="og:url"
+    content="/recettes-cuisine/calendrier/"
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:title"
+    content="Calendrier des ingrédients"
+  />
+  <meta
+    property="og:description"
+    content="Plein de recettes de cuisine"
+  />
+  <meta
+    property="og:image"
+    content="/recettes-cuisine/assets/social.png"
+  />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="dsestu.github.io" />
+  <meta
+    property="twitter:url"
+    content="/recettes-cuisine/calendrier/"
+  />
+  <meta
+    name="twitter:title"
+    content="Calendrier des ingrédients"
+  />
+  <meta
+    name="twitter:description"
+    content="Plein de recettes de cuisine"
+  />
+  <meta
+    name="twitter:image"
+    content="/recettes-cuisine/assets/social.png"
+  />
+
+  <style>
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    @view-transition {
+      navigation: auto;
+      types: calendrier;
+    }
+    .overflow-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .overflow-scroll {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    /* Mobile nav smooth hide/show */
+    .mobile-nav {
+      transition: transform 250ms ease, opacity 200ms ease;
+      will-change: transform, opacity;
+      background: rgba(255, 247, 237, 0.9); /* orange-50 with alpha */
+      backdrop-filter: saturate(160%) blur(10px);
+      -webkit-backdrop-filter: saturate(160%) blur(10px);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .mobile-nav.nav-hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mobile-nav.nav-visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Mobile-only compaction for navbar: smaller bar, icons, and labels */
+    @media (max-width: 767px) {
+      .mobile-nav {
+        padding: 4px 8px;
+        gap: 6px;
+        /* ensure safe-area preserved but tighter */
+        padding-bottom: calc(env(safe-area-inset-bottom) + 4px);
+      }
+      .mobile-nav a {
+        gap: 2px;
+      }
+      .mobile-nav a svg {
+        width: 1.25rem !important; /* ~20px */
+        height: 1.25rem !important;
+      }
+      .mobile-nav a span {
+        font-size: 0.75rem !important; /* ~12px */
+        line-height: 1.05;
+      }
+    }
+
+    /* Desktop: left-edge strip and overlay panel (hover-to-expand) */
+    @media (max-width: 767px) {
+      .desktop-sidebar-wrap {
+        display: contents;
+      }
+      .desktop-sidebar-panel {
+        display: contents;
+      }
+    }
+    @media (min-width: 768px) {
+      .desktop-sidebar-wrap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        z-index: 9990;
+        pointer-events: none;
+      }
+      .desktop-sidebar-wrap * {
+        pointer-events: auto;
+      }
+      #desktop-edge-strip {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 36px;
+        --desktop-strip-intensity: 0;
+        background: linear-gradient(
+          to right,
+          rgba(0, 0, 0, calc(0.42 * var(--desktop-strip-intensity))) 0%,
+          rgba(0, 0, 0, calc(0.15 * var(--desktop-strip-intensity))) 50%,
+          transparent 100%
+        );
+        transition: opacity 0.2s ease;
+        z-index: 9990;
+        opacity: 0;
+        pointer-events: none;
+      }
+      #desktop-edge-strip.desktop-edge-strip--visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded #desktop-edge-strip {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .desktop-sidebar-panel {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 14rem;
+        z-index: 9998;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        transform: translateX(calc(-100% + 16px));
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+      }
+      @media (min-width: 1024px) {
+        .desktop-sidebar-panel {
+          width: 16rem;
+          transform: translateX(calc(-100% + 16px));
+        }
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded .desktop-sidebar-panel {
+        transform: translateX(0);
+      }
+      #desktop-sidebar-open-btn {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 56px;
+        border: none;
+        border-radius: 8px 0 0 8px;
+        background: rgba(255, 247, 237, 0.98);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+        color: #78716c;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      @media (min-width: 768px) {
+        #desktop-sidebar-open-btn {
+          display: flex;
+        }
+      }
+      #desktop-sidebar-open-btn:hover {
+        background: rgba(255, 237, 213, 0.98);
+        color: #57534e;
+      }
+      #desktop-sidebar-open-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+      .desktop-sidebar-panel .mobile-nav {
+        flex: 1;
+        min-width: 0;
+        position: relative;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.25rem;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="/recettes-cuisine/assets/css/tailwind.css" />
+  <style>
+    [data-cols-grid] {
+      grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)) !important;
+    }
+    @media (min-width: 768px) {
+      [data-cols-grid] {
+        grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)) !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    defer
+  ></script>
+
+  <link rel="stylesheet" href="/recettes-cuisine/assets/css/transitions.css" />
+
+  <script>
+    document.addEventListener("keydown", function (e) {
+      if (!(e.key === "f" || e.key === "F")) return;
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.altKey || e.shiftKey) return;
+      const input =
+        document.getElementById("tag-input") ||
+        document.getElementById("home-search") ||
+        document.getElementById("title-search");
+      if (!input) return;
+      e.preventDefault();
+      try {
+        input.focus({ preventScroll: true });
+      } catch (_) {
+        input.focus();
+      }
+      if (typeof input.select === "function") input.select();
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  </script>
+
+  <!-- Speculation Rules: prefetch same-origin pages on hover/touch.
+       Warms the HTTP cache so View Transitions don't pause as long waiting
+       on the destination HTML. Does NOT prerender (prerender activation can
+       bypass cross-document View Transitions in some Chrome versions).
+       Other browsers ignore the script harmlessly. -->
+  <script type="speculationrules">
+    {
+      "prefetch": [
+        {
+          "where": {
+            "and": [
+              { "href_matches": "/*" },
+              { "not": { "href_matches": "/*.xml" } },
+              { "not": { "href_matches": "/*.json" } },
+              { "not": { "selector_matches": "[target='_blank']" } },
+              { "not": { "selector_matches": "[rel~='external']" } }
+            ]
+          },
+          "eagerness": "moderate"
+        }
+      ]
+    }
+  </script>
+
+  <script src="/recettes-cuisine/assets/js/escape-html.js"></script>
+  <script src="/recettes-cuisine/assets/js/transitions.js"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      if (navigator.serviceWorker.controller) {
+        console.log("An active service worker found, no need to register");
+      } else {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("/recettes-cuisine/serviceworker.js", {
+            scope: "./",
+          })
+          .then(function (reg) {
+            console.log(
+              "Service worker has been registered for scope: " + reg.scope
+            );
+          });
+      }
+    }
+  </script>
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@chowdownapp" />
+  <meta name="twitter:creator" content="@clarklab" />
+  
+  <meta name="twitter:title" content="Calendrier des ingrédients" />
+   
+  <meta name="twitter:url" content="/recettes-cuisine/calendrier/" />
+   
+  <meta name="twitter:description" content="            Calendrier des ingrédients              Saisonnalité des produits utilisés dans les recettes.      Cliquez sur un ingrédient pour voir les recettes correspondantes.            Ingrédien..." />
+   
+  <meta
+    name="twitter:image:src"
+    content="/recettes-cuisine/assets/social.png"
+  />
+  
+</head>
+
+<div class="desktop-sidebar-wrap" id="desktop-sidebar-wrap">
+  <div id="desktop-edge-strip" class="md:block hidden" aria-hidden="true"></div>
+  <div class="desktop-sidebar-panel">
+    <nav
+      class="mobile-nav nav-visible w-screen md:w-full md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-5 md:gap-3 z-[9999] shadow-3xl md:shadow-none"
+      id="main-nav"
+      aria-expanded="false"
+      style="view-transition-name: vt-nav;"
+    >
+  <a
+    href="/recettes-cuisine/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 "
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M18 16.25H15V7.5H12V16.25H9V7.5H6V16.25C6 18.9 8.49 21.05 11.625 21.2125V32.5H15.375V21.2125C18.51 21.05 21 18.9 21 16.25V7.5H18V16.25ZM25.5 12.5V22.5H29.25V32.5H33V7.5C28.86 7.5 25.5 10.3 25.5 12.5Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Acceuil</span>
+  </a>
+
+  <a
+    href="/recettes-cuisine/recherche/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 "
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M13 21.5C13 16.8056 16.8056 13 21.5 13C26.1944 13 30 16.8056 30 21.5C30 23.8248 29.0667 25.9315 27.5544 27.4661C27.5392 27.4801 27.5241 27.4946 27.5093 27.5093C27.4946 27.5241 27.4801 27.5392 27.4661 27.5544C25.9315 29.0667 23.8248 30 21.5 30C16.8056 30 13 26.1944 13 21.5ZM28.502 30.6233C26.5628 32.1139 24.1349 33 21.5 33C15.1487 33 10 27.8513 10 21.5C10 15.1487 15.1487 10 21.5 10C27.8513 10 33 15.1487 33 21.5C33 24.1349 32.1139 26.5628 30.6233 28.502L37.5607 35.4393C38.1464 36.0251 38.1464 36.9749 37.5607 37.5607C36.9749 38.1465 36.0251 38.1465 35.4393 37.5607L28.502 30.6233Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Recherche</span>
+  </a>
+  <a
+    href="/recettes-cuisine/calendrier/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 text-primary"
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3.5" y="5" width="17" height="15" rx="2" />
+      <path d="M8 3v4" />
+      <path d="M16 3v4" />
+      <path d="M3.5 10h17" />
+      <circle cx="8" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Calendrier</span>
+  </a>
+  <a
+    href="https://github.com/DSestu/recettes-cuisine"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2"
+    target="_blank"
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M24 8C17.9256 8 13 12.9256 13 19V28.5C13 29.8816 11.8816 31 10.5 31C9.67157 31 9 31.6716 9 32.5C9 33.3284 9.67157 34 10.5 34H37.5C38.3284 34 39 33.3284 39 32.5C39 31.6716 38.3284 31 37.5 31C36.1184 31 35 29.8816 35 28.5V19C35 12.9256 30.0744 8 24 8ZM32 28.5C32 29.4003 32.2161 30.25 32.5994 31H15.4006C15.7839 30.25 16 29.4003 16 28.5V19C16 14.5824 19.5824 11 24 11C28.4176 11 32 14.5824 32 19V28.5ZM26.4 36C26.702 36 26.986 36.136 27.176 36.37C27.366 36.604 27.442 36.912 27.38 37.206C27.034 38.85 25.644 40 24.002 40C22.36 40 20.97 38.85 20.624 37.206C20.562 36.912 20.636 36.604 20.826 36.37C21.016 36.136 21.3 36 21.602 36H26.4Z"
+        fill="#212121"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica"
+      >Repository</span
+    >
+  </a>
+
+  <div
+    class="hidden md:flex flex-col items-center gap-3 mt-4 pt-4 border-t border-orange-200"
+  >
+    <p class="text-xs text-orange-900/80 text-center px-2">
+      Accès rapide via QR code
+    </p>
+    <div
+      id="desktop-qr"
+      class="w-full aspect-square rounded-2xl border border-orange-200 shadow-md bg-white overflow-hidden flex items-center justify-center cursor-pointer"
+      role="button"
+      tabindex="0"
+      aria-label="Voir le QR code en grand"
+      title="Voir en grand"
+    ></div>
+    <noscript>
+      <img
+        src="/recettes-cuisine/qr-code.jpg"
+        alt="QR code vers Recettes Cuisine"
+        class="w-full h-auto rounded-2xl border border-orange-200 shadow-md object-cover bg-white mt-2"
+        loading="lazy"
+      />
+    </noscript>
+    <button
+      id="btn-qr-modal-desktop"
+      type="button"
+      class="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-orange-300 bg-white text-orange-900 text-xs hover:bg-orange-50 shadow-sm mt-1"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-4 h-4"
+      >
+        <path
+          d="M3 3h4v4H3V3zm2 2v0h0zm6-2h4v4h-4V3zm2 2v0h0zM3 11h4v4H3v-4zm2 2v0h0zm8-2h4v2h-2v2h2v2h-4v-6zm-4 0h2v2h-2v-2zm0 4h2v2h-2v-2zm8-4h2v2h-2v-2zm0 4h2v4h-4v-2h2v-2z"
+        />
+      </svg>
+      <span>Voir en grand</span>
+    </button>
+  </div>
+</nav>
+    <button type="button" id="desktop-sidebar-open-btn" class="hidden md:flex" aria-label="Ouvrir le menu" title="Ouvrir le menu">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+
+
+  <style>
+    @media (max-width: 767px) {
+      #btn-qr-modal.btn-hidden {
+        opacity: 0;
+        transform: translateY(-140%);
+      }
+      /* Hide QR modal close button on mobile */
+      #qr-modal [data-qr-modal-close] {
+        display: none !important;
+      }
+    }
+    @media (min-width: 768px) {
+      #btn-qr-modal {
+        display: none;
+      }
+    }
+
+    #qr-modal {
+      z-index: 9999; /* ensure overlay is above recipe content and image */
+    }
+
+    #qr-modal.qr-modal-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+
+  <body
+    class="flex min-h-screen w-full font-inter bg-orange-50 text-orange-950"
+  >
+    <main class="relative flex-1 w-full">
+      <button
+        id="btn-qr-modal"
+        type="button"
+        class="fixed top-4 right-4 z-30 bg-white rounded-full p-3 md:p-4 shadow border border-gray-200 hover:bg-gray-50 transition-all duration-300 ease-out"
+        title="Afficher le QR code"
+        aria-label="Afficher le QR code"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6 md:size-8"
+        >
+          <path
+            d="M3 3h4v4H3V3zm2 2v0h0zm6-2h4v4h-4V3zm2 2v0h0zM3 11h4v4H3v-4zm2 2v0h0zm8-2h4v2h-2v2h2v2h-4v-6zm-4 0h2v2h-2v-2zm0 4h2v2h-2v-2zm8-4h2v2h-2v-2zm0 4h2v4h-4v-2h2v-2z"
+          />
+        </svg>
+      </button>
+      <button
+        id="toggle-sidebar"
+        class="hidden absolute top-4 left-4 z-20 bg-white border border-gray-300 rounded-lg p-2 shadow hover:bg-gray-50"
+        title="Afficher/masquer le menu"
+        aria-hidden="true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+      <style>
+  /* Global CSS applies `overflow-x: hidden` on html/body which promotes them
+     to scroll containers and breaks `position: sticky` against the viewport.
+     `clip` visually clips overflow WITHOUT creating a scroll container, so
+     the calendar's month header can stick to the viewport top on scroll. */
+  html[data-page-kind="calendrier"],
+  html[data-page-kind="calendrier"] body {
+    overflow-x: clip !important;
+  }
+
+  /* Ingredient filter — overlays the calendar's top-left corner (same row as
+     month header, same column as ingredient names). Persistent across
+     re-renders (renderGantt preserves this element). */
+  #calendrier-root { position: relative; }
+  @media (min-width: 768px) {
+    #calendrier-root { padding-bottom: 6rem; }
+  }
+  .cal-ing-filter {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(var(--cal-label-w, 300px) - 8px);
+    z-index: 12;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+  .cal-ing-input-wrap {
+    display: flex;
+    align-items: center;
+  }
+  .cal-ing-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid transparent;
+    outline: none;
+    background: white;
+    color: rgb(60 20 5);
+    font-size: 0.85rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: 0.4rem;
+    transition: border-color 140ms ease-out, box-shadow 140ms ease-out;
+  }
+  .cal-ing-input:hover { border-color: rgb(254 215 170); }
+  .cal-ing-input:focus {
+    border-color: rgb(245 50 0 / 0.5);
+    box-shadow: 0 0 0 2px rgb(245 50 0 / 0.12);
+  }
+  .cal-ing-input::-webkit-search-cancel-button { display: none; }
+  .cal-ing-input::placeholder { color: rgb(120 53 15 / 0.5); }
+  /* Tag-style selected pill, colored by the ingredient's category. Whole
+     pill (including the × glyph) is one button that clears the filter. */
+  .cal-ing-selected {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--cat-color, #78716c) 14%, white);
+    border: 1px solid color-mix(in srgb, var(--cat-color, #78716c) 55%, white);
+    color: rgb(30 10 3);
+    font-size: 0.82rem;
+    font-weight: 600;
+    max-width: 100%;
+    cursor: pointer;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .cal-ing-selected:hover {
+    background: color-mix(in srgb, var(--cat-color, #78716c) 22%, white);
+  }
+  .cal-ing-selected-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--cat-color, #78716c);
+    flex-shrink: 0;
+  }
+  .cal-ing-selected-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1 1 auto;
+  }
+  .cal-ing-selected-x {
+    font-size: 1rem;
+    line-height: 1;
+    color: rgb(120 53 15 / 0.65);
+    flex-shrink: 0;
+  }
+  .cal-ing-selected:hover .cal-ing-selected-x { color: rgb(120 53 15); }
+  .cal-ing-suggest {
+    /* Portaled to <body> so it escapes topWrap's overflow clipping.
+       Position/width are set from JS via getBoundingClientRect. */
+    position: fixed;
+    max-height: 260px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid rgb(254 215 170);
+    border-radius: 0.5rem;
+    box-shadow: 0 6px 18px 0 rgb(120 53 15 / 0.15);
+    z-index: 100;
+  }
+  .cal-ing-suggest-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: rgb(60 20 5);
+  }
+  .cal-ing-suggest-item[aria-selected="true"],
+  .cal-ing-suggest-item:hover {
+    background: rgb(255 247 237);
+  }
+  .cal-ing-suggest-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--cat-color, #78716c);
+    flex-shrink: 0;
+  }
+  .cal-ing-suggest-cat {
+    margin-left: auto;
+    font-size: 0.68rem;
+    color: rgb(120 53 15 / 0.7);
+    text-transform: lowercase;
+  }
+  .cal-ing-suggest-empty {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
+    color: rgb(120 53 15 / 0.6);
+    font-style: italic;
+  }
+
+  #calendrier-now {
+    margin-bottom: 1.25rem;
+    border-top: 1px solid rgb(254 215 170);
+    border-bottom: 1px solid rgb(254 215 170);
+    padding: 0.9rem 0.25rem;
+  }
+  #calendrier-now > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  @media (max-width: 767px) {
+    #calendrier-now > header { justify-content: center; }
+    #calendrier-controls-mount { justify-content: center; }
+  }
+  #calendrier-now .now-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    margin: 0.6rem 0 0;
+    border: 1px solid rgb(254 215 170);
+    border-radius: 0.6rem;
+    background: linear-gradient(180deg, rgb(255 251 246), rgb(255 247 237));
+    color: rgb(120 53 15);
+    cursor: pointer;
+    text-align: left;
+    transition: background 140ms ease-out, border-color 140ms ease-out;
+  }
+  #calendrier-now .now-toggle:hover {
+    background: linear-gradient(180deg, rgb(255 247 237), rgb(254 243 226));
+    border-color: rgb(251 191 137);
+  }
+  #calendrier-now .now-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(245 50 0 / 0.35);
+  }
+  #calendrier-now .now-toggle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: rgb(245 50 0);
+    color: white;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: transform 220ms ease-out;
+  }
+  @media (max-width: 520px) {
+    #calendrier-now .now-toggle-icon {
+      background: transparent;
+      color: rgb(245 50 0);
+      font-size: 1.9rem;
+      line-height: 1;
+      width: auto;
+      height: auto;
+    }
+  }
+  #calendrier-now[data-collapsed="true"] .now-toggle-icon {
+    transform: rotate(-90deg);
+  }
+  #calendrier-now .now-toggle-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  #calendrier-now .now-toggle-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.1rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.5rem;
+    background: white;
+    border: 1px solid rgb(254 215 170);
+    min-width: 0;
+  }
+  /* Lifecycle palette (A) + directional gradient (D):
+     - incoming = sage/spring green, gradient brightens toward the right
+     - current  = warm sun gold, symmetric fill (peak)
+     - leaving  = russet/rust, gradient brightens toward the left (fades right) */
+  #calendrier-now .now-toggle-card[data-bucket="incoming"] {
+    background: linear-gradient(90deg,
+      white 0%,
+      color-mix(in srgb, #65a30d 6%, white) 45%,
+      color-mix(in srgb, #65a30d 22%, white) 100%);
+    border-color: color-mix(in srgb, #65a30d 40%, white);
+  }
+  #calendrier-now .now-toggle-card[data-bucket="incoming"] .now-toggle-glyph {
+    color: #65a30d;
+  }
+  #calendrier-now .now-toggle-card[data-bucket="current"] {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, #f59e0b 12%, white) 0%,
+      color-mix(in srgb, #f59e0b 20%, white) 100%);
+    border-color: color-mix(in srgb, #f59e0b 55%, white);
+  }
+  #calendrier-now .now-toggle-card[data-bucket="current"] .now-toggle-glyph {
+    color: #d97706;
+  }
+  #calendrier-now .now-toggle-card[data-bucket="leaving"] {
+    background: linear-gradient(90deg,
+      color-mix(in srgb, #a16207 22%, white) 0%,
+      color-mix(in srgb, #a16207 6%, white) 55%,
+      white 100%);
+    border-color: color-mix(in srgb, #a16207 40%, white);
+  }
+  #calendrier-now .now-toggle-card[data-bucket="leaving"] .now-toggle-glyph {
+    color: #a16207;
+  }
+  #calendrier-now .now-toggle-card-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  #calendrier-now .now-toggle-card-primary {
+    background: linear-gradient(180deg, white, rgb(255 247 237));
+    border-color: rgb(251 191 137);
+    box-shadow: 0 1px 2px 0 rgb(120 53 15 / 0.06);
+  }
+  #calendrier-now .now-toggle-glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(245 50 0);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  #calendrier-now .now-toggle-num {
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1;
+    color: rgb(60 20 5);
+    font-variant-numeric: tabular-nums;
+  }
+  #calendrier-now .now-toggle-card-primary .now-toggle-num {
+    font-size: 2rem;
+  }
+  #calendrier-now .now-toggle-glyph {
+    font-size: 1.75rem;
+  }
+  #calendrier-now .now-toggle-glyph svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+  #calendrier-now .now-toggle-verb {
+    font-size: 0.85rem;
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    color: rgb(120 53 15 / 0.85);
+  }
+  @media (max-width: 520px) {
+    #calendrier-now .now-toggle-summary { gap: 0.35rem; }
+    #calendrier-now .now-toggle-card { padding: 0.4rem 0.5rem; }
+    #calendrier-now .now-toggle-card-row { gap: 0.25rem; }
+    #calendrier-now .now-toggle-num { font-size: 1.25rem; }
+    #calendrier-now .now-toggle-card-primary .now-toggle-num { font-size: 1.45rem; }
+    #calendrier-now .now-toggle-verb { font-size: 0.72rem; }
+    #calendrier-now .now-toggle-glyph { font-size: 1.7rem; }
+    #calendrier-now .now-toggle-glyph svg { width: 0.9rem; height: 0.9rem; }
+  }
+  #calendrier-now .now-collapsible {
+    overflow: hidden;
+    transition: max-height 220ms ease-out, opacity 180ms ease-out;
+  }
+  #calendrier-now .now-body {
+    padding-top: 1rem;
+  }
+  #calendrier-now[data-collapsed="true"] .now-collapsible {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #calendrier-now .now-collapsible,
+    #calendrier-now .now-collapse-icon {
+      transition: none;
+    }
+  }
+  #calendrier-now .now-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 0;
+    flex: 1 1 auto;
+  }
+  #calendrier-now .now-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--cat-color) 40%, white);
+    background: white;
+    font-size: 0.75rem;
+    color: rgb(60 20 5);
+    cursor: pointer;
+    transition: background 140ms ease-out, opacity 140ms ease-out;
+  }
+  #calendrier-now .now-filter-btn[aria-pressed="false"] {
+    opacity: 0.4;
+    background: rgb(255 255 255 / 0.5);
+  }
+  #calendrier-now .now-filter-btn:hover {
+    background: color-mix(in srgb, var(--cat-color) 10%, white);
+  }
+  #calendrier-now .now-filter-btn:focus-visible {
+    outline: 2px solid var(--cat-color);
+    outline-offset: 2px;
+  }
+  #calendrier-now .now-filter-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--cat-color);
+  }
+  #calendrier-now .now-filter-count {
+    font-size: 0.68rem;
+    color: rgb(120 53 15 / 0.7);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Matches the "clear selected tags" button on /recherche/
+     (see assets/js/search-page.js updateSelectedChips). */
+  #calendrier-now .now-filter-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    border: 1px solid rgb(245 50 0);
+    background: rgb(245 50 0);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    transition: opacity 140ms ease-out;
+  }
+  #calendrier-now .now-filter-reset:hover { opacity: 0.9; }
+  #calendrier-now .now-filter-reset:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(245 50 0 / 0.4);
+  }
+  #calendrier-now .now-filter-reset svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  #calendrier-now .now-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    #calendrier-now .now-body {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  #calendrier-now .now-bucket-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgb(154 52 18);
+    margin: 0 0 0.15rem;
+  }
+  #calendrier-now .now-bucket-subtitle {
+    font-size: 0.8rem;
+    color: rgb(120 53 15 / 0.7);
+    margin: 0 0 0.5rem;
+  }
+  #calendrier-now .now-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  #calendrier-now .now-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.28rem 0.55rem 0.28rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid var(--cat-color, rgb(120 53 15 / 0.3));
+    background: color-mix(in srgb, var(--cat-color) 8%, white);
+    font-size: 0.82rem;
+    line-height: 1;
+    color: rgb(60 20 5);
+    text-decoration: none;
+    transition: background 140ms ease-out, transform 140ms ease-out;
+  }
+  #calendrier-now .now-chip:hover {
+    background: color-mix(in srgb, var(--cat-color) 18%, white);
+    transform: translateY(-1px);
+  }
+  #calendrier-now .now-chip:focus-visible {
+    outline: 2px solid var(--cat-color);
+    outline-offset: 2px;
+  }
+  #calendrier-now .now-chip[data-intensity="peak"] {
+    background: color-mix(in srgb, var(--cat-color) 16%, white);
+    font-weight: 600;
+  }
+  /* Directional gradient (cue #2): "start" chip brightens toward the right
+     (energy incoming), "end" chip brightens toward the left (fading out). */
+  #calendrier-now .now-chip[data-intensity="start"] {
+    background: linear-gradient(90deg,
+      white 0%,
+      color-mix(in srgb, var(--cat-color) 8%, white) 35%,
+      color-mix(in srgb, var(--cat-color) 45%, white) 100%);
+  }
+  #calendrier-now .now-chip[data-intensity="end"] {
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--cat-color) 45%, white) 0%,
+      color-mix(in srgb, var(--cat-color) 8%, white) 65%,
+      white 100%);
+  }
+  #calendrier-now .now-chip-dot {
+    position: relative;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 999px;
+    background: var(--cat-color);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  /* Cue #1 — half-filled dot (waxing → full → waning). Cue #3 — hatch
+     direction on the filled half (45° for start, −45° for end). */
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-dot,
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-dot {
+    background: color-mix(in srgb, var(--cat-color) 20%, white);
+    border: 1px solid var(--cat-color);
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-dot::before,
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-dot::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background:
+      repeating-linear-gradient(45deg,
+        color-mix(in srgb, var(--cat-color) 90%, black) 0 1.5px,
+        var(--cat-color) 1.5px 3px);
+  }
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-dot::before {
+    right: 0;
+  }
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-dot::before {
+    left: 0;
+    background:
+      repeating-linear-gradient(-45deg,
+        color-mix(in srgb, var(--cat-color) 90%, black) 0 1.5px,
+        var(--cat-color) 1.5px 3px);
+  }
+  /* Cue #4 — chevron glyph prepended to the proximity tag. */
+  #calendrier-now .now-chip[data-intensity="start"] .now-chip-tag::before {
+    content: "↗ ";
+    color: var(--cat-color);
+    font-weight: 700;
+  }
+  #calendrier-now .now-chip[data-intensity="end"] .now-chip-tag::before {
+    content: "↘ ";
+    color: var(--cat-color);
+    font-weight: 700;
+  }
+  #calendrier-now .now-chip-tag {
+    font-size: 0.7rem;
+    color: rgb(120 53 15 / 0.7);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  #calendrier-now .now-empty {
+    font-size: 0.82rem;
+    color: rgb(120 53 15 / 0.6);
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Mode toggle — segmented control between the two calendrier views. */
+  .cal-mode-toggle {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    margin-bottom: 1.25rem;
+    background: rgb(254 215 170 / 0.5);
+    border: 1px solid rgb(254 215 170);
+    border-radius: 0.6rem;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+  .cal-mode-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: rgb(120 53 15 / 0.75);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.45rem;
+    cursor: pointer;
+    transition: background-color 140ms ease-out, color 140ms ease-out;
+  }
+  .cal-mode-btn:hover { color: rgb(60 20 5); }
+  .cal-mode-btn[aria-selected="true"] {
+    background: white;
+    color: rgb(245 50 0);
+    box-shadow: 0 1px 2px rgb(60 20 5 / 0.08);
+  }
+  .cal-mode-btn:focus-visible {
+    outline: 2px solid rgb(245 50 0 / 0.5);
+    outline-offset: 2px;
+  }
+
+  /* Recettes de saison — Gantt-style frame mirroring the ingredient calendar. */
+  .cal-recipes {
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: rgb(60 20 5);
+    --cal-recipes-label-w: 300px;
+  }
+  .cal-recipes-picker {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding: 0.4rem 0.2rem 1rem 0.2rem;
+    user-select: none;
+  }
+  .cal-recipes-picker-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    flex: 1 1 auto;
+  }
+  .cal-recipes-picker-long {
+    font-family: "Gelica", ui-serif, Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: rgb(60 20 5);
+  }
+  .cal-recipes-picker-short {
+    font-size: 0.75rem;
+    color: rgb(120 53 15 / 0.6);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+    margin-top: 0.2rem;
+  }
+  .cal-recipes-picker-nav {
+    appearance: none;
+    border: 1px solid rgb(254 215 170);
+    background: white;
+    color: rgb(245 50 0);
+    font-size: 1.4rem;
+    line-height: 1;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out;
+    flex: 0 0 auto;
+    align-self: center;
+  }
+  .cal-recipes-picker-nav:hover {
+    background: rgb(245 50 0);
+    color: white;
+    border-color: rgb(245 50 0);
+  }
+  .cal-recipes-picker-nav:focus-visible {
+    outline: 2px solid rgb(245 50 0 / 0.5);
+    outline-offset: 2px;
+  }
+  @media (max-width: 640px) {
+    .cal-recipes-picker-long { font-size: 1.1rem; }
+    .cal-recipes-picker-nav { width: 2rem; height: 2rem; font-size: 1.1rem; }
+  }
+  .cal-recipes-pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0 0.2rem 1rem 0.2rem;
+  }
+  .cal-recipes-pills-heading {
+    font-size: 0.82rem;
+    color: rgb(120 53 15 / 0.75);
+    margin-right: 0.35rem;
+  }
+  .cal-recipes-pill {
+    appearance: none;
+    border: 1px solid color-mix(in srgb, var(--cat-color) 40%, transparent);
+    background: color-mix(in srgb, var(--cat-color) 8%, transparent);
+    color: color-mix(in srgb, var(--cat-color) 85%, black);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, opacity 140ms ease-out;
+  }
+  .cal-recipes-pill[aria-pressed="true"] {
+    background: var(--cat-color);
+    color: white;
+    border-color: var(--cat-color);
+  }
+  .cal-recipes-pill[aria-pressed="false"] {
+    opacity: 0.55;
+    text-decoration: line-through;
+  }
+  .cal-recipes-pill:hover {
+    opacity: 1;
+  }
+  .cal-recipes-pill:focus-visible {
+    outline: 2px solid var(--cat-color);
+    outline-offset: 2px;
+  }
+  .cal-recipes-empty {
+    padding: 1.5rem 0.5rem;
+    color: rgb(120 53 15 / 0.7);
+    font-style: italic;
+  }
+  .cal-recipes-comp-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: auto;
+    font-size: 0.82rem;
+    color: rgb(120 53 15 / 0.85);
+    cursor: pointer;
+    user-select: none;
+  }
+  .cal-recipes-comp-toggle input[type="checkbox"] {
+    accent-color: rgb(245 50 0);
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+  }
+  .cal-recipes-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.05rem 0.35rem;
+    border-radius: 999px;
+    background: rgb(254 215 170 / 0.55);
+    color: rgb(120 53 15 / 0.9);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  @media (max-width: 767px) {
+    .cal-recipes { --cal-recipes-label-w: 130px; }
+  }
+  .cal-recipes-placeholder {
+    color: rgb(120 53 15 / 0.6);
+    font-style: italic;
+    padding: 2rem 0;
+  }
+  .cal-recipes-frame {
+    background: #fff7ed;
+    border: 1px solid rgb(254 215 170);
+    border-radius: 0.4rem;
+    /* No `overflow` here — a scrolling ancestor would trap the sticky
+       month header. `html[data-page-kind="calendrier"]` uses `overflow-x: clip`
+       so the page scroll happens against the viewport. */
+  }
+  .cal-recipes-header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #fff7ed;
+    border-bottom: 1px solid rgb(254 215 170);
+    box-shadow: 0 2px 6px rgb(60 20 5 / 0.05);
+    height: 40px;
+  }
+  .cal-recipes-header-left {
+    flex: 0 0 var(--cal-recipes-label-w);
+    background: #fff7ed;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 0.06);
+  }
+  .cal-recipes-header-right {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .cal-recipes-month-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff7ed;
+    color: #7c2d12;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .cal-recipes-month-cell-alt {
+    background: #ffedd5;
+  }
+  @media (max-width: 767px) {
+    .cal-recipes-month-cell { font-size: 12px; }
+    /* Vertical rotated labels are a FIT-mode trait only. In wide mode the
+       month cells are wide enough for horizontal labels (matches the ingredient
+       Gantt's `rotateLabel = isMobile && layoutMode === "fit"`). */
+    .cal-recipes-frame:not(.is-wide) .cal-recipes-header { height: 60px; }
+    .cal-recipes-frame:not(.is-wide) .cal-recipes-month-cell {
+      /* Rotate the same direction as the ingredient calendar (rotate(-90deg))
+         rather than writing-mode. */
+      transform: rotate(-90deg);
+    }
+  }
+  .cal-recipes-body {
+    display: flex;
+    flex-direction: column;
+    /* Positioned ancestor for the full-height grid backdrop overlay. */
+    position: relative;
+  }
+  /* Continuous grid backdrop across all recipe rows: month-boundary lines and
+     a current-fortnight highlight column, mirroring the ingredient Gantt. Sits
+     behind the transparent strips; offset left past the label column. */
+  .cal-recipes-grid-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--cal-recipes-label-w);
+    right: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cal-recipes-grid-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgb(254 215 170);
+  }
+  .cal-recipes-grid-now {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgb(249 115 22 / 0.10);
+  }
+  /* Horizontal-scroll wrapper around the body. Transparent passthrough in fit;
+     the horizontal scroller in wide. The month header is a frame-level sibling
+     (kept out of this wrapper) so it stays sticky to the viewport vertically. */
+  .cal-recipes-body-scroll { width: 100%; }
+  /* ---- Wide ("Vue large") layout: fixed wide cells + horizontal scroll ---- */
+  .cal-recipes-frame.is-wide .cal-recipes-body-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-header {
+    /* Clipped; JS mirrors bodyScroll.scrollLeft onto this element. */
+    overflow-x: hidden;
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-header-left {
+    position: sticky;
+    left: 0;
+    z-index: 6;
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-header-right {
+    flex: 0 0 var(--cal-grid-w);
+    width: var(--cal-grid-w);
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-body {
+    width: calc(var(--cal-recipes-label-w) + var(--cal-grid-w));
+  }
+  .cal-recipes-frame.is-wide .cal-recipes-row-left,
+  .cal-recipes-frame.is-wide .cal-recipes-subrow-left {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
+  /* Contain the strip's internal layers (svg-back/hatch/svg-front use z-index
+     1/2/3) in their own stacking context BELOW the sticky left panel — without
+     this, svg-front (z-index 3) escapes into the row context and paints over
+     the label when the body is scrolled horizontally. */
+  .cal-recipes-frame.is-wide .cal-recipes-row-right,
+  .cal-recipes-frame.is-wide .cal-recipes-subrow-right {
+    position: relative;
+    z-index: 1;
+  }
+  .cal-recipes-row {
+    display: flex;
+    align-items: stretch;
+    border-top: 1px solid rgb(254 215 170 / 0.6);
+    min-height: 76px;
+    max-height: 84px;
+    /* Paint above the grid overlay; transparent strips let the backdrop show. */
+    position: relative;
+    z-index: 1;
+  }
+  .cal-recipes-row-left {
+    flex: 0 0 var(--cal-recipes-label-w);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.4rem 0.7rem;
+    text-decoration: none;
+    color: inherit;
+    background: #fff7ed;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 0.06);
+    transition: background-color 140ms ease-out;
+    z-index: 1;
+  }
+  .cal-recipes-thumb {
+    flex: 0 0 auto;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    background: rgb(254 215 170);
+  }
+  .cal-recipes-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  @media (max-width: 767px) {
+    .cal-recipes-thumb { display: none; }
+  }
+  .cal-recipes-row-left:hover { background: #ffedd5; }
+  .cal-recipes-row-left:focus-visible {
+    outline: 2px solid rgb(245 50 0 / 0.5);
+    outline-offset: -2px;
+  }
+  .cal-recipes-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgb(60 20 5);
+    line-height: 1.25;
+    word-break: break-word;
+  }
+  .cal-recipes-scoreline {
+    display: flex;
+    gap: 0.55rem;
+    align-items: baseline;
+    margin-top: 0.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .cal-recipes-score {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgb(245 50 0);
+  }
+  .cal-recipes-meta {
+    font-size: 0.75rem;
+    color: rgb(120 53 15 / 0.75);
+    white-space: nowrap;
+  }
+  .cal-recipes-oos {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.2rem;
+    font-size: 0.72rem;
+    color: rgb(120 53 15 / 0.6);
+    font-style: italic;
+    line-height: 1.25;
+  }
+  .cal-recipes-row-right {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+  /* CSS-only accordion: hover or keyboard focus on the item expands the
+     detail block via `grid-template-rows: 0fr → 1fr`, which animates from 0
+     to the natural content height. On unhover / blur it collapses back. */
+  .cal-recipes-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .cal-recipes-item:hover .cal-recipes-row-right,
+  .cal-recipes-item:focus-within .cal-recipes-row-right {
+    background: rgb(254 215 170 / 0.22);
+  }
+  .cal-recipes-item:focus-within {
+    outline: 2px solid rgb(245 50 0 / 0.35);
+    outline-offset: -2px;
+    border-radius: 0.25rem;
+  }
+  .cal-recipes-detail-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 260ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .cal-recipes-item:hover .cal-recipes-detail-wrap,
+  .cal-recipes-item:focus-within .cal-recipes-detail-wrap {
+    grid-template-rows: 1fr;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cal-recipes-detail-wrap { transition: none; }
+  }
+  .cal-recipes-detail {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #fffaf3;
+    border-top: 1px dashed rgb(254 215 170);
+  }
+  .cal-recipes-subrow {
+    display: flex;
+    align-items: stretch;
+    height: 28px;
+    border-top: 1px solid rgb(254 215 170 / 0.4);
+  }
+  .cal-recipes-subrow:first-child { border-top: 0; }
+  .cal-recipes-subrow-left {
+    flex: 0 0 var(--cal-recipes-label-w);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 0.7rem 0 1rem;
+    background: #fffaf3;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 0.04);
+  }
+  .cal-recipes-subrow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cat-color);
+    flex: 0 0 auto;
+  }
+  .cal-recipes-subrow-name {
+    font-size: 0.78rem;
+    color: rgb(120 53 15 / 0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cal-recipes-subrow-right {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+  .cal-strip-mini { height: 24px !important; padding: 2px 0 !important; }
+  .cal-strip {
+    display: block;
+    width: 100%;
+    height: 42px;
+    position: relative;
+  }
+  .cal-strip-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+  .cal-strip-svg-back  { z-index: 1; }
+  .cal-strip-svg-front { z-index: 3; }
+  .cal-strip-hatch {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    /* Colour source: same 24-stop score-driven gradient the SVG stroke uses.
+       Set inline via JS so each recipe's hatch tracks its own curve colours. */
+    opacity: 0.75;
+    /* Two masks: (1) the area shape under the curve, (2) the diagonal stripe
+       pattern. `mask-composite: intersect` keeps only the intersection — so
+       stripes appear only where both masks are opaque. */
+    -webkit-mask-image:
+      var(--hatch-mask),
+      repeating-linear-gradient(
+        -45deg,
+        black 0 1.4px,
+        transparent 1.4px 5.4px
+      );
+            mask-image:
+      var(--hatch-mask),
+      repeating-linear-gradient(
+        -45deg,
+        black 0 1.4px,
+        transparent 1.4px 5.4px
+      );
+    -webkit-mask-size: 100% 100%, auto;
+            mask-size: 100% 100%, auto;
+    -webkit-mask-repeat: no-repeat, repeat;
+            mask-repeat: no-repeat, repeat;
+    -webkit-mask-position: 0 0, 0 0;
+            mask-position: 0 0, 0 0;
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+  }
+  .cal-strip-grid {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    height: 100%;
+    position: relative;
+  }
+  .cal-strip-cell {
+    position: relative;
+    border-left: 1px solid transparent;
+    margin: 2px 0;
+    background: transparent;
+  }
+  .cal-strip-cell-month-start { border-left-color: rgb(254 215 170); }
+  .cal-strip-cell-peak { background: var(--cell-color); border-radius: 2px; }
+  .cal-strip-cell-start,
+  .cal-strip-cell-end {
+    background:
+      repeating-linear-gradient(
+        45deg,
+        var(--cell-color) 0,
+        var(--cell-color) 1.5px,
+        color-mix(in srgb, var(--cell-color) 12%, transparent) 1.5px,
+        color-mix(in srgb, var(--cell-color) 12%, transparent) 4.5px
+      );
+    border-radius: 2px;
+  }
+  .cal-strip-cell-now { background-color: rgb(249 115 22 / 0.10); }
+  .cal-strip-cell-now.cal-strip-cell-peak,
+  .cal-strip-cell-now.cal-strip-cell-start,
+  .cal-strip-cell-now.cal-strip-cell-end {
+    box-shadow: inset 0 0 0 1.5px rgb(249 115 22 / 0.55);
+  }
+  @media (max-width: 767px) {
+    .cal-recipes-title { font-size: 0.85rem; }
+    .cal-recipes-score { font-size: 0.85rem; }
+    .cal-recipes-meta { font-size: 0.7rem; white-space: normal; }
+  }
+  .cal-recipes-pinned-heading {
+    margin: 1.6rem 0 0.6rem 0;
+    font-family: "Gelica", ui-serif, Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: rgb(120 53 15 / 0.7);
+    letter-spacing: 0.02em;
+  }
+  .cal-recipes-pinned {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+  }
+  .cal-recipes-pinned-link {
+    text-decoration: none;
+    color: rgb(120 53 15 / 0.85);
+    font-size: 0.9rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.3rem;
+    transition: background-color 140ms ease-out;
+  }
+  .cal-recipes-pinned-link::before {
+    content: "· ";
+    color: rgb(120 53 15 / 0.4);
+  }
+  .cal-recipes-pinned-link:hover {
+    background: rgb(254 215 170 / 0.4);
+    color: rgb(60 20 5);
+  }
+</style>
+
+<div class="content w-full md:w-full p-2 md:p-6 md:pl-16">
+  <header class="mb-6">
+    <h1 class="text-3xl md:text-4xl font-gelica text-orange-950">
+      Calendrier des ingrédients
+    </h1>
+    <p class="mt-2 text-orange-900/80 max-w-2xl">
+      Saisonnalité des produits utilisés dans les recettes.
+      Cliquez sur un ingrédient pour voir les recettes correspondantes.
+    </p>
+  </header>
+
+  <div
+    id="calendrier-mode-toggle"
+    class="cal-mode-toggle"
+    role="tablist"
+    aria-label="Mode d'affichage du calendrier"
+  >
+    <button
+      type="button"
+      role="tab"
+      data-mode="ingredients"
+      class="cal-mode-btn"
+      aria-selected="true"
+    >Ingrédients</button>
+    <button
+      type="button"
+      role="tab"
+      data-mode="recettes-de-saison"
+      class="cal-mode-btn"
+      aria-selected="false"
+    >Recettes de saison</button>
+  </div>
+
+  <div id="calendrier-status" class="text-sm text-red-700 mb-4 hidden"></div>
+
+  <section id="calendrier-now" aria-label="Aperçu de la saison actuelle" data-collapsed="false" hidden>
+    <header>
+      <div id="calendrier-now-controls"></div>
+      <div class="now-filters" role="group" aria-label="Filtrer par catégorie"></div>
+    </header>
+    <button
+      type="button"
+      class="now-toggle"
+      aria-expanded="true"
+      aria-controls="calendrier-now-collapsible"
+    >
+      <span class="now-toggle-icon" aria-hidden="true">▾</span>
+      <span class="now-toggle-summary">
+        <span class="now-toggle-card" data-bucket="incoming">
+          <span class="now-toggle-card-row">
+            <span class="now-toggle-num" data-bucket-count="incoming">0</span>
+            <span class="now-toggle-glyph" aria-hidden="true">↗</span>
+          </span>
+          <span class="now-toggle-verb">arrivent</span>
+        </span>
+        <span class="now-toggle-card now-toggle-card-primary" data-bucket="current">
+          <span class="now-toggle-card-row">
+            <span class="now-toggle-num" data-bucket-count="current">0</span>
+            <span class="now-toggle-glyph" aria-hidden="true">
+              <svg viewBox="0 0 12 12" width="14" height="14"><circle cx="6" cy="6" r="5" fill="currentColor"/></svg>
+            </span>
+          </span>
+          <span class="now-toggle-verb">en saison</span>
+        </span>
+        <span class="now-toggle-card" data-bucket="leaving">
+          <span class="now-toggle-card-row">
+            <span class="now-toggle-num" data-bucket-count="leaving">0</span>
+            <span class="now-toggle-glyph" aria-hidden="true">↘</span>
+          </span>
+          <span class="now-toggle-verb">partent</span>
+        </span>
+      </span>
+    </button>
+    <div class="now-collapsible" id="calendrier-now-collapsible">
+    <div class="now-body">
+      <div class="now-bucket" data-bucket="incoming">
+        <p class="now-bucket-title">Ça arrive</p>
+      </div>
+      <div class="now-bucket" data-bucket="current">
+        <p class="now-bucket-title">En ce moment</p>
+      </div>
+      <div class="now-bucket" data-bucket="leaving">
+        <p class="now-bucket-title">Dernière chance</p>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <div id="calendrier-controls-mount" class="mb-3"></div>
+
+  <div
+    id="calendrier-root"
+    data-url-index="/recettes-cuisine/assets/data/ingredient_index.json"
+    data-url-seasonality="/recettes-cuisine/assets/data/seasonality.json"
+    data-baseurl="/recettes-cuisine"
+  >
+    <div id="calendrier-ingredient-filter" class="cal-ing-filter">
+      <div class="cal-ing-input-wrap">
+        <input
+          type="search"
+          class="cal-ing-input"
+          placeholder="Filtrer…"
+          aria-label="Filtrer par ingrédient"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button type="button" class="cal-ing-selected" hidden>
+          <span class="cal-ing-selected-dot" aria-hidden="true"></span>
+          <span class="cal-ing-selected-name"></span>
+          <span class="cal-ing-selected-x" aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="cal-ing-suggest" role="listbox" hidden></div>
+    </div>
+  </div>
+
+  <section
+    id="calendrier-recipes"
+    class="cal-recipes"
+    aria-label="Recettes classées par saisonnalité"
+    data-url-recipe-seasonality="/recettes-cuisine/assets/data/recipe-seasonality.json"
+    hidden
+  >
+    <p class="cal-recipes-placeholder">Chargement…</p>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="/recettes-cuisine/assets/js/calendrier.js" defer></script>
+
+    </main>
+
+    
+
+    <div
+      id="qr-modal"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-200"
+      aria-hidden="true"
+    >
+      <div
+        data-qr-modal-panel
+        class="relative bg-white rounded-2xl p-4 md:p-6 shadow-3xl w-[95%] md:w-[80%] max-w-3xl max-h-[90vh] flex flex-col items-center gap-4"
+      >
+        <button
+          type="button"
+          data-qr-modal-close
+          class="absolute top-3 right-3 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:text-gray-700 hover:bg-gray-50 w-8 h-8 md:w-9 md:h-9 shadow-sm"
+          aria-label="Fermer le QR code"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-4 h-4 md:w-5 md:h-5"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+        <h2 class="text-lg font-semibold text-center text-orange-950">
+          Scanner ce QR code pour accéder au site
+        </h2>
+        <div
+          id="modal-qr"
+          class="w-full max-h-[80vh] aspect-square rounded-xl border border-gray-200 bg-white overflow-hidden flex items-center justify-center"
+        ></div>
+        <noscript>
+          <img
+            src="/recettes-cuisine/qr-code.jpg"
+            alt="QR code vers Recettes Cuisine"
+            class="w-full h-auto max-h-[70vh] object-contain rounded-xl border border-gray-200 bg-white"
+            loading="lazy"
+          />
+        </noscript>
+      </div>
+    </div>
+
+    <script src="/recettes-cuisine/assets/js/nav.js"></script>
+    <script src="/recettes-cuisine/assets/js/qr.js"></script>
+  </body>
+</html>

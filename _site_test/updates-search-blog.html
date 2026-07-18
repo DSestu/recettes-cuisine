@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+  <title>
+    HTTPS, Live Search, and a new blog
+  </title>
+  <meta
+    name="description"
+    content="After a few years on the backburner, we’re finally moving Chowdown up to a low simmer. We’re back with a slew of updates like HTTPS, live search, our first p..."
+  />
+
+  <link
+    rel="canonical"
+    href="/recettes-cuisine/updates-search-blog.html"
+  />
+  <link rel="alternate" type="application/rss+xml" title="DSestu - Recettes de cuisine"
+  href="/recettes-cuisine/feed.xml" />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/recettes-cuisine/icons/apple-touch-icon.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/recettes-cuisine/icons/favicon-32x32.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="/recettes-cuisine/icons/favicon-512x512.png"
+  />
+  <link rel="manifest" href="/recettes-cuisine/manifest.json" />
+  <link rel="shortcut icon" href="/recettes-cuisine/icons/favicon.ico" />
+  <meta name="msapplication-TileColor" content="#F53200" />
+  <meta
+    name="msapplication-config"
+    content="/recettes-cuisine/icons/browserconfig.xml"
+  />
+  <meta name="theme-color" content="#F53200" />
+
+  <!-- Facebook Meta Tags -->
+  <meta
+    property="og:url"
+    content="/recettes-cuisine/updates-search-blog.html"
+  />
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:title"
+    content="HTTPS, Live Search, and a new blog"
+  />
+  <meta
+    property="og:description"
+    content="After a few years on the backburner, we’re finally moving Chowdown up to a low simmer. We’re back with a slew of updates like HTTPS, live search, our first p..."
+  />
+  <meta
+    property="og:image"
+    content="/recettes-cuisine/assets/social.png"
+  />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="dsestu.github.io" />
+  <meta
+    property="twitter:url"
+    content="/recettes-cuisine/updates-search-blog.html"
+  />
+  <meta
+    name="twitter:title"
+    content="HTTPS, Live Search, and a new blog"
+  />
+  <meta
+    name="twitter:description"
+    content="After a few years on the backburner, we’re finally moving Chowdown up to a low simmer. We’re back with a slew of updates like HTTPS, live search, our first p..."
+  />
+  <meta
+    name="twitter:image"
+    content="/recettes-cuisine/assets/social.png"
+  />
+
+  <style>
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    @view-transition {
+      navigation: auto;
+      types: ;
+    }
+    .overflow-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .overflow-scroll {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    /* Mobile nav smooth hide/show */
+    .mobile-nav {
+      transition: transform 250ms ease, opacity 200ms ease;
+      will-change: transform, opacity;
+      background: rgba(255, 247, 237, 0.9); /* orange-50 with alpha */
+      backdrop-filter: saturate(160%) blur(10px);
+      -webkit-backdrop-filter: saturate(160%) blur(10px);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .mobile-nav.nav-hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mobile-nav.nav-visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Mobile-only compaction for navbar: smaller bar, icons, and labels */
+    @media (max-width: 767px) {
+      .mobile-nav {
+        padding: 4px 8px;
+        gap: 6px;
+        /* ensure safe-area preserved but tighter */
+        padding-bottom: calc(env(safe-area-inset-bottom) + 4px);
+      }
+      .mobile-nav a {
+        gap: 2px;
+      }
+      .mobile-nav a svg {
+        width: 1.25rem !important; /* ~20px */
+        height: 1.25rem !important;
+      }
+      .mobile-nav a span {
+        font-size: 0.75rem !important; /* ~12px */
+        line-height: 1.05;
+      }
+    }
+
+    /* Desktop: left-edge strip and overlay panel (hover-to-expand) */
+    @media (max-width: 767px) {
+      .desktop-sidebar-wrap {
+        display: contents;
+      }
+      .desktop-sidebar-panel {
+        display: contents;
+      }
+    }
+    @media (min-width: 768px) {
+      .desktop-sidebar-wrap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        z-index: 9990;
+        pointer-events: none;
+      }
+      .desktop-sidebar-wrap * {
+        pointer-events: auto;
+      }
+      #desktop-edge-strip {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 36px;
+        --desktop-strip-intensity: 0;
+        background: linear-gradient(
+          to right,
+          rgba(0, 0, 0, calc(0.42 * var(--desktop-strip-intensity))) 0%,
+          rgba(0, 0, 0, calc(0.15 * var(--desktop-strip-intensity))) 50%,
+          transparent 100%
+        );
+        transition: opacity 0.2s ease;
+        z-index: 9990;
+        opacity: 0;
+        pointer-events: none;
+      }
+      #desktop-edge-strip.desktop-edge-strip--visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded #desktop-edge-strip {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .desktop-sidebar-panel {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 14rem;
+        z-index: 9998;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        transform: translateX(calc(-100% + 16px));
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+      }
+      @media (min-width: 1024px) {
+        .desktop-sidebar-panel {
+          width: 16rem;
+          transform: translateX(calc(-100% + 16px));
+        }
+      }
+      .desktop-sidebar-wrap.desktop-sidebar-expanded .desktop-sidebar-panel {
+        transform: translateX(0);
+      }
+      #desktop-sidebar-open-btn {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 56px;
+        border: none;
+        border-radius: 8px 0 0 8px;
+        background: rgba(255, 247, 237, 0.98);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+        color: #78716c;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      @media (min-width: 768px) {
+        #desktop-sidebar-open-btn {
+          display: flex;
+        }
+      }
+      #desktop-sidebar-open-btn:hover {
+        background: rgba(255, 237, 213, 0.98);
+        color: #57534e;
+      }
+      #desktop-sidebar-open-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+      .desktop-sidebar-panel .mobile-nav {
+        flex: 1;
+        min-width: 0;
+        position: relative;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1.25rem;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="/recettes-cuisine/assets/css/tailwind.css" />
+  <style>
+    [data-cols-grid] {
+      grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)) !important;
+    }
+    @media (min-width: 768px) {
+      [data-cols-grid] {
+        grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)) !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    defer
+  ></script>
+
+  <link rel="stylesheet" href="/recettes-cuisine/assets/css/transitions.css" />
+
+  <script>
+    document.addEventListener("keydown", function (e) {
+      if (!(e.key === "f" || e.key === "F")) return;
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.altKey || e.shiftKey) return;
+      const input =
+        document.getElementById("tag-input") ||
+        document.getElementById("home-search") ||
+        document.getElementById("title-search");
+      if (!input) return;
+      e.preventDefault();
+      try {
+        input.focus({ preventScroll: true });
+      } catch (_) {
+        input.focus();
+      }
+      if (typeof input.select === "function") input.select();
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  </script>
+
+  <!-- Speculation Rules: prefetch same-origin pages on hover/touch.
+       Warms the HTTP cache so View Transitions don't pause as long waiting
+       on the destination HTML. Does NOT prerender (prerender activation can
+       bypass cross-document View Transitions in some Chrome versions).
+       Other browsers ignore the script harmlessly. -->
+  <script type="speculationrules">
+    {
+      "prefetch": [
+        {
+          "where": {
+            "and": [
+              { "href_matches": "/*" },
+              { "not": { "href_matches": "/*.xml" } },
+              { "not": { "href_matches": "/*.json" } },
+              { "not": { "selector_matches": "[target='_blank']" } },
+              { "not": { "selector_matches": "[rel~='external']" } }
+            ]
+          },
+          "eagerness": "moderate"
+        }
+      ]
+    }
+  </script>
+
+  <script src="/recettes-cuisine/assets/js/escape-html.js"></script>
+  <script src="/recettes-cuisine/assets/js/transitions.js"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      if (navigator.serviceWorker.controller) {
+        console.log("An active service worker found, no need to register");
+      } else {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("/recettes-cuisine/serviceworker.js", {
+            scope: "./",
+          })
+          .then(function (reg) {
+            console.log(
+              "Service worker has been registered for scope: " + reg.scope
+            );
+          });
+      }
+    }
+  </script>
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@chowdownapp" />
+  <meta name="twitter:creator" content="@clarklab" />
+  
+  <meta name="twitter:title" content="HTTPS, Live Search, and a new blog" />
+   
+  <meta name="twitter:url" content="/recettes-cuisine/updates-search-blog.html" />
+   
+  <meta name="twitter:description" content="After a few years on the backburner, we’re finally moving Chowdown up to a low simmer. We’re back with a slew of updates like HTTPS, live search, our first pull request, and this blog!A quick runth..." />
+   
+  <meta
+    name="twitter:image:src"
+    content="/recettes-cuisine/assets/social.png"
+  />
+  
+</head>
+
+<div class="desktop-sidebar-wrap" id="desktop-sidebar-wrap">
+  <div id="desktop-edge-strip" class="md:block hidden" aria-hidden="true"></div>
+  <div class="desktop-sidebar-panel">
+    <nav
+      class="mobile-nav nav-visible w-screen md:w-full md:h-full bg-orange-50 fixed md:relative left-0 right-0 bottom-0 overflow-x-hidden flex md:flex-col justify-between md:justify-start px-6 py-4 md:p-5 md:gap-3 z-[9999] shadow-3xl md:shadow-none"
+      id="main-nav"
+      aria-expanded="false"
+      style="view-transition-name: vt-nav;"
+    >
+  <a
+    href="/recettes-cuisine/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 "
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M18 16.25H15V7.5H12V16.25H9V7.5H6V16.25C6 18.9 8.49 21.05 11.625 21.2125V32.5H15.375V21.2125C18.51 21.05 21 18.9 21 16.25V7.5H18V16.25ZM25.5 12.5V22.5H29.25V32.5H33V7.5C28.86 7.5 25.5 10.3 25.5 12.5Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Acceuil</span>
+  </a>
+
+  <a
+    href="/recettes-cuisine/recherche/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 "
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M13 21.5C13 16.8056 16.8056 13 21.5 13C26.1944 13 30 16.8056 30 21.5C30 23.8248 29.0667 25.9315 27.5544 27.4661C27.5392 27.4801 27.5241 27.4946 27.5093 27.5093C27.4946 27.5241 27.4801 27.5392 27.4661 27.5544C25.9315 29.0667 23.8248 30 21.5 30C16.8056 30 13 26.1944 13 21.5ZM28.502 30.6233C26.5628 32.1139 24.1349 33 21.5 33C15.1487 33 10 27.8513 10 21.5C10 15.1487 15.1487 10 21.5 10C27.8513 10 33 15.1487 33 21.5C33 24.1349 32.1139 26.5628 30.6233 28.502L37.5607 35.4393C38.1464 36.0251 38.1464 36.9749 37.5607 37.5607C36.9749 38.1465 36.0251 38.1465 35.4393 37.5607L28.502 30.6233Z"
+        fill="currentColor"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Recherche</span>
+  </a>
+  <a
+    href="/recettes-cuisine/calendrier/"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2 "
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3.5" y="5" width="17" height="15" rx="2" />
+      <path d="M8 3v4" />
+      <path d="M16 3v4" />
+      <path d="M3.5 10h17" />
+      <circle cx="8" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="14" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="17.5" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica">Calendrier</span>
+  </a>
+  <a
+    href="https://github.com/DSestu/recettes-cuisine"
+    class="flex flex-col md:flex-row items-center gap-0 md:gap-2"
+    target="_blank"
+  >
+    <svg
+      class="w-12 md:w-8"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M24 8C17.9256 8 13 12.9256 13 19V28.5C13 29.8816 11.8816 31 10.5 31C9.67157 31 9 31.6716 9 32.5C9 33.3284 9.67157 34 10.5 34H37.5C38.3284 34 39 33.3284 39 32.5C39 31.6716 38.3284 31 37.5 31C36.1184 31 35 29.8816 35 28.5V19C35 12.9256 30.0744 8 24 8ZM32 28.5C32 29.4003 32.2161 30.25 32.5994 31H15.4006C15.7839 30.25 16 29.4003 16 28.5V19C16 14.5824 19.5824 11 24 11C28.4176 11 32 14.5824 32 19V28.5ZM26.4 36C26.702 36 26.986 36.136 27.176 36.37C27.366 36.604 27.442 36.912 27.38 37.206C27.034 38.85 25.644 40 24.002 40C22.36 40 20.97 38.85 20.624 37.206C20.562 36.912 20.636 36.604 20.826 36.37C21.016 36.136 21.3 36 21.602 36H26.4Z"
+        fill="#212121"
+      />
+    </svg>
+    <span class="text-sm md:text-xl font-medium md:font-gelica"
+      >Repository</span
+    >
+  </a>
+
+  <div
+    class="hidden md:flex flex-col items-center gap-3 mt-4 pt-4 border-t border-orange-200"
+  >
+    <p class="text-xs text-orange-900/80 text-center px-2">
+      Accès rapide via QR code
+    </p>
+    <div
+      id="desktop-qr"
+      class="w-full aspect-square rounded-2xl border border-orange-200 shadow-md bg-white overflow-hidden flex items-center justify-center cursor-pointer"
+      role="button"
+      tabindex="0"
+      aria-label="Voir le QR code en grand"
+      title="Voir en grand"
+    ></div>
+    <noscript>
+      <img
+        src="/recettes-cuisine/qr-code.jpg"
+        alt="QR code vers Recettes Cuisine"
+        class="w-full h-auto rounded-2xl border border-orange-200 shadow-md object-cover bg-white mt-2"
+        loading="lazy"
+      />
+    </noscript>
+    <button
+      id="btn-qr-modal-desktop"
+      type="button"
+      class="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-orange-300 bg-white text-orange-900 text-xs hover:bg-orange-50 shadow-sm mt-1"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-4 h-4"
+      >
+        <path
+          d="M3 3h4v4H3V3zm2 2v0h0zm6-2h4v4h-4V3zm2 2v0h0zM3 11h4v4H3v-4zm2 2v0h0zm8-2h4v2h-2v2h2v2h-4v-6zm-4 0h2v2h-2v-2zm0 4h2v2h-2v-2zm8-4h2v2h-2v-2zm0 4h2v4h-4v-2h2v-2z"
+        />
+      </svg>
+      <span>Voir en grand</span>
+    </button>
+  </div>
+</nav>
+    <button type="button" id="desktop-sidebar-open-btn" class="hidden md:flex" aria-label="Ouvrir le menu" title="Ouvrir le menu">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+
+
+  <body>
+
+  	<div class="hero bg-blue">&nbsp;</div>
+
+  	<a class="site-title fixed bg-blue p1 no-line-height top-0 left-0 z4" href="/recettes-cuisine/">
+  <h1 class="hide">DSestu - Recettes de cuisine</h1>
+</a>
+
+    <div class="post container max-width-2 px2">
+    	<h1>HTTPS, Live Search, and a new blog</h1>
+        <p>After a few years on the backburner, we’re finally moving Chowdown up to a low simmer. We’re back with a slew of updates like HTTPS, live search, our first pull request, and this blog!</p>
+
+<p>A quick runthough the new goodness:</p>
+
+<ul>
+  <li>HTTPS for <a href="https://chowdown.io">chowdown.io</a> is now enabled by default, thanks to recent changes by Github Pages. If you’re hosting with Github, enabling it for your own site is as simple as using the correct A/CNAME/DNS records.</li>
+  <li>A simple live search is now available at <a href="/recherche/">/recherche</a>. It indexes the recipe title and the ingredients (so you could find stuffed peppers by searching either “pepper” or “goat cheese”).</li>
+  <li>This may seem ordinary elsewhere, but I wanted to take a quick minute to celebrate Chowdown’s first pull request. We’ve had a few forks and comments over the years, but I wasn’t really watching the project like I should, and now that we’re back on track, it’s time to celebrate 🎉🙌. You can see it <a href="https://github.com/clarklab/chowdown/pull/8">here</a>, where <a href="https://github.com/maartenpaauw">@maartenpaauw</a> submitted a little fix that enabled component recipes to have ingredients of their own. Nice!</li>
+  <li>A new readme is up in the root of the repo, (read it <a href="https://github.com/clarklab/chowdown">here</a>). Moving forward, I’ll keep updating it and plan to keep an eye on the beginner use-case (which is me, I’m still new to Jekyll).</li>
+  <li>Changed the default typeface to <a href="https://rsms.me/inter/">Inter UI</a>, from Rasmus Andersson. Previously we were using <a href="https://fonts.google.com/specimen/Karla">Karla</a>.</li>
+  <li>Last but not least, I’ve added a simple blog template (this one!). That means I’ll be posting some updates here on <a href="https://chowdown.io">chowdown.io</a>, but also that you can use the blogging template in your own install (if you’re into that).</li>
+</ul>
+
+<p>New features hopefully coming in the next few weeks:</p>
+
+<ul>
+  <li>Reworked templates, including some design tweaks and a swap to the latest version of BassCSS.</li>
+  <li>PWA stuffs, like more “add to homescreen” and offline caching.</li>
+</ul>
+
+<p>I’ll try to post some updates on new projects soon, and I’m always looking for feedback (and recipes! submit via pull request!). Until then, happy cooking!</p>
+
+        <p class="meta bg-darken-1 p2 mb4">Posted by <a href="https://github.com/clarklab">@clarklab</a> on Sep  9, 2018</p>
+    </div>
+
+
+
+  <footer class="footer bg-darken-1 clearfix py4 mt3">
+
+  <div class="container px3 sm-px4">
+
+    <div class="clearfix">
+      <div class="sm-col sm-col-6">
+        <p class="left-align mb2"><a href="/recettes-cuisine/recherche/">Rechercher</a>  | <a href="/recettes-cuisine/blog">Blog</a> | S'abonner <a href="/recettes-cuisine/feed.xml">via RSS</a></p>
+      </div>
+      <div class="sm-col sm-col-6">
+        <p class="right-align mb2">Made with <svg class="js-geomicon geomicon" height="0.8em" data-icon="heart" viewBox="0 0 32 32" style="fill:#007FFF"><title>heart icon</title><path d="M0 10 C0 6, 3 2, 8 2 C12 2, 15 5, 16 6 C17 5, 20 2, 24 2 C30 2, 32 6, 32 10 C32 18, 18 29, 16 30 C14 29, 0 18, 0 10"></path></svg> by <a href="http://twitter.com/clarklab">@clarklab</a></p>
+      </div>
+    </div>
+    
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
