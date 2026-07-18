@@ -44,7 +44,7 @@
     {
       "slug": " tofu_meatball_with_mushroom_ankake_sauce",
       "title": "Boulettes de tofu avec sauce Ankake aux champignons",
-      "url": "/ tofu_meatball_with_mushroom_ankake_sauce.html",
+      "url": "/recipes/ tofu_meatball_with_mushroom_ankake_sauce.html",
       "kind": "recipe",
       "image": "tofu_meatball_with_mushroom_ankake_sauce",
       "temporal_ingredients": [
@@ -74,7 +74,7 @@
     {
       "slug": "aiguillettes_de_poulet_au_miel_et_au_cidre",
       "title": "Aiguillettes de poulet au miel et au cidre",
-      "url": "/aiguillettes_de_poulet_au_miel_et_au_cidre.html",
+      "url": "/recipes/aiguillettes_de_poulet_au_miel_et_au_cidre.html",
       "kind": "recipe",
       "image": "aiguillettes_de_poulet_au_miel_et_au_cidre",
       "temporal_ingredients": [
@@ -100,7 +100,7 @@
     {
       "slug": "ankake_sauce",
       "title": "Sauce ankake aux champignons",
-      "url": "/ankake_sauce.html",
+      "url": "/components/ankake_sauce.html",
       "kind": "component",
       "image": "ankake_sauce",
       "temporal_ingredients": []
@@ -108,7 +108,7 @@
     {
       "slug": "aromatic_sauce_for_karaage",
       "title": "Sauce aromatique pour Karaage",
-      "url": "/aromatic_sauce_for_karaage.html",
+      "url": "/components/aromatic_sauce_for_karaage.html",
       "kind": "component",
       "image": "aromatic_karaage",
       "temporal_ingredients": [
@@ -147,7 +147,7 @@
     {
       "slug": "avoines_facon_risotto_courge_bleu_noix",
       "title": "Avoines façon risotto, courge, bleu et noix",
-      "url": "/avoines_facon_risotto_courge_bleu_noix.html",
+      "url": "/recipes/avoines_facon_risotto_courge_bleu_noix.html",
       "kind": "recipe",
       "image": "avoines_facon_risotto_courge_bleu_noix",
       "temporal_ingredients": [
@@ -183,7 +183,7 @@
     {
       "slug": "bavette_sauce_au_vin",
       "title": "Bavette sauce au vin",
-      "url": "/bavette_sauce_au_vin.html",
+      "url": "/recipes/bavette_sauce_au_vin.html",
       "kind": "recipe",
       "image": "bavette_sauce_au_vin",
       "temporal_ingredients": []
@@ -191,7 +191,7 @@
     {
       "slug": "beignets_italiens_ricotta",
       "title": "Beignets italiens à la ricotta",
-      "url": "/beignets_italiens_ricotta.html",
+      "url": "/recipes/beignets_italiens_ricotta.html",
       "kind": "recipe",
       "image": "beignets_italiens_ricotta",
       "temporal_ingredients": []
@@ -199,7 +199,7 @@
     {
       "slug": "blanquette_de_veau",
       "title": "Blanquette de veau",
-      "url": "/blanquette_de_veau.html",
+      "url": "/recipes/blanquette_de_veau.html",
       "kind": "recipe",
       "image": "blanquette_de_veau",
       "temporal_ingredients": [
@@ -281,7 +281,7 @@
     {
       "slug": "bouillon_emilia",
       "title": "Bouillon Emilia",
-      "url": "/bouillon_emilia.html",
+      "url": "/recipes/bouillon_emilia.html",
       "kind": "recipe",
       "image": "bouillon_emilia",
       "temporal_ingredients": [
@@ -343,7 +343,7 @@
     {
       "slug": "buche_framboise_mascarpone",
       "title": "Bûche framboise & mascarpone",
-      "url": "/buche_framboise_mascarpone.html",
+      "url": "/recipes/buche_framboise_mascarpone.html",
       "kind": "recipe",
       "image": "buche_framboise_mascarpone",
       "temporal_ingredients": [
@@ -366,7 +366,7 @@
     {
       "slug": "chakchouka_epinards_choux_bruxelles",
       "title": "Chakchouka aux épinards et choux de Bruxelles",
-      "url": "/chakchouka_epinards_choux_bruxelles.html",
+      "url": "/recipes/chakchouka_epinards_choux_bruxelles.html",
       "kind": "recipe",
       "image": "chakchouka_epinards_choux_bruxelles",
       "temporal_ingredients": [
@@ -438,7 +438,7 @@
     {
       "slug": "champignons_en_salade",
       "title": "Champignons en salade",
-      "url": "/champignons_en_salade.html",
+      "url": "/recipes/champignons_en_salade.html",
       "kind": "recipe",
       "image": "champignons_en_salade",
       "temporal_ingredients": [
@@ -460,7 +460,7 @@
     {
       "slug": "char_siu_porc_dore_au_chalumeau",
       "title": "Char siu (porc doré au chalumeau)",
-      "url": "/char_siu_porc_dore_au_chalumeau.html",
+      "url": "/components/char_siu_porc_dore_au_chalumeau.html",
       "kind": "component",
       "image": "char_siu_porc_chalumeau",
       "temporal_ingredients": []
@@ -468,7 +468,7 @@
     {
       "slug": "chili_con_carne",
       "title": "Chili con carne",
-      "url": "/chili_con_carne.html",
+      "url": "/recipes/chili_con_carne.html",
       "kind": "recipe",
       "image": "chili_con_carne",
       "temporal_ingredients": [
@@ -492,7 +492,7 @@
     {
       "slug": "chouquettes",
       "title": "Chouquettes",
-      "url": "/chouquettes.html",
+      "url": "/recipes/chouquettes.html",
       "kind": "recipe",
       "image": "chouquettes",
       "temporal_ingredients": []
@@ -500,7 +500,7 @@
     {
       "slug": "coquilles_saint_jacques_gratinees",
       "title": "Coquilles Saint-Jacques gratinées",
-      "url": "/coquilles_saint_jacques_gratinees.html",
+      "url": "/recipes/coquilles_saint_jacques_gratinees.html",
       "kind": "recipe",
       "image": "coquilles_saint_jacques_gratinees",
       "temporal_ingredients": [
@@ -530,7 +530,7 @@
     {
       "slug": "creme_brulee",
       "title": "Crème brûlée",
-      "url": "/creme_brulee.html",
+      "url": "/recipes/creme_brulee.html",
       "kind": "recipe",
       "image": "creme_brulee",
       "temporal_ingredients": []
@@ -538,7 +538,7 @@
     {
       "slug": "crepes_broquet",
       "title": "Crêpes Broquet",
-      "url": "/crepes_broquet.html",
+      "url": "/recipes/crepes_broquet.html",
       "kind": "recipe",
       "image": "crepes_broquet",
       "temporal_ingredients": []
@@ -546,7 +546,7 @@
     {
       "slug": "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
       "title": "Croque-madame au saint-nectaire, à l'oignon rouge et aux épinards sautés",
-      "url": "/croque_madame_saint_nectaire_oignon_rouge_epinards_sautes.html",
+      "url": "/recipes/croque_madame_saint_nectaire_oignon_rouge_epinards_sautes.html",
       "kind": "recipe",
       "image": "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
       "temporal_ingredients": [
@@ -604,7 +604,7 @@
     {
       "slug": "curry_oeuf_massala",
       "title": "Curry d'œuf massala",
-      "url": "/curry_oeuf_massala.html",
+      "url": "/recipes/curry_oeuf_massala.html",
       "kind": "recipe",
       "image": "curry_oeuf_massala",
       "temporal_ingredients": [
@@ -642,7 +642,7 @@
     {
       "slug": "dashi",
       "title": "Dashi",
-      "url": "/dashi.html",
+      "url": "/components/dashi.html",
       "kind": "component",
       "image": "dashi",
       "temporal_ingredients": [
@@ -664,7 +664,7 @@
     {
       "slug": "entremet_framboises_mascarpone_kirsch",
       "title": "Entremet framboises & mascarpone au kirsch",
-      "url": "/entremet_framboises_mascarpone_kirsch.html",
+      "url": "/recipes/entremet_framboises_mascarpone_kirsch.html",
       "kind": "recipe",
       "image": "entremet_framboises_mascarpone_kirsch",
       "temporal_ingredients": [
@@ -687,7 +687,7 @@
     {
       "slug": "faux_fillet_sauce_poivre",
       "title": "Faux-filet, sauce au poivre",
-      "url": "/faux_fillet_sauce_poivre.html",
+      "url": "/recipes/faux_fillet_sauce_poivre.html",
       "kind": "recipe",
       "image": "faux_fillet_sauce_poivre",
       "temporal_ingredients": [
@@ -711,7 +711,7 @@
     {
       "slug": "filet_de_poulet_creme_champignons",
       "title": "Filet de poulet à la crème et aux champignons",
-      "url": "/filet_de_poulet_creme_champignons.html",
+      "url": "/recipes/filet_de_poulet_creme_champignons.html",
       "kind": "recipe",
       "image": "filet_de_poulet_creme_champignons",
       "temporal_ingredients": []
@@ -719,7 +719,7 @@
     {
       "slug": "filet_mignon_sauce_chasseur",
       "title": "Filet mignon sauce chasseur",
-      "url": "/filet_mignon_sauce_chasseur.html",
+      "url": "/recipes/filet_mignon_sauce_chasseur.html",
       "kind": "recipe",
       "image": "filet_mignon_sauce_chasseur",
       "temporal_ingredients": [
@@ -743,7 +743,7 @@
     {
       "slug": "frittata_petits_pois_poulet_menthe",
       "title": "Frittata aux petits pois, au poulet et à la menthe",
-      "url": "/frittata_petits_pois_poulet_menthe.html",
+      "url": "/recipes/frittata_petits_pois_poulet_menthe.html",
       "kind": "recipe",
       "image": "frittata_petits_pois_poulet_menthe",
       "temporal_ingredients": [
@@ -816,7 +816,7 @@
     {
       "slug": "galette_creme_de_poireau_beaufort",
       "title": "Galette à la crème de poireau et beaufort",
-      "url": "/galette_creme_de_poireau_beaufort.html",
+      "url": "/recipes/galette_creme_de_poireau_beaufort.html",
       "kind": "recipe",
       "image": "galette_creme_de_poireau_beaufort",
       "temporal_ingredients": [
@@ -863,7 +863,7 @@
     {
       "slug": "gambas_sautees_peche",
       "title": "Gambas sautées à la persillade et aux pêches",
-      "url": "/gambas_sautees_peche.html",
+      "url": "/recipes/gambas_sautees_peche.html",
       "kind": "recipe",
       "image": "gambas_sautees_peche",
       "temporal_ingredients": [
@@ -901,7 +901,7 @@
     {
       "slug": "gateau_de_riz",
       "title": "Gateau de riz",
-      "url": "/gateau_de_riz.html",
+      "url": "/recipes/gateau_de_riz.html",
       "kind": "recipe",
       "image": "gateau_de_riz",
       "temporal_ingredients": []
@@ -909,7 +909,7 @@
     {
       "slug": "gateau_marbre",
       "title": "Gâteau marbré",
-      "url": "/gateau_marbre.html",
+      "url": "/recipes/gateau_marbre.html",
       "kind": "recipe",
       "image": "gateau_marbre",
       "temporal_ingredients": []
@@ -917,7 +917,7 @@
     {
       "slug": "gnocchi_maison_sauce_tomate",
       "title": "Gnocchi maison à la sauce tomate",
-      "url": "/gnocchi_maison_sauce_tomate.html",
+      "url": "/recipes/gnocchi_maison_sauce_tomate.html",
       "kind": "recipe",
       "image": "gnocchi_maison_sauce_tomate",
       "temporal_ingredients": []
@@ -925,7 +925,7 @@
     {
       "slug": "gratin_patate_douce_boeuf_feta",
       "title": "Gratin patate douce, bœuf haché & feta",
-      "url": "/gratin_patate_douce_boeuf_feta.html",
+      "url": "/recipes/gratin_patate_douce_boeuf_feta.html",
       "kind": "recipe",
       "image": "gratin_patate_douce_boeuf_feta",
       "temporal_ingredients": [
@@ -964,7 +964,7 @@
     {
       "slug": "gratin_peches_creme_amandes",
       "title": "Gratin de pêches à la crème d'amandes",
-      "url": "/gratin_peches_creme_amandes.html",
+      "url": "/recipes/gratin_peches_creme_amandes.html",
       "kind": "recipe",
       "image": "gratin_peches_creme_amandes",
       "temporal_ingredients": [
@@ -985,7 +985,7 @@
     {
       "slug": "gratin_penne_champignons_bouillon",
       "title": "Gratin de pennes et champignons au bouillon",
-      "url": "/gratin_penne_champignons_bouillon.html",
+      "url": "/recipes/gratin_penne_champignons_bouillon.html",
       "kind": "recipe",
       "image": "gratin_penne_champignons_bouillon",
       "temporal_ingredients": [
@@ -1010,7 +1010,7 @@
     {
       "slug": "gratinee_lyonnaise",
       "title": "Gratinée lyonnaise",
-      "url": "/gratinee_lyonnaise.html",
+      "url": "/recipes/gratinee_lyonnaise.html",
       "kind": "recipe",
       "image": "gratinee_lyonnaise",
       "temporal_ingredients": []
@@ -1018,7 +1018,7 @@
     {
       "slug": "gremolata",
       "title": "Gremolata",
-      "url": "/gremolata.html",
+      "url": "/components/gremolata.html",
       "kind": "component",
       "image": "gremolata",
       "temporal_ingredients": [
@@ -1060,7 +1060,7 @@
     {
       "slug": "hijiki",
       "title": "Salade de racine de lotus et algue hijiki au miso",
-      "url": "/hijiki.html",
+      "url": "/recipes/hijiki.html",
       "kind": "recipe",
       "image": "hijiki",
       "temporal_ingredients": [
@@ -1122,7 +1122,7 @@
     {
       "slug": "joue_de_boeuf_au_cidre",
       "title": "Joue de bœuf au cidre",
-      "url": "/joue_de_boeuf_au_cidre.html",
+      "url": "/recipes/joue_de_boeuf_au_cidre.html",
       "kind": "recipe",
       "image": "joue_de_boeuf_au_cidre",
       "temporal_ingredients": [
@@ -1149,7 +1149,7 @@
     {
       "slug": "karaage",
       "title": "Karaage - Poulet frit japonais avec sauce aromatique",
-      "url": "/karaage.html",
+      "url": "/recipes/karaage.html",
       "kind": "recipe",
       "image": "karaage",
       "temporal_ingredients": [
@@ -1188,7 +1188,7 @@
     {
       "slug": "kinpira_gobo",
       "title": "Kinpira Gobo - Racine de bardane et carotte sautées",
-      "url": "/kinpira_gobo.html",
+      "url": "/recipes/kinpira_gobo.html",
       "kind": "recipe",
       "image": "kinpira_gobo",
       "temporal_ingredients": [
@@ -1212,7 +1212,7 @@
     {
       "slug": "lapin_mijote_pommes_cidre",
       "title": "Lapin mijoté aux pommes et au cidre",
-      "url": "/lapin_mijote_pommes_cidre.html",
+      "url": "/recipes/lapin_mijote_pommes_cidre.html",
       "kind": "recipe",
       "image": "lapin_mijote_pommes_cidre",
       "temporal_ingredients": [
@@ -1238,7 +1238,7 @@
     {
       "slug": "lasagnes",
       "title": "Lasagnes",
-      "url": "/lasagnes.html",
+      "url": "/recipes/lasagnes.html",
       "kind": "recipe",
       "image": "lasagnes",
       "temporal_ingredients": []
@@ -1246,7 +1246,7 @@
     {
       "slug": "limoncello",
       "title": "Limoncello",
-      "url": "/limoncello.html",
+      "url": "/recipes/limoncello.html",
       "kind": "recipe",
       "image": "limoncello",
       "temporal_ingredients": [
@@ -1272,7 +1272,7 @@
     {
       "slug": "limoncello_tiramisu",
       "title": "Limoncello tiramisu",
-      "url": "/limoncello_tiramisu.html",
+      "url": "/recipes/limoncello_tiramisu.html",
       "kind": "recipe",
       "image": "limoncello_tiramisu",
       "temporal_ingredients": [
@@ -1298,7 +1298,7 @@
     {
       "slug": "linguines_girolles_tomate",
       "title": "Linguines aux girolles et à la tomate",
-      "url": "/linguines_girolles_tomate.html",
+      "url": "/recipes/linguines_girolles_tomate.html",
       "kind": "recipe",
       "image": "linguines_girolles_tomate",
       "temporal_ingredients": [
@@ -1338,7 +1338,7 @@
     {
       "slug": "linguines_ricotta_pecorino_et_guanciale",
       "title": "Linguines ricotta, pecorino et guanciale",
-      "url": "/linguines_ricotta_pecorino_et_guanciale.html",
+      "url": "/recipes/linguines_ricotta_pecorino_et_guanciale.html",
       "kind": "recipe",
       "image": "linguines_ricotta_pecorino_et_guanciale",
       "temporal_ingredients": [
@@ -1363,7 +1363,7 @@
     {
       "slug": "magret_de_canard_clementines_corse_puree_de_butternut",
       "title": "Magret de canard, clémentines de Corse et purée de butternut",
-      "url": "/magret_de_canard_clementines_corse_puree_de_butternut.html",
+      "url": "/recipes/magret_de_canard_clementines_corse_puree_de_butternut.html",
       "kind": "recipe",
       "image": "magret_de_canard_clementines_corse_puree_de_butternut",
       "temporal_ingredients": [
@@ -1428,7 +1428,7 @@
     {
       "slug": "magret_orange_kumquat",
       "title": "Magret à l'orange et kumquat",
-      "url": "/magret_orange_kumquat.html",
+      "url": "/recipes/magret_orange_kumquat.html",
       "kind": "recipe",
       "image": "magret_orange_kumquat",
       "temporal_ingredients": [
@@ -1481,7 +1481,7 @@
     {
       "slug": "magret_sauce_fruitee",
       "title": "Magret sauce fruitée",
-      "url": "/magret_sauce_fruitee.html",
+      "url": "/recipes/magret_sauce_fruitee.html",
       "kind": "recipe",
       "image": "magret_sauce_fruitee",
       "temporal_ingredients": [
@@ -1553,7 +1553,7 @@
     {
       "slug": "maquereaux_marines",
       "title": "Maquereaux marinés",
-      "url": "/maquereaux_marines.html",
+      "url": "/recipes/maquereaux_marines.html",
       "kind": "recipe",
       "image": "maquereaux_marines",
       "temporal_ingredients": [
@@ -1614,7 +1614,7 @@
     {
       "slug": "marinade_gingembre_soja",
       "title": "Marinade gingembre-soja",
-      "url": "/marinade_gingembre_soja.html",
+      "url": "/components/marinade_gingembre_soja.html",
       "kind": "component",
       "image": "marinade_gingembre_soja",
       "temporal_ingredients": []
@@ -1622,7 +1622,7 @@
     {
       "slug": "marinade_moutarde_miel",
       "title": "Marinade moutarde-miel",
-      "url": "/marinade_moutarde_miel.html",
+      "url": "/components/marinade_moutarde_miel.html",
       "kind": "component",
       "image": "marinade_moutarde_miel",
       "temporal_ingredients": []
@@ -1630,7 +1630,7 @@
     {
       "slug": "marinade_poisson",
       "title": "Marinade cuite pour poisson",
-      "url": "/marinade_poisson.html",
+      "url": "/components/marinade_poisson.html",
       "kind": "component",
       "image": "marinade_poisson",
       "temporal_ingredients": [
@@ -1657,7 +1657,7 @@
     {
       "slug": "marinade_vinaigre_ail_laurier",
       "title": "Marinade au vinaigre, ail et laurier",
-      "url": "/marinade_vinaigre_ail_laurier.html",
+      "url": "/components/marinade_vinaigre_ail_laurier.html",
       "kind": "component",
       "image": "marinade_vinaigre_ail_laurier",
       "temporal_ingredients": []
@@ -1665,7 +1665,7 @@
     {
       "slug": "meringue_aux_amandes",
       "title": "Meringue aux amandes",
-      "url": "/meringue_aux_amandes.html",
+      "url": "/recipes/meringue_aux_amandes.html",
       "kind": "recipe",
       "image": "meringue_aux_amandes",
       "temporal_ingredients": []
@@ -1673,7 +1673,7 @@
     {
       "slug": "minestrone",
       "title": "Minestrone",
-      "url": "/minestrone.html",
+      "url": "/recipes/minestrone.html",
       "kind": "recipe",
       "image": "minestrone",
       "temporal_ingredients": [
@@ -1754,7 +1754,7 @@
     {
       "slug": "miso_dressing",
       "title": "Vinaigrette miso",
-      "url": "/miso_dressing.html",
+      "url": "/components/miso_dressing.html",
       "kind": "component",
       "image": "vinaigrette_miso",
       "temporal_ingredients": []
@@ -1762,7 +1762,7 @@
     {
       "slug": "moelleux_au_chocolat",
       "title": "Moelleux au chocolat",
-      "url": "/moelleux_au_chocolat.html",
+      "url": "/recipes/moelleux_au_chocolat.html",
       "kind": "recipe",
       "image": "moelleux_au_chocolat",
       "temporal_ingredients": []
@@ -1770,7 +1770,7 @@
     {
       "slug": "moelleux_poire_frangipane",
       "title": "Moelleux à la poire et à la frangipane",
-      "url": "/moelleux_poire_frangipane.html",
+      "url": "/recipes/moelleux_poire_frangipane.html",
       "kind": "recipe",
       "image": "moelleux_poire_frangipane",
       "temporal_ingredients": [
@@ -1796,7 +1796,7 @@
     {
       "slug": "mousse_au_citron_broquet",
       "title": "Mousse au citron Broquet",
-      "url": "/mousse_au_citron_broquet.html",
+      "url": "/recipes/mousse_au_citron_broquet.html",
       "kind": "recipe",
       "image": "mousse_au_citron_broquet",
       "temporal_ingredients": [
@@ -1838,7 +1838,7 @@
     {
       "slug": "nouilles_riz_complet_sautee_express",
       "title": "Nouilles de riz complet sautées express",
-      "url": "/nouilles_riz_complet_sautee_express.html",
+      "url": "/recipes/nouilles_riz_complet_sautee_express.html",
       "kind": "recipe",
       "image": "nouilles_riz_complet_sautee_express",
       "temporal_ingredients": []
@@ -1846,7 +1846,7 @@
     {
       "slug": "oeuf_a_la_creme",
       "title": "Œufs à la crème",
-      "url": "/oeuf_a_la_creme.html",
+      "url": "/recipes/oeuf_a_la_creme.html",
       "kind": "recipe",
       "image": "oeuf_a_la_creme",
       "temporal_ingredients": [
@@ -1891,7 +1891,7 @@
     {
       "slug": "oeuf_en_croute_de_pain_au_fromage",
       "title": "Œuf en croûte de pain au fromage",
-      "url": "/oeuf_en_croute_de_pain_au_fromage.html",
+      "url": "/recipes/oeuf_en_croute_de_pain_au_fromage.html",
       "kind": "recipe",
       "image": "oeuf_en_croute_de_pain_au_fromage",
       "temporal_ingredients": []
@@ -1899,7 +1899,7 @@
     {
       "slug": "oeuf_en_meurette",
       "title": "Œufs en meurette",
-      "url": "/oeuf_en_meurette.html",
+      "url": "/recipes/oeuf_en_meurette.html",
       "kind": "recipe",
       "image": "oeuf_en_meurette",
       "temporal_ingredients": []
@@ -1907,7 +1907,7 @@
     {
       "slug": "okonomiyaki",
       "title": "Okonomiyaki",
-      "url": "/okonomiyaki.html",
+      "url": "/recipes/okonomiyaki.html",
       "kind": "recipe",
       "image": "okonomiyaki",
       "temporal_ingredients": [
@@ -1935,7 +1935,7 @@
     {
       "slug": "osso_buco_polenta_cremeuse",
       "title": "Osso-buco et polenta crémeuse",
-      "url": "/osso_buco_polenta_cremeuse.html",
+      "url": "/recipes/osso_buco_polenta_cremeuse.html",
       "kind": "recipe",
       "image": "osso_buco_polenta_cremeuse",
       "temporal_ingredients": [
@@ -1975,7 +1975,7 @@
     {
       "slug": "pappardelles_champignons_bleu_comte_poulet",
       "title": "Pappardelles aux champignons, bleu, comté et poulet",
-      "url": "/pappardelles_champignons_bleu_comte_poulet.html",
+      "url": "/recipes/pappardelles_champignons_bleu_comte_poulet.html",
       "kind": "recipe",
       "image": "pappardelles_champignons_bleu_comte_poulet",
       "temporal_ingredients": [
@@ -2005,7 +2005,7 @@
     {
       "slug": "pates_courge_ail_sauge",
       "title": "Pâtes crémeuses à la courge rôtie, à l'ail et à la sauge",
-      "url": "/pates_courge_ail_sauge.html",
+      "url": "/recipes/pates_courge_ail_sauge.html",
       "kind": "recipe",
       "image": "pates_courge_ail_sauge",
       "temporal_ingredients": [
@@ -2029,7 +2029,7 @@
     {
       "slug": "pates_fraiches_raviolis",
       "title": "Pâtes fraîches / à raviolis",
-      "url": "/pates_fraiches_raviolis.html",
+      "url": "/components/pates_fraiches_raviolis.html",
       "kind": "component",
       "image": "pates_fraiches_raviolis",
       "temporal_ingredients": []
@@ -2037,7 +2037,7 @@
     {
       "slug": "pates_sauce_tomate",
       "title": "Pâtes sauce tomate",
-      "url": "/pates_sauce_tomate.html",
+      "url": "/recipes/pates_sauce_tomate.html",
       "kind": "recipe",
       "image": "pates_sauce_tomate",
       "temporal_ingredients": [
@@ -2076,7 +2076,7 @@
     {
       "slug": "pave_agneau_girolles_beurre_estragon",
       "title": "Pavé d'agneau et girolles au beurre d'estragon",
-      "url": "/pave_agneau_girolles_beurre_estragon.html",
+      "url": "/recipes/pave_agneau_girolles_beurre_estragon.html",
       "kind": "recipe",
       "image": "pave_agneau_girolles_beurre_estragon",
       "temporal_ingredients": [
@@ -2132,7 +2132,7 @@
     {
       "slug": "pomme_de_terre_farcie_aux_rillettes_de_thon",
       "title": "Pomme de terre farcie aux rillettes de thon",
-      "url": "/pomme_de_terre_farcie_aux_rillettes_de_thon.html",
+      "url": "/recipes/pomme_de_terre_farcie_aux_rillettes_de_thon.html",
       "kind": "recipe",
       "image": "pomme_de_terre_farcie_aux_rillettes_de_thon",
       "temporal_ingredients": [
@@ -2196,7 +2196,7 @@
     {
       "slug": "potage_au_concombre",
       "title": "Potage au concombre",
-      "url": "/potage_au_concombre.html",
+      "url": "/recipes/potage_au_concombre.html",
       "kind": "recipe",
       "image": "potage_au_concombre",
       "temporal_ingredients": [
@@ -2254,7 +2254,7 @@
     {
       "slug": "potage_de_chou-fleur",
       "title": "Potage Dubarry",
-      "url": "/potage_de_chou-fleur.html",
+      "url": "/recipes/potage_de_chou-fleur.html",
       "kind": "recipe",
       "image": "potage_de_chou-fleur",
       "temporal_ingredients": [
@@ -2293,7 +2293,7 @@
     {
       "slug": "poulet_curry",
       "title": "Poulet curry",
-      "url": "/poulet_curry.html",
+      "url": "/recipes/poulet_curry.html",
       "kind": "recipe",
       "image": "poulet_curry",
       "temporal_ingredients": []
@@ -2301,7 +2301,7 @@
     {
       "slug": "poulet_yakitori",
       "title": "Boulettes poulet Yakitori",
-      "url": "/poulet_yakitori.html",
+      "url": "/recipes/poulet_yakitori.html",
       "kind": "recipe",
       "image": "poulet_yakitori",
       "temporal_ingredients": []
@@ -2309,7 +2309,7 @@
     {
       "slug": "pounchkis",
       "title": "Pounchkis (beignets fourrés)",
-      "url": "/pounchkis.html",
+      "url": "/recipes/pounchkis.html",
       "kind": "recipe",
       "image": "pounchkis",
       "temporal_ingredients": []
@@ -2317,7 +2317,7 @@
     {
       "slug": "punch",
       "title": "Punch frais",
-      "url": "/punch.html",
+      "url": "/recipes/punch.html",
       "kind": "recipe",
       "image": "punch",
       "temporal_ingredients": []
@@ -2325,7 +2325,7 @@
     {
       "slug": "quatre_quart_emilia",
       "title": "Quatre quart Emilia",
-      "url": "/quatre_quart_emilia.html",
+      "url": "/recipes/quatre_quart_emilia.html",
       "kind": "recipe",
       "image": "quatre_quart_emilia",
       "temporal_ingredients": []
@@ -2333,7 +2333,7 @@
     {
       "slug": "ramen_maison",
       "title": "Ramen maison",
-      "url": "/ramen_maison.html",
+      "url": "/recipes/ramen_maison.html",
       "kind": "recipe",
       "image": "ramen_maison",
       "temporal_ingredients": [
@@ -2361,7 +2361,7 @@
     {
       "slug": "raviolis_sestu",
       "title": "Raviolis sestu (WIP)",
-      "url": "/raviolis_sestu.html",
+      "url": "/recipes/raviolis_sestu.html",
       "kind": "recipe",
       "image": "raviolis_sestu",
       "temporal_ingredients": []
@@ -2369,7 +2369,7 @@
     {
       "slug": "ribs_sauce_orange",
       "title": "Ribs sauce à l'orange",
-      "url": "/ribs_sauce_orange.html",
+      "url": "/recipes/ribs_sauce_orange.html",
       "kind": "recipe",
       "image": "ribs_sauce_orange",
       "temporal_ingredients": [
@@ -2409,7 +2409,7 @@
     {
       "slug": "rillettes_de_thon",
       "title": "Rillettes de thon",
-      "url": "/rillettes_de_thon.html",
+      "url": "/components/rillettes_de_thon.html",
       "kind": "component",
       "image": "rillettes_de_thon",
       "temporal_ingredients": [
@@ -2452,7 +2452,7 @@
     {
       "slug": "risoto_gambas_chorizo_sauce_tomate",
       "title": "Risotto aux gambas et chorizo à la sauce tomate",
-      "url": "/risoto_gambas_chorizo_sauce_tomate.html",
+      "url": "/recipes/risoto_gambas_chorizo_sauce_tomate.html",
       "kind": "recipe",
       "image": "risoto_gambas_chorizo_sauce_tomate",
       "temporal_ingredients": [
@@ -2477,7 +2477,7 @@
     {
       "slug": "risotto_aux_champignons_et_aux_chataignes",
       "title": "Risotto aux champignons et aux châtaignes",
-      "url": "/risotto_aux_champignons_et_aux_chataignes.html",
+      "url": "/recipes/risotto_aux_champignons_et_aux_chataignes.html",
       "kind": "recipe",
       "image": "risotto_aux_champignons_et_aux_chataignes",
       "temporal_ingredients": [
@@ -2498,7 +2498,7 @@
     {
       "slug": "riz_au_lait_framboises",
       "title": "Riz au lait aux framboises en verrines",
-      "url": "/riz_au_lait_framboises.html",
+      "url": "/recipes/riz_au_lait_framboises.html",
       "kind": "recipe",
       "image": "riz_au_lait_framboises",
       "temporal_ingredients": [
@@ -2521,7 +2521,7 @@
     {
       "slug": "saint_jacques_facon_chaudree",
       "title": "Saint-Jacques façon chaudrée",
-      "url": "/saint_jacques_facon_chaudree.html",
+      "url": "/recipes/saint_jacques_facon_chaudree.html",
       "kind": "recipe",
       "image": "saint_jacques_facon_chaudree",
       "temporal_ingredients": [
@@ -2586,7 +2586,7 @@
     {
       "slug": "salade_chou_rouge",
       "title": "Salade de chou rouge",
-      "url": "/salade_chou_rouge.html",
+      "url": "/recipes/salade_chou_rouge.html",
       "kind": "recipe",
       "image": "salade_chou_rouge",
       "temporal_ingredients": [
@@ -2614,7 +2614,7 @@
     {
       "slug": "sauce_au_foie_gras",
       "title": "Sauce au foie gras",
-      "url": "/sauce_au_foie_gras.html",
+      "url": "/components/sauce_au_foie_gras.html",
       "kind": "component",
       "image": "sauce_au_foie_gras",
       "temporal_ingredients": [
@@ -2636,7 +2636,7 @@
     {
       "slug": "sauce_au_poivre",
       "title": "Sauce au poivre",
-      "url": "/sauce_au_poivre.html",
+      "url": "/components/sauce_au_poivre.html",
       "kind": "component",
       "image": "sauce_au_poivre",
       "temporal_ingredients": []
@@ -2644,7 +2644,7 @@
     {
       "slug": "sauce_au_vin_rouge",
       "title": "Sauce au vin rouge",
-      "url": "/sauce_au_vin_rouge.html",
+      "url": "/components/sauce_au_vin_rouge.html",
       "kind": "component",
       "image": "sauce_au_vin_rouge",
       "temporal_ingredients": [
@@ -2671,7 +2671,7 @@
     {
       "slug": "sauce_bolognaise",
       "title": "Sauce bolognaise",
-      "url": "/sauce_bolognaise.html",
+      "url": "/components/sauce_bolognaise.html",
       "kind": "component",
       "image": "sauce_bolognaise",
       "temporal_ingredients": [
@@ -2694,7 +2694,7 @@
     {
       "slug": "sauce_caramel",
       "title": "Sauce caramel",
-      "url": "/sauce_caramel.html",
+      "url": "/components/sauce_caramel.html",
       "kind": "component",
       "image": "sauce_caramel",
       "temporal_ingredients": []
@@ -2702,7 +2702,7 @@
     {
       "slug": "sauce_chasseur",
       "title": "Sauce chasseur",
-      "url": "/sauce_chasseur.html",
+      "url": "/components/sauce_chasseur.html",
       "kind": "component",
       "image": "sauce_chasseur",
       "temporal_ingredients": []
@@ -2710,7 +2710,7 @@
     {
       "slug": "sauce_fruitee",
       "title": "Sauce fruitée",
-      "url": "/sauce_fruitee.html",
+      "url": "/components/sauce_fruitee.html",
       "kind": "component",
       "image": "sauce_fruitee",
       "temporal_ingredients": [
@@ -2764,7 +2764,7 @@
     {
       "slug": "sauce_orange",
       "title": "Sauce à l'orange",
-      "url": "/sauce_orange.html",
+      "url": "/components/sauce_orange.html",
       "kind": "component",
       "image": "sauce_orange",
       "temporal_ingredients": [
@@ -2804,7 +2804,7 @@
     {
       "slug": "sauce_orange_kumquat",
       "title": "Sauce orange et kumquat",
-      "url": "/sauce_orange_kumquat.html",
+      "url": "/components/sauce_orange_kumquat.html",
       "kind": "component",
       "image": "sauce_orange_kumquat",
       "temporal_ingredients": [
@@ -2857,7 +2857,7 @@
     {
       "slug": "sauce_teriyaki",
       "title": "Sauce teriyaki",
-      "url": "/sauce_teriyaki.html",
+      "url": "/components/sauce_teriyaki.html",
       "kind": "component",
       "image": "sauce_teriyaki",
       "temporal_ingredients": []
@@ -2865,7 +2865,7 @@
     {
       "slug": "sauce_teriyaki_maison",
       "title": "Sauce teriyaki pour nouilles sautées",
-      "url": "/sauce_teriyaki_maison.html",
+      "url": "/components/sauce_teriyaki_maison.html",
       "kind": "component",
       "image": "sauce_teriyaki",
       "temporal_ingredients": []
@@ -2873,7 +2873,7 @@
     {
       "slug": "sauce_yakitori",
       "title": "Sauce Yakitori",
-      "url": "/sauce_yakitori.html",
+      "url": "/components/sauce_yakitori.html",
       "kind": "component",
       "image": "sauce_yakitori",
       "temporal_ingredients": []
@@ -2881,7 +2881,7 @@
     {
       "slug": "saumon_laque_au_gingembre_marron_choux_de_bruxelles",
       "title": "Saumon laqué au gingembre, poêlée de marrons et choux de Bruxelles",
-      "url": "/saumon_laque_au_gingembre_marron_choux_de_bruxelles.html",
+      "url": "/recipes/saumon_laque_au_gingembre_marron_choux_de_bruxelles.html",
       "kind": "recipe",
       "image": "saumon_laque_gingembre_marron_choux_bruxelles",
       "temporal_ingredients": [
@@ -2917,7 +2917,7 @@
     {
       "slug": "saute_de_porc_aux_abricots_sauce_soja_citron_vert",
       "title": "Sauté de porc aux abricots, sauce soja et citron vert",
-      "url": "/saute_de_porc_aux_abricots_sauce_soja_citron_vert.html",
+      "url": "/recipes/saute_de_porc_aux_abricots_sauce_soja_citron_vert.html",
       "kind": "recipe",
       "image": "saute_de_porc_aux_abricots_sauce_soja_citron_vert",
       "temporal_ingredients": [
@@ -2969,7 +2969,7 @@
     {
       "slug": "saute_porc_vin_doux",
       "title": "Sauté de porc au vin doux",
-      "url": "/saute_porc_vin_doux.html",
+      "url": "/recipes/saute_porc_vin_doux.html",
       "kind": "recipe",
       "image": "saute_porc_vin_doux",
       "temporal_ingredients": [
@@ -3021,7 +3021,7 @@
     {
       "slug": "soupe_a_loignon",
       "title": "Soupe à l'oignon",
-      "url": "/soupe_a_loignon.html",
+      "url": "/recipes/soupe_a_loignon.html",
       "kind": "recipe",
       "image": "soupe_a_loignon",
       "temporal_ingredients": []
@@ -3029,7 +3029,7 @@
     {
       "slug": "soupe_ardennaise",
       "title": "Soupe ardennaise",
-      "url": "/soupe_ardennaise.html",
+      "url": "/recipes/soupe_ardennaise.html",
       "kind": "recipe",
       "image": "0_TBD",
       "temporal_ingredients": [
@@ -3078,7 +3078,7 @@
     {
       "slug": "soupe_au_chou",
       "title": "Soupe au chou",
-      "url": "/soupe_au_chou.html",
+      "url": "/recipes/soupe_au_chou.html",
       "kind": "recipe",
       "image": "soupe_au_chou",
       "temporal_ingredients": [
@@ -3164,7 +3164,7 @@
     {
       "slug": "soupe_de_moules",
       "title": "Soupe de moules",
-      "url": "/soupe_de_moules.html",
+      "url": "/recipes/soupe_de_moules.html",
       "kind": "recipe",
       "image": "soupe_de_moules",
       "temporal_ingredients": [
@@ -3244,7 +3244,7 @@
     {
       "slug": "soupe_de_poisson_au_saumon",
       "title": "Soupe de poisson au saumon",
-      "url": "/soupe_de_poisson_au_saumon.html",
+      "url": "/recipes/soupe_de_poisson_au_saumon.html",
       "kind": "recipe",
       "image": "soupe_de_poisson_au_saumon",
       "temporal_ingredients": [
@@ -3309,7 +3309,7 @@
     {
       "slug": "soupe_lentille_lard_carottes_celerie_oeuf_poche",
       "title": "Soupe de lentilles au lard, aux carottes, au céleri et à l'œuf poché",
-      "url": "/soupe_lentille_lard_carottes_celerie_oeuf_poche.html",
+      "url": "/recipes/soupe_lentille_lard_carottes_celerie_oeuf_poche.html",
       "kind": "recipe",
       "image": "soupe_lentille_lard_carottes_celerie_oeuf_poche",
       "temporal_ingredients": [
@@ -3353,7 +3353,7 @@
     {
       "slug": "soupe_nimoise",
       "title": "Soupe nîmoise",
-      "url": "/soupe_nimoise.html",
+      "url": "/recipes/soupe_nimoise.html",
       "kind": "recipe",
       "image": "soupe_nimoise",
       "temporal_ingredients": [
@@ -3435,7 +3435,7 @@
     {
       "slug": "soupe_poireau_pommes_de_terres",
       "title": "Soupe de poireaux et pommes de terre",
-      "url": "/soupe_poireau_pommes_de_terres.html",
+      "url": "/recipes/soupe_poireau_pommes_de_terres.html",
       "kind": "recipe",
       "image": "soupe_poireau_pommes_de_terres",
       "temporal_ingredients": [
@@ -3465,7 +3465,7 @@
     {
       "slug": "soupe_savoyarde",
       "title": "Soupe savoyarde",
-      "url": "/soupe_savoyarde.html",
+      "url": "/recipes/soupe_savoyarde.html",
       "kind": "recipe",
       "image": "soupe_savoyarde",
       "temporal_ingredients": [
@@ -3512,7 +3512,7 @@
     {
       "slug": "spaghettis_aux_girolles_sautees",
       "title": "Spaghettis aux girolles sautées",
-      "url": "/spaghettis_aux_girolles_sautees.html",
+      "url": "/recipes/spaghettis_aux_girolles_sautees.html",
       "kind": "recipe",
       "image": "spaghettis_aux_girolles_sautees",
       "temporal_ingredients": [
@@ -3538,7 +3538,7 @@
     {
       "slug": "spaghettonis_a_la_creme_de_roquette_et_de_basilic",
       "title": "Spaghettonis à la crème de roquette et de basilic",
-      "url": "/spaghettonis_a_la_creme_de_roquette_et_de_basilic.html",
+      "url": "/recipes/spaghettonis_a_la_creme_de_roquette_et_de_basilic.html",
       "kind": "recipe",
       "image": "spaghettonis_a_la_creme_de_roquette_et_de_basilic",
       "temporal_ingredients": [
@@ -3592,7 +3592,7 @@
     {
       "slug": "tagliatelles_aux_gambas_flambes",
       "title": "Tagliatelles aux gambas flambées",
-      "url": "/tagliatelles_aux_gambas_flambes.html",
+      "url": "/recipes/tagliatelles_aux_gambas_flambes.html",
       "kind": "recipe",
       "image": "tagliatelles_aux_gambas_flambes",
       "temporal_ingredients": [
@@ -3630,7 +3630,7 @@
     {
       "slug": "tarte_amandine_aux_poires",
       "title": "Tarte amandine aux poires",
-      "url": "/tarte_amandine_aux_poires.html",
+      "url": "/recipes/tarte_amandine_aux_poires.html",
       "kind": "recipe",
       "image": "tarte_amandine_aux_poires",
       "temporal_ingredients": [
@@ -3673,7 +3673,7 @@
     {
       "slug": "tartinable_chevre_chorizo",
       "title": "Tartinable chèvre chorizo",
-      "url": "/tartinable_chevre_chorizo.html",
+      "url": "/recipes/tartinable_chevre_chorizo.html",
       "kind": "recipe",
       "image": "tartinable_chevre_chorizo",
       "temporal_ingredients": [
@@ -3696,7 +3696,7 @@
     {
       "slug": "tiramisu_a_l_orange",
       "title": "Tiramisu à l'orange",
-      "url": "/tiramisu_a_l_orange.html",
+      "url": "/recipes/tiramisu_a_l_orange.html",
       "kind": "recipe",
       "image": "tiramisu_a_l_orange",
       "temporal_ingredients": [
@@ -3720,7 +3720,7 @@
     {
       "slug": "tiramisu_aux_framboises",
       "title": "Tiramisu aux framboises",
-      "url": "/tiramisu_aux_framboises.html",
+      "url": "/recipes/tiramisu_aux_framboises.html",
       "kind": "recipe",
       "image": "tiramisu_framboise",
       "temporal_ingredients": [
@@ -3743,7 +3743,7 @@
     {
       "slug": "tiramisu_classique",
       "title": "Tiramisu (classique au café)",
-      "url": "/tiramisu_classique.html",
+      "url": "/recipes/tiramisu_classique.html",
       "kind": "recipe",
       "image": "tiramisu",
       "temporal_ingredients": []
@@ -3751,7 +3751,7 @@
     {
       "slug": "travers_de_porc_moutarde_miel_pommes",
       "title": "Travers de porc à la moutarde, au miel et aux pommes",
-      "url": "/travers_de_porc_moutarde_miel_pommes.html",
+      "url": "/recipes/travers_de_porc_moutarde_miel_pommes.html",
       "kind": "recipe",
       "image": "travers_de_porc_moutarde_miel_pommes",
       "temporal_ingredients": []
@@ -3759,7 +3759,7 @@
     {
       "slug": "veloute_asperges",
       "title": "Velouté d'asperges",
-      "url": "/veloute_asperges.html",
+      "url": "/recipes/veloute_asperges.html",
       "kind": "recipe",
       "image": "veloute_asperges",
       "temporal_ingredients": [
@@ -3780,7 +3780,7 @@
     {
       "slug": "veloute_de_champignons_de_paris_au_tahini",
       "title": "Velouté de champignons de Paris au tahini",
-      "url": "/veloute_de_champignons_de_paris_au_tahini.html",
+      "url": "/recipes/veloute_de_champignons_de_paris_au_tahini.html",
       "kind": "recipe",
       "image": "veloute_de_champignons_de_paris_au_tahini",
       "temporal_ingredients": []
@@ -3788,7 +3788,7 @@
     {
       "slug": "veloute_de_potiron",
       "title": "Velouté de potiron aux épices douces",
-      "url": "/veloute_de_potiron.html",
+      "url": "/recipes/veloute_de_potiron.html",
       "kind": "recipe",
       "image": "veloute_de_potiron",
       "temporal_ingredients": [
@@ -3810,7 +3810,7 @@
     {
       "slug": "veloute_patate_douce_lentilles_corail",
       "title": "Velouté de patate douce, lentilles corail et œuf poché",
-      "url": "/veloute_patate_douce_lentilles_corail.html",
+      "url": "/recipes/veloute_patate_douce_lentilles_corail.html",
       "kind": "recipe",
       "image": "veloute_patate_douce_lentilles_corail",
       "temporal_ingredients": [
@@ -3852,7 +3852,7 @@
     {
       "slug": "veloute_potimarron_bleu_bacon",
       "title": "Velouté de potimarron au bleu et au bacon grillé",
-      "url": "/veloute_potimarron_bleu_bacon.html",
+      "url": "/recipes/veloute_potimarron_bleu_bacon.html",
       "kind": "recipe",
       "image": "veloute_potimarron_bleu_bacon",
       "temporal_ingredients": [
@@ -3874,7 +3874,7 @@
     {
       "slug": "vichyssoise",
       "title": "Vichyssoise",
-      "url": "/vichyssoise.html",
+      "url": "/recipes/vichyssoise.html",
       "kind": "recipe",
       "image": "vichyssoise",
       "temporal_ingredients": [
@@ -3925,7 +3925,7 @@
     {
       "slug": "vinaigrette_moutarde",
       "title": "Vinaigrette à la moutarde",
-      "url": "/vinaigrette_moutarde.html",
+      "url": "/components/vinaigrette_moutarde.html",
       "kind": "component",
       "image": "vinaigrette_moutarde",
       "temporal_ingredients": []

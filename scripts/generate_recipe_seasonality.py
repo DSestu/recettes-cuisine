@@ -127,6 +127,10 @@ def collect(dir_path: Path, kind: str, canonical_tags: set[str],
         if not canonical_hits:
             continue
         slug = path.stem
+        # Collections output under /<collection>/<slug>.html (recipes ->
+        # _recipes, components -> _components). The URL must match that path so
+        # the calendrier's recipe links resolve; a bare /<slug>.html 404s.
+        collection = "recipes" if kind == "recipe" else "components"
         temporal = [
             {"id": t, "category": seasonality[t]["category"],
              "phases": seasonality[t]["phases"]}
@@ -137,7 +141,7 @@ def collect(dir_path: Path, kind: str, canonical_tags: set[str],
         out.append({
             "slug": slug,
             "title": fm.get("title", slug),
-            "url": f"/{slug}.html",
+            "url": f"/{collection}/{slug}.html",
             "kind": kind,
             "image": fm.get("image", slug),
             "temporal_ingredients": temporal,
@@ -169,7 +173,7 @@ def main() -> int:
     with_temporal = sum(1 for r in all_entries if r["temporal_ingredients"])
     print(f"Wrote {OUT_PATH.relative_to(ROOT)}")
     print(f"  recipes: {len(recipes)} · components: {len(components)}")
-    print(f"  entries with ≥1 temporal ingredient: {with_temporal}")
+    print(f"  entries with >=1 temporal ingredient: {with_temporal}")
     return 0
 
 
