@@ -898,6 +898,10 @@ title: "Calendrier des ingrédients"
     min-width: 0;
     flex: 1 1 auto;
   }
+  /* Slide-in recipe photo banner — hidden by default (desktop uses the corner
+     thumbnail); the mobile media block below re-enables it as a grid. Declared
+     BEFORE that media query so the max-width rule wins on phones. */
+  .cal-recipes-photo-wrap { display: none; }
   @media (max-width: 767px) {
     /* Stacked layout: the title (full width, smaller type) sits on top with the
        badge pinned to the row's top-right corner, and the seasonality strip runs
@@ -940,6 +944,52 @@ title: "Calendrier des ingrédients"
     /* Drop the header's label column so the 12 month cells span full width and
        line up with the full-width strips + overlay. */
     .cal-recipes-header-left { display: none; }
+
+    /* Slide-in photo banner: collapsed to 0 height, expands (grid 0fr→1fr) when
+       the row is tapped. Same reveal mechanism as the ingredient accordion. */
+    .cal-recipes-photo-wrap {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cal-recipes-item.is-expanded .cal-recipes-photo-wrap { grid-template-rows: 1fr; }
+    .cal-recipes-photo {
+      min-height: 0;
+      overflow: hidden;
+      display: block;
+      position: relative;
+      cursor: pointer; /* tap the image to collapse */
+    }
+    .cal-recipes-photo-img {
+      display: block;
+      height: 150px;
+      background-image: var(--recipe-img);
+      background-size: cover;
+      background-position: center;
+    }
+    /* The one and only navigation to the recipe — a prominent CTA button. */
+    .cal-recipes-photo-link {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgb(245 50 0 / 0.96);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 2px 10px rgb(0 0 0 / 0.35);
+    }
+    /* When expanded, the photo lives in the banner up top — drop the dim scrim
+       image behind the title so it isn't shown twice. */
+    .cal-recipes-item.is-expanded .cal-recipes-row-left {
+      background-image: none;
+      background-color: #fff7ed;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cal-recipes-photo-wrap { transition: none; }
+    }
   }
   .cal-recipes-row-left:hover { background: #ffedd5; }
   .cal-recipes-row-left:focus-visible {
@@ -977,23 +1027,47 @@ title: "Calendrier des ingrédients"
   .cal-recipes-item {
     display: flex;
     flex-direction: column;
+    position: relative;
   }
+  /* Row frame drawn as an overlay ON TOP of all the row's content (image, title,
+     graph, accordion) via z-index — a plain `outline` would be painted under the
+     row's child layers (image banner, strips) and look like it's behind them. */
+  .cal-recipes-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    border: 2.5px solid transparent;
+    border-radius: 0.35rem;
+    pointer-events: none;
+    transition: border-color 140ms ease-out;
+  }
+  .cal-recipes-item.is-expanded::after { border-color: rgb(245 50 0 / 0.9); }
   .cal-recipes-item:hover .cal-recipes-row-right,
   .cal-recipes-item:focus-within .cal-recipes-row-right {
     background: rgb(254 215 170 / 0.22);
   }
-  .cal-recipes-item:focus-within {
-    outline: 2px solid rgb(245 50 0 / 0.35);
-    outline-offset: -2px;
-    border-radius: 0.25rem;
+  @media (hover: hover) {
+    .cal-recipes-item:hover::after,
+    .cal-recipes-item:focus-within::after {
+      border-color: rgb(245 50 0 / 0.9);
+    }
   }
   .cal-recipes-detail-wrap {
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows 260ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .cal-recipes-item:hover .cal-recipes-detail-wrap,
-  .cal-recipes-item:focus-within .cal-recipes-detail-wrap {
+  /* Desktop (hover-capable): open on hover / keyboard focus. Gated so touch
+     devices don't get the detail stuck open via lingering :focus-within. */
+  @media (hover: hover) {
+    .cal-recipes-item:hover .cal-recipes-detail-wrap,
+    .cal-recipes-item:focus-within .cal-recipes-detail-wrap {
+      grid-template-rows: 1fr;
+    }
+  }
+  /* Touch: tap toggles `.is-expanded` (set in JS) to open the detail. */
+  .cal-recipes-item.is-expanded .cal-recipes-detail-wrap {
     grid-template-rows: 1fr;
   }
   @media (prefers-reduced-motion: reduce) {

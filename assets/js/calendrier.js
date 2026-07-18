@@ -2135,17 +2135,40 @@
       item.className = "cal-recipes-item";
       // Focusable so keyboard users trigger :focus-within on Tab.
       item.tabIndex = -1;
+      // Card image exposed as a variable; consumed by the mobile CSS (scrim
+      // background behind the title, and the slide-in photo banner on expand).
+      item.style.setProperty("--recipe-img",
+        `url("${baseurl}/images/cards/${recipe.image}.webp")`);
 
       const row = document.createElement("div");
       row.className = "cal-recipes-row";
 
+      // Mobile-only photo banner that slides up from the top when the row is
+      // expanded (see the .is-expanded CSS). Hidden on desktop. Tapping the image
+      // collapses the row; the "Voir la recette" button is the ONLY way to open
+      // the recipe.
+      const photoWrap = document.createElement("div");
+      photoWrap.className = "cal-recipes-photo-wrap";
+      const photoBanner = document.createElement("div");
+      photoBanner.className = "cal-recipes-photo";
+      const photoImg = document.createElement("span");
+      photoImg.className = "cal-recipes-photo-img";
+      const photoLink = document.createElement("a");
+      photoLink.className = "cal-recipes-photo-link";
+      photoLink.href = `${baseurl}${recipe.url}`;
+      photoLink.textContent = "Voir la recette ↗";
+      photoBanner.append(photoImg, photoLink);
+      photoWrap.appendChild(photoBanner);
+      row.appendChild(photoWrap);
+      // Tapping the banner image (anywhere but the button) collapses the row.
+      photoBanner.addEventListener("click", (ev) => {
+        if (ev.target.closest(".cal-recipes-photo-link")) return;
+        item.classList.remove("is-expanded");
+      });
+
       const left = document.createElement("a");
       left.className = "cal-recipes-row-left";
       left.href = `${baseurl}${recipe.url}`;
-      // Card image exposed as a variable; consumed only by the mobile CSS, which
-      // paints it (behind a scrim) as the row-left background.
-      left.style.setProperty("--recipe-img",
-        `url("${baseurl}/images/cards/${recipe.image}.webp")`);
 
       // Thumbnail wrapped so the seasonality badge can anchor to its top-right.
       const thumbWrap = document.createElement("span");
@@ -2204,6 +2227,17 @@
       renderStrip(strip, rotatedSeries);
       right.appendChild(strip);
       row.appendChild(right);
+
+      // Mobile: a tap on the title or strip toggles the expanded state (photo
+      // banner + ingredient detail) instead of navigating. Desktop keeps the
+      // link + hover accordion untouched. The photo banner link still navigates.
+      const toggleExpand = (ev) => {
+        if (!window.matchMedia("(max-width: 767px)").matches) return;
+        ev.preventDefault();
+        item.classList.toggle("is-expanded");
+      };
+      left.addEventListener("click", toggleExpand);
+      right.addEventListener("click", toggleExpand);
 
       // Pre-rendered per-ingredient block; CSS-only accordion via
       // `.cal-recipes-item:hover / :focus-within` animates the wrapping grid
