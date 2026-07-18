@@ -1600,6 +1600,53 @@
     };
   }
 
+  // Seasonality timeline metrics used to group + order recipes (cyclic, 24
+  // fortnights). Groups: 1 = all active ingredients in season now, 2 = partial,
+  // 3 = dormant (has active ingredients, none in season now), 4 = no active
+  // ingredients at all. Distances are measured forward from `fortnightIdx`:
+  //   endDistance          – recipe-level in-season run length from now (until
+  //                          fully out of season); smaller = ends sooner.
+  //   activateDistance     – fortnights until the recipe first has an in-season
+  //                          ingredient again (group 3 only).
+  //   endAfterActivation   – activateDistance + run length once active (group 3).
+  function seasonTimeline(recipe, fortnightIdx, activeCategories) {
+    const active = recipe.temporal_ingredients.filter(
+      (t) => activeCategories.has(t.category)
+    );
+    const total = active.length;
+    if (total === 0) return { group: 4 };
+
+    const inSeasonAt = new Array(24);
+    for (let f = 0; f < 24; f++) {
+      const key = String(f);
+      inSeasonAt[f] = active.some((ing) => ing.phases[key]);
+    }
+    const forwardRun = (start) => {
+      let k = 0;
+      while (k < 24 && inSeasonAt[(start + k) % 24]) k++;
+      return k;
+    };
+
+    const inNow = active.filter((ing) => ing.phases[String(fortnightIdx)]).length;
+    const group = inNow === total ? 1 : inNow > 0 ? 2 : 3;
+
+    if (group === 3) {
+      // NEVER = finite sentinel (> any real 0..24 distance) so the comparator's
+      // subtraction stays a number even when a recipe never re-enters season
+      // (Infinity − Infinity would be NaN and corrupt the sort).
+      const NEVER = 99;
+      let activateDistance = NEVER;
+      for (let k = 1; k <= 24; k++) {
+        if (inSeasonAt[(fortnightIdx + k) % 24]) { activateDistance = k; break; }
+      }
+      const endAfterActivation = activateDistance === NEVER
+        ? NEVER
+        : activateDistance + forwardRun((fortnightIdx + activateDistance) % 24);
+      return { group, activateDistance, endAfterActivation };
+    }
+    return { group, endDistance: forwardRun(fortnightIdx) };
+  }
+
   // --- Seasonality strip (signature) ------------------------------------
   // Smooth spline curve: Y = weighted score at each fortnight, X = 24 slots
   // spanning the full width so cell boundaries line up with the header's month
@@ -1952,18 +1999,34 @@
 
     const kindOk = (r) =>
       r.kind === "recipe" || (state.includeComponents && r.kind === "component");
-    const ranked = [];
-    const pinned = [];
+    const entries = [];
     for (const recipe of data.recipes) {
       if (!kindOk(recipe)) continue;
       const s = scoreRecipe(recipe, fortnightIdx, activeCategories);
-      if (s === null) pinned.push(recipe);
-      else ranked.push({ recipe, s });
+      const t = seasonTimeline(recipe, fortnightIdx, activeCategories);
+      entries.push({ recipe, s, t });
     }
-    ranked.sort((a, b) =>
-      b.s.score - a.s.score || a.recipe.title.localeCompare(b.recipe.title, "fr")
-    );
-    pinned.sort((a, b) => a.title.localeCompare(b.title, "fr"));
+    // Group-based ordering: 1 Complete → 2 Partial → 3 Dormant → 4 No-constraint.
+    // Within each group, "ends soonest first" (smaller endDistance). See
+    // seasonTimeline for the metric definitions.
+    entries.sort((a, b) => {
+      if (a.t.group !== b.t.group) return a.t.group - b.t.group;
+      const byTitle = a.recipe.title.localeCompare(b.recipe.title, "fr");
+      switch (a.t.group) {
+        case 1:
+          return (a.t.endDistance - b.t.endDistance) || byTitle;
+        case 2: {
+          const propA = (a.s.total - a.s.outOfSeason.length) / a.s.total;
+          const propB = (b.s.total - b.s.outOfSeason.length) / b.s.total;
+          return (propB - propA) || (a.t.endDistance - b.t.endDistance) || byTitle;
+        }
+        case 3:
+          return (a.t.activateDistance - b.t.activateDistance)
+            || (a.t.endAfterActivation - b.t.endAfterActivation) || byTitle;
+        default:
+          return byTitle;
+      }
+    });
 
     mount.innerHTML = "";
 
@@ -2065,7 +2128,7 @@
     overlay.appendChild(nowCol);
     body.appendChild(overlay);
 
-    for (const { recipe, s } of ranked) {
+    for (const { recipe, s } of entries) {
       const item = document.createElement("div");
       item.className = "cal-recipes-item";
       // Focusable so keyboard users trigger :focus-within on Tab.
@@ -2087,14 +2150,18 @@
       thumb.decoding = "async";
       thumb.alt = "";
       thumb.src = `${baseurl}/images/cards/${recipe.image}.webp`;
+      thumbWrap.append(thumb);
       // Seasonality badge "x/y": x = ingredients in season (peak/start/end each
       // count as 1), y = total active. Colour scales with the weighted score.
-      const inSeason = s.total - s.outOfSeason.length;
-      const badge = document.createElement("span");
-      badge.className = "cal-recipes-score-badge";
-      badge.textContent = `${inSeason}/${s.total}`;
-      badge.style.background = scoreBadgeColor(s.score);
-      thumbWrap.append(thumb, badge);
+      // No badge for no-constraint recipes (no active ingredients → s is null).
+      if (s) {
+        const inSeason = s.total - s.outOfSeason.length;
+        const badge = document.createElement("span");
+        badge.className = "cal-recipes-score-badge";
+        badge.textContent = `${inSeason}/${s.total}`;
+        badge.style.background = scoreBadgeColor(s.score);
+        thumbWrap.append(badge);
+      }
 
       const info = document.createElement("span");
       info.className = "cal-recipes-info";
@@ -2111,7 +2178,7 @@
       }
 
       info.append(title);
-      if (s.outOfSeason.length) {
+      if (s && s.outOfSeason.length) {
         const oos = document.createElement("span");
         oos.className = "cal-recipes-oos";
         oos.textContent = `hors saison : ${s.outOfSeason.join(", ")}`;
@@ -2183,8 +2250,6 @@
         if (header.scrollLeft !== bodyScroll.scrollLeft) header.scrollLeft = bodyScroll.scrollLeft;
       }, { passive: true });
     }
-
-    renderPinnedList(mount, pinned, baseurl);
   }
 
   function renderPinnedList(mount, recipes, baseurl) {
