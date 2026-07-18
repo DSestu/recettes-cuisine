@@ -827,6 +827,15 @@ title: "Calendrier des ingrédients"
     position: relative;
     z-index: 1;
   }
+  /* The accordion detail clips its height with overflow — but `hidden` makes it
+     a scroll container, which traps the sub-row's sticky ingredient name (it
+     would stick to the detail box and scroll away with the body). `clip` clips
+     identically WITHOUT being a scroll container, so the name escapes to the
+     horizontal body scroller and pins in place while the squared dataviz scrolls
+     behind it. */
+  .cal-recipes-frame.is-wide .cal-recipes-detail {
+    overflow: clip;
+  }
   .cal-recipes-row {
     display: flex;
     align-items: stretch;
@@ -851,13 +860,36 @@ title: "Calendrier des ingrédients"
     transition: background-color 140ms ease-out;
     z-index: 1;
   }
-  .cal-recipes-thumb {
+  .cal-recipes-thumb-wrap {
+    position: relative;
     flex: 0 0 auto;
+    line-height: 0;
+  }
+  .cal-recipes-thumb {
+    display: block;
     width: 60px;
     height: 60px;
     object-fit: cover;
     border-radius: 0.35rem;
     background: rgb(254 215 170);
+  }
+  /* Seasonality badge "x/y" pinned to the thumbnail's top-right — mirrors the
+     search page's overlap-badge. Background colour set inline per recipe. */
+  .cal-recipes-score-badge {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    z-index: 2;
+    padding: 1px 6px;
+    border-radius: 9999px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #fff;
+    border: 2px solid #fff;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+    pointer-events: none;
   }
   .cal-recipes-info {
     display: flex;
@@ -867,7 +899,11 @@ title: "Calendrier des ingrédients"
     flex: 1 1 auto;
   }
   @media (max-width: 767px) {
+    /* No thumbnail on mobile — let the badge flow inline as a small pill so the
+       seasonality signal survives. */
     .cal-recipes-thumb { display: none; }
+    .cal-recipes-thumb-wrap { line-height: normal; }
+    .cal-recipes-score-badge { position: static; }
   }
   .cal-recipes-row-left:hover { background: #ffedd5; }
   .cal-recipes-row-left:focus-visible {
@@ -880,23 +916,6 @@ title: "Calendrier des ingrédients"
     color: rgb(60 20 5);
     line-height: 1.25;
     word-break: break-word;
-  }
-  .cal-recipes-scoreline {
-    display: flex;
-    gap: 0.55rem;
-    align-items: baseline;
-    margin-top: 0.2rem;
-    font-variant-numeric: tabular-nums;
-  }
-  .cal-recipes-score {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: rgb(245 50 0);
-  }
-  .cal-recipes-meta {
-    font-size: 0.75rem;
-    color: rgb(120 53 15 / 0.75);
-    white-space: nowrap;
   }
   .cal-recipes-oos {
     display: -webkit-box;
@@ -1072,8 +1091,6 @@ title: "Calendrier des ingrédients"
   }
   @media (max-width: 767px) {
     .cal-recipes-title { font-size: 0.85rem; }
-    .cal-recipes-score { font-size: 0.85rem; }
-    .cal-recipes-meta { font-size: 0.7rem; white-space: normal; }
   }
   .cal-recipes-pinned-heading {
     margin: 1.6rem 0 0.6rem 0;
