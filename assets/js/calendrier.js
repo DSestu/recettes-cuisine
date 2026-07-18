@@ -2074,8 +2074,10 @@
     // cells + horizontal scroll, "fit" fills the viewport fluidly. The strip
     // SVGs use preserveAspectRatio="none", so a wider container widens the curve
     // automatically — only the container widths change here.
-    const isWide = state.layoutMode === "wide";
     const isMobileLayout = window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
+    // On mobile the rows stack (title over a full-width strip via CSS), so wide
+    // horizontal scroll is meaningless there — always render fit on phones.
+    const isWide = state.layoutMode === "wide" && !isMobileLayout;
     const cellW = isMobileLayout ? WIDE_CELL_W_MOBILE : WIDE_CELL_W_DESKTOP;
     const gridW = cellW * 24;
 
@@ -2140,6 +2142,10 @@
       const left = document.createElement("a");
       left.className = "cal-recipes-row-left";
       left.href = `${baseurl}${recipe.url}`;
+      // Card image exposed as a variable; consumed only by the mobile CSS, which
+      // paints it (behind a scrim) as the row-left background.
+      left.style.setProperty("--recipe-img",
+        `url("${baseurl}/images/cards/${recipe.image}.webp")`);
 
       // Thumbnail wrapped so the seasonality badge can anchor to its top-right.
       const thumbWrap = document.createElement("span");

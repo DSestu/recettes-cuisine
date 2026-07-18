@@ -899,11 +899,47 @@ title: "Calendrier des ingrédients"
     flex: 1 1 auto;
   }
   @media (max-width: 767px) {
-    /* No thumbnail on mobile — let the badge flow inline as a small pill so the
-       seasonality signal survives. */
+    /* Stacked layout: the title (full width, smaller type) sits on top with the
+       badge pinned to the row's top-right corner, and the seasonality strip runs
+       full width below. Replaces the cramped narrow-label column that caused long
+       titles to overflow and overlap adjacent rows. */
+    .cal-recipes-row {
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 0;
+      max-height: none;
+    }
+    .cal-recipes-row-left {
+      flex: 1 1 auto;
+      width: 100%;
+      /* extra right padding leaves room for the corner badge */
+      padding: 0.4rem 3rem 0.25rem 0.6rem;
+      box-shadow: none;
+      /* Option C: recipe photo behind the title, dimmed by a cream scrim so the
+         dark title + "hors saison" text stay legible. --recipe-img set in JS. */
+      background-image:
+        linear-gradient(rgb(255 247 237 / 0.74), rgb(255 247 237 / 0.88)),
+        var(--recipe-img);
+      background-size: cover;
+      background-position: center;
+    }
     .cal-recipes-thumb { display: none; }
-    .cal-recipes-thumb-wrap { line-height: normal; }
-    .cal-recipes-score-badge { position: static; }
+    /* Static wrapper so the badge anchors to the row (position: relative), not
+       the collapsed thumbnail wrapper — pinning it to the row's top-right. */
+    .cal-recipes-thumb-wrap { position: static; }
+    .cal-recipes-score-badge {
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      z-index: 3;
+    }
+    .cal-recipes-title { font-size: 0.76rem; line-height: 1.2; }
+    .cal-recipes-row-right { width: 100%; }
+    /* Strips are now full width, so the grid backdrop spans the whole row too. */
+    .cal-recipes-grid-overlay { left: 0; }
+    /* Drop the header's label column so the 12 month cells span full width and
+       line up with the full-width strips + overlay. */
+    .cal-recipes-header-left { display: none; }
   }
   .cal-recipes-row-left:hover { background: #ffedd5; }
   .cal-recipes-row-left:focus-visible {
@@ -1070,6 +1106,10 @@ title: "Calendrier des ingrédients"
     background: transparent;
   }
   .cal-strip-cell-month-start { border-left-color: rgb(254 215 170); }
+  /* Current-quinzaine tint for OUT-of-season cells. Declared before the phase
+     rules so an in-season "now" cell keeps its category colour (phase rules win
+     on equal specificity) and only gains the outline below. */
+  .cal-strip-cell-now { background-color: rgb(249 115 22 / 0.10); }
   .cal-strip-cell-peak { background: var(--cell-color); border-radius: 2px; }
   .cal-strip-cell-start,
   .cal-strip-cell-end {
@@ -1083,14 +1123,10 @@ title: "Calendrier des ingrédients"
       );
     border-radius: 2px;
   }
-  .cal-strip-cell-now { background-color: rgb(249 115 22 / 0.10); }
   .cal-strip-cell-now.cal-strip-cell-peak,
   .cal-strip-cell-now.cal-strip-cell-start,
   .cal-strip-cell-now.cal-strip-cell-end {
     box-shadow: inset 0 0 0 1.5px rgb(249 115 22 / 0.55);
-  }
-  @media (max-width: 767px) {
-    .cal-recipes-title { font-size: 0.85rem; }
   }
   .cal-recipes-pinned-heading {
     margin: 1.6rem 0 0.6rem 0;
