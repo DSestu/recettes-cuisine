@@ -2234,16 +2234,16 @@
       right.appendChild(strip);
       row.appendChild(right);
 
-      // Mobile: a tap on the title or strip toggles the expanded state (photo
-      // banner + ingredient detail) instead of navigating. Desktop keeps the
-      // link + hover accordion untouched. The photo banner link still navigates.
-      const toggleExpand = (ev) => {
+      // Mobile: a tap on the title toggles the expanded state instead of
+      // navigating (desktop keeps the title link). The graph area toggles the
+      // ingredient detail on ALL viewports — mobile tap-to-expand, and desktop
+      // click-to-expand (sticky, in addition to hover).
+      left.addEventListener("click", (ev) => {
         if (!window.matchMedia("(max-width: 767px)").matches) return;
         ev.preventDefault();
         item.classList.toggle("is-expanded");
-      };
-      left.addEventListener("click", toggleExpand);
-      right.addEventListener("click", toggleExpand);
+      });
+      right.addEventListener("click", () => item.classList.toggle("is-expanded"));
 
       // Pre-rendered per-ingredient block; CSS-only accordion via
       // `.cal-recipes-item:hover / :focus-within` animates the wrapping grid
