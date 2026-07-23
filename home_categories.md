@@ -59,6 +59,9 @@ categories:
       - tarte
       - crepes
       - mousse
+      - eclair
+      - paris-brest
+      - pate a choux
 
   - id: "drinks"
     label: "Boissons"

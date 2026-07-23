@@ -91,6 +91,8 @@
     "basilic": {
       "category": "herbe",
       "recipes": [
+        "cake_olives_tomates_sechees",
+        "cote_de_veau_balsamique_burrata",
         "linguines_ricotta_pecorino_et_guanciale",
         "pates_sauce_tomate",
         "risoto_gambas_chorizo_sauce_tomate",
@@ -193,6 +195,7 @@
         "maquereaux_marines",
         "minestrone",
         "saint_jacques_facon_chaudree",
+        "sandwitch_italien_dip_thon_crudites",
         "saute_porc_vin_doux",
         "soupe_au_chou",
         "soupe_de_poisson_au_saumon",
@@ -213,6 +216,7 @@
       "recipes": [
         "blanquette_de_veau",
         "saint_jacques_facon_chaudree",
+        "sandwitch_italien_dip_thon_crudites",
         "soupe_lentille_lard_carottes_celerie_oeuf_poche",
         "soupe_nimoise",
         "soupe_savoyarde"
@@ -329,6 +333,7 @@
     "citron": {
       "category": "fruit",
       "recipes": [
+        "aiguillettes_dinde_panees",
         "blanquette_de_veau",
         "chakchouka_epinards_choux_bruxelles",
         "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
@@ -340,6 +345,7 @@
         "mousse_au_citron_broquet",
         "oeuf_a_la_creme",
         "osso_buco_polenta_cremeuse",
+        "petit_choux_citron_meringue",
         "pomme_de_terre_farcie_aux_rillettes_de_thon",
         "saute_de_porc_aux_abricots_sauce_soja_citron_vert",
         "soupe_de_poisson_au_saumon",
@@ -360,7 +366,9 @@
     "concombre": {
       "category": "legume",
       "recipes": [
-        "potage_au_concombre"
+        "potage_au_concombre",
+        "sandwitch_dinde_marinee",
+        "sandwitch_italien_dip_thon_crudites"
       ]
     },
     "congre": {
@@ -503,7 +511,9 @@
     },
     "fraises": {
       "category": "fruit",
-      "recipes": []
+      "recipes": [
+        "eclair_fraise_chantilly_vanille"
+      ]
     },
     "fraises des bois": {
       "category": "fruit",
@@ -666,7 +676,8 @@
       "category": "herbe",
       "recipes": [
         "frittata_petits_pois_poulet_menthe",
-        "oeuf_a_la_creme"
+        "oeuf_a_la_creme",
+        "sandwitch_dinde_marinee"
       ]
     },
     "merlan": {
@@ -738,7 +749,8 @@
     "noisettes": {
       "category": "fruit",
       "recipes": [
-        "magret_de_canard_clementines_corse_puree_de_butternut"
+        "magret_de_canard_clementines_corse_puree_de_butternut",
+        "paris_brest_praline"
       ]
     },
     "noisettes fraiches": {
@@ -772,6 +784,7 @@
     "origan": {
       "category": "herbe",
       "recipes": [
+        "cake_olives_tomates_sechees",
         "chili_con_carne",
         "gratin_patate_douce_boeuf_feta"
       ]
@@ -986,6 +999,7 @@
       "category": "legume",
       "recipes": [
         "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
+        "sandwitch_italien_dip_thon_crudites",
         "spaghettonis_a_la_creme_de_roquette_et_de_basilic"
       ]
     },
@@ -1069,7 +1083,8 @@
     "thon": {
       "category": "poisson",
       "recipes": [
-        "pomme_de_terre_farcie_aux_rillettes_de_thon"
+        "pomme_de_terre_farcie_aux_rillettes_de_thon",
+        "sandwitch_italien_dip_thon_crudites"
       ]
     },
     "thon blanc": {
@@ -1083,6 +1098,7 @@
     "tomate cerise": {
       "category": "legume",
       "recipes": [
+        "cote_de_veau_balsamique_burrata",
         "hijiki"
       ]
     },
@@ -1091,6 +1107,7 @@
       "recipes": [
         "bouillon_emilia",
         "curry_oeuf_massala",
+        "fougasse_aux_olives",
         "hijiki",
         "linguines_girolles_tomate",
         "minestrone",
@@ -1153,6 +1170,13 @@
       ],
       "title": "Aiguillettes de poulet au miel et au cidre"
     },
+    "aiguillettes_dinde_panees": {
+      "image": "aiguillettes_dinde_panees",
+      "ingredients": [
+        "citron"
+      ],
+      "title": "Aiguillettes de dinde panées"
+    },
     "avoines_facon_risotto_courge_bleu_noix": {
       "image": "avoines_facon_risotto_courge_bleu_noix",
       "ingredients": [
@@ -1187,6 +1211,14 @@
       ],
       "title": "Bûche framboise & mascarpone"
     },
+    "cake_olives_tomates_sechees": {
+      "image": "cake_olives_tomates_sechees",
+      "ingredients": [
+        "basilic",
+        "origan"
+      ],
+      "title": "Cake aux olives et aux tomates séchées"
+    },
     "chakchouka_epinards_choux_bruxelles": {
       "image": "chakchouka_epinards_choux_bruxelles",
       "ingredients": [
@@ -1218,6 +1250,14 @@
       ],
       "title": "Coquilles Saint-Jacques gratinées"
     },
+    "cote_de_veau_balsamique_burrata": {
+      "image": "cote_de_veau_balsamique_burrata",
+      "ingredients": [
+        "basilic",
+        "tomate cerise"
+      ],
+      "title": "Côte de veau rôtie au vinaigre balsamique, tomates confites et burrata"
+    },
     "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes": {
       "image": "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
       "ingredients": [
@@ -1234,6 +1274,13 @@
         "tomates"
       ],
       "title": "Curry d'œuf massala"
+    },
+    "eclair_fraise_chantilly_vanille": {
+      "image": "eclair_fraise_chantilly_vanille",
+      "ingredients": [
+        "fraises"
+      ],
+      "title": "Éclairs à la fraise et chantilly vanillée"
     },
     "entremet_framboises_mascarpone_kirsch": {
       "image": "entremet_framboises_mascarpone_kirsch",
@@ -1255,6 +1302,13 @@
         "choux de bruxelles"
       ],
       "title": "Filet mignon sauce chasseur"
+    },
+    "fougasse_aux_olives": {
+      "image": "fougasse_aux_olives",
+      "ingredients": [
+        "tomates"
+      ],
+      "title": "Fougasse aux olives"
     },
     "frittata_petits_pois_poulet_menthe": {
       "image": "frittata_petits_pois_poulet_menthe",
@@ -1465,6 +1519,13 @@
       ],
       "title": "Pappardelles aux champignons, bleu, comté et poulet"
     },
+    "paris_brest_praline": {
+      "image": "paris_brest_praline",
+      "ingredients": [
+        "noisettes"
+      ],
+      "title": "Paris-brest à la crème pralinée"
+    },
     "pates_courge_ail_sauge": {
       "image": "pates_courge_ail_sauge",
       "ingredients": [
@@ -1488,6 +1549,13 @@
         "girolles"
       ],
       "title": "Pavé d'agneau et girolles au beurre d'estragon"
+    },
+    "petit_choux_citron_meringue": {
+      "image": "petit_choux_citron_meringue",
+      "ingredients": [
+        "citron"
+      ],
+      "title": "Petits choux au citron meringués"
     },
     "pomme_de_terre_farcie_aux_rillettes_de_thon": {
       "image": "pomme_de_terre_farcie_aux_rillettes_de_thon",
@@ -1566,6 +1634,25 @@
         "chou"
       ],
       "title": "Salade de chou rouge"
+    },
+    "sandwitch_dinde_marinee": {
+      "image": "sandwitch_dinde_marinee",
+      "ingredients": [
+        "concombre",
+        "menthe"
+      ],
+      "title": "Sandwich à la dinde marinée"
+    },
+    "sandwitch_italien_dip_thon_crudites": {
+      "image": "sandwitch_italien_dip_thon_crudites",
+      "ingredients": [
+        "carottes",
+        "celeri",
+        "concombre",
+        "roquette",
+        "thon"
+      ],
+      "title": "Sandwich italien et dip de thon aux crudités"
     },
     "saumon_laque_au_gingembre_marron_choux_de_bruxelles": {
       "image": "saumon_laque_gingembre_marron_choux_bruxelles",

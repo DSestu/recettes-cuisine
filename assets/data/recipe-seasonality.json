@@ -98,6 +98,32 @@
       ]
     },
     {
+      "slug": "aiguillettes_dinde_panees",
+      "title": "Aiguillettes de dinde panées",
+      "url": "/recipes/aiguillettes_dinde_panees.html",
+      "kind": "recipe",
+      "image": "aiguillettes_dinde_panees",
+      "temporal_ingredients": [
+        {
+          "id": "citron",
+          "category": "fruit",
+          "phases": {
+            "0": "peak",
+            "1": "peak",
+            "2": "peak",
+            "3": "peak",
+            "4": "peak",
+            "5": "end",
+            "6": "end",
+            "20": "start",
+            "21": "peak",
+            "22": "peak",
+            "23": "peak"
+          }
+        }
+      ]
+    },
+    {
       "slug": "ankake_sauce",
       "title": "Sauce ankake aux champignons",
       "url": "/components/ankake_sauce.html",
@@ -364,6 +390,46 @@
       ]
     },
     {
+      "slug": "cake_olives_tomates_sechees",
+      "title": "Cake aux olives et aux tomates séchées",
+      "url": "/recipes/cake_olives_tomates_sechees.html",
+      "kind": "recipe",
+      "image": "cake_olives_tomates_sechees",
+      "temporal_ingredients": [
+        {
+          "id": "basilic",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        },
+        {
+          "id": "origan",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "chakchouka_epinards_choux_bruxelles",
       "title": "Chakchouka aux épinards et choux de Bruxelles",
       "url": "/recipes/chakchouka_epinards_choux_bruxelles.html",
@@ -458,6 +524,14 @@
       ]
     },
     {
+      "slug": "chantilly_vanillee",
+      "title": "Chantilly vanillée",
+      "url": "/components/chantilly_vanillee.html",
+      "kind": "component",
+      "image": "chantilly_vanillee",
+      "temporal_ingredients": []
+    },
+    {
       "slug": "char_siu_porc_dore_au_chalumeau",
       "title": "Char siu (porc doré au chalumeau)",
       "url": "/components/char_siu_porc_dore_au_chalumeau.html",
@@ -528,11 +602,74 @@
       ]
     },
     {
+      "slug": "cote_de_veau_balsamique_burrata",
+      "title": "Côte de veau rôtie au vinaigre balsamique, tomates confites et burrata",
+      "url": "/recipes/cote_de_veau_balsamique_burrata.html",
+      "kind": "recipe",
+      "image": "cote_de_veau_balsamique_burrata",
+      "temporal_ingredients": [
+        {
+          "id": "basilic",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        },
+        {
+          "id": "tomate cerise",
+          "category": "legume",
+          "phases": {
+            "11": "start",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "creme_brulee",
       "title": "Crème brûlée",
       "url": "/recipes/creme_brulee.html",
       "kind": "recipe",
       "image": "creme_brulee",
+      "temporal_ingredients": []
+    },
+    {
+      "slug": "creme_mascarpone_confiture_de_lait",
+      "title": "Crème mascarpone à la confiture de lait",
+      "url": "/components/creme_mascarpone_confiture_de_lait.html",
+      "kind": "component",
+      "image": "creme_mascarpone_confiture_de_lait",
+      "temporal_ingredients": []
+    },
+    {
+      "slug": "creme_patissiere_pistache",
+      "title": "Crème pâtissière à la pistache",
+      "url": "/components/creme_patissiere_pistache.html",
+      "kind": "component",
+      "image": "creme_patissiere_pistache",
+      "temporal_ingredients": []
+    },
+    {
+      "slug": "creme_pralinee",
+      "title": "Crème pralinée",
+      "url": "/components/creme_pralinee.html",
+      "kind": "component",
+      "image": "creme_pralinee",
       "temporal_ingredients": []
     },
     {
@@ -662,6 +799,100 @@
       ]
     },
     {
+      "slug": "dip_de_thon",
+      "title": "Dip de thon",
+      "url": "/components/dip_de_thon.html",
+      "kind": "component",
+      "image": "dip_de_thon",
+      "temporal_ingredients": [
+        {
+          "id": "ciboulette",
+          "category": "herbe",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        },
+        {
+          "id": "citron",
+          "category": "fruit",
+          "phases": {
+            "0": "peak",
+            "1": "peak",
+            "2": "peak",
+            "3": "peak",
+            "4": "peak",
+            "5": "end",
+            "6": "end",
+            "20": "start",
+            "21": "peak",
+            "22": "peak",
+            "23": "peak"
+          }
+        },
+        {
+          "id": "thon",
+          "category": "poisson",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "eclair_chantilly_confiture_de_lait",
+      "title": "Éclair à la chantilly et à la confiture de lait",
+      "url": "/recipes/eclair_chantilly_confiture_de_lait.html",
+      "kind": "recipe",
+      "image": "eclair_chantilly_confiture_de_lait",
+      "temporal_ingredients": []
+    },
+    {
+      "slug": "eclair_fraise_chantilly_vanille",
+      "title": "Éclairs à la fraise et chantilly vanillée",
+      "url": "/recipes/eclair_fraise_chantilly_vanille.html",
+      "kind": "recipe",
+      "image": "eclair_fraise_chantilly_vanille",
+      "temporal_ingredients": [
+        {
+          "id": "fraises",
+          "category": "fruit",
+          "phases": {
+            "7": "start",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "entremet_framboises_mascarpone_kirsch",
       "title": "Entremet framboises & mascarpone au kirsch",
       "url": "/recipes/entremet_framboises_mascarpone_kirsch.html",
@@ -736,6 +967,29 @@
             "21": "peak",
             "22": "peak",
             "23": "peak"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "fougasse_aux_olives",
+      "title": "Fougasse aux olives",
+      "url": "/recipes/fougasse_aux_olives.html",
+      "kind": "recipe",
+      "image": "fougasse_aux_olives",
+      "temporal_ingredients": [
+        {
+          "id": "tomates",
+          "category": "legume",
+          "phases": {
+            "11": "start",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
           }
         }
       ]
@@ -1612,6 +1866,14 @@
       ]
     },
     {
+      "slug": "marinade_dinde_soja_miel",
+      "title": "Marinade soja-miel pour dinde",
+      "url": "/components/marinade_dinde_soja_miel.html",
+      "kind": "component",
+      "image": "marinade_dinde_soja_miel",
+      "temporal_ingredients": []
+    },
+    {
       "slug": "marinade_gingembre_soja",
       "title": "Marinade gingembre-soja",
       "url": "/components/marinade_gingembre_soja.html",
@@ -1836,6 +2098,14 @@
       ]
     },
     {
+      "slug": "muffins_lardon_bleu",
+      "title": "Muffins aux lardons et au fromage bleu",
+      "url": "/recipes/muffins_lardon_bleu.html",
+      "kind": "recipe",
+      "image": "muffins_lardon_bleu",
+      "temporal_ingredients": []
+    },
+    {
       "slug": "nouilles_riz_complet_sautee_express",
       "title": "Nouilles de riz complet sautées express",
       "url": "/recipes/nouilles_riz_complet_sautee_express.html",
@@ -2003,6 +2273,26 @@
       ]
     },
     {
+      "slug": "paris_brest_praline",
+      "title": "Paris-brest à la crème pralinée",
+      "url": "/recipes/paris_brest_praline.html",
+      "kind": "recipe",
+      "image": "paris_brest_praline",
+      "temporal_ingredients": [
+        {
+          "id": "noisettes",
+          "category": "fruit",
+          "phases": {
+            "16": "start",
+            "17": "peak",
+            "18": "peak",
+            "19": "peak",
+            "20": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "pates_courge_ail_sauge",
       "title": "Pâtes crémeuses à la courge rôtie, à l'ail et à la sauge",
       "url": "/recipes/pates_courge_ail_sauge.html",
@@ -2128,6 +2418,65 @@
           }
         }
       ]
+    },
+    {
+      "slug": "pesto_maison",
+      "title": "Pesto maison",
+      "url": "/components/pesto_maison.html",
+      "kind": "component",
+      "image": "pesto_maison",
+      "temporal_ingredients": [
+        {
+          "id": "basilic",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "petit_choux_citron_meringue",
+      "title": "Petits choux au citron meringués",
+      "url": "/recipes/petit_choux_citron_meringue.html",
+      "kind": "recipe",
+      "image": "petit_choux_citron_meringue",
+      "temporal_ingredients": [
+        {
+          "id": "citron",
+          "category": "fruit",
+          "phases": {
+            "0": "peak",
+            "1": "peak",
+            "2": "peak",
+            "3": "peak",
+            "4": "peak",
+            "5": "end",
+            "6": "end",
+            "20": "start",
+            "21": "peak",
+            "22": "peak",
+            "23": "peak"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "petit_choux_pistache",
+      "title": "Petits choux à la pistache",
+      "url": "/recipes/petit_choux_pistache.html",
+      "kind": "recipe",
+      "image": "petit_choux_pistache",
+      "temporal_ingredients": []
     },
     {
       "slug": "pomme_de_terre_farcie_aux_rillettes_de_thon",
@@ -2612,6 +2961,143 @@
       ]
     },
     {
+      "slug": "sandwitch_dinde_marinee",
+      "title": "Sandwich à la dinde marinée",
+      "url": "/recipes/sandwitch_dinde_marinee.html",
+      "kind": "recipe",
+      "image": "sandwitch_dinde_marinee",
+      "temporal_ingredients": [
+        {
+          "id": "concombre",
+          "category": "legume",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        },
+        {
+          "id": "menthe",
+          "category": "herbe",
+          "phases": {
+            "6": "start",
+            "7": "start",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "sandwitch_italien_dip_thon_crudites",
+      "title": "Sandwich italien et dip de thon aux crudités",
+      "url": "/recipes/sandwitch_italien_dip_thon_crudites.html",
+      "kind": "recipe",
+      "image": "sandwitch_italien_dip_thon_crudites",
+      "temporal_ingredients": [
+        {
+          "id": "carottes",
+          "category": "legume",
+          "phases": {
+            "10": "start",
+            "11": "start",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end",
+            "20": "end",
+            "21": "end"
+          }
+        },
+        {
+          "id": "celeri",
+          "category": "legume",
+          "phases": {
+            "12": "start",
+            "13": "start",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "peak",
+            "20": "peak",
+            "21": "end",
+            "22": "end"
+          }
+        },
+        {
+          "id": "concombre",
+          "category": "legume",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        },
+        {
+          "id": "roquette",
+          "category": "legume",
+          "phases": {
+            "6": "start",
+            "7": "start",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "end",
+            "15": "end"
+          }
+        },
+        {
+          "id": "thon",
+          "category": "poisson",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "sauce_au_foie_gras",
       "title": "Sauce au foie gras",
       "url": "/components/sauce_au_foie_gras.html",
@@ -2705,6 +3191,14 @@
       "url": "/components/sauce_chasseur.html",
       "kind": "component",
       "image": "sauce_chasseur",
+      "temporal_ingredients": []
+    },
+    {
+      "slug": "sauce_chili_aigre_douce",
+      "title": "Sauce chili aigre-douce",
+      "url": "/components/sauce_chili_aigre_douce.html",
+      "kind": "component",
+      "image": "sauce_chili_aigre_douce",
       "temporal_ingredients": []
     },
     {

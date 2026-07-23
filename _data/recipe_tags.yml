@@ -589,6 +589,8 @@
   ingredient: true
 - id: mozzarella
   ingredient: true
+- id: burrata
+  ingredient: true
 - id: origan
   ingredient: true
 - id: concentre de tomate
@@ -716,4 +718,52 @@
 - id: zaatar
   ingredient: true
 - id: gambas
+  ingredient: true
+- id: fraises
+  ingredient: true
+- id: chocolat blanc
+  ingredient: true
+- id: eclair
+  ingredient: false
+- id: dinde
+  ingredient: true
+- id: cake
+  ingredient: false
+- id: tomates sechees
+  ingredient: true
+- id: olives
+  ingredient: true
+- id: confiture de lait
+  ingredient: true
+- id: fougasse
+  ingredient: false
+- id: herbes de provence
+  ingredient: true
+- id: muffins
+  ingredient: false
+- id: praline
+  ingredient: true
+- id: paris-brest
+  ingredient: false
+- id: pate a choux
+  ingredient: false
+- id: lemon curd
+  ingredient: true
+- id: meringue
+  ingredient: false
+- id: pate de pistache
+  ingredient: true
+- id: sandwich
+  ingredient: false
+- id: vinaigre de cidre
+  ingredient: true
+- id: sucre roux
+  ingredient: true
+- id: pesto
+  ingredient: false
+- id: pignons de pin
+  ingredient: true
+- id: dip
+  ingredient: false
+- id: jambon cru
   ingredient: true
