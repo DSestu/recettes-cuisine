@@ -2,6 +2,7 @@
 layout: recipe
 title: "Éclairs à la fraise et chantilly vanillée"
 image: eclair_fraise_chantilly_vanille
+date: 2026-07-23
 
 tags:
 - dessert

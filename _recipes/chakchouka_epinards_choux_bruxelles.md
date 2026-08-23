@@ -2,6 +2,7 @@
 layout: recipe
 title: "Chakchouka aux épinards et choux de Bruxelles"
 image: chakchouka_epinards_choux_bruxelles
+date: 2026-06-07
 
 tags:
 - repas

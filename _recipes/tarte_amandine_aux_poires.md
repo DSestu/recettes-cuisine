@@ -2,6 +2,7 @@
 layout: recipe
 title: "Tarte amandine aux poires"
 image: tarte_amandine_aux_poires
+date: 2026-05-13
 
 tags:
 - dessert

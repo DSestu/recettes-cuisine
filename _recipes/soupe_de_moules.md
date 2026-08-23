@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe de moules"
 image: soupe_de_moules
+date: 2025-06-19
 
 
 tags:

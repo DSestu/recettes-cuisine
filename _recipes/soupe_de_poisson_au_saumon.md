@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe de poisson au saumon"
 image: soupe_de_poisson_au_saumon
+date: 2026-05-13
 
 tags:
 - soupe

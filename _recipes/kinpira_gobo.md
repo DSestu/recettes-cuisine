@@ -2,6 +2,7 @@
 layout: recipe
 title: "Kinpira Gobo - Racine de bardane et carotte sautées"
 image: kinpira_gobo
+date: 2025-10-09
 
 
 tags:

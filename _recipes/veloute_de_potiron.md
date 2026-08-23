@@ -2,6 +2,7 @@
 layout: recipe
 title: "Velouté de potiron aux épices douces"
 image: veloute_de_potiron
+date: 2025-11-16
 
 
 tags:

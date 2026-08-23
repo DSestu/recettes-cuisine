@@ -2,6 +2,7 @@
 layout: recipe
 title: "Aiguillettes de dinde panées"
 image: aiguillettes_dinde_panees
+date: 2026-07-23
 
 tags:
 - repas

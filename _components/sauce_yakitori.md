@@ -2,6 +2,7 @@
 layout: recipe
 title:  "Sauce Yakitori"
 image: sauce_yakitori
+date: 2026-02-14
 
 tags:
 - japon

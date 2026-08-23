@@ -2,6 +2,7 @@
 layout: recipe
 title: "Crêpes Broquet"
 image: crepes_broquet
+date: 2026-06-07
 
 tags:
 - dessert

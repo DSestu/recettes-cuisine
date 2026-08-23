@@ -2,6 +2,7 @@
 layout: recipe
 title: "Chili con carne"
 image: chili_con_carne
+date: 2026-05-17
 
 tags:
 - repas

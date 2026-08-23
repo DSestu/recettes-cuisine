@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe à l'oignon"
 image: soupe_a_loignon
+date: 2025-06-24
 
 
 tags:

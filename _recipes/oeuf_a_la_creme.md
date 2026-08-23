@@ -2,6 +2,7 @@
 layout: recipe
 title: "Œufs à la crème"
 image: oeuf_a_la_creme
+date: 2026-06-07
 
 tags:
 - repas

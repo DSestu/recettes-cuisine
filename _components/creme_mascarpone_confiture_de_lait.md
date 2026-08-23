@@ -2,6 +2,7 @@
 layout: recipe
 title: "Crème mascarpone à la confiture de lait"
 image: creme_mascarpone_confiture_de_lait
+date: 2026-07-23
 
 tags:
 - composant

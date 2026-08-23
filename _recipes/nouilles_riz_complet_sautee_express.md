@@ -2,6 +2,7 @@
 layout: recipe
 title: "Nouilles de riz complet sautées express"
 image: nouilles_riz_complet_sautee_express
+date: 2026-06-07
 
 tags:
 - repas

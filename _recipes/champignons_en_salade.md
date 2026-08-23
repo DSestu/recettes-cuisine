@@ -2,6 +2,7 @@
 layout: recipe
 title: "Champignons en salade"
 image: champignons_en_salade
+date: 2025-06-24
 
 
 tags:

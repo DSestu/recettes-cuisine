@@ -3,6 +3,7 @@
 layout: recipe
 title:  "Poulet curry"
 image: poulet_curry
+date: 2025-05-11
 
 
 tags:

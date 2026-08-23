@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe au chou"
 image: soupe_au_chou
+date: 2025-06-24
 
 
 tags:

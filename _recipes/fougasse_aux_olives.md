@@ -2,6 +2,7 @@
 layout: recipe
 title: "Fougasse aux olives"
 image: fougasse_aux_olives
+date: 2026-07-23
 
 tags:
 - aperitif

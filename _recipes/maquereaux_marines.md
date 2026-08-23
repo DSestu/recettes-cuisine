@@ -2,6 +2,7 @@
 layout: recipe
 title: "Maquereaux marinés"
 image: maquereaux_marines
+date: 2025-06-24
 
 
 tags:

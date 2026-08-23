@@ -2,6 +2,7 @@
 layout: recipe
 title: "Boulettes poulet Yakitori"
 image: poulet_yakitori
+date: 2026-02-14
 
 
 tags:

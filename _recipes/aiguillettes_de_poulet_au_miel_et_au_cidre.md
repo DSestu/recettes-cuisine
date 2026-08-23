@@ -3,6 +3,7 @@
 layout: recipe
 title: "Aiguillettes de poulet au miel et au cidre"
 image: aiguillettes_de_poulet_au_miel_et_au_cidre
+date: 2026-03-11
 
 tags:
 - repas

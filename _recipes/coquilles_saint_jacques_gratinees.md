@@ -2,6 +2,7 @@
 layout: recipe
 title: "Coquilles Saint-Jacques gratinées"
 image: coquilles_saint_jacques_gratinees
+date: 2026-05-13
 
 tags:
 - entree

@@ -2,6 +2,7 @@
 layout: recipe
 title: "Gratin patate douce, bœuf haché & feta"
 image: gratin_patate_douce_boeuf_feta
+date: 2026-05-13
 
 tags:
 - plat principal

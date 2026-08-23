@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe savoyarde"
 image: soupe_savoyarde
+date: 2025-06-19
 
 
 tags:

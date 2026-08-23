@@ -2,6 +2,7 @@
 layout: recipe
 title: "Punch frais"
 image: punch
+date: 2026-02-15
 
 tags:
 - apéritif

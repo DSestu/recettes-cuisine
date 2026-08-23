@@ -2,6 +2,7 @@
 layout: recipe
 title: "Beignets italiens à la ricotta"
 image: beignets_italiens_ricotta
+date: 2026-05-13
 
 tags:
 - dessert

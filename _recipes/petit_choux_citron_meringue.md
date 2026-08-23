@@ -2,6 +2,7 @@
 layout: recipe
 title: "Petits choux au citron meringués"
 image: petit_choux_citron_meringue
+date: 2026-07-23
 
 tags:
 - dessert

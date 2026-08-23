@@ -2,6 +2,7 @@
 layout: recipe
 title: "Curry d'œuf massala"
 image: curry_oeuf_massala
+date: 2026-06-07
 
 tags:
 - repas

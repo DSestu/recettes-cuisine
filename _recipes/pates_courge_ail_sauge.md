@@ -2,6 +2,7 @@
 layout: recipe
 title: "Pâtes crémeuses à la courge rôtie, à l'ail et à la sauge"
 image: pates_courge_ail_sauge
+date: 2026-05-13
 
 tags:
 - repas

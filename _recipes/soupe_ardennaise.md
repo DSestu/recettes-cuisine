@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe ardennaise"
 image: 0_TBD
+date: 2025-06-19
 
 
 tags:

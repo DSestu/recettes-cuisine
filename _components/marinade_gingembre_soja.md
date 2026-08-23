@@ -2,6 +2,7 @@
 layout: recipe
 title: "Marinade gingembre-soja"
 image: marinade_gingembre_soja
+date: 2026-05-16
 
 tags:
 - condiment

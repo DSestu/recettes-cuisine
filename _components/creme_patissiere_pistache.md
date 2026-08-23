@@ -2,6 +2,7 @@
 layout: recipe
 title: "Crème pâtissière à la pistache"
 image: creme_patissiere_pistache
+date: 2026-07-23
 
 tags:
 - composant

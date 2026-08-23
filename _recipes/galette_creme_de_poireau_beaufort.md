@@ -2,6 +2,7 @@
 layout: recipe
 title: "Galette à la crème de poireau et beaufort"
 image: galette_creme_de_poireau_beaufort
+date: 2026-06-07
 
 tags:
 - repas
