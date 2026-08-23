@@ -1,0 +1,167 @@
+{%- comment -%}
+Per-recipe seasonality panel: the same signature the calendrier draws in
+"recettes de saison" mode (aggregate score curve + one strip per temporal
+ingredient), static and read-only.
+
+Data is resolved at build time from `_data/seasonality.yml` — only this
+recipe's own ingredients are inlined (a few hundred bytes), so the page never
+fetches the 110 kB site-wide `assets/data/recipe-seasonality.json`. The
+temporal category list mirrors `TEMPORAL_CATEGORIES` in
+scripts/generate_recipe_seasonality.py and assets/js/seasonality-strip.js.
+{%- endcomment -%}
+
+{%- assign rs_temporal_cats = "legume,fruit,herbe,champignon,poisson,coquillage,viande,fromage" | split: "," -%}
+{%- assign rs_items = "" -%}
+{%- for item in site.data.seasonality -%}
+  {%- if page.tags contains item.id and rs_temporal_cats contains item.category -%}
+    {%- capture rs_entry -%}{"id": {{ item.id | jsonify }}, "category": {{ item.category | jsonify }}, "season": {{ item.season | jsonify }}}{%- endcapture -%}
+    {%- if rs_items == "" -%}
+      {%- assign rs_items = rs_entry -%}
+    {%- else -%}
+      {%- assign rs_items = rs_items | append: "," | append: rs_entry -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if rs_items != "" -%}
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/seasonality-strip.css">
+
+<section class="recipe-seasonality" aria-label="Saisonnalité des ingrédients">
+  <h2 class="recipe-seasonality-title">Saisonnalité</h2>
+
+  <script type="application/json" id="recipe-seasonality-data">[{{ rs_items }}]</script>
+
+  <div class="recipe-seasonality-months">
+    <div class="recipe-seasonality-months-left" aria-hidden="true"></div>
+    <div class="recipe-seasonality-months-right" id="recipe-seasonality-months"></div>
+  </div>
+
+  <div class="recipe-seasonality-body">
+    <div class="recipe-seasonality-grid-overlay" id="recipe-seasonality-overlay" aria-hidden="true"></div>
+    <div class="recipe-seasonality-row recipe-seasonality-curve-row">
+      <div class="recipe-seasonality-row-label">
+        <span class="recipe-seasonality-row-name">Cette recette</span>
+      </div>
+      <div class="recipe-seasonality-row-track">
+        <div class="cal-strip" id="recipe-seasonality-curve"></div>
+      </div>
+    </div>
+    <div class="recipe-seasonality-ingredients" id="recipe-seasonality-rows"></div>
+  </div>
+
+  <p class="recipe-seasonality-note">
+    Quinzaines de l'année à partir du mois en cours ; la colonne surlignée est la quinzaine actuelle.
+    Trait plein = pleine saison, hachures = début ou fin de saison.
+  </p>
+</section>
+
+<!-- d3-shape needs d3-path (loaded first); both `defer`, which preserves order.
+     Only the spline generators are used — the full d3 bundle is not needed. -->
+<script src="https://cdn.jsdelivr.net/npm/d3-path@3/dist/d3-path.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-shape@3/dist/d3-shape.min.js" defer></script>
+<script src="{{ site.baseurl }}/assets/js/seasonality-strip.js" defer></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const S = window.SeasonalityStrip;
+    const blob = document.getElementById("recipe-seasonality-data");
+    const panel = document.querySelector(".recipe-seasonality");
+    if (!S || !blob || !panel) return;
+
+    let entries;
+    try {
+      entries = JSON.parse(blob.textContent);
+    } catch (e) {
+      panel.remove();
+      return;
+    }
+    const ingredients = entries.map((e) => ({
+      id: e.id,
+      category: e.category,
+      phases: S.phasesFromSeason(e.season),
+    }));
+    if (!ingredients.length) {
+      panel.remove();
+      return;
+    }
+
+    // Axis rotation, identical to the calendrier: display column 0 is the first
+    // quinzaine of the CURRENT month, so "now" always sits near the left edge.
+    const todayQ = S.currentFortnightIdx();
+    const displayStart = Math.floor(todayQ / 2) * 2;
+    const displaySlots = Array.from({ length: 24 }, (_, i) => (displayStart + i) % 24);
+    const currentDisplayCol = (todayQ - displayStart + 24) % 24;
+
+    // ---- Month header ---------------------------------------------------
+    const months = document.getElementById("recipe-seasonality-months");
+    for (let d = 0; d < 12; d++) {
+      const monthIdx = Math.floor(displaySlots[d * 2] / 2);
+      const cell = document.createElement("div");
+      cell.className = "recipe-seasonality-month-cell";
+      // Alternating band keyed to ABSOLUTE month parity so January stays cream
+      // whatever the rotation — same rule as the calendrier.
+      if (monthIdx % 2 === 1) cell.classList.add("recipe-seasonality-month-cell-alt");
+      cell.textContent = S.MONTH_LABELS_FR[monthIdx];
+      months.appendChild(cell);
+    }
+
+    // ---- Grid backdrop: month rules + current-quinzaine column ----------
+    const overlay = document.getElementById("recipe-seasonality-overlay");
+    for (let m = 1; m < 12; m++) {
+      const line = document.createElement("div");
+      line.className = "recipe-seasonality-grid-line";
+      line.style.left = ((m / 12) * 100).toFixed(4) + "%";
+      overlay.appendChild(line);
+    }
+    const nowCol = document.createElement("div");
+    nowCol.className = "recipe-seasonality-grid-now";
+    nowCol.style.left = ((currentDisplayCol / 24) * 100).toFixed(4) + "%";
+    nowCol.style.width = (100 / 24).toFixed(4) + "%";
+    overlay.appendChild(nowCol);
+
+    // ---- Aggregate curve ------------------------------------------------
+    // Static panel: every temporal category counts (no category pills here).
+    // The curve needs the d3 spline generators; the per-ingredient strips below
+    // are pure CSS, so drop just the curve row if the CDN is unreachable.
+    const curveRow = panel.querySelector(".recipe-seasonality-curve-row");
+    if (window.d3 && typeof d3.line === "function" && typeof d3.area === "function") {
+      const activeCategories = new Set(S.TEMPORAL_CATEGORIES);
+      const rawSeries = S.scoreSeries({ temporal_ingredients: ingredients }, activeCategories);
+      const rotatedSeries = Float32Array.from(displaySlots, (idx) => rawSeries[idx]);
+      S.renderStrip(document.getElementById("recipe-seasonality-curve"), rotatedSeries);
+    } else {
+      curveRow.remove();
+    }
+
+    // ---- One strip per ingredient ---------------------------------------
+    const rows = document.getElementById("recipe-seasonality-rows");
+    for (const ing of ingredients) {
+      const row = document.createElement("div");
+      row.className = "recipe-seasonality-row";
+
+      const label = document.createElement("div");
+      label.className = "recipe-seasonality-row-label";
+      const dot = document.createElement("span");
+      dot.className = "recipe-seasonality-row-dot";
+      dot.style.setProperty(
+        "--cat-color",
+        S.CATEGORY_COLORS[ing.category] || S.CATEGORY_COLORS.autre
+      );
+      const name = document.createElement("span");
+      name.className = "recipe-seasonality-row-name";
+      name.textContent = ing.id;
+      name.title = S.CATEGORY_LABELS[ing.category] || "";
+      label.append(dot, name);
+
+      const track = document.createElement("div");
+      track.className = "recipe-seasonality-row-track";
+      const strip = document.createElement("div");
+      strip.className = "cal-strip cal-strip-mini";
+      S.renderIngredientStrip(strip, ing, displaySlots, currentDisplayCol);
+      track.appendChild(strip);
+
+      row.append(label, track);
+      rows.appendChild(row);
+    }
+  });
+</script>
+{%- endif -%}

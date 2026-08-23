@@ -1,0 +1,236 @@
+/* Seasonality strip — shared between the calendrier's "recettes de saison"
+   mode and the per-recipe panel (`_includes/recipe-seasonality.html`).
+   The `.cal-strip*` rules below were factored out of calendrier.html so both
+   pages paint the same signature; class names are unchanged on purpose.
+   Rendered by assets/js/seasonality-strip.js. */
+
+.cal-strip {
+  display: block;
+  width: 100%;
+  height: 42px;
+  position: relative;
+}
+.cal-strip-mini { height: 24px !important; padding: 2px 0 !important; }
+.cal-strip-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+.cal-strip-svg-back  { z-index: 1; }
+.cal-strip-svg-front { z-index: 3; }
+.cal-strip-hatch {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  /* Colour source: same 24-stop score-driven gradient the SVG stroke uses.
+     Set inline via JS so each recipe's hatch tracks its own curve colours. */
+  opacity: 0.75;
+  /* Two masks: (1) the area shape under the curve, (2) the diagonal stripe
+     pattern. `mask-composite: intersect` keeps only the intersection — so
+     stripes appear only where both masks are opaque. */
+  -webkit-mask-image:
+    var(--hatch-mask),
+    repeating-linear-gradient(
+      -45deg,
+      black 0 1.4px,
+      transparent 1.4px 5.4px
+    );
+          mask-image:
+    var(--hatch-mask),
+    repeating-linear-gradient(
+      -45deg,
+      black 0 1.4px,
+      transparent 1.4px 5.4px
+    );
+  -webkit-mask-size: 100% 100%, auto;
+          mask-size: 100% 100%, auto;
+  -webkit-mask-repeat: no-repeat, repeat;
+          mask-repeat: no-repeat, repeat;
+  -webkit-mask-position: 0 0, 0 0;
+          mask-position: 0 0, 0 0;
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+}
+.cal-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  height: 100%;
+  position: relative;
+}
+.cal-strip-cell {
+  position: relative;
+  border-left: 1px solid transparent;
+  margin: 2px 0;
+  background: transparent;
+}
+.cal-strip-cell-month-start { border-left-color: rgb(254 215 170); }
+/* Current-quinzaine tint for OUT-of-season cells. Declared before the phase
+   rules so an in-season "now" cell keeps its category colour (phase rules win
+   on equal specificity) and only gains the outline below. */
+.cal-strip-cell-now { background-color: rgb(249 115 22 / 0.10); }
+.cal-strip-cell-peak { background: var(--cell-color); border-radius: 2px; }
+.cal-strip-cell-start,
+.cal-strip-cell-end {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      var(--cell-color) 0,
+      var(--cell-color) 1.5px,
+      color-mix(in srgb, var(--cell-color) 12%, transparent) 1.5px,
+      color-mix(in srgb, var(--cell-color) 12%, transparent) 4.5px
+    );
+  border-radius: 2px;
+}
+.cal-strip-cell-now.cal-strip-cell-peak,
+.cal-strip-cell-now.cal-strip-cell-start,
+.cal-strip-cell-now.cal-strip-cell-end {
+  box-shadow: inset 0 0 0 1.5px rgb(249 115 22 / 0.55);
+}
+
+/* ── Per-recipe panel ───────────────────────────────────────────────────
+   Static, read-only variant of the calendrier row: month header, aggregate
+   curve, then one mini strip per temporal ingredient. Slimmed adaptation of
+   `.cal-recipes-header` / `.cal-recipes-grid-overlay` / `.cal-recipes-subrow`,
+   using the same palette so both views read identically. */
+.recipe-seasonality {
+  /* Same card idiom as the search page's `.viz-card`, on the article's
+     bg-orange-50 background. */
+  background: linear-gradient(135deg, #fff 0%, #fff6f2 60%, #ffe8e1 100%);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  outline: 1px solid rgb(254 215 170 / 0.6);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  /* Label column width — shared by header, curve row and ingredient rows so
+     every fortnight column lines up vertically. */
+  --rs-label-w: 7.5rem;
+}
+.recipe-seasonality-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #F53200;
+}
+.recipe-seasonality-months {
+  display: flex;
+}
+.recipe-seasonality-months-left {
+  flex: 0 0 var(--rs-label-w);
+}
+.recipe-seasonality-months-right {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  border-bottom: 1px solid rgb(254 215 170);
+}
+.recipe-seasonality-month-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 12px;
+  font-weight: 600;
+}
+.recipe-seasonality-month-cell-alt { background: #ffedd5; }
+/* Body wraps curve + ingredient rows so the grid backdrop spans them both. */
+.recipe-seasonality-body {
+  position: relative;
+}
+.recipe-seasonality-grid-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--rs-label-w);
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.recipe-seasonality-grid-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgb(254 215 170);
+}
+.recipe-seasonality-grid-now {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgb(249 115 22 / 0.10);
+}
+.recipe-seasonality-row {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+.recipe-seasonality-row-label {
+  flex: 0 0 var(--rs-label-w);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.7rem 0 0;
+  min-width: 0;
+}
+.recipe-seasonality-row-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cat-color);
+  flex: 0 0 auto;
+}
+.recipe-seasonality-row-name {
+  font-size: 0.78rem;
+  color: rgb(120 53 15 / 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recipe-seasonality-row-track {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+/* The aggregate curve row keeps the same label gutter (empty) so the curve
+   spans exactly the month-header columns. */
+.recipe-seasonality-curve-row .recipe-seasonality-row-name {
+  font-weight: 600;
+}
+.recipe-seasonality-ingredients {
+  margin-top: 0.15rem;
+}
+.recipe-seasonality-ingredients .recipe-seasonality-row {
+  height: 28px;
+  border-top: 1px solid rgb(254 215 170 / 0.4);
+}
+.recipe-seasonality-ingredients .recipe-seasonality-row:first-child {
+  border-top: 0;
+}
+.recipe-seasonality-note {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.72rem;
+  color: rgb(120 53 15 / 0.6);
+}
+@media (max-width: 767px) {
+  /* Drop the label gutter: labels sit above their full-width strip so the
+     fortnight columns still line up with the month header. */
+  .recipe-seasonality { --rs-label-w: 0rem; }
+  .recipe-seasonality-months-left { display: none; }
+  .recipe-seasonality-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .recipe-seasonality-row-label {
+    flex: none;
+    padding: 0.2rem 0 0.05rem;
+  }
+  .recipe-seasonality-row-track { width: 100%; }
+  .recipe-seasonality-ingredients .recipe-seasonality-row { height: auto; }
+}
