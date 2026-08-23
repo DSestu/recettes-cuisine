@@ -287,6 +287,10 @@
     // chip click triggers — otherwise the accordion snapped shut each time you
     // switched an ingredient off.
     ignoreExpanded: false,
+    // Slugs of recipe rows whose ingredient detail is open. Kept here, not just
+    // as an `is-expanded` DOM class, so that the full re-render an "ignorer"
+    // click triggers doesn't collapse the very row you were working in.
+    expandedRecipes: new Set(),
   };
 
   // Toggle visibility of the two modes' DOM subtrees. Called on init and on
@@ -2142,12 +2146,24 @@
       // navigating (desktop keeps the title link). The graph area toggles the
       // ingredient detail on ALL viewports — mobile tap-to-expand, and desktop
       // click-to-expand (sticky, in addition to hover).
+      // Expansion is mirrored into `state.expandedRecipes` so it survives the
+      // re-render that ignoring an ingredient triggers.
+      const rowKey = recipe.slug || recipe.url || recipe.title;
+      if (state.expandedRecipes.has(rowKey)) item.classList.add("is-expanded");
+      const setExpanded = (open) => {
+        item.classList.toggle("is-expanded", open);
+        if (open) state.expandedRecipes.add(rowKey);
+        else state.expandedRecipes.delete(rowKey);
+      };
+
       left.addEventListener("click", (ev) => {
         if (!window.matchMedia("(max-width: 767px)").matches) return;
         ev.preventDefault();
-        item.classList.toggle("is-expanded");
+        setExpanded(!item.classList.contains("is-expanded"));
       });
-      right.addEventListener("click", () => item.classList.toggle("is-expanded"));
+      right.addEventListener("click", () => {
+        setExpanded(!item.classList.contains("is-expanded"));
+      });
 
       // Pre-rendered per-ingredient block; CSS-only accordion via
       // `.cal-recipes-item:hover / :focus-within` animates the wrapping grid
@@ -2156,10 +2172,17 @@
       detailWrap.className = "cal-recipes-detail-wrap";
       const detail = document.createElement("div");
       detail.className = "cal-recipes-detail";
-      const active = activeIngredients(recipe, activeCategories);
-      for (const ing of active) {
+      // Listed from the category filter alone, NOT activeIngredients: an ignored
+      // ingredient has to stay on screen for its own button to bring it back.
+      // The row is struck through to show it no longer counts.
+      const detailIngredients = (recipe.temporal_ingredients || []).filter(
+        (t) => activeCategories.has(t.category)
+      );
+      for (const ing of detailIngredients) {
+        const ignored = isIngredientIgnored(ing.id);
         const sub = document.createElement("div");
-        sub.className = "cal-recipes-subrow";
+        sub.className = "cal-recipes-subrow"
+          + (ignored ? " cal-recipes-subrow-ignored" : "");
         const label = document.createElement("div");
         label.className = "cal-recipes-subrow-left";
         const dot = document.createElement("span");
@@ -2168,7 +2191,26 @@
         const name = document.createElement("span");
         name.className = "cal-recipes-subrow-name";
         name.textContent = ing.id;
-        label.append(dot, name);
+
+        const ignoreBtn = document.createElement("button");
+        ignoreBtn.type = "button";
+        ignoreBtn.className = "cal-recipes-subrow-ignore";
+        ignoreBtn.setAttribute("aria-pressed", ignored ? "true" : "false");
+        ignoreBtn.textContent = ignored ? "↩" : "✕";
+        ignoreBtn.title = ignored
+          ? `Reprendre en compte la saison de ${ing.id}`
+          : `Ignorer la saison de ${ing.id} (conserves, congélateur, importé…)`;
+        ignoreBtn.setAttribute("aria-label", ignoreBtn.title);
+        ignoreBtn.addEventListener("click", (ev) => {
+          // The row, the strip and the detail wrapper all toggle expansion on
+          // click; without this the section would slam shut under the cursor.
+          ev.stopPropagation();
+          ev.preventDefault();
+          setIngredientIgnored(ing.id, !ignored);
+          renderRecipesList(data, mount);
+        });
+
+        label.append(dot, name, ignoreBtn);
         const subRight = document.createElement("div");
         subRight.className = "cal-recipes-subrow-right";
         const subStrip = document.createElement("div");

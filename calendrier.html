@@ -1215,7 +1215,51 @@ title: "Calendrier des ingrédients"
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    /* Yield the row's spare width to the name so the ignore button, which is
+       fixed-size, never gets squeezed out of a narrow label column. */
+    flex: 1 1 auto;
+    min-width: 0;
   }
+  /* Per-line "ignorer cet ingrédient" button. Faint until the row is hovered or
+     focused so it doesn't compete with the ingredient names, but always visible
+     on touch, where there is no hover to reveal it. */
+  .cal-recipes-subrow-ignore {
+    appearance: none;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 1px solid rgb(120 53 15 / 0.25);
+    border-radius: 999px;
+    background: #fff;
+    color: rgb(120 53 15 / 0.7);
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+    transition: opacity 140ms ease-out, background-color 140ms ease-out,
+      color 140ms ease-out, border-color 140ms ease-out;
+  }
+  @media (hover: hover) {
+    .cal-recipes-subrow-ignore { opacity: 0.35; }
+    .cal-recipes-subrow:hover .cal-recipes-subrow-ignore,
+    .cal-recipes-subrow-ignore:focus-visible { opacity: 1; }
+  }
+  .cal-recipes-subrow-ignore:hover {
+    background: #f53200;
+    border-color: #f53200;
+    color: #fff;
+  }
+  .cal-recipes-subrow-ignore[aria-pressed="true"] {
+    opacity: 1;
+    background: rgb(120 53 15 / 0.08);
+  }
+  /* An ignored ingredient stays listed but reads as struck out of the count. */
+  .cal-recipes-subrow-ignored .cal-recipes-subrow-name {
+    text-decoration: line-through;
+    color: rgb(120 53 15 / 0.45);
+  }
+  .cal-recipes-subrow-ignored .cal-recipes-subrow-dot { opacity: 0.35; }
+  .cal-recipes-subrow-ignored .cal-strip { opacity: 0.35; filter: saturate(0.4); }
   .cal-recipes-subrow-right {
     flex: 1 1 auto;
     display: flex;
