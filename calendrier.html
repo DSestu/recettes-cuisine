@@ -665,6 +665,99 @@ title: "Calendrier des ingrédients"
     outline: 2px solid var(--cat-color);
     outline-offset: 2px;
   }
+  /* Per-ingredient "ignorer" control. Reuses .cal-recipes-pill so an ignored
+     ingredient reads exactly like a disabled category: dimmed + struck. */
+  .cal-recipes-ignore {
+    padding: 0 0.2rem 1rem 0.2rem;
+  }
+  .cal-recipes-ignore-heading {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgb(120 53 15 / 0.85);
+  }
+  .cal-recipes-ignore-help {
+    margin: 0.15rem 0 0.5rem 0;
+    max-width: 62ch;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: rgb(120 53 15 / 0.65);
+  }
+  .cal-recipes-ignore-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .cal-recipes-ignore-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    padding-top: 0.35rem;
+  }
+  /* Overflow accordion. Same grid-template-rows 0fr -> 1fr technique as
+     .cal-recipes-detail-wrap: animates to the content's natural height without
+     needing a hardcoded max-height. */
+  .cal-recipes-ignore-overflow-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 220ms ease-out;
+    opacity: 0;
+  }
+  .cal-recipes-ignore-overflow-wrap.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .cal-recipes-ignore-overflow {
+    min-height: 0;
+    overflow: hidden;
+    /* Padding lives on the inner element: on the wrapper it would keep the row
+       from collapsing fully to zero height when closed. */
+    padding-top: 0.45rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cal-recipes-ignore-overflow-wrap { transition: none; }
+  }
+  .cal-recipes-ignore-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .cal-recipes-ignore-count {
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0.12rem 0.3rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.35);
+    /* Struck-through text is inherited by the badge; undo it so the count stays
+       legible on an ignored chip. */
+    text-decoration: none;
+  }
+  .cal-recipes-ignore-pill[aria-pressed="false"] .cal-recipes-ignore-count {
+    background: rgb(120 53 15 / 0.10);
+  }
+  .cal-recipes-ignore-more,
+  .cal-recipes-ignore-reset {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.78rem;
+    color: rgb(120 53 15 / 0.75);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .cal-recipes-ignore-more:hover,
+  .cal-recipes-ignore-reset:hover {
+    color: #f53200;
+  }
+  .cal-recipes-ignore-reset {
+    font-weight: 600;
+    color: #f53200;
+  }
   .cal-recipes-empty {
     padding: 1.5rem 0.5rem;
     color: rgb(120 53 15 / 0.7);

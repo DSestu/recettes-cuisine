@@ -85,11 +85,105 @@
   // whose stops track the per-fortnight colour along the parchment → mustard
   // → peak-green ramp.
 
+  // ---- Ignored ingredients ---------------------------------------------
+  // Ingredient ids the reader has chosen to leave out of every seasonality
+  // calculation. Two real cases, identical for scoring: the ingredient is
+  // preserved (conserves, bocaux, congélateur) or bought imported year-round.
+  // Either way its own season should stop constraining the dish.
+  //
+  // Global on purpose — an ingredient you keep in the cupboard is kept for
+  // every recipe — so the set is stored once here and read by every view.
+  // Persisted to the URL (so a filtered view is shareable) and to
+  // localStorage (so it survives a reload without a param).
+  const IGNORED_URL_PARAM = "sans-ingredients";
+  const IGNORED_STORAGE_KEY = "seasonality.ignoredIngredients";
+
+  let ignoredIngredients = new Set();
+
+  function readIgnoredFromUrl() {
+    try {
+      const raw = new URLSearchParams(location.search).get(IGNORED_URL_PARAM);
+      if (raw === null) return null;
+      // Empty string is a deliberate "nothing ignored", distinct from absent —
+      // it lets a shared link override a sticky localStorage set.
+      if (raw === "") return new Set();
+      return new Set(raw.split(",").map((s) => s.trim()).filter(Boolean));
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function readIgnoredFromStorage() {
+    try {
+      const raw = localStorage.getItem(IGNORED_STORAGE_KEY);
+      if (!raw) return new Set();
+      const parsed = JSON.parse(raw);
+      return new Set(Array.isArray(parsed) ? parsed.filter((s) => typeof s === "string") : []);
+    } catch (_) {
+      return new Set();
+    }
+  }
+
+  // URL wins over localStorage so a shared link shows what its author saw.
+  function loadIgnoredIngredients() {
+    const fromUrl = readIgnoredFromUrl();
+    ignoredIngredients = fromUrl !== null ? fromUrl : readIgnoredFromStorage();
+    return ignoredIngredients;
+  }
+
+  function persistIgnoredIngredients() {
+    const ids = [...ignoredIngredients].sort();
+    try {
+      localStorage.setItem(IGNORED_STORAGE_KEY, JSON.stringify(ids));
+    } catch (_) { /* private mode / quota — the URL still carries it */ }
+    try {
+      const url = new URL(window.location.href);
+      if (ids.length === 0) url.searchParams.delete(IGNORED_URL_PARAM);
+      else url.searchParams.set(IGNORED_URL_PARAM, ids.join(","));
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    // The calendrier mirrors page state into its QR code.
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
+  function getIgnoredIngredients() {
+    return new Set(ignoredIngredients);
+  }
+
+  function isIngredientIgnored(id) {
+    return ignoredIngredients.has(id);
+  }
+
+  function setIngredientIgnored(id, ignored) {
+    if (ignored) ignoredIngredients.add(id);
+    else ignoredIngredients.delete(id);
+    persistIgnoredIngredients();
+  }
+
+  function clearIgnoredIngredients() {
+    ignoredIngredients = new Set();
+    persistIgnoredIngredients();
+  }
+
+  loadIgnoredIngredients();
+
+  // The temporal ingredients that count toward a recipe's seasonality.
+  //
+  // Single source of truth for that question. Every score, timeline and render
+  // path funnels through here, so a filter can never end up applied in one view
+  // but not another — the predicate used to be copy-pasted across five call
+  // sites in this file and calendrier.js.
+  function activeIngredients(recipe, activeCategories) {
+    return recipe.temporal_ingredients.filter(
+      (t) => activeCategories.has(t.category) && !ignoredIngredients.has(t.id)
+    );
+  }
+
   // Weighted score in [0..1] per fortnight, restricted to active categories.
   function scoreSeries(recipe, activeCategories) {
-    const active = recipe.temporal_ingredients.filter(
-      (t) => activeCategories.has(t.category)
-    );
+    const active = activeIngredients(recipe, activeCategories);
     const out = new Float32Array(24);
     if (!active.length) return out;
     for (let idx = 0; idx < 24; idx++) {
@@ -339,6 +433,11 @@
     parseSeason,
     phasesFromSeason,
     currentFortnightIdx,
+    activeIngredients,
+    getIgnoredIngredients,
+    isIngredientIgnored,
+    setIngredientIgnored,
+    clearIgnoredIngredients,
     scoreSeries,
     scoreColor,
     renderStrip,

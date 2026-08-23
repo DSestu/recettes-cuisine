@@ -11,6 +11,11 @@
     CATEGORY_COLORS,
     parseSeason,
     currentFortnightIdx,
+    activeIngredients,
+    isIngredientIgnored,
+    setIngredientIgnored,
+    clearIgnoredIngredients,
+    getIgnoredIngredients,
     scoreSeries,
     scoreColor,
     renderStrip,
@@ -277,6 +282,11 @@
     quinzaineIdx: initialQuinzaine(), // null → current at render time
     activeSeasonCategories: initialCategoriesSaison(),
     includeComponents: initialIncludeComponents(),
+    // Whether the "ignorer" chip overflow is open. Lives here rather than in
+    // renderIgnoredIngredients so it survives the full re-render that every
+    // chip click triggers — otherwise the accordion snapped shut each time you
+    // switched an ingredient off.
+    ignoreExpanded: false,
   };
 
   // Toggle visibility of the two modes' DOM subtrees. Called on init and on
@@ -1538,9 +1548,7 @@
   //   total        – # active temporal ingredients (denominator)
   //   outOfSeason  – ids of active temporal ingredients with weight 0 here
   function scoreRecipe(recipe, fortnightIdx, activeCategories) {
-    const active = recipe.temporal_ingredients.filter(
-      (t) => activeCategories.has(t.category)
-    );
+    const active = activeIngredients(recipe, activeCategories);
     if (active.length === 0) return null;
     const key = String(fortnightIdx);
     let weightedIn = 0;
@@ -1576,9 +1584,7 @@
   //                          ingredient again (group 3 only).
   //   endAfterActivation   – activateDistance + run length once active (group 3).
   function seasonTimeline(recipe, fortnightIdx, activeCategories) {
-    const active = recipe.temporal_ingredients.filter(
-      (t) => activeCategories.has(t.category)
-    );
+    const active = activeIngredients(recipe, activeCategories);
     const total = active.length;
     if (total === 0) return { group: 4 };
 
@@ -1709,6 +1715,169 @@
     }
   }
 
+  // How many listed recipes use each temporal ingredient, for the "ignorer"
+  // chips. Counted over the entries actually in the list (so the components
+  // toggle moves the numbers), and deliberately NOT filtered by ignored state —
+  // an ignored chip must keep showing its count so you can judge undoing it.
+  const INGREDIENT_CHIPS_SHOWN = 12;
+
+  function ingredientUsage(data) {
+    const counts = new Map();
+    const categoryOf = new Map();
+    for (const recipe of data.recipes) {
+      if (recipe.kind !== "recipe" && !(state.includeComponents && recipe.kind === "component")) {
+        continue;
+      }
+      // A recipe listing the same id twice must still count once.
+      const seen = new Set();
+      for (const ing of recipe.temporal_ingredients || []) {
+        // Only offer ingredients from a counted category: an ingredient whose
+        // macro category is switched off already contributes nothing, so a chip
+        // for it would do nothing. Its ignored state is untouched, so switching
+        // the category back on restores the chip exactly as it was.
+        if (!state.activeSeasonCategories.has(ing.category)) continue;
+        if (seen.has(ing.id)) continue;
+        seen.add(ing.id);
+        counts.set(ing.id, (counts.get(ing.id) || 0) + 1);
+        if (!categoryOf.has(ing.id)) categoryOf.set(ing.id, ing.category);
+      }
+    }
+    return [...counts.entries()]
+      .map(([id, count]) => ({ id, count, category: categoryOf.get(id) }))
+      .sort((a, b) => b.count - a.count || a.id.localeCompare(b.id, "fr"));
+  }
+
+  function renderIgnoredIngredients(mount, data, mountRoot) {
+    const usage = ingredientUsage(data);
+    if (!usage.length) return;
+
+    mount.innerHTML = "";
+
+    const heading = document.createElement("p");
+    heading.className = "cal-recipes-ignore-heading";
+    heading.textContent = "Ignorer la saison de certains ingrédients";
+    mount.appendChild(heading);
+
+    const help = document.createElement("p");
+    help.className = "cal-recipes-ignore-help";
+    help.textContent =
+      "Un ingrédient dont vous avez des conserves ou des bocaux, que vous gardez "
+      + "au congélateur, qui se conserve tout l'hiver en cave, ou que vous achetez "
+      + "importé toute l'année ne devrait pas limiter vos menus. Ignorez-le : il ne "
+      + "comptera plus dans le score de saison des recettes.";
+    mount.appendChild(help);
+
+    function buildChip(u) {
+      const ignored = isIngredientIgnored(u.id);
+      const chip = document.createElement("button");
+      chip.type = "button";
+      // Same pill idiom as the category row: aria-pressed="true" = counted,
+      // "false" = ignored, which the CSS renders dimmed + struck through.
+      chip.className = "cal-recipes-pill cal-recipes-ignore-pill";
+      chip.setAttribute("aria-pressed", ignored ? "false" : "true");
+      chip.style.setProperty("--cat-color", CATEGORY_COLORS[u.category] || CATEGORY_COLORS.autre);
+      const plural = u.count > 1 ? "s" : "";
+      chip.title = ignored
+        ? `${u.id} — ignoré ; utilisé dans ${u.count} recette${plural}`
+        : `${u.id} — utilisé dans ${u.count} recette${plural}`;
+
+      const name = document.createElement("span");
+      name.textContent = u.id;
+      // Count shown inline as well as in the title: `title` never appears on a
+      // touch screen, and the number is the whole basis for the ordering.
+      const badge = document.createElement("span");
+      badge.className = "cal-recipes-ignore-count";
+      badge.textContent = String(u.count);
+      badge.setAttribute("aria-hidden", "true");
+      chip.append(name, badge);
+
+      chip.addEventListener("click", () => {
+        setIngredientIgnored(u.id, !ignored);
+        renderRecipesList(data, mountRoot);
+      });
+      return chip;
+    }
+
+    // Always-visible chips: the top slice, plus every ignored one whatever its
+    // rank — a chip you switched off must never hide behind "voir plus".
+    const lead = [];
+    const overflow = [];
+    usage.forEach((u, i) => {
+      if (i < INGREDIENT_CHIPS_SHOWN || isIngredientIgnored(u.id)) lead.push(u);
+      else overflow.push(u);
+    });
+
+    const row = document.createElement("div");
+    row.className = "cal-recipes-ignore-row";
+    for (const u of lead) row.appendChild(buildChip(u));
+    mount.appendChild(row);
+
+    // Controls go in their own row BELOW the accordion, not appended to the lead
+    // chips: from there they'd sit between the lead chips and the expanded ones,
+    // reading as though they belonged to the middle of the list.
+    const actions = document.createElement("div");
+    actions.className = "cal-recipes-ignore-actions";
+
+    // Overflow chips live in their own wrapper that animates open via
+    // grid-template-rows 0fr -> 1fr, the same CSS-only accordion the recipe
+    // detail rows use. Built once and only class-toggled, so the transition
+    // has something stable to animate — a repaint would restart it.
+    if (overflow.length) {
+      const wrap = document.createElement("div");
+      wrap.className = "cal-recipes-ignore-overflow-wrap";
+      if (state.ignoreExpanded) wrap.classList.add("is-open");
+
+      const inner = document.createElement("div");
+      inner.className = "cal-recipes-ignore-overflow";
+      const overflowRow = document.createElement("div");
+      overflowRow.className = "cal-recipes-ignore-row";
+      for (const u of overflow) overflowRow.appendChild(buildChip(u));
+      inner.appendChild(overflowRow);
+      wrap.appendChild(inner);
+      mount.appendChild(wrap);
+
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "cal-recipes-ignore-more";
+      more.setAttribute("aria-expanded", state.ignoreExpanded ? "true" : "false");
+      const labelFor = (open) => (open ? "voir moins" : `voir les ${overflow.length} autres`);
+      more.textContent = labelFor(state.ignoreExpanded);
+      more.addEventListener("click", () => {
+        state.ignoreExpanded = !state.ignoreExpanded;
+        wrap.classList.toggle("is-open", state.ignoreExpanded);
+        more.setAttribute("aria-expanded", state.ignoreExpanded ? "true" : "false");
+        more.textContent = labelFor(state.ignoreExpanded);
+      });
+      actions.appendChild(more);
+    }
+
+    // Ignored ingredients the chips can't show — their macro category is off, or
+    // the id came from a URL param and no listed recipe uses it. Reset clears the
+    // whole set, so say so rather than quoting a count that doesn't match.
+    const visibleIds = new Set(usage.map((u) => u.id));
+    const shownIgnored = usage.filter((u) => isIngredientIgnored(u.id)).length;
+    const hiddenIgnored = [...getIgnoredIngredients()]
+      .filter((id) => !visibleIds.has(id)).length;
+
+    if (shownIgnored + hiddenIgnored > 0) {
+      const reset = document.createElement("button");
+      reset.type = "button";
+      reset.className = "cal-recipes-ignore-reset";
+      reset.textContent =
+        `${shownIgnored} ignoré${shownIgnored > 1 ? "s" : ""}`
+        + (hiddenIgnored > 0 ? ` (+${hiddenIgnored} hors catégories comptées)` : "")
+        + " — réinitialiser";
+      reset.title = "Réactiver tous les ingrédients ignorés";
+      reset.addEventListener("click", () => {
+        clearIgnoredIngredients();
+        renderRecipesList(data, mountRoot);
+      });
+      actions.appendChild(reset);
+    }
+
+    if (actions.childElementCount) mount.appendChild(actions);
+  }
+
   function renderRecipesList(data, mount) {
     if (!mount) return;
     const fortnightIdx = resolveFortnightIdx();
@@ -1782,6 +1951,13 @@
     compWrap.append(compBox, compLabel);
     pills.appendChild(compWrap);
     mount.appendChild(pills);
+
+    // Sits directly under the category pills: both answer "what counts toward
+    // the season score", one by category and one by individual ingredient.
+    const ignoreBox = document.createElement("div");
+    ignoreBox.className = "cal-recipes-ignore";
+    renderIgnoredIngredients(ignoreBox, data, mount);
+    mount.appendChild(ignoreBox);
 
     if (activeCategories.size === 0) {
       const empty = document.createElement("p");
@@ -1980,9 +2156,7 @@
       detailWrap.className = "cal-recipes-detail-wrap";
       const detail = document.createElement("div");
       detail.className = "cal-recipes-detail";
-      const active = recipe.temporal_ingredients.filter(
-        (t) => activeCategories.has(t.category)
-      );
+      const active = activeIngredients(recipe, activeCategories);
       for (const ing of active) {
         const sub = document.createElement("div");
         sub.className = "cal-recipes-subrow";
