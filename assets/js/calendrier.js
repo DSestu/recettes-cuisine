@@ -1,39 +1,28 @@
 (function () {
   "use strict";
 
-  const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-  const MONTH_LABELS_FR = ["Janv.", "Févr.", "Mars", "Avr.", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc."];
+  // Fortnight math, the colour ramp and both strip renderers live in the
+  // shared `assets/js/seasonality-strip.js` module (also used by the
+  // per-recipe seasonality panel), loaded before this file.
+  const {
+    MONTHS,
+    MONTH_LABELS_FR,
+    CATEGORY_LABELS,
+    CATEGORY_COLORS,
+    parseSeason,
+    currentFortnightIdx,
+    scoreSeries,
+    scoreColor,
+    renderStrip,
+    renderIngredientStrip,
+  } = window.SeasonalityStrip;
 
   const CATEGORY_ORDER = [
     "legume", "fruit", "herbe", "champignon",
     "poisson", "coquillage", "viande", "fromage", "autre",
   ];
-  const CATEGORY_LABELS = {
-    fruit: "Fruits",
-    legume: "Légumes",
-    herbe: "Herbes",
-    champignon: "Champignons",
-    poisson: "Poissons",
-    coquillage: "Coquillages",
-    viande: "Viandes",
-    fromage: "Fromages",
-    autre: "Autres",
-  };
-  const CATEGORY_COLORS = {
-    fruit: "#e11d48",
-    legume: "#16a34a",
-    herbe: "#65a30d",
-    champignon: "#a16207",
-    poisson: "#0284c7",
-    coquillage: "#0891b2",
-    viande: "#b91c1c",
-    fromage: "#ca8a04",
-    autre: "#78716c",
-  };
   // `peak` = solid category color. `start` / `end` = diagonal hatch pattern.
   const HATCH_INTENSITIES = new Set(["start", "end"]);
-
-  const TOKEN_RE = /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)-([12]):(start|peak|end)$/;
 
   // Wide-mode cell width — scaled per viewport. Desktop gets a much larger
   // cell for detailed inspection; mobile gets a modest widening to stay
@@ -418,21 +407,6 @@
       }
     }
     return { incoming, current, leaving };
-  }
-
-  function parseSeason(seasonStr) {
-    const out = new Map();
-    if (!seasonStr) return out;
-    for (const tok of seasonStr.split(",")) {
-      const t = tok.trim();
-      if (!t) continue;
-      const m = TOKEN_RE.exec(t);
-      if (!m) continue;
-      const monthIdx = MONTHS.indexOf(m[1]);
-      const q = parseInt(m[2], 10) - 1;
-      out.set(monthIdx * 2 + q, m[3]);
-    }
-    return out;
   }
 
   function displayName(id) {
@@ -1552,12 +1526,6 @@
   }
 
   // --- Scoring engine (pure) --------------------------------------------
-  // Fortnight index math: (month - 1) * 2 + (day <= 15 ? 0 : 1). Range 0..23.
-  function currentFortnightIdx(date) {
-    const d = date || new Date();
-    return d.getMonth() * 2 + (d.getDate() <= 15 ? 0 : 1);
-  }
-
   // Score a recipe at a given fortnight, restricted to `activeCategories`.
   // Returns null when the recipe has no *active* temporal ingredients — the
   // caller pins such recipes below the ranked list as "Sans contrainte".
@@ -1569,8 +1537,6 @@
   //   endCount     – # at `end`
   //   total        – # active temporal ingredients (denominator)
   //   outOfSeason  – ids of active temporal ingredients with weight 0 here
-  const PHASE_WEIGHTS = { peak: 1.0, start: 0.5, end: 0.5 };
-
   function scoreRecipe(recipe, fortnightIdx, activeCategories) {
     const active = recipe.temporal_ingredients.filter(
       (t) => activeCategories.has(t.category)
@@ -1645,244 +1611,6 @@
       return { group, activateDistance, endAfterActivation };
     }
     return { group, endDistance: forwardRun(fortnightIdx) };
-  }
-
-  // --- Seasonality strip (signature) ------------------------------------
-  // Smooth spline curve: Y = weighted score at each fortnight, X = 24 slots
-  // spanning the full width so cell boundaries line up with the header's month
-  // grid (every 2 x-steps = 1 month column). Fill is a horizontal gradient
-  // whose stops track the per-fortnight colour along the parchment → mustard
-  // → peak-green ramp.
-
-  // Weighted score in [0..1] per fortnight, restricted to active categories.
-  function scoreSeries(recipe, activeCategories) {
-    const active = recipe.temporal_ingredients.filter(
-      (t) => activeCategories.has(t.category)
-    );
-    const out = new Float32Array(24);
-    if (!active.length) return out;
-    for (let idx = 0; idx < 24; idx++) {
-      const key = String(idx);
-      let w = 0;
-      for (const ing of active) {
-        const p = ing.phases[key];
-        if (p === "peak") w += 1.0;
-        else if (p === "start" || p === "end") w += 0.5;
-      }
-      out[idx] = w / active.length;
-    }
-    return out;
-  }
-
-  // Ripening green ramp (G3): unripe lime → fresh green → deep teal-green.
-  // Reads like a fruit's hue shifting as it matures.
-  const STRIP_STOPS = [
-    { at: 0.0, rgb: [212, 230, 138] }, // #D4E68A unripe lime
-    { at: 0.5, rgb: [63, 154, 95] },   // #3F9A5F fresh green
-    { at: 1.0, rgb: [15, 76, 58] },    // #0F4C3A deep teal-green
-  ];
-  // Hatch colour source is the horizontal score ramp itself (see the
-  // `.cal-strip-hatch` CSS): each stripe takes the palette colour at its
-  // horizontal position so the hatch reads as the same left→right shift as
-  // the curve stroke above it.
-  function scoreColor(score) {
-    if (score <= 0) return "rgb(234, 221, 208)";
-    if (score >= 1) return "rgb(47, 143, 63)";
-    let lo = STRIP_STOPS[0], hi = STRIP_STOPS[STRIP_STOPS.length - 1];
-    for (let i = 0; i < STRIP_STOPS.length - 1; i++) {
-      if (score >= STRIP_STOPS[i].at && score <= STRIP_STOPS[i + 1].at) {
-        lo = STRIP_STOPS[i]; hi = STRIP_STOPS[i + 1]; break;
-      }
-    }
-    const t = (score - lo.at) / (hi.at - lo.at);
-    const r = Math.round(lo.rgb[0] + (hi.rgb[0] - lo.rgb[0]) * t);
-    const g = Math.round(lo.rgb[1] + (hi.rgb[1] - lo.rgb[1]) * t);
-    const b = Math.round(lo.rgb[2] + (hi.rgb[2] - lo.rgb[2]) * t);
-    return `rgb(${r}, ${g}, ${b})`;
-  }
-
-  function renderStrip(container, series) {
-    container.innerHTML = "";
-    // viewBox uses 24-unit width so points align with the 12-month header grid
-    // (each month = 2 units). Height 20 gives a comfortable curve amplitude.
-    const W = 24;
-    const H = 20;
-    const top = 1.5;
-    const bottom = H - 1;
-    const uid = `s${Math.random().toString(36).slice(2, 9)}`;
-
-    // Two stacked SVGs bracket the CSS hatch layer so the paint order is:
-    //   svgBack (area fill)  ←  hatch (CSS)  ←  svgFront (curve strokes)
-    const svgBack = d3.select(container).append("svg")
-      .attr("class", "cal-strip-svg cal-strip-svg-back")
-      .attr("viewBox", `0 0 ${W} ${H}`)
-      .attr("preserveAspectRatio", "none")
-      .attr("aria-hidden", "true");
-    // Placeholder for the hatch layer — inserted after svgBack, before svgFront.
-    const svg = d3.select(container).append("svg")
-      .attr("class", "cal-strip-svg cal-strip-svg-front")
-      .attr("viewBox", `0 0 ${W} ${H}`)
-      .attr("preserveAspectRatio", "none")
-      .attr("aria-hidden", "true");
-
-    // Month-boundary lines and the current-fortnight highlight are drawn once
-    // as a body-level backdrop (`.cal-recipes-grid-overlay`) behind all strips,
-    // matching the ingredient Gantt — so the strip itself draws only its curve.
-
-    // Gradient stops — one per fortnight, positioned at the midpoint of the cell
-    // so the colour tracks the curve rather than the cell boundary.
-    const stops = [];
-    for (let i = 0; i < 24; i++) {
-      const pct = ((i + 0.5) / 24) * 100;
-      stops.push(`<stop offset="${pct.toFixed(3)}%" stop-color="${scoreColor(series[i])}"/>`);
-    }
-    svg.append("defs").html(
-      `<linearGradient id="grad-${uid}" x1="0" x2="1" y1="0" y2="0">${stops.join("")}</linearGradient>`
-    );
-
-    // Build the spline. Points at cell midpoints (i + 0.5, y(score)).
-    const xs = [];
-    for (let i = 0; i < 24; i++) xs.push(i + 0.5);
-    const yFor = (v) => bottom - v * (bottom - top);
-
-    const line = d3.line()
-      .x((_, i) => xs[i])
-      .y((v) => yFor(v))
-      .curve(d3.curveMonotoneX);
-    const area = d3.area()
-      .x((_, i) => xs[i])
-      .y0(bottom)
-      .y1((v) => yFor(v))
-      .curve(d3.curveMonotoneX);
-
-    // ── Back layer: colored area fill under the curve ─────────────────
-    const areaPath = area(series);
-    // Duplicate the gradient <defs> in svgBack so the area fill can reference it.
-    svgBack.append("defs").html(
-      `<linearGradient id="grad-back-${uid}" x1="0" x2="1" y1="0" y2="0">${stops.join("")}</linearGradient>`
-    );
-    svgBack.append("path")
-      .attr("d", areaPath)
-      .attr("fill", `url(#grad-back-${uid})`)
-      .attr("opacity", 0.30);
-
-    // ── Middle layer: diagonal hatch (CSS) clipped to the area shape ──
-    // Rendered as an HTML/CSS layer outside the SVG so the diagonals stay at
-    // true 45° on screen instead of distorting under preserveAspectRatio="none".
-    const maskSvg =
-      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} ${H}' ` +
-      `preserveAspectRatio='none'>` +
-      `<path d='${areaPath}' fill='white'/></svg>`;
-    const maskUri = `url("data:image/svg+xml;utf8,${encodeURIComponent(maskSvg)}")`;
-
-    // Same 24-stop score-driven gradient the SVG line stroke uses.
-    const cssStops = [];
-    for (let i = 0; i < 24; i++) {
-      const pct = (((i + 0.5) / 24) * 100).toFixed(3);
-      cssStops.push(`${scoreColor(series[i])} ${pct}%`);
-    }
-    const hatchGradient = `linear-gradient(to right, ${cssStops.join(", ")})`;
-
-    const hatchLayer = document.createElement("div");
-    hatchLayer.className = "cal-strip-hatch";
-    hatchLayer.style.setProperty("--hatch-mask", maskUri);
-    hatchLayer.style.background = hatchGradient;
-    // Insert between svgBack and svg (the front layer) so paint order is
-    // back → hatch → front.
-    container.insertBefore(hatchLayer, svg.node());
-
-    // Curve outline — thicker so it stays legible against the fill.
-    svg.append("path")
-      .attr("d", line(series))
-      .attr("fill", "none")
-      .attr("stroke", `url(#grad-${uid})`)
-      .attr("stroke-width", 4)
-      .attr("stroke-linecap", "round")
-      .attr("stroke-linejoin", "round")
-      .attr("vector-effect", "non-scaling-stroke");
-
-    // Full-peak emphasis: the base curve is overlaid with two extra strokes
-    // whose visibility fades in progressively with the score. Both extra
-    // strokes trace the ENTIRE spline (identical shape to the base) and use
-    // a horizontal linear gradient as their mask — the gradient's opacity at
-    // each fortnight midpoint is a nonlinear function of the score there:
-    //   opacity(score) = clamp((score - 0.6) / 0.4, 0, 1) ^ 1.6
-    // so nothing shows below 0.6, and the emphasis ramps in smoothly toward
-    // peak. Between fortnights the linearGradient blends stops naturally,
-    // giving a continuous fade rather than hard edges.
-    if (series.some((v) => v >= 0.6)) {
-      const emph = (score) => {
-        const t = Math.max(0, (score - 0.6) / 0.4);
-        return Math.min(1, t) ** 1.6;
-      };
-      const maskStops = [];
-      for (let i = 0; i < 24; i++) {
-        const pct = ((i + 0.5) / 24) * 100;
-        const op = emph(series[i]).toFixed(3);
-        maskStops.push(
-          `<stop offset="${pct.toFixed(3)}%" stop-color="white" stop-opacity="${op}"/>`
-        );
-      }
-      const maskId = `peak-mask-${uid}`;
-      const maskGradId = `peak-mask-grad-${uid}`;
-      const defs = svg.select("defs");
-      defs.append("linearGradient")
-        .attr("id", maskGradId)
-        .attr("x1", "0").attr("x2", "1").attr("y1", "0").attr("y2", "0")
-        .html(maskStops.join(""));
-      defs.append("mask")
-        .attr("id", maskId)
-        .attr("maskUnits", "userSpaceOnUse")
-        .attr("x", 0).attr("y", 0)
-        .attr("width", W).attr("height", H)
-        .html(`<rect x="0" y="0" width="${W}" height="${H}" fill="url(#${maskGradId})"/>`);
-
-      // Halo — wide, translucent fresh green; visibility ramps with score.
-      svg.append("path")
-        .attr("d", line(series))
-        .attr("fill", "none")
-        .attr("stroke", "#3F9A5F")
-        .attr("stroke-width", 10)
-        .attr("stroke-linecap", "round")
-        .attr("stroke-linejoin", "round")
-        .attr("opacity", 0.32)
-        .attr("mask", `url(#${maskId})`)
-        .attr("vector-effect", "non-scaling-stroke");
-      // Emphasis — thicker deep teal-green stroke, same mask.
-      svg.append("path")
-        .attr("d", line(series))
-        .attr("fill", "none")
-        .attr("stroke", "#0F4C3A")
-        .attr("stroke-width", 6.5)
-        .attr("stroke-linecap", "round")
-        .attr("stroke-linejoin", "round")
-        .attr("mask", `url(#${maskId})`)
-        .attr("vector-effect", "non-scaling-stroke");
-    }
-  }
-
-  // Per-ingredient row rendered like the ingredient calendar: 24 cells across,
-  // solid category colour for `peak`, diagonal hatch for `start` / `end`, empty
-  // otherwise. Month rules every 2 cells; current quinzaine highlighted.
-  function renderIngredientStrip(container, ing, displaySlots, currentDisplayCol) {
-    container.innerHTML = "";
-    const grid = document.createElement("div");
-    grid.className = "cal-strip-grid";
-    const color = CATEGORY_COLORS[ing.category] || CATEGORY_COLORS.autre;
-    for (let c = 0; c < 24; c++) {
-      const cell = document.createElement("div");
-      cell.className = "cal-strip-cell";
-      if (c % 2 === 0 && c > 0) cell.classList.add("cal-strip-cell-month-start");
-      // Map display cell `c` to its absolute fortnight via the rotation.
-      const p = ing.phases[String(displaySlots[c])];
-      if (p) {
-        cell.classList.add(`cal-strip-cell-${p}`);
-        cell.style.setProperty("--cell-color", color);
-      }
-      if (c === currentDisplayCol) cell.classList.add("cal-strip-cell-now");
-      grid.appendChild(cell);
-    }
-    container.appendChild(grid);
   }
 
   // --- Renderer ---------------------------------------------------------
