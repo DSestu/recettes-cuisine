@@ -145,18 +145,19 @@
       othersSection = { section, grid };
     }
 
-    // Alternate views ("Récemment ajoutées", "Pays"). These hold exactly one
+    // Alternate views ("Récents", "Pays"). These hold exactly one
     // card per recipe, unlike the category sections which duplicate a card into
     // every category a recipe's tags match. Only one view family is visible at
     // a time; applyFilter() gates them on `sortMode`.
-    function buildSection(labelText) {
+    function buildSection(labelText, opts) {
       const section = document.createElement("section");
       section.className = "mb-8";
       section.style.display = "none";
 
       const title = document.createElement("h3");
-      title.className =
-        "px-6 text-primary uppercase font-semibold mb-2 text-lg md:text-xl";
+      title.className = (opts && opts.big)
+        ? "px-6 text-primary uppercase font-semibold mb-3 text-2xl md:text-3xl"
+        : "px-6 text-primary uppercase font-semibold mb-2 text-lg md:text-xl";
       title.textContent = labelText;
       section.appendChild(title);
 
@@ -169,7 +170,38 @@
       return { section, grid };
     }
 
-    const dateSection = buildSection("Récemment ajoutées");
+    // "Récents" is grouped into one big section per calendar month,
+    // newest month first. Sections are created lazily while walking the
+    // date-sorted list, so insertion order is already the display order.
+    const MONTH_FMT = new Intl.DateTimeFormat("fr-FR", {
+      month: "long",
+      year: "numeric",
+    });
+
+    /** "2026-08-23" -> "2026-08". Empty string for a missing/malformed date. */
+    function monthKey(raw) {
+      const m = /^(\d{4})-(\d{2})-\d{2}$/.exec(String(raw || "").trim());
+      return m ? m[1] + "-" + m[2] : "";
+    }
+
+    function monthLabel(key) {
+      if (!key) return "Date inconnue";
+      const parts = key.split("-");
+      const text = MONTH_FMT.format(new Date(+parts[0], +parts[1] - 1, 1));
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    const dateSections = new Map();
+
+    function dateSectionFor(raw) {
+      const key = monthKey(raw);
+      let found = dateSections.get(key);
+      if (!found) {
+        found = buildSection(monthLabel(key), { big: true });
+        dateSections.set(key, found);
+      }
+      return found;
+    }
 
     // One section per distinct non-empty `country`, alphabetical. Empty today —
     // the "pays" sort button stays hidden until recipes declare a country.
@@ -196,7 +228,50 @@
     let cardIndex = 0;
     const EAGER_CARD_COUNT = 8;
 
-    function createRecipeCard(recipe) {
+    const ADDED_AT_FMT = new Intl.DateTimeFormat("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
+    // "2026-08-23" -> "23 août 2026". Built from local Y/M/D parts rather than
+    // Date.parse, which reads a bare date as UTC and shifts the day west of GMT.
+    function formatAddedAt(raw) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(raw || "").trim());
+      if (!m) return "";
+      return ADDED_AT_FMT.format(new Date(+m[1], +m[2] - 1, +m[3]));
+    }
+
+    // Date bubble, only on the "Récents" cards. Always visible
+    // rather than hover-only: the homepage is mostly read on touch screens,
+    // where there is no hover. `title` adds the native tooltip on desktop.
+    function addDateBubble(a, recipe) {
+      const added = formatAddedAt(recipe.date);
+      if (!added) return;
+
+      a.style.position = "relative";
+      a.title = "Ajoutée le " + added;
+
+      const bubble = document.createElement("span");
+      bubble.textContent = added;
+      const s = bubble.style;
+      s.position = "absolute";
+      s.top = "0.375rem";
+      s.right = "0.375rem";
+      s.padding = "0.125rem 0.5rem";
+      s.borderRadius = "9999px";
+      s.fontSize = "0.6875rem";
+      s.fontWeight = "600";
+      s.lineHeight = "1.45";
+      s.color = "#fff";
+      s.backgroundColor = "rgba(245, 50, 0, 0.82)";
+      s.backdropFilter = "blur(2px)";
+      s.whiteSpace = "nowrap";
+      s.pointerEvents = "none";
+      a.appendChild(bubble);
+    }
+
+    function createRecipeCard(recipe, opts) {
       const a = document.createElement("a");
       a.className = "recipe md:hover:scale-105 md:hover:rotate-1 transition";
       a.href = recipe.url;
@@ -229,6 +304,8 @@
       h1.className = "font-semibold leading-tight";
       h1.textContent = recipe.title;
       a.appendChild(h1);
+
+      if (opts && opts.showDate) addDateBubble(a, recipe);
 
       return a;
     }
@@ -289,7 +366,7 @@
       catIdsByTitle.set(r.title, matchedCatIds);
     }
 
-    // "Récemment ajoutées": newest first. Dates collide heavily (batch imports
+    // "Récents": newest first. Dates collide heavily (batch imports
     // share a commit date), so tiebreak on title for a stable order.
     const byDateDesc = (HOME_RECIPES || []).slice().sort((a, b) => {
       const da = String(a.date || "");
@@ -299,8 +376,8 @@
     });
 
     for (const r of byDateDesc) {
-      const card = createRecipeCard(r);
-      dateSection.grid.appendChild(card);
+      const card = createRecipeCard(r, { showDate: true });
+      dateSectionFor(r.date).grid.appendChild(card);
       items.push({
         card,
         title: r.title,
@@ -608,9 +685,9 @@
       }
 
       // Show/hide the alternate-view sections
-      const altSections = [["date", dateSection]].concat(
-        Array.from(countrySections.values()).map((s) => ["country", s]),
-      );
+      const altSections = Array.from(dateSections.values())
+        .map((s) => ["date", s])
+        .concat(Array.from(countrySections.values()).map((s) => ["country", s]));
       for (const [mode, { section, grid }] of altSections) {
         if (mode !== sortMode) {
           section.style.display = "none";
@@ -653,7 +730,7 @@
         defaultMode: "category",
         modes: [
           { id: "category", label: "Catégories" },
-          { id: "date", label: "Récemment ajoutées" },
+          { id: "date", label: "Récents" },
           { id: "country", label: "Pays" },
         ],
         onChange: function (mode) {

@@ -15,7 +15,7 @@ globs:
 ## Recipe structure
 
 - **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug` (**bare slug, no extension** — the site is WebP-only and the layout appends `.webp`), `date: YYYY-MM-DD`. Then `tags:`, `ingredients:` as lists. Optional `components:` (component titles), optional `country:`.
-- **`date:` is mandatory** and means *added at* — the day the recipe entered the repo. Always use **today's date** for a new recipe or component; never invent or backdate it. Existing files were backfilled from git history by `scripts/backfill_added_at.py`. Never edit an existing `date:`. The homepage's « Récemment ajoutées » sort reads this field.
+- **`date:` is mandatory** and means *added at* — the day the recipe entered the repo. Always use **today's date** for a new recipe or component; never invent or backdate it. Existing files were backfilled from git history by `scripts/backfill_added_at.py`. Never edit an existing `date:`. The homepage's « Récents » sort reads this field, grouping recipes into one section per calendar month.
 - **`country:` is optional** and reserved for the future homepage country grouping — a single quoted French country or region name (`country: "Japon"`). Leave it out unless the dish has an unambiguous national origin; do not guess.
 - **Directions live in two possible places** — Markdown body is preferred; legacy YAML list in frontmatter is still supported.
 - **After `---`:** Optional short description ("Pour X personnes", "Temps de préparation : …"). When using Markdown directions, add a level-2 heading (`## Préparation`) and write full Markdown (paragraphs, bullets, images, tables, sublists).
