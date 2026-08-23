@@ -31,6 +31,11 @@
       "prompt_text_id": "31",
       "prompt_text_field": "text",
       "preview_image_id": "465"
+    },
+    "split": {
+      "workflow": "workflows/SDXL_recettes_cuisine_split_api.json",
+      "loader_id": "1",
+      "text_output_id": "3"
     }
   }
 }

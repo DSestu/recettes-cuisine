@@ -1,9 +1,47 @@
 ---
 name: implement-recipe-from-image
-description: Drive the remote ComfyUI workflows for recipe work: OCR a handwritten/printed recipe photo, restore a degraded dish photo (single image or every image in a folder), and/or generate a fresh dish image from a prompt-gallery file. Always invokes `run.py`; never commits.
+description: Drive the remote ComfyUI workflows for recipe work: split a raw cookbook-page photo into per-recipe text/dish crops (auto-detection, no manual screenshots), OCR a recipe photo, restore a degraded dish photo (single image or every image in a folder), and/or generate a fresh dish image from a prompt-gallery file. Always invokes `split.py`/`run.py`; never commits.
 ---
 
 # implement-recipe-from-image
+
+## Raw page photos: the split stage (run FIRST when there is no `_text` sibling)
+
+The trigger phrases below stay unchanged. What decides the path is mechanical:
+
+- `--image` has a `<stem>_text.<ext>` sibling → **pre-cropped pair**, go straight to the modes table below (legacy manual-screenshot flow, unchanged).
+- No `_text` sibling → the image is a **raw book-page photo**. Run the split stage first:
+
+```bash
+uv run python .claude/skills/implement-recipe-from-image/split.py --image <raw_photo> [--dry-run]
+```
+
+`split.py` detects every recipe on the page (Qwen3-VL grounding via the `SDXL_recettes_cuisine_split` workflow), auto-corrects page orientation (90°-rotated phone shots are common), and cuts **full-resolution** crops named to the existing convention: `<stem>_rN.png` (dish, squared) + `<stem>_rN_text.png` (text). Last stdout line is JSON:
+
+- `recipes[]` — one entry per detected recipe: `title`, `photo` (null if the recipe has no dish photo), `text`, `index`.
+- `overlay` — annotated debug image (bounding boxes drawn on the oriented page).
+- `review_flag` — true when orientation arbitration was close (top-2 healths within 15%). **Show the overlay to the user before continuing when this is set.**
+- Zero recipes (chapter dividers, non-recipe pages) → report and stop; nothing to implement.
+
+Then loop over `recipes[]`:
+
+- `photo` present → `run.py --mode full --image <photo>` (the `_text` sibling is auto-detected), then the normal full post-pipeline below.
+- `photo` null → `run.py --mode ocr --image <text>` for the text, scaffold the recipe, create the prompt gallery, then `--mode prompt --slug <slug>` for the image (standard generation).
+
+### Archive contract (after each recipe succeeds and the slug is known)
+
+Everything is renamed to the slug and kept under `to_implement/processed/` (tracked in git — this is the audit trail; the raw source is removed so only processed material remains):
+
+| Artifact | Destination |
+|---|---|
+| Source page photo | `to_implement/processed/originals/<slug>.<ext>` (multi-recipe page: one **copy per slug**, then delete the raw source) |
+| Debug overlay | `to_implement/processed/debug/<slug>_boxes.jpg` |
+| Dish crop (exact restore input) | `to_implement/processed/crops/<slug>.png` |
+| Text crop (exact OCR input) | `to_implement/processed/crops/<slug>_text.png` |
+
+These four debug artifacts are mandatory — they exist so the user can audit any recipe and redo it from the archived crops (which still follow the `_text` convention, so `run.py` accepts them directly).
+
+Tuning constants (padding, aspect guard, orientation thresholds) live at the top of `split.py` with benchmark provenance. The detection prompt lives inside the workflow JSON on the server — never hardcode it here. Use `Qwen3-VL-4B-Instruct-FP8` in that workflow; FP16 variants are ~13× slower on this machine (measured).
 
 ## Modes (which to use when)
 
@@ -89,7 +127,7 @@ The restored/generated image is at `image_temp_path` (PNG, in `.tmp/comfyui/`). 
 
 ## Configuration
 
-`config.json` holds: ComfyUI host and a `modes` map. The `ocr`, `image`, and `prompt` modes each have their own `workflow` path on `/userdata/` and the node IDs it needs (loader IDs, text-output ID, preview-image ID, prompt-text ID + field). The `full` mode is different: instead of a single combined workflow it carries two sub-objects, `full.ocr` and `full.restore`, each shaped like the standalone `ocr` and `image` entries (their own `workflow` + node IDs). `run_full` runs those two workflows as separate prompts and merges the results. Edit these if any of them change — do not hardcode in `run.py`.
+`config.json` holds: ComfyUI host and a `modes` map. The `split` entry carries the split workflow's userdata path plus its `loader_id` and `text_output_id`. The `ocr`, `image`, and `prompt` modes each have their own `workflow` path on `/userdata/` and the node IDs it needs (loader IDs, text-output ID, preview-image ID, prompt-text ID + field). The `full` mode is different: instead of a single combined workflow it carries two sub-objects, `full.ocr` and `full.restore`, each shaped like the standalone `ocr` and `image` entries (their own `workflow` + node IDs). `run_full` runs those two workflows as separate prompts and merges the results. Edit these if any of them change — do not hardcode in `run.py`.
 
 ## Troubleshooting
 
