@@ -2,6 +2,7 @@
 layout: recipe
 title: "Faux-filet, sauce au poivre"
 image: faux_fillet_sauce_poivre
+date: 2026-05-17
 
 components:
 - Sauce au poivre

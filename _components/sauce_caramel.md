@@ -2,6 +2,7 @@
 layout: recipe
 title:  Sauce caramel
 image: sauce_caramel
+date: 2025-06-18
 
 tags:
 - sucre

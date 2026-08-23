@@ -3,6 +3,7 @@
 layout: recipe
 title: "Raviolis sestu (WIP)"
 image: raviolis_sestu
+date: 2026-02-26
 
 tags:
 - plat principal

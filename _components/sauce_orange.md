@@ -2,6 +2,7 @@
 layout: recipe
 title: "Sauce à l'orange"
 image: sauce_orange
+date: 2026-05-16
 
 tags:
 - condiment

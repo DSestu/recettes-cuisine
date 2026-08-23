@@ -2,6 +2,7 @@
 layout: recipe
 title: "Sauce au foie gras"
 image: sauce_au_foie_gras
+date: 2026-05-13
 
 tags:
 - condiment

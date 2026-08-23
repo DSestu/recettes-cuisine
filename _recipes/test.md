@@ -2,6 +2,7 @@
 layout: recipe
 title: "New templating example"
 image: 0_TBD
+date: 2026-03-01
 
 tags:
 - example

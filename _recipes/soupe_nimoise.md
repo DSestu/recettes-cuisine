@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe nîmoise"
 image: soupe_nimoise
+date: 2025-06-19
 
 
 tags:

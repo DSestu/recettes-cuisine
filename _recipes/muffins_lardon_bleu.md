@@ -2,6 +2,7 @@
 layout: recipe
 title: "Muffins aux lardons et au fromage bleu"
 image: muffins_lardon_bleu
+date: 2026-07-23
 
 tags:
 - aperitif

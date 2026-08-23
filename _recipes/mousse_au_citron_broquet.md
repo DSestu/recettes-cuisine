@@ -2,6 +2,7 @@
 layout: recipe
 title: "Mousse au citron Broquet"
 image: mousse_au_citron_broquet
+date: 2026-06-07
 
 tags:
 - dessert

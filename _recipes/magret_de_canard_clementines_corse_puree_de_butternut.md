@@ -2,6 +2,7 @@
 layout: recipe
 title: "Magret de canard, clémentines de Corse et purée de butternut"
 image: magret_de_canard_clementines_corse_puree_de_butternut
+date: 2026-02-27
 
 tags:
 - plat

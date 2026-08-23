@@ -145,6 +145,46 @@
       othersSection = { section, grid };
     }
 
+    // Alternate views ("Récemment ajoutées", "Pays"). These hold exactly one
+    // card per recipe, unlike the category sections which duplicate a card into
+    // every category a recipe's tags match. Only one view family is visible at
+    // a time; applyFilter() gates them on `sortMode`.
+    function buildSection(labelText) {
+      const section = document.createElement("section");
+      section.className = "mb-8";
+      section.style.display = "none";
+
+      const title = document.createElement("h3");
+      title.className =
+        "px-6 text-primary uppercase font-semibold mb-2 text-lg md:text-xl";
+      title.textContent = labelText;
+      section.appendChild(title);
+
+      const grid = document.createElement("div");
+      grid.className = "grid px-6 h-full grid-cols-2 gap-4 md:gap-6";
+      grid.setAttribute("data-cols-grid", "");
+      section.appendChild(grid);
+
+      recipesRoot.appendChild(section);
+      return { section, grid };
+    }
+
+    const dateSection = buildSection("Récemment ajoutées");
+
+    // One section per distinct non-empty `country`, alphabetical. Empty today —
+    // the "pays" sort button stays hidden until recipes declare a country.
+    const countryNames = Array.from(
+      new Set(
+        (HOME_RECIPES || [])
+          .map((r) => String(r.country || "").trim())
+          .filter(Boolean),
+      ),
+    ).sort((a, b) => a.localeCompare(b, "fr"));
+    const countrySections = new Map();
+    for (const name of countryNames) {
+      countrySections.set(name, buildSection(name));
+    }
+
     if (typeof window.initColsSelector === "function") {
       window.initColsSelector({
         mount: document.getElementById("cols-selector-mount"),
@@ -194,6 +234,8 @@
     }
 
     const items = [];
+    const catIdsByTitle = new Map();
+    let sortMode = "category";
 
     for (const r of HOME_RECIPES || []) {
       const tags = new Set((r.tags || []).map(String));
@@ -236,9 +278,57 @@
           norm: normalize(r.title),
           tags: r.tags || [],
           categoryId: catId,
+          catIds: matchedCatIds,
           kind: r.kind,
+          view: "category",
         });
       }
+
+      // Remember the category matches so the alternate views, which have no
+      // per-category card, can still honour the category filter.
+      catIdsByTitle.set(r.title, matchedCatIds);
+    }
+
+    // "Récemment ajoutées": newest first. Dates collide heavily (batch imports
+    // share a commit date), so tiebreak on title for a stable order.
+    const byDateDesc = (HOME_RECIPES || []).slice().sort((a, b) => {
+      const da = String(a.date || "");
+      const db = String(b.date || "");
+      if (da !== db) return db.localeCompare(da);
+      return String(a.title || "").localeCompare(String(b.title || ""), "fr");
+    });
+
+    for (const r of byDateDesc) {
+      const card = createRecipeCard(r);
+      dateSection.grid.appendChild(card);
+      items.push({
+        card,
+        title: r.title,
+        norm: normalize(r.title),
+        tags: r.tags || [],
+        categoryId: null,
+        catIds: catIdsByTitle.get(r.title) || [],
+        kind: r.kind,
+        view: "date",
+      });
+    }
+
+    for (const r of HOME_RECIPES || []) {
+      const country = String(r.country || "").trim();
+      const target = country ? countrySections.get(country) : null;
+      if (!target) continue;
+      const card = createRecipeCard(r);
+      target.grid.appendChild(card);
+      items.push({
+        card,
+        title: r.title,
+        norm: normalize(r.title),
+        tags: r.tags || [],
+        categoryId: null,
+        catIds: catIdsByTitle.get(r.title) || [],
+        kind: r.kind,
+        view: "country",
+      });
     }
 
     const activeCategoryIds = new Set();
@@ -405,11 +495,16 @@
       let matches = 0;
 
       for (const it of items) {
-        let ok = true;
+        // 0) Only the active view's cards can ever be visible.
+        let ok = it.view === sortMode;
 
-        // 1) Category filter (single active category acts like a tab)
-        if (hasCategoryFilter && it.categoryId && selectedId) {
-          if (it.categoryId !== selectedId) {
+        // 1) Category filter (single active category acts like a tab).
+        // Category-view cards live in exactly one section, so compare that.
+        // Alternate views have one card per recipe, so test every match.
+        if (ok && hasCategoryFilter && selectedId) {
+          if (it.view === "category") {
+            if (it.categoryId && it.categoryId !== selectedId) ok = false;
+          } else if (!it.catIds.includes(selectedId)) {
             ok = false;
           }
         }
@@ -453,6 +548,8 @@
       // so badges show how many recipes each category would yield if selected.
       const perCatCount = new Map();
       for (const it of items) {
+        // Badges count per-category cards only, whatever the active view.
+        if (it.view !== "category") continue;
         if (
           !showComponentsInMain
           && it.kind === "component"
@@ -481,7 +578,9 @@
 
       // Show/hide category sections
       for (const [catId, { section, grid }] of categorySections.entries()) {
-        if (hasCategoryFilter) {
+        if (sortMode !== "category") {
+          section.style.display = "none";
+        } else if (hasCategoryFilter) {
           // In category mode, only the selected category's section is shown
           section.style.display = catId === selectedId ? "" : "none";
         } else {
@@ -494,7 +593,9 @@
         }
       }
       if (othersSection) {
-        if (hasCategoryFilter) {
+        if (sortMode !== "category") {
+          othersSection.section.style.display = "none";
+        } else if (hasCategoryFilter) {
           const othersId = othersCat ? othersCat.id : null;
           othersSection.section.style.display =
             othersId && othersId === selectedId ? "" : "none";
@@ -504,6 +605,21 @@
           );
           othersSection.section.style.display = hasVisible ? "" : "none";
         }
+      }
+
+      // Show/hide the alternate-view sections
+      const altSections = [["date", dateSection]].concat(
+        Array.from(countrySections.values()).map((s) => ["country", s]),
+      );
+      for (const [mode, { section, grid }] of altSections) {
+        if (mode !== sortMode) {
+          section.style.display = "none";
+          continue;
+        }
+        const hasVisible = Array.from(grid.children).some(
+          (el) => el.style.display !== "none",
+        );
+        section.style.display = hasVisible ? "" : "none";
       }
 
       if (countEl) {
@@ -527,6 +643,33 @@
     }
 
     setupHomeCategories();
+
+    // Sort/view selector. Must run after items[] is populated: initSortSelector
+    // fires onChange once with the initial mode (from ?sort=), which filters.
+    if (typeof window.initSortSelector === "function") {
+      const sortSelector = window.initSortSelector({
+        mount: document.getElementById("sort-selector-mount"),
+        param: "sort",
+        defaultMode: "category",
+        modes: [
+          { id: "category", label: "Catégories" },
+          { id: "date", label: "Récemment ajoutées" },
+          { id: "country", label: "Pays" },
+        ],
+        onChange: function (mode) {
+          sortMode = mode;
+          applyFilter();
+        },
+      });
+      // No recipe declares a country yet: hide the button until one does, and
+      // fall back to the default view if ?sort=country was requested anyway.
+      if (!countrySections.size) {
+        sortSelector.setModeAvailable("country", false);
+        if (sortSelector.getMode() === "country") {
+          sortSelector.setMode("category");
+        }
+      }
+    }
 
     // Toggle to show/hide components in non-bases categories
     const componentsToggle = document.getElementById("components-toggle");

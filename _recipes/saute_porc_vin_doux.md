@@ -2,6 +2,7 @@
 layout: recipe
 title: "Sauté de porc au vin doux"
 image: saute_porc_vin_doux
+date: 2026-06-07
 
 tags:
 - repas

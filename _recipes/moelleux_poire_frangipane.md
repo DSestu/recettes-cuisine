@@ -2,6 +2,7 @@
 layout: recipe
 title: "Moelleux à la poire et à la frangipane"
 image: moelleux_poire_frangipane
+date: 2026-05-13
 
 tags:
 - dessert

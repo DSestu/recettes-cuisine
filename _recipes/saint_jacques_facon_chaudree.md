@@ -2,6 +2,7 @@
 layout: recipe
 title: "Saint-Jacques façon chaudrée"
 image: saint_jacques_facon_chaudree
+date: 2026-02-27
 
 tags:
 - entree

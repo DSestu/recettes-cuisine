@@ -2,6 +2,7 @@
 layout: recipe
 title: "Soupe de lentilles au lard, aux carottes, au céleri et à l'œuf poché"
 image: soupe_lentille_lard_carottes_celerie_oeuf_poche
+date: 2026-06-07
 
 tags:
 - repas

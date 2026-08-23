@@ -3,6 +3,7 @@
 layout: recipe
 title: "Rillettes de thon"
 image: rillettes_de_thon
+date: 2026-03-11
 
 tags:
 - composant

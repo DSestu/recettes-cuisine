@@ -2,6 +2,7 @@
 layout: recipe
 title: "Frittata aux petits pois, au poulet et à la menthe"
 image: frittata_petits_pois_poulet_menthe
+date: 2026-06-07
 
 tags:
 - repas

@@ -2,6 +2,7 @@
 layout: recipe
 title: "Petits choux à la pistache"
 image: petit_choux_pistache
+date: 2026-07-23
 
 tags:
 - dessert

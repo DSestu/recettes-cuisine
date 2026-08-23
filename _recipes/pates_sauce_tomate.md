@@ -2,6 +2,7 @@
 layout: recipe
 title: "Pâtes sauce tomate"
 image: pates_sauce_tomate
+date: 2026-05-15
 
 tags:
 - repas

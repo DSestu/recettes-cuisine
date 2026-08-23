@@ -3,6 +3,7 @@
 layout: recipe
 title: "Moelleux au chocolat"
 image: moelleux_au_chocolat
+date: 2026-02-15
 
 tags:
 - beurre

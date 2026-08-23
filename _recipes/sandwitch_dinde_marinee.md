@@ -2,6 +2,7 @@
 layout: recipe
 title: "Sandwich à la dinde marinée"
 image: sandwitch_dinde_marinee
+date: 2026-07-23
 
 tags:
 - repas

@@ -2,6 +2,7 @@
 layout: recipe
 title: "Risotto aux champignons et aux châtaignes"
 image: risotto_aux_champignons_et_aux_chataignes
+date: 2026-03-01
 
 tags:
 - plat

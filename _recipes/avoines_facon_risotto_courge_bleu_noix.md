@@ -2,6 +2,7 @@
 layout: recipe
 title: "Avoines façon risotto, courge, bleu et noix"
 image: avoines_facon_risotto_courge_bleu_noix
+date: 2026-06-07
 
 tags:
 - repas

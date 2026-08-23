@@ -2,6 +2,7 @@
 layout: recipe
 title: "Cake aux olives et aux tomates séchées"
 image: cake_olives_tomates_sechees
+date: 2026-07-23
 
 tags:
 - aperitif

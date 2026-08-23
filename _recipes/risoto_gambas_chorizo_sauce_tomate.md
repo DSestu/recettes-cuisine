@@ -2,6 +2,7 @@
 layout: recipe
 title: "Risotto aux gambas et chorizo à la sauce tomate"
 image: risoto_gambas_chorizo_sauce_tomate
+date: 2026-06-07
 
 tags:
 - repas

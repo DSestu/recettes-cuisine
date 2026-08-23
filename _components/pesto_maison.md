@@ -2,6 +2,7 @@
 layout: recipe
 title: "Pesto maison"
 image: pesto_maison
+date: 2026-07-23
 
 tags:
 - composant

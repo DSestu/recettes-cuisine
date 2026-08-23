@@ -2,6 +2,7 @@
 layout: recipe
 title: "Bûche framboise & mascarpone"
 image: buche_framboise_mascarpone
+date: 2026-05-13
 
 tags:
 - dessert

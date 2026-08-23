@@ -3,6 +3,7 @@
 layout: recipe
 title:  "Bouillon Emilia"
 image: bouillon_emilia
+date: 2026-02-15
 
 
 tags:

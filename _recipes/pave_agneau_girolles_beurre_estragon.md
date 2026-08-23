@@ -2,6 +2,7 @@
 layout: recipe
 title: "Pavé d'agneau et girolles au beurre d'estragon"
 image: pave_agneau_girolles_beurre_estragon
+date: 2026-05-13
 
 tags:
 - repas

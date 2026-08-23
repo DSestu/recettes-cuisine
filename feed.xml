@@ -11,7 +11,12 @@ layout: null
     <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
     <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
     <generator>Jekyll v{{ jekyll.version }}</generator>
-    {% for post in site.recipes limit:10 %}
+    {% comment %}
+      Recipes now declare `date:` (added-at), so site.recipes iterates oldest
+      first. Sort descending so the feed carries the 10 most recent additions.
+    {% endcomment %}
+    {% assign feed_recipes = site.recipes | sort: "date" | reverse %}
+    {% for post in feed_recipes limit:10 %}
       <item>
         <title>{{ post.title | xml_escape }}</title>
         <description>{{ post.content | xml_escape }}</description>

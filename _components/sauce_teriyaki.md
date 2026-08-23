@@ -2,6 +2,7 @@
 layout: recipe
 title:  "Sauce teriyaki"
 image: sauce_teriyaki
+date: 2025-08-10
 
 tags:
 - japon

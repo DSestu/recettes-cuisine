@@ -2,6 +2,7 @@
 layout: recipe
 title: "Sandwich italien et dip de thon aux crudités"
 image: sandwitch_italien_dip_thon_crudites
+date: 2026-07-23
 
 tags:
 - repas

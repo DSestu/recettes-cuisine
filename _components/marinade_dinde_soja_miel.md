@@ -2,6 +2,7 @@
 layout: recipe
 title: "Marinade soja-miel pour dinde"
 image: marinade_dinde_soja_miel
+date: 2026-07-23
 
 tags:
 - composant

@@ -2,6 +2,7 @@
 layout: recipe
 title: "Minestrone"
 image: minestrone
+date: 2026-02-15
 
 
 tags:

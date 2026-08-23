@@ -3,6 +3,7 @@
 layout: recipe
 title: "Chouquettes"
 image: chouquettes
+date: 2026-02-26
 
 tags:
 - dessert

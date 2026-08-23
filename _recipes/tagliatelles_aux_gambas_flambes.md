@@ -2,6 +2,7 @@
 layout: recipe
 title: "Tagliatelles aux gambas flambées"
 image: tagliatelles_aux_gambas_flambes
+date: 2026-02-27
 
 tags:
 - pates

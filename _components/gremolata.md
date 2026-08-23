@@ -2,6 +2,7 @@
 layout: recipe
 title: "Gremolata"
 image: gremolata
+date: 2026-06-07
 
 tags:
 - condiment

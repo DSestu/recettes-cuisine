@@ -2,6 +2,7 @@
 layout: recipe
 title: "Sauce fruitée"
 image: sauce_fruitee
+date: 2026-06-07
 
 tags:
 - condiment

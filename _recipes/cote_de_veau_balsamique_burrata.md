@@ -2,6 +2,7 @@
 layout: recipe
 title: "Côte de veau rôtie au vinaigre balsamique, tomates confites et burrata"
 image: cote_de_veau_balsamique_burrata
+date: 2026-07-23
 
 tags:
 - repas

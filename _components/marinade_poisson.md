@@ -2,6 +2,7 @@
 layout: recipe
 title: "Marinade cuite pour poisson"
 image: marinade_poisson
+date: 2026-05-16
 
 tags:
 - condiment
