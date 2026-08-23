@@ -100,7 +100,13 @@ scripts/generate_recipe_seasonality.py and assets/js/seasonality-strip.js.
       // Alternating band keyed to ABSOLUTE month parity so January stays cream
       // whatever the rotation — same rule as the calendrier.
       if (monthIdx % 2 === 1) cell.classList.add("recipe-seasonality-month-cell-alt");
-      cell.textContent = S.MONTH_LABELS_FR[monthIdx];
+      // Label wrapped in a span so the mobile rotation applies to the TEXT only —
+      // rotating the whole cell would swing its box (and background band) wider
+      // than the column, overlapping neighbours. Same idiom as the calendrier.
+      const lbl = document.createElement("span");
+      lbl.className = "recipe-seasonality-month-label";
+      lbl.textContent = S.MONTH_LABELS_FR[monthIdx];
+      cell.appendChild(lbl);
       months.appendChild(cell);
     }
 

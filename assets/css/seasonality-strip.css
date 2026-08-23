@@ -124,18 +124,39 @@
 .recipe-seasonality-months-right {
   flex: 1 1 auto;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  /* minmax(0, ...) — NOT a bare 1fr. A bare `1fr` means `minmax(auto, 1fr)`,
+     whose automatic minimum is the column's min-content width: the month
+     label's own text width. In this panel's narrow column (the article's
+     padding leaves ~265px on a phone) 12 labels don't fit, so each column got
+     floored at its own label width. That made the columns UNEQUAL ("Févr." wider
+     than "Mai") and overflowed the card, so the header no longer lined up with
+     the 24-cell strips below. Flooring at 0 keeps all twelve exactly equal. */
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   border-bottom: 1px solid rgb(254 215 170);
 }
 .recipe-seasonality-month-cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 26px;
+  min-width: 0;
+  /* Tall enough for the rotated label at every width — see
+     `.recipe-seasonality-month-label`. */
+  height: 52px;
   background: #fff7ed;
   color: #7c2d12;
   font-size: 12px;
   font-weight: 600;
+}
+/* Month labels read vertically at every width, not just on mobile. Rotate the
+   LABEL only — rotating the cell would swing its box (and background band)
+   wider than the column and overlap the neighbours.
+   `flex: 0 0 auto` keeps the span at its natural text width: shrunk to the
+   column it would left-align its overflowing text and the rotated ribbon would
+   sit off-centre. */
+.recipe-seasonality-month-label {
+  flex: 0 0 auto;
+  transform: rotate(-90deg);
+  white-space: nowrap;
 }
 .recipe-seasonality-month-cell-alt { background: #ffedd5; }
 /* Body wraps curve + ingredient rows so the grid backdrop spans them both. */
@@ -233,4 +254,7 @@
   }
   .recipe-seasonality-row-track { width: 100%; }
   .recipe-seasonality-ingredients .recipe-seasonality-row { height: auto; }
+  /* Twelve columns in a phone's width leave ~22px per month, so drop a point
+     off the (already rotated) label. Rotation itself lives in the base rule. */
+  .recipe-seasonality-month-cell { font-size: 11px; }
 }
