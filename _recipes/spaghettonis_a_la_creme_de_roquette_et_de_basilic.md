@@ -37,6 +37,8 @@ directions:
 - Porter à ébullition une grande marmite d'eau bouillante salée et y plonger les pâtes. Cuire en suivant le temps indiqué sur le paquet pour obtenir un résultat al dente.
 - Prélever un peu d'eau de cuisson des pâtes et la verser progressivement dans la moitié de la crème placée dans un grand saladier, tout en fouettant pour la détendre. Égoutter les pâtes et les mélanger directement avec cette crème détendue pour bien les enrober.
 - Dresser en répartissant les spaghettonis crémeux dans 4 assiettes, garnir avec le reste de feuilles de roquette et déposer une petite cuillerée de crème non détendue sur le dôme de pâtes. Arroser d'un filet d'huile d'olive et servir immédiatement.
+
+country: "Italie"
 ---
 
 Spaghettonis crémeux à la crème de roquette, basilic, brousse de brebis, mascarpone et parmesan, pour un plat de pâtes végétarien riche en saveurs herbacées.

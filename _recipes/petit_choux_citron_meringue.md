@@ -24,6 +24,8 @@ ingredients:
 - 100 g de sucre glace
 - 60 g de farine
 - Sel
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 55 min. Cuisson : 30 min.

@@ -27,6 +27,8 @@ ingredients:
 - 2 c. à soupe d'huile d'olive
 - Fleur de sel
 - Poivre noir
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 20 min. Cuisson : 40 min.

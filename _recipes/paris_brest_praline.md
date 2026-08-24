@@ -28,6 +28,8 @@ ingredients:
 
 components:
 - Crème pralinée
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 45 min. Cuisson : 50 min. Réfrigération : 1 h.

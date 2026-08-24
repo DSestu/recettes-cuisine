@@ -36,6 +36,7 @@ ingredients:
 - 2 c. à soupe d'huile végétale
 - 1 cube de bouillon de légumes
 
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 30 min. Cuisson : 30 min.

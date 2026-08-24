@@ -39,6 +39,8 @@ directions:
 - Faire bouillir et, hors du feu, donner la consistance normale avec une addition de lait bouillant ou de la crème fraîche
 - Beurrer le potage au moment de servir
 - Adjoindre une pincée de feuilles de cerfeuil et des petits croûtons taillés en dés et frits au beurre
+
+country: "France"
 ---
 
 Soupe traditionnelle pour 4 personnes.

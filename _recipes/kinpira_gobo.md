@@ -36,6 +36,8 @@ directions:
 
 components:
 - Sauce teriyaki
+
+country: "Japon"
 ---
 
 Pour 1 personne.

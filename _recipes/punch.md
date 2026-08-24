@@ -44,6 +44,7 @@ directions:
 - Laisser reposer au frais au moins 1 heure avant de servir.
 - Servir bien frais avec des glaçons.
 
+country: "France"
 ---
 
 Idéal pour un grand apéritif d'été ou une fête conviviale.

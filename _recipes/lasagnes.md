@@ -51,6 +51,7 @@ directions:
 - Enfourner à 165°C (thermostat 5/6) pendant environ 45 minutes jusqu'à ce que les lasagnes soient bien gratinées. Couvrir de papier d'aluminium si nécessaire.
 
 
+country: "Italie"
 ---
 
 Recette classique de lasagnes italiennes. Pour 6 personnes. Préparation : 20 min ; Cuisson : 1 h.

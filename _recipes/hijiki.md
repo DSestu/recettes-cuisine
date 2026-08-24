@@ -38,6 +38,8 @@ directions:
 components:
 - Dashi
 - Vinaigrette miso
+
+country: "Japon"
 ---
 
 Pour 1 personne.

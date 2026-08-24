@@ -31,6 +31,8 @@ ingredients:
 - 100 ml de lait
 - 1 œuf
 - mozzarella râpée
+
+country: "France"
 ---
 
 Plat au four. 200°C pendant 30 min.

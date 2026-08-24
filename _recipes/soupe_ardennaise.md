@@ -42,6 +42,8 @@ directions:
 - Placer les tranches dans la soupière avec le restant du beurre
 - Vérifier l'assaisonnement de la soupe
 - Verser la soupe bouillante sur le pain au moment de servir
+
+country: "France"
 ---
 
 Soupe traditionnelle ardennaise pour 6 personnes.

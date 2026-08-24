@@ -30,6 +30,8 @@ ingredients:
 - 7 ml d'extrait de vanille
 - sirop de rhum
 - framboises fraîches ou surgelées
+
+country: "France"
 ---
 
 Pour 6 personnes. Biscuit roulé garni de crème mascarpone et de framboises, imbibé d'un sirop au rhum.

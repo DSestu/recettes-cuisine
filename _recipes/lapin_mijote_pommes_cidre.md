@@ -32,6 +32,8 @@ ingredients:
 - 2 c. à soupe d'huile d'olive
 - 1 petit verre de calvados (facultatif)
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 10 min. Cuisson : 50 min.

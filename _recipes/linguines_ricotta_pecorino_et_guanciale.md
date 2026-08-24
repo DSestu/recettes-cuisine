@@ -36,6 +36,8 @@ directions:
 - Faire griller la guanciale dans une grande sauteuse à sec, en remuant bien, jusqu'à ce que les lardons soient dorés et croustillants.
 - Égoutter les pâtes et les verser dans la sauteuse avec la guanciale. Ajouter la préparation à base de ricotta, poivrer généreusement, puis remuer pendant 1 à 2 minutes sur feu moyen en ajoutant l'huile d'olive.
 - Dresser en répartissant les linguines dans 4 assiettes, ajouter les feuilles de basilic et saupoudrer du reste de pecorino. Proposer encore du poivre à part.
+
+country: "Italie"
 ---
 
 Linguines crémeuses à la ricotta et au pecorino, garnies de lardons de guanciale grillés et de basilic pourpre, pour un plat de pâtes riche et savoureux.

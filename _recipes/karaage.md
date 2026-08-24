@@ -43,6 +43,8 @@ directions:
 components:
 - Sauce aromatique pour Karaage
 - Dashi
+
+country: "Japon"
 ---
 
 Pour 1 personne.

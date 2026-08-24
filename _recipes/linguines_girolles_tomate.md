@@ -31,6 +31,8 @@ ingredients:
 - 250 g de lentilles vertes
 - 1 c. à soupe d'huile d'olive
 - Sel et poivre
+
+country: "Italie"
 ---
 
 Pour 4 personnes. Préparation : 15 min. Cuisson : 25 min.

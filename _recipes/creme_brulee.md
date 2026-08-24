@@ -34,6 +34,7 @@ directions:
 - Laisser refroidir à température ambiante, puis réserver au réfrigérateur au moins 2 heures (idéalement 4 à 6 h).
 - Juste avant de servir, saupoudrer chaque crème d'une fine couche de cassonade et caraméliser au chalumeau (ou sous le gril bien chaud 1 à 2 minutes en surveillant).
 
+country: "France"
 ---
 
 Crème brûlée vanille classique, soyeuse et parfumée.

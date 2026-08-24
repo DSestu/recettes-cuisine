@@ -49,6 +49,8 @@ directions:
 - Envelopper les magrets dans du papier aluminium et les laisser reposer 5 minutes afin qu'ils deviennent tendres et juteux.
 - Éplucher les 3 clémentines restantes, détacher les quartiers et les faire revenir 3 à 4 minutes dans le gras de canard restant dans la poêle.
 - Découper les magrets en tranches, saupoudrer de fleur de sel et de poivre. Servir avec la sauce aux clémentines et à la bière, la purée de butternut, les quartiers de clémentines poêlés et décorer avec les noisettes concassées.
+
+country: "France"
 ---
 
 Magret de canard rôti servi avec une sauce aux clémentines de Corse, à la bière et au miel, accompagné d'une purée de butternut à la purée de noisettes et parfumée à la noix de muscade.

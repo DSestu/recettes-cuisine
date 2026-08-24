@@ -27,6 +27,8 @@ ingredients:
 - farine (quantité ajustée pour obtenir une pâte épaisse)
 - huile pour la friture
 - sucre glace (pour saupoudrer)
+
+country: "Italie"
 ---
 
 ## Préparation

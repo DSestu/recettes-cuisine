@@ -37,6 +37,8 @@ ingredients:
 - 200 g de cantal entre-deux
 - 150 g de fromage blanc
 - Poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 30 min. Repos : 2 h 20. Cuisson : 15 min.

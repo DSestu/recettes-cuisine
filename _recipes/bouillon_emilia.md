@@ -48,6 +48,7 @@ directions:
 - Le "solide" et le liquide peuvent se manger séparément. Exemple le solide le midi, et le bouillon le soir
 
 
+country: "Italie"
 ---
 
 Bouillon d'Emilia Sestu, plein de variantes possibles.

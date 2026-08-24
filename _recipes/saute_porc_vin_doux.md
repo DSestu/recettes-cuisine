@@ -41,6 +41,8 @@ ingredients:
 - 1 c. à soupe de miel
 - 3 pincées de 4 épices
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 25 min. Cuisson : 1 h.

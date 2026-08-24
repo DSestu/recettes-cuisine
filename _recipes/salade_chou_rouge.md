@@ -42,6 +42,7 @@ directions:
 - Méthode rapide alternative, Faire bouillir 2 dl de vinaigre, y ajouter la julienne de chou, donner un bon bouillon et laisser refroidir. Égoutter légèrement et assaisonner de sel, poivre et huile au moment de servir
 - Ces procédés ont la propriété d'attendrir le chou et de le rendre plus digeste
 
+country: "France"
 ---
 
 Pour 4 personnes.

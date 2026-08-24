@@ -32,6 +32,8 @@ directions:
 - Laisser cuire 20 minutes environ. Faire chauffer la soupière
 - Poivrer au moulin et 5 minutes avant de servir ajouter la crème fraîche. Bien remuer. Verser dans la soupière. Servir bien chaud
 - Facultatif : 10 minutes avant la fin de la cuisson, mettre à réchauffer dans votre soupe des paquets de couennes que vous garderez au chaud dans un fond de soupe et que vous servirez en deuxième plat accompagnés d'olives noires et de moutarde. Dans ce dernier cas, ne pas ajouter de crème fraîche
+
+country: "France"
 ---
 
 Soupe traditionnelle pour 4 personnes.

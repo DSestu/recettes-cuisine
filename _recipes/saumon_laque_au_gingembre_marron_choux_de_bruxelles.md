@@ -61,6 +61,7 @@ directions:
 - 
 - Finition. Parsemez de basilic thaï ciselé juste avant de servir.
 
+country: "Fusion"
 ---
 
 Pour 4 personnes

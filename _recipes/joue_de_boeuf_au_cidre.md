@@ -45,6 +45,8 @@ ingredients:
 - 1 c. à café de poivre concassé
 - Sel
 - Pour l'accompagnement&nbsp;: 1 kg de pommes de terre à purée, 2 bottes de carottes fanes, 50 g de beurre, 15 cl de lait tiède, 4 c. à soupe d'huile d'olive
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 30 min. Cuisson : 3 h 20.

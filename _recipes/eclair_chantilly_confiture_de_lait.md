@@ -26,6 +26,8 @@ ingredients:
 components:
 - Chantilly vanillée
 - Crème mascarpone à la confiture de lait
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 45 min. Cuisson : 35 min.

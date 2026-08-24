@@ -36,6 +36,8 @@ ingredients:
 - 70 g de farine
 - 3 clous de girofle
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 20 min. Cuisson : 1h20.

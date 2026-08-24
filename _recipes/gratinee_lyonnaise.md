@@ -49,6 +49,8 @@ directions:
 - Introduire la soupière dans un four chaud jusqu'à ce que le gruyère fonde et que la surface soit bien dorée
 - Pour servir, diluer les jaunes d'œufs avec le madère dans un bol
 - Verser cette préparation dans la soupière en remuant aussitôt avec une louche pour faire la liaison
+
+country: "France"
 ---
 
 Soupe gratinée traditionnelle lyonnaise pour 4 à 6 personnes.

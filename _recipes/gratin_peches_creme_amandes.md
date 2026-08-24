@@ -27,6 +27,8 @@ ingredients:
 - 1 citron vert non traité
 - 1 sachet de sucre vanillé
 - 20 g de beurre
+
+country: "France"
 ---
 
 Pour de petits ramequins. Cuisson : 20 min à 150 °C.

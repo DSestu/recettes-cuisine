@@ -34,6 +34,8 @@ ingredients:
 - 4 tranches de pain rassis ou de campagne (pour les croûtons)
 - 1 c. à soupe d'huile d'olive (pour les croûtons)
 - Ail en poudre (pour les croûtons)
+
+country: "France"
 ---
 
 Pour 4 personnes.

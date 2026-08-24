@@ -40,6 +40,7 @@ directions:
 - Laisser refroidir tel quel
 - Servir bien froid avec une rondelle de citron pelé à vif sur chaque maquereau
 
+country: "France"
 ---
 
 Pour 6 personnes.

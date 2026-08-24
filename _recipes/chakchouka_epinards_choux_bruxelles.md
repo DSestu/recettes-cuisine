@@ -39,6 +39,8 @@ ingredients:
 - 2 c. à soupe d'huile d'olive
 - 1 c. à café de graines de cumin
 - Sel
+
+country: "Tunisie"
 ---
 
 Pour 6 personnes. Préparation : 15 min. Cuisson : 15 min.

@@ -30,6 +30,8 @@ ingredients:
 - 40 g de beurre
 - 250 g de pappardelles
 - Sel et poivre
+
+country: "Italie"
 ---
 
 Pour 4 personnes. Préparation : 20 min. Cuisson : 25 min.

@@ -34,6 +34,8 @@ ingredients:
 - 2 c. à soupe d'huile d'olive
 - 1 c. à soupe de vinaigre
 - 1 c. à café de curry
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 30 min. Cuisson : 35 min.

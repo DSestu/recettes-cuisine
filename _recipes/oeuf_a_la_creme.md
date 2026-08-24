@@ -33,6 +33,8 @@ ingredients:
 - 1 pincée d'ail en poudre
 - Sel
 - Pour le beurre parfumé&nbsp;: 30 g de ghee, 1 c. à soupe de paprika fumé
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 15 min. Cuisson : 10 min.

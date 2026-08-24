@@ -51,6 +51,7 @@ directions:
 - Chauffer l'huile de friture à 170–175°C. Frire les beignets par petites fournées, 2–3 minutes par face, jusqu'à coloration dorée.
 - Égoutter sur papier absorbant. Saupoudrer de sucre semoule (ou de sucre glace) tant qu'ils sont encore tièdes.
 
+country: "Italie"
 ---
 
 Beignets gonflés et moelleux, à garnir selon l'envie (confiture, chocolat…).

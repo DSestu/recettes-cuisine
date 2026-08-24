@@ -105,7 +105,7 @@ def main() -> int:
     exploratory = len(ingredients_out) - with_recipes
     print(f"Wrote {OUT_INDEX.relative_to(ROOT)}")
     print(f"  ingredients: {len(ingredients_out)} ({with_recipes} with recipes, {exploratory} exploratory)")
-    print(f"  recipes with ≥1 seasonal ingredient: {len(recipes_out)}")
+    print(f"  recipes with >=1 seasonal ingredient: {len(recipes_out)}")
     print(f"Wrote {OUT_SEASONALITY.relative_to(ROOT)}")
     return 0
 

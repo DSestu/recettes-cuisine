@@ -38,6 +38,8 @@ ingredients:
 - 1 c. à café de sucre
 - Pain rassis
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 10 min. Cuisson : 55 min.

@@ -35,6 +35,8 @@ directions:
 - Délayer la fécule dans un bol avec un peu d'eau froide puis l'ajouter à l'eau de cuisson, remuer avec une cuillère en bois jusqu'à ce que l'ébullition reprenne
 - Baisser la chaleur, ajouter la crème et le beurre, remuer pour lier intimement. Remettre les asperges uniquement. Laisser encore 3 à 4 minutes puis verser dans la soupière de service
 - Servir bien chaud
+
+country: "France"
 ---
 
 Soupe chaude pour 4 personnes.

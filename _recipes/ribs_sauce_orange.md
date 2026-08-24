@@ -32,6 +32,8 @@ ingredients:
 
 components:
 - Sauce à l'orange
+
+country: "France"
 ---
 
 Travers de porc rôtis au four, laqués d'une sauce à l'orange légèrement amère et sucrée-salée, à servir avec des frites.

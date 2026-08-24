@@ -35,6 +35,7 @@ directions:
 - Ajouter les grains de sucre perlé sur chaque chou en les enfonçant légèrement dans la pâte.
 - Mettre à cuire dans le four préchauffé à 210°C (thermostat 7) pendant 15 à 20 minutes (190°C suffisent pour un four à chaleur tournante).
 
+country: "France"
 ---
 
 Chouquettes légères et croquantes, parsemées de sucre perlé. Temps total : 35 min (préparation 20 min, cuisson 15 min).

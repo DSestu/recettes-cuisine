@@ -24,6 +24,8 @@ ingredients:
 - 2 c. à soupe de sucre en poudre
 - 1 sachet de sucre vanillé
 - 1 sachet de levure chimique
+
+country: "France"
 ---
 
 Pour 12 crêpes.

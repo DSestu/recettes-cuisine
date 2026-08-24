@@ -38,6 +38,8 @@ ingredients:
 - 1 c. à soupe rase de farine
 - 2 pincées de muscade
 - Sel et poivre
+
+country: "Italie"
 ---
 
 Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 40 min.

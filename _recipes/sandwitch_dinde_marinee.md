@@ -28,6 +28,8 @@ ingredients:
 
 components:
 - Marinade soja-miel pour dinde
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 25 min. Cuisson : 10 min. Marinade : 1 h.

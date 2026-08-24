@@ -41,6 +41,8 @@ directions:
 
 components:
 - Dashi
+
+country: "Japon"
 ---
 
 Pour 1 personne.

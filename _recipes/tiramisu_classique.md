@@ -41,6 +41,7 @@ directions:
 - -- (Grand plat, repère mémo):
 - ~3 pots de mascarpone, ~3 cafetières de café, ~4 paquets de biscuits.
 
+country: "Italie"
 ---
 
 Tiramisu au café traditionnel, onctueux et bien équilibré en amertume (cacao/café) et douceur (mascarpone/sucre).

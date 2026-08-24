@@ -35,6 +35,8 @@ ingredients:
 - 2 c. à soupe d'huile d'olive
 - 2 c. à café d'épices à chili
 - Sel et poivre
+
+country: "Mexique"
 ---
 
 Pour 6 personnes. Préparation : 20 min. Cuisson : 45 min.

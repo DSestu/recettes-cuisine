@@ -38,6 +38,8 @@ directions:
 - Ajouter la viande et laisser cuire jusqu'à ce que la viande soit bien cuite
 - Ajouter la crème fraîche, 2 cuillères à café de curry, mélanger et laisser réduire
 - Une fois la consistance désirée, servir avec le riz
+
+country: "Fusion"
 ---
 
 Poulet curry simple, environ 2 portions.

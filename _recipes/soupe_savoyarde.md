@@ -48,6 +48,8 @@ directions:
 - Faire gratiner à four chaud
 - Mettre le pain dans une soupière
 - Au moment de servir, verser la soupe bouillante sur le pain
+
+country: "France"
 ---
 
 Soupe traditionnelle savoyarde pour 4 personnes.

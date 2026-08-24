@@ -39,6 +39,8 @@ ingredients:
 - 60 g de poudre d'amande
 - 50 g de sucre
 - 2 gouttes d'extrait d'amande amère
+
+country: "France"
 ---
 
 Pour 6 personnes. Temps de préparation : 30 min. Temps de cuisson : 30 min.

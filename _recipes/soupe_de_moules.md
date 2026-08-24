@@ -66,6 +66,8 @@ directions:
 - Ajouter au dernier moment les moules et la crème
 - Laisser cuire pendant 2 minutes
 - Servir en soupière, en présentant à part des croûtons de pain grillé et du fromage râpé
+
+country: "France"
 ---
 
 Soupe de moules traditionnelle pour 10 personnes.

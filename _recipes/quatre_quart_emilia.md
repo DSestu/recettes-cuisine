@@ -38,6 +38,7 @@ directions:
 - Ajouter des fruits de votre choix (raisins secs, poires, pommes, etc.).
 - Cuire 30-40 minutes à 180°C.
 
+country: "Italie"
 ---
 
 Quatre quarts familial, recette ultra-moelleuse et facile à personnaliser avec divers fruits !

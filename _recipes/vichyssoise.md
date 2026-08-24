@@ -46,6 +46,8 @@ directions:
 - Laisser refroidir avant de mettre au réfrigérateur pour 2 heures
 - Au moment de servir, rectifier l'assaisonnement en sel et en poivre
 - Verser la vichyssoise dans des tasses à consommé et parsemer le dessus de ciboulette hachée
+
+country: "France"
 ---
 
 Soupe froide traditionnelle pour 6 personnes.

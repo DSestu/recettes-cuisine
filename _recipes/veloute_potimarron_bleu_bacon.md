@@ -30,6 +30,8 @@ ingredients:
 - 75 g de beurre
 - 1 cube de bouillon de légumes
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Temps de préparation : 20 min. Temps de cuisson : 35 min.

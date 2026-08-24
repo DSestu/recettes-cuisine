@@ -30,6 +30,8 @@ ingredients:
 components:
 - Pesto maison
 - Dip de thon
+
+country: "Italie"
 ---
 
 Pour 4 personnes. Préparation : 25 min. Cuisson : 5 min.

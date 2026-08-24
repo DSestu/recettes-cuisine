@@ -32,6 +32,8 @@ ingredients:
 - Huile d'olive
 - Sel
 - Poivre du moulin
+
+country: "Fusion"
 ---
 
 Pour 6 personnes.

@@ -35,6 +35,8 @@ directions:
 - Mettre le concombre dans une soupière, ajouter les noix hachées, l'huile, une pincée de sel, un peu de poivre du moulin, les yaourts, la ciboulette hachée (conserver 1 cuillère à soupe de ciboulette qui vous servira à décorer). Mélanger le tout intimement
 - Lorsque vous obtenez un mélange pâteux, cesser de remuer. Nettoyer les bords de la soupière avec un papier absorbant humide. Mettre au réfrigérateur pendant 3 à 4 heures
 - Au moment de servir, parsemer le reste de ciboulette sur le centre du potage
+
+country: "France"
 ---
 
 Soupe froide pour 4 personnes.

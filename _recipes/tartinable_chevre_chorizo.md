@@ -36,6 +36,7 @@ directions:
 - Badigeonner les wraps d'huile d'olive puis les parsemer de sésame doré et de ciboulette. Enfourner 10 minutes.
 - Servir le tartinable de chèvre au chorizo dans un bol avec les wraps croûstillants.
 
+country: "France"
 ---
 
 Tartinade chèvre et chorizo en texture rillettes, servie avec des bandelettes de wraps toastés au sésame et à la ciboulette.

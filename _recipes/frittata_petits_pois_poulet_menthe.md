@@ -39,6 +39,8 @@ ingredients:
 - 10 g de beurre
 - 2 c. à soupe d'huile d'olive
 - Sel et poivre
+
+country: "Italie"
 ---
 
 Pour 6 personnes. Préparation : 15 min. Cuisson : 20 min.

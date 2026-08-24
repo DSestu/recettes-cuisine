@@ -25,6 +25,8 @@ ingredients:
 - 350 g de framboises
 - 2 feuilles de gélatine
 - 1 paquet de biscuits secs
+
+country: "France"
 ---
 
 Pour 4 verrines. Préparation : 20 min. Cuisson : 35 min. Réfrigération : 1 h minimum.

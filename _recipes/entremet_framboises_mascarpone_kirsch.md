@@ -33,6 +33,8 @@ ingredients:
 - 75 ml de kirsch
 - 100 ml d'eau (sirop)
 - sel
+
+country: "France"
 ---
 
 Dessert léger en plusieurs couches : une génoise imbibée d'un sirop au kirsch, surmontée d'une mousse mascarpone à la gélatine et garnie de framboises fraîches.

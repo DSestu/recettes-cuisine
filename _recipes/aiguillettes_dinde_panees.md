@@ -30,6 +30,8 @@ ingredients:
 
 components:
 - Sauce chili aigre-douce
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 25 min. Cuisson : 15 min.

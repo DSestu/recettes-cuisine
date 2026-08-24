@@ -34,6 +34,7 @@ directions:
 - Beurrer un moule, puis verser successivement les deux pâtes en alternant pour obtenir l'effet marbré.
 - Cuire 1 heure thermostat 5-6 (env. 160-180°C).
 
+country: "France"
 ---
 
 Gâteau marbré moelleux pour 6 à 8 personnes.

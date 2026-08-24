@@ -2845,6 +2845,43 @@
       ]
     },
     {
+      "slug": "risotto_crevettes_asperges",
+      "title": "Risotto aux crevettes et aux asperges",
+      "url": "/recipes/risotto_crevettes_asperges.html",
+      "kind": "recipe",
+      "image": "risotto_crevettes_asperges",
+      "temporal_ingredients": [
+        {
+          "id": "asperges",
+          "category": "legume",
+          "phases": {
+            "6": "start",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "end",
+            "11": "end"
+          }
+        },
+        {
+          "id": "basilic",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "riz_au_lait_framboises",
       "title": "Riz au lait aux framboises en verrines",
       "url": "/recipes/riz_au_lait_framboises.html",

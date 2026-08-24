@@ -30,6 +30,8 @@ ingredients:
 
 components:
 - Chantilly vanillée
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 45 min. Cuisson : 40 min.

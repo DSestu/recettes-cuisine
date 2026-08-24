@@ -26,6 +26,8 @@ ingredients:
 - 2 cubes de bouillon
 - 20 cl de coulis de tomate
 - farine (pour le plan de travail)
+
+country: "Italie"
 ---
 
 Pour 5 personnes.

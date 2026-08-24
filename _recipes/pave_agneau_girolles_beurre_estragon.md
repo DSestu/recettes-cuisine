@@ -25,6 +25,8 @@ ingredients:
 - 100 g de beurre demi-sel
 - 2 c. à soupe d'huile d'olive
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 4 personnes. Temps de préparation : 35 min. Temps de cuisson : 12 min.

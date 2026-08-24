@@ -35,6 +35,8 @@ directions:
 components:
 - Sauce ankake aux champignons
 - Dashi
+
+country: "Japon"
 ---
 
 Pour 1 personne.

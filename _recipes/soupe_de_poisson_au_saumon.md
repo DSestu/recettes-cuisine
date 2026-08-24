@@ -27,6 +27,8 @@ ingredients:
 - 1 citron (jus et zeste)
 - beurre ou huile de tournesol
 - sel, poivre
+
+country: "France"
 ---
 
 ## Préparation

@@ -31,4 +31,5 @@ directions:
 components:
 - Sauce Yakitori
 
+country: "Japon"
 ---

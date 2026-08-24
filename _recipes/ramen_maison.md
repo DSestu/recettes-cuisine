@@ -63,6 +63,7 @@ components:
 - Char siu (porc doré au chalumeau)
 - Dashi
 
+country: "Japon"
 ---
 
 Ramen maison pour 2 personnes : nouilles fraîches à l'eau alcaline, char siu de poitrine de porc au cuiseur à riz puis doré au chalumeau, soupe soja-mirin et garnitures (chou, pousses de soja, ail).

@@ -53,6 +53,7 @@ directions:
 - Dresser dans des assiettes creuses en répartissant les gambas.
 - Parsemer de coriandre hachée et de parmesan râpé et proposer le reste de parmesan à part.
 
+country: "Italie"
 ---
 
 Tagliatelles aux gambas flambées, relevées de whisky, de citron vert et de piment doux, servies avec des tomates cocktail et de la coriandre fraîche.

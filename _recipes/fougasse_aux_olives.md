@@ -27,6 +27,8 @@ ingredients:
 - 2 c. à soupe d'huile d'olive
 - 1 c. à soupe d'herbes de Provence
 - Fleur de sel
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 20 min. Repos : 2 h. Cuisson : 20 min.

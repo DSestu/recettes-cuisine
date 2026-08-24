@@ -38,6 +38,8 @@ ingredients:
 
 components:
 - Sauce fruitée
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 30 min. Cuisson : 30 min.

@@ -37,6 +37,8 @@ directions:
 - Cuire les spaghettis en suivant le temps de cuisson indiqué sur l'emballage pour obtenir un résultat al dente.
 - Égoutter les pâtes, les placer dans un grand saladier avec le reste de beurre et bien mélanger pour les en enrober.
 - Incorporer la garniture de girolles aux pâtes et servir immédiatement en proposant le parmesan râpé à part.
+
+country: "Italie"
 ---
 
 Spaghettis aux girolles sautées au beurre, parfumées d'ail, de persil et de parmesan, pour un plat de pâtes simple et très parfumé.

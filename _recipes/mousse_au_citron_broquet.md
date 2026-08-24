@@ -26,6 +26,8 @@ ingredients:
 - 4 jaunes d'œufs
 - 4 blancs d'œufs
 - 1 cuillère à café de sucre (pour les blancs en neige)
+
+country: "France"
 ---
 
 ## Préparation

@@ -42,6 +42,8 @@ ingredients:
 - 1 c. à café de cardamome moulue
 - 1 c. à café de cumin moulu
 - 1 c. à café de coriandre moulue
+
+country: "Inde"
 ---
 
 Pour 4 personnes. Préparation : 15 min. Cuisson : 25 min.

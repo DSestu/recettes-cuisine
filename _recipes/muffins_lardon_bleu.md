@@ -27,6 +27,8 @@ ingredients:
 - 180 g de farine
 - 1 sachet de levure chimique
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 10 min. Cuisson : 20 min.

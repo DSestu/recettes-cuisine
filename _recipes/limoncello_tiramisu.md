@@ -39,6 +39,7 @@ directions:
 - Garniture mascarpone. fouetter la crème épaisse en chantilly. Dans un autre bol, mélanger le mascarpone, le sucre cristallisé et le limoncello, puis incorporer la chantilly délicatement.
 - Montage. tremper les boudoirs dans le sirop refroidi et les disposer au fond d'un plat. Alterner une couche de boudoirs trempés, une couche de crème mascarpone et une couche de crème au citron. Répéter jusqu'à épuisement en terminant par la crème. Réfrigérer 4 à 6 h.
 
+country: "Italie"
 ---
 
 Tiramisu au limoncello et citron : sirop, crème mascarpone et crème au citron. À servir bien froid après 4 à 6 h au frais.

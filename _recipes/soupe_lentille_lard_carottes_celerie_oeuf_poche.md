@@ -32,6 +32,8 @@ ingredients:
 - 1 c. à soupe de concentré de tomate
 - Huile d'olive
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 20 min. Cuisson : 45 min.

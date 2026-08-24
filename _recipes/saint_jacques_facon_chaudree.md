@@ -49,6 +49,8 @@ directions:
 - Faire fondre le beurre dans une cocotte, ajouter l'oignon et cuire pendant 5 minutes à feu moyen. Incorporer les cubes de pommes de terre et de carotte, le céleri et le poireau, puis couvrir avec le jus de cuisson réservé. Saler et laisser cuire pendant environ 25 minutes jusqu'à ce que les légumes soient tendres.
 - Délayer la fécule de maïs dans un peu d'eau froide, la verser dans la cocotte et faire épaissir en remuant sans arrêt.
 - Ajouter les crevettes, le poisson, les noix de Saint-Jacques, le lait et la crème. Laisser cuire quelques minutes jusqu'à ce que les Saint-Jacques soient juste cuites. Parsemer de persil ciselé, poivrer et servir bien chaud.
+
+country: "France"
 ---
 
 Chaudrée crémeuse de poisson, crevettes et noix de Saint-Jacques, servie bien chaude en entrée pour quatre personnes.

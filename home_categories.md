@@ -39,6 +39,7 @@ categories:
       - plat
       - plat principal
       - repas
+      - risotto
 
   - id: "soups"
     label: "Soupes & veloutés"

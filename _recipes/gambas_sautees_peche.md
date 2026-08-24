@@ -27,6 +27,8 @@ ingredients:
 - 10 feuilles de persil plat
 - Huile d'olive
 - Sel, poivre
+
+country: "France"
 ---
 
 Pour 4 personnes. Temps de préparation : 10 min. Temps de cuisson : 10 min.

@@ -50,6 +50,7 @@ directions:
 - Ajouter les pommes de terre coupées en quatre, 20 minutes avant la fin de la cuisson
 - Servir cette soupe sur tranches de pain de campagne mises au fond des assiettes
 
+country: "France"
 ---
 
 Soupe chaude pour 6 personnes.

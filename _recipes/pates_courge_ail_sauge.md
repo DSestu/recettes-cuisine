@@ -31,6 +31,8 @@ ingredients:
 - 400 g de pâtes fraîches (type paccheris)
 - Huile d'olive
 - Fleur de sel et poivre
+
+country: "Italie"
 ---
 
 Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 50 min.

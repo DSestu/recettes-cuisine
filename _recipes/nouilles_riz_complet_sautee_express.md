@@ -28,6 +28,8 @@ ingredients:
 - 2 c. à soupe d'huile de sésame
 - Huile végétale
 - Poivre
+
+country: "Fusion"
 ---
 
 Pour 4 personnes. Préparation : 10 min. Cuisson : 15 min.

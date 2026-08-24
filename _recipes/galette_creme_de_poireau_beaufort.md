@@ -30,6 +30,8 @@ ingredients:
 - 100 g de beaufort coupé en lamelles
 - 30 g de beurre
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 15 min. Cuisson : 20 min.

@@ -65,6 +65,7 @@
     "asperges": {
       "category": "legume",
       "recipes": [
+        "risotto_crevettes_asperges",
         "veloute_asperges"
       ]
     },
@@ -96,6 +97,7 @@
         "linguines_ricotta_pecorino_et_guanciale",
         "pates_sauce_tomate",
         "risoto_gambas_chorizo_sauce_tomate",
+        "risotto_crevettes_asperges",
         "saumon_laque_au_gingembre_marron_choux_de_bruxelles",
         "soupe_nimoise",
         "spaghettonis_a_la_creme_de_roquette_et_de_basilic"
@@ -1611,6 +1613,14 @@
         "chataigne"
       ],
       "title": "Risotto aux champignons et aux châtaignes"
+    },
+    "risotto_crevettes_asperges": {
+      "image": "risotto_crevettes_asperges",
+      "ingredients": [
+        "asperges",
+        "basilic"
+      ],
+      "title": "Risotto aux crevettes et aux asperges"
     },
     "riz_au_lait_framboises": {
       "image": "riz_au_lait_framboises",

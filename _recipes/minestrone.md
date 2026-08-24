@@ -41,6 +41,7 @@ directions:
 - Ajouter de l'eau au-dessus des légumes, de sorte à ce que l'eau recouvre les légumes au double de la hauteur des légumes
 - Faire cuire 1 heure
 
+country: "Italie"
 ---
 
 On peut rajouter les légumes que l'on veut en réalité, e.g. des petits pois

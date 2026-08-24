@@ -36,6 +36,8 @@ directions:
 - Sortez-le avec une écumoire et placez-le dans le bol d'un mixeur.
 - Mixez avec l'eau au safran, du sel, du poivre et en ajoutant juste assez d'eau de cuisson pour obtenir un velouté lisse et fluide mais assez dense.
 - Servez dans 4 bols ou assiettes creuses. Déposez une quenelle de mascarpone au centre, parsemez de graines de nigelle, de persil, de baies roses et de graines de courge.
+
+country: "France"
 ---
 
 Pour 4 personnes

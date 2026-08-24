@@ -39,6 +39,8 @@ directions:
 - Disposer la viande, les quartiers de pommes et l'ail dans un plat allant au four.
 - Arroser d'un filet d'huile d'olive puis enfourner pour environ 1 h 30.
 - Retirer les pommes à mi-cuisson pour éviter qu'elles ne se défassent puis les remettre dans le plat 5 minutes avant la fin de la cuisson.
+
+country: "France"
 ---
 
 Travers de porc rôtis au four, laqués d'une marinade à la moutarde et au miel, accompagnés de quartiers de pommes fondants et parfumés à l'ail.

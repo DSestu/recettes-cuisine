@@ -30,6 +30,8 @@ ingredients:
 
 components:
 - Sauce chasseur
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 30 min. Cuisson : 1 h 10. Difficulté : ⚠️⚠️⚠️.

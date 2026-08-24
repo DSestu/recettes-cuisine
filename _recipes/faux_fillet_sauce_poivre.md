@@ -28,6 +28,8 @@ ingredients:
 - 80 g de beurre
 - 3 c. à soupe d'huile
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 30 min. Cuisson : 1h05.

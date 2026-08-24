@@ -26,6 +26,8 @@ ingredients:
 
 components:
 - Crème pâtissière à la pistache
+
+country: "France"
 ---
 
 Pour une douzaine de choux. Préparation : 55 min. Cuisson : 40 min. Réfrigération : 3 h.

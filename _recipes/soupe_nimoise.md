@@ -41,6 +41,8 @@ directions:
 - Cuire 45 minutes
 - Si l'orge est remplacé par le riz, cuire la soupe 15 minutes, ajouter le riz et continuer la cuisson 30 minutes
 - Servir avec un ravier de gruyère râpé
+
+country: "France"
 ---
 
 Soupe traditionnelle niçoise pour 6 personnes.

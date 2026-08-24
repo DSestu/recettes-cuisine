@@ -37,6 +37,7 @@ directions:
 components:
 - Pâtes fraîches / à raviolis
 
+country: "Italie"
 ---
 
 Raviolis maison farcis pomme de terre, ricotta et parmesan. Pour 20 personnes.

@@ -28,6 +28,8 @@ ingredients:
 - Sel
 - Poivre
 - Parmesan
+
+country: "Italie"
 ---
 
 Sauce tomate gourmande au boeuf pour ~2-3 personnes.

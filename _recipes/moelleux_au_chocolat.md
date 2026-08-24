@@ -36,6 +36,7 @@ directions:
 - Enfourner pour 40 minutes à 180°C.
 - Laisser refroidir légèrement, puis déguster c'est un délice !
 
+country: "France"
 ---
 
 Moelleux au chocolat fondant, simple et gourmand. Parfait pour les amateurs de chocolat !

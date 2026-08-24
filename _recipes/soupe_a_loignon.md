@@ -52,6 +52,7 @@ directions:
 - Passer au four à découvert 20 minutes environ à 180°C (th. 6)
 - Optionnel - Pour enrichir la soupe, avant de verser le bouillon, battre dans un bol 3 jaunes d'œufs avec de la crème fraîche, un verre de porto et de la noix de muscade râpée. Ajouter un verre de bouillon chaud, mélanger, faire cuire doucement sans cesser de remuer et sans laisser bouillir. Verser dans la soupière avec le reste du bouillon
 
+country: "France"
 ---
 
 Soupe chaude pour 4 personnes.

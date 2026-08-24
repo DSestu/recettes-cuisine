@@ -42,6 +42,7 @@ directions:
 - Préparer la *Vinaigrette à la moutarde* — voir composant
 - Verser la vinaigrette au moment de servir et remuer
 
+country: "France"
 ---
 
 Pour 4 personnes.

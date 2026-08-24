@@ -38,6 +38,8 @@ ingredients:
 - 1 c. à café bombée de graines de sésame blond
 - Huile de tournesol
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 10 min. Cuisson : 10 min.

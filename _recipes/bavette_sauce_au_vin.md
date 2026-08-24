@@ -26,6 +26,8 @@ ingredients:
 
 components:
 - Sauce au vin rouge
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 25 min. Cuisson : 25 min.

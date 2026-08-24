@@ -27,6 +27,8 @@ ingredients:
 - gruyère râpé
 - chapelure
 - noix de beurre
+
+country: "France"
 ---
 
 ## Préparation

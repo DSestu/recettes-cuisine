@@ -29,6 +29,7 @@ directions:
 - Cuire les meringues à 120°C pendant 20 min, puis à 100°C pendant 1 h.
 - Une fois refroidies, les conserver dans une boîte hermétique.
 
+country: "France"
 ---
 
 Petites meringues croquantes et moelleuses aux amandes effilées. Pour environ 25 meringues. Temps total : 1 h 25 (préparation 25 min, cuisson 1 h).

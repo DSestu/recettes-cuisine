@@ -25,6 +25,7 @@ directions:
 - Porter 1,5 L d'eau à frémir avec 800 g de sucre jusqu'à ce que le sucre soit dissous. Laisser refroidir.
 - Ajouter le sirop refroidi au mélange alcool et pelures de citron. Filtrer puis mettre en bouteille.
 
+country: "Italie"
 ---
 
 Liqueur de citron italienne, à déguster bien fraîche. Macération 1 mois.

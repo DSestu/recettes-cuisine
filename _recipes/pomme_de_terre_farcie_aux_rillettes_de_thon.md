@@ -31,6 +31,7 @@ ingredients:
 components:
 - Rillettes de thon
 
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 20 min. Cuisson : 30 min.

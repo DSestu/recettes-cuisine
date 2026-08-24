@@ -39,6 +39,8 @@ ingredients:
 - 10 cl de vin blanc sec
 - 2 c. à soupe d'huile d'olive
 - Sel et poivre du moulin
+
+country: "Italie"
 ---
 
 Pour 4 personnes. Préparation : 15 min. Cuisson : 20 min.

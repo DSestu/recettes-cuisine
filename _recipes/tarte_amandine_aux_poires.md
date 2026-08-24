@@ -25,6 +25,8 @@ ingredients:
 - 100 g de poudre d'amandes
 - 1 citron
 - sel
+
+country: "France"
 ---
 
 Pour 6 à 8 personnes. Temps de préparation : 1 heure. Temps de cuisson : 45 min.

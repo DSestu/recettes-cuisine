@@ -34,6 +34,8 @@ ingredients:
 - ½ c. à café de sauce Worcestershire
 - 2 pincées de muscade
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 6 personnes. Préparation : 35 min. Cuisson : 30 min.

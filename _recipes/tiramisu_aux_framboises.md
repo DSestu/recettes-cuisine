@@ -37,6 +37,7 @@ directions:
 - Émiettez le reste des spéculoos par-dessus, ajoutez de nouveau des framboises écrasées puis terminez avec de la crème. Décorez avec les framboises entières et les pistaches concassées.
 - Réfrigérez au moins 2 heures avant de servir (idéalement 4 heures) pour que les saveurs se fondent et que la crème prenne.
 
+country: "Italie"
 ---
 
 Tiramisu fruité et frais, sans café ni alcool, relevé par le croquant des pistaches et le parfum des spéculoos.

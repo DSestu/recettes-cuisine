@@ -44,6 +44,8 @@ ingredients:
 
 components:
 - Gremolata
+
+country: "Italie"
 ---
 
 Pour 6 personnes. Préparation : 25 min. Cuisson : 2 h 45.

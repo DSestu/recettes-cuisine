@@ -27,6 +27,8 @@ ingredients:
 - 2 c. à soupe de Cointreau (facultatif)
 - 1 c. à café de cacao
 - 1 pincée de sel
+
+country: "Italie"
 ---
 
 Pour 8 personnes. Temps de préparation : 25 min. Réfrigération : 24 h.

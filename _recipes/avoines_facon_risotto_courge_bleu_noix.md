@@ -36,6 +36,8 @@ ingredients:
 - 40 g de noix
 - 1 c. à soupe d'huile d'olive
 - Sel et poivre
+
+country: "France"
 ---
 
 Pour 4 personnes. Préparation : 20 min. Cuisson : 30 min.
