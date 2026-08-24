@@ -12,6 +12,8 @@ tags:
 - asperges
 - parmesan
 - basilic
+- marabout
+- recettes du monde
 
 ingredients:
 - 500 g de grosses crevettes crues

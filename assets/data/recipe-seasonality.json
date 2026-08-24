@@ -124,6 +124,45 @@
       ]
     },
     {
+      "slug": "ailes_de_poulet_marinees",
+      "title": "Ailes de poulet marinées",
+      "url": "/recipes/ailes_de_poulet_marinees.html",
+      "kind": "recipe",
+      "image": "ailes_de_poulet_marinees",
+      "temporal_ingredients": []
+    },
+    {
+      "slug": "ailes_de_poulet_sautees",
+      "title": "Ailes de poulet sautées",
+      "url": "/recipes/ailes_de_poulet_sautees.html",
+      "kind": "recipe",
+      "image": "ailes_de_poulet_sautees",
+      "temporal_ingredients": [
+        {
+          "id": "ciboule",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "ankake_sauce",
       "title": "Sauce ankake aux champignons",
       "url": "/components/ankake_sauce.html",
@@ -166,6 +205,37 @@
             "14": "peak",
             "15": "peak",
             "16": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "aumonieres_de_poisson",
+      "title": "Aumônières de poisson",
+      "url": "/recipes/aumonieres_de_poisson.html",
+      "kind": "recipe",
+      "image": "aumonieres_de_poisson",
+      "temporal_ingredients": [
+        {
+          "id": "ciboule",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end"
           }
         }
       ]
@@ -430,6 +500,61 @@
       ]
     },
     {
+      "slug": "canard_glace_sauce_prunes",
+      "title": "Canard glacé à la sauce aux prunes",
+      "url": "/recipes/canard_glace_sauce_prunes.html",
+      "kind": "recipe",
+      "image": "canard_glace_sauce_prunes",
+      "temporal_ingredients": []
+    },
+    {
+      "slug": "canard_laque",
+      "title": "Canard laqué",
+      "url": "/recipes/canard_laque.html",
+      "kind": "recipe",
+      "image": "canard_laque",
+      "temporal_ingredients": [
+        {
+          "id": "ciboule",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end"
+          }
+        },
+        {
+          "id": "concombre",
+          "category": "legume",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "chakchouka_epinards_choux_bruxelles",
       "title": "Chakchouka aux épinards et choux de Bruxelles",
       "url": "/recipes/chakchouka_epinards_choux_bruxelles.html",
@@ -679,6 +804,55 @@
       "kind": "recipe",
       "image": "crepes_broquet",
       "temporal_ingredients": []
+    },
+    {
+      "slug": "crevettes_au_miel",
+      "title": "Crevettes au miel",
+      "url": "/recipes/crevettes_au_miel.html",
+      "kind": "recipe",
+      "image": "crevettes_au_miel",
+      "temporal_ingredients": [
+        {
+          "id": "epinards",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "peak",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "end",
+            "18": "start",
+            "19": "peak",
+            "20": "peak",
+            "21": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "crevettes_sauce_satay",
+      "title": "Crevettes à la sauce satay",
+      "url": "/recipes/crevettes_sauce_satay.html",
+      "kind": "recipe",
+      "image": "crevettes_sauce_satay",
+      "temporal_ingredients": [
+        {
+          "id": "coriandre",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        }
+      ]
     },
     {
       "slug": "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
@@ -1917,6 +2091,14 @@
       ]
     },
     {
+      "slug": "marinade_satay",
+      "title": "Marinade satay",
+      "url": "/components/marinade_satay.html",
+      "kind": "component",
+      "image": "marinade_satay",
+      "temporal_ingredients": []
+    },
+    {
       "slug": "marinade_vinaigre_ail_laurier",
       "title": "Marinade au vinaigre, ail et laurier",
       "url": "/components/marinade_vinaigre_ail_laurier.html",
@@ -2640,12 +2822,74 @@
       ]
     },
     {
+      "slug": "poulet_billy_kee",
+      "title": "Poulet Billy Kee",
+      "url": "/recipes/poulet_billy_kee.html",
+      "kind": "recipe",
+      "image": "poulet_billy_kee",
+      "temporal_ingredients": []
+    },
+    {
       "slug": "poulet_curry",
       "title": "Poulet curry",
       "url": "/recipes/poulet_curry.html",
       "kind": "recipe",
       "image": "poulet_curry",
       "temporal_ingredients": []
+    },
+    {
+      "slug": "poulet_gingembre_ciboules",
+      "title": "Poulet au gingembre et aux ciboules",
+      "url": "/recipes/poulet_gingembre_ciboules.html",
+      "kind": "recipe",
+      "image": "poulet_gingembre_ciboules",
+      "temporal_ingredients": [
+        {
+          "id": "coriandre",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "poulet_miel_piments",
+      "title": "Poulet au miel et aux piments",
+      "url": "/recipes/poulet_miel_piments.html",
+      "kind": "recipe",
+      "image": "poulet_miel_piments",
+      "temporal_ingredients": [
+        {
+          "id": "ciboulette",
+          "category": "herbe",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        }
+      ]
     },
     {
       "slug": "poulet_yakitori",
@@ -2708,12 +2952,178 @@
       ]
     },
     {
+      "slug": "raviolis_frits",
+      "title": "Raviolis frits",
+      "url": "/recipes/raviolis_frits.html",
+      "kind": "recipe",
+      "image": "raviolis_frits",
+      "temporal_ingredients": [
+        {
+          "id": "ciboule",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "raviolis_poulet_vapeur",
+      "title": "Raviolis de poulet à la vapeur",
+      "url": "/recipes/raviolis_poulet_vapeur.html",
+      "kind": "recipe",
+      "image": "raviolis_poulet_vapeur",
+      "temporal_ingredients": [
+        {
+          "id": "ciboule",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end"
+          }
+        },
+        {
+          "id": "ciboulette",
+          "category": "herbe",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "raviolis_sestu",
       "title": "Raviolis sestu (WIP)",
       "url": "/recipes/raviolis_sestu.html",
       "kind": "recipe",
       "image": "raviolis_sestu",
       "temporal_ingredients": []
+    },
+    {
+      "slug": "raviolis_vegetariens",
+      "title": "Raviolis végétariens",
+      "url": "/recipes/raviolis_vegetariens.html",
+      "kind": "recipe",
+      "image": "raviolis_vegetariens",
+      "temporal_ingredients": [
+        {
+          "id": "carottes",
+          "category": "legume",
+          "phases": {
+            "10": "start",
+            "11": "start",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end",
+            "20": "end",
+            "21": "end"
+          }
+        },
+        {
+          "id": "chou",
+          "category": "legume",
+          "phases": {
+            "0": "peak",
+            "1": "peak",
+            "2": "peak",
+            "3": "peak",
+            "4": "end",
+            "16": "start",
+            "17": "start",
+            "18": "peak",
+            "19": "peak",
+            "20": "peak",
+            "21": "peak",
+            "22": "peak",
+            "23": "peak"
+          }
+        },
+        {
+          "id": "ciboule",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end"
+          }
+        },
+        {
+          "id": "coriandre",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        }
+      ]
     },
     {
       "slug": "ribs_sauce_orange",
@@ -2970,6 +3380,86 @@
       ]
     },
     {
+      "slug": "saint_jacques_gingembre_sesame",
+      "title": "Saint-Jacques au gingembre et au sésame",
+      "url": "/recipes/saint_jacques_gingembre_sesame.html",
+      "kind": "recipe",
+      "image": "saint_jacques_gingembre_sesame",
+      "temporal_ingredients": [
+        {
+          "id": "concombre",
+          "category": "legume",
+          "phases": {
+            "8": "start",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        },
+        {
+          "id": "coriandre",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        },
+        {
+          "id": "menthe",
+          "category": "herbe",
+          "phases": {
+            "6": "start",
+            "7": "start",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        },
+        {
+          "id": "saint-jacques",
+          "category": "coquillage",
+          "phases": {
+            "0": "peak",
+            "1": "peak",
+            "2": "peak",
+            "3": "peak",
+            "4": "peak",
+            "5": "end",
+            "6": "end",
+            "7": "end",
+            "8": "end",
+            "18": "start",
+            "19": "start",
+            "20": "peak",
+            "21": "peak",
+            "22": "peak",
+            "23": "peak"
+          }
+        }
+      ]
+    },
+    {
       "slug": "salade_chou_rouge",
       "title": "Salade de chou rouge",
       "url": "/recipes/salade_chou_rouge.html",
@@ -3192,6 +3682,14 @@
       ]
     },
     {
+      "slug": "sauce_aux_prunes",
+      "title": "Sauce aux prunes",
+      "url": "/components/sauce_aux_prunes.html",
+      "kind": "component",
+      "image": "sauce_aux_prunes",
+      "temporal_ingredients": []
+    },
+    {
       "slug": "sauce_bolognaise",
       "title": "Sauce bolognaise",
       "url": "/components/sauce_bolognaise.html",
@@ -3291,6 +3789,45 @@
           }
         }
       ]
+    },
+    {
+      "slug": "sauce_gingembre_ciboules",
+      "title": "Sauce au gingembre et aux ciboules",
+      "url": "/components/sauce_gingembre_ciboules.html",
+      "kind": "component",
+      "image": "sauce_gingembre_ciboules",
+      "temporal_ingredients": [
+        {
+          "id": "ciboule",
+          "category": "legume",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "peak",
+            "18": "peak",
+            "19": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "sauce_hoisin_cacahuetes",
+      "title": "Sauce hoisin aux cacahuètes",
+      "url": "/components/sauce_hoisin_cacahuetes.html",
+      "kind": "component",
+      "image": "sauce_hoisin_cacahuetes",
+      "temporal_ingredients": []
     },
     {
       "slug": "sauce_orange",

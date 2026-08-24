@@ -767,3 +767,65 @@
   ingredient: false
 - id: jambon cru
   ingredient: true
+- id: shiitake
+  ingredient: true
+- id: sauce hoisin
+  ingredient: true
+- id: xérès
+  ingredient: true
+- id: bok choy
+  ingredient: true
+- id: pate a raviolis
+  ingredient: true
+- id: ciboule
+  ingredient: true
+- id: marabout
+  ingredient: false
+- id: recettes du monde
+  ingredient: false
+- id: cinq-epices
+  ingredient: true
+- id: sauce barbecue chinoise
+  ingredient: true
+- id: pate a pates imperiaux
+  ingredient: true
+- id: saucisse chinoise
+  ingredient: true
+- id: sambal oelek
+  ingredient: true
+- id: sauce satay
+  ingredient: true
+- id: fecule de mais
+  ingredient: true
+- id: melasse
+  ingredient: true
+- id: badiane
+  ingredient: true
+- id: crepes chinoises
+  ingredient: true
+- id: beurre de cacahuete
+  ingredient: true
+- id: sauce aux prunes
+  ingredient: true
+- id: sauce soja epaisse
+  ingredient: true
+- id: pousses de bambou
+  ingredient: true
+- id: sucre brun
+  ingredient: true
+- id: ailes de poulet
+  ingredient: true
+- id: vermicelles de soja
+  ingredient: true
+- id: huile aux piments
+  ingredient: true
+- id: sauce aux piments douce
+  ingredient: true
+- id: brocolis chinois
+  ingredient: true
+- id: poivre du sichuan
+  ingredient: true
+- id: sauce tomate
+  ingredient: true
+- id: blancs de poulet
+  ingredient: true

@@ -196,6 +196,7 @@
         "magret_sauce_fruitee",
         "maquereaux_marines",
         "minestrone",
+        "raviolis_vegetariens",
         "saint_jacques_facon_chaudree",
         "sandwitch_italien_dip_thon_crudites",
         "saute_porc_vin_doux",
@@ -280,6 +281,7 @@
         "minestrone",
         "okonomiyaki",
         "ramen_maison",
+        "raviolis_vegetariens",
         "salade_chou_rouge",
         "soupe_au_chou",
         "soupe_nimoise"
@@ -320,7 +322,14 @@
     },
     "ciboule": {
       "category": "legume",
-      "recipes": []
+      "recipes": [
+        "ailes_de_poulet_sautees",
+        "aumonieres_de_poisson",
+        "canard_laque",
+        "raviolis_frits",
+        "raviolis_poulet_vapeur",
+        "raviolis_vegetariens"
+      ]
     },
     "ciboulette": {
       "category": "herbe",
@@ -329,6 +338,8 @@
         "pappardelles_champignons_bleu_comte_poulet",
         "pomme_de_terre_farcie_aux_rillettes_de_thon",
         "potage_au_concombre",
+        "poulet_miel_piments",
+        "raviolis_poulet_vapeur",
         "vichyssoise"
       ]
     },
@@ -368,7 +379,9 @@
     "concombre": {
       "category": "legume",
       "recipes": [
+        "canard_laque",
         "potage_au_concombre",
+        "saint_jacques_gingembre_sesame",
         "sandwitch_dinde_marinee",
         "sandwitch_italien_dip_thon_crudites"
       ]
@@ -385,7 +398,11 @@
       "category": "herbe",
       "recipes": [
         "chakchouka_epinards_choux_bruxelles",
+        "crevettes_sauce_satay",
         "curry_oeuf_massala",
+        "poulet_gingembre_ciboules",
+        "raviolis_vegetariens",
+        "saint_jacques_gingembre_sesame",
         "saute_de_porc_aux_abricots_sauce_soja_citron_vert",
         "tagliatelles_aux_gambas_flambes"
       ]
@@ -458,6 +475,7 @@
       "category": "legume",
       "recipes": [
         "chakchouka_epinards_choux_bruxelles",
+        "crevettes_au_miel",
         "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
         "frittata_petits_pois_poulet_menthe",
         "gratin_penne_champignons_bouillon"
@@ -679,6 +697,7 @@
       "recipes": [
         "frittata_petits_pois_poulet_menthe",
         "oeuf_a_la_creme",
+        "saint_jacques_gingembre_sesame",
         "sandwitch_dinde_marinee"
       ]
     },
@@ -1025,7 +1044,8 @@
       "category": "coquillage",
       "recipes": [
         "coquilles_saint_jacques_gratinees",
-        "saint_jacques_facon_chaudree"
+        "saint_jacques_facon_chaudree",
+        "saint_jacques_gingembre_sesame"
       ]
     },
     "saint-pierre": {
@@ -1179,6 +1199,20 @@
       ],
       "title": "Aiguillettes de dinde panées"
     },
+    "ailes_de_poulet_sautees": {
+      "image": "ailes_de_poulet_sautees",
+      "ingredients": [
+        "ciboule"
+      ],
+      "title": "Ailes de poulet sautées"
+    },
+    "aumonieres_de_poisson": {
+      "image": "aumonieres_de_poisson",
+      "ingredients": [
+        "ciboule"
+      ],
+      "title": "Aumônières de poisson"
+    },
     "avoines_facon_risotto_courge_bleu_noix": {
       "image": "avoines_facon_risotto_courge_bleu_noix",
       "ingredients": [
@@ -1221,6 +1255,14 @@
       ],
       "title": "Cake aux olives et aux tomates séchées"
     },
+    "canard_laque": {
+      "image": "canard_laque",
+      "ingredients": [
+        "ciboule",
+        "concombre"
+      ],
+      "title": "Canard laqué"
+    },
     "chakchouka_epinards_choux_bruxelles": {
       "image": "chakchouka_epinards_choux_bruxelles",
       "ingredients": [
@@ -1259,6 +1301,20 @@
         "tomate cerise"
       ],
       "title": "Côte de veau rôtie au vinaigre balsamique, tomates confites et burrata"
+    },
+    "crevettes_au_miel": {
+      "image": "crevettes_au_miel",
+      "ingredients": [
+        "epinards"
+      ],
+      "title": "Crevettes au miel"
+    },
+    "crevettes_sauce_satay": {
+      "image": "crevettes_sauce_satay",
+      "ingredients": [
+        "coriandre"
+      ],
+      "title": "Crevettes à la sauce satay"
     },
     "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes": {
       "image": "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
@@ -1585,12 +1641,51 @@
       ],
       "title": "Potage Dubarry"
     },
+    "poulet_gingembre_ciboules": {
+      "image": "poulet_gingembre_ciboules",
+      "ingredients": [
+        "coriandre"
+      ],
+      "title": "Poulet au gingembre et aux ciboules"
+    },
+    "poulet_miel_piments": {
+      "image": "poulet_miel_piments",
+      "ingredients": [
+        "ciboulette"
+      ],
+      "title": "Poulet au miel et aux piments"
+    },
     "ramen_maison": {
       "image": "ramen_maison",
       "ingredients": [
         "chou"
       ],
       "title": "Ramen maison"
+    },
+    "raviolis_frits": {
+      "image": "raviolis_frits",
+      "ingredients": [
+        "ciboule"
+      ],
+      "title": "Raviolis frits"
+    },
+    "raviolis_poulet_vapeur": {
+      "image": "raviolis_poulet_vapeur",
+      "ingredients": [
+        "ciboule",
+        "ciboulette"
+      ],
+      "title": "Raviolis de poulet à la vapeur"
+    },
+    "raviolis_vegetariens": {
+      "image": "raviolis_vegetariens",
+      "ingredients": [
+        "carottes",
+        "chou",
+        "ciboule",
+        "coriandre"
+      ],
+      "title": "Raviolis végétariens"
     },
     "ribs_sauce_orange": {
       "image": "ribs_sauce_orange",
@@ -1637,6 +1732,16 @@
         "saint-jacques"
       ],
       "title": "Saint-Jacques façon chaudrée"
+    },
+    "saint_jacques_gingembre_sesame": {
+      "image": "saint_jacques_gingembre_sesame",
+      "ingredients": [
+        "concombre",
+        "coriandre",
+        "menthe",
+        "saint-jacques"
+      ],
+      "title": "Saint-Jacques au gingembre et au sésame"
     },
     "salade_chou_rouge": {
       "image": "salade_chou_rouge",
