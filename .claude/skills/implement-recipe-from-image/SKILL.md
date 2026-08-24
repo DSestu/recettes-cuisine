@@ -103,11 +103,12 @@ If `run.py` exits non-zero, surface stderr and stop. Common causes: ComfyUI unre
 Only `full` produces a complete recipe. After `run.py` succeeds:
 
 1. **Apply autoloaded rules** to the OCR text: `format-pasted-recipe.md`, `home-categories.md`, `update-recipe-prompt-gallery.md`. Determine canonical French title → snake_case ASCII slug. Normalise tags against `_data/recipe_tags.yml`. Append new canonical tags to a clearly matching homepage category (never reorder, never touch `others`). Create `prompts/_recipes/<slug>.md`.
-2. **Overwrite check** — stop and ask if any of these exist: `_recipes/<slug>.md`, `images/<slug>.webp`, `prompts/_recipes/<slug>.md`. (The `images/cards/<slug>.webp`, `images/hero/<slug>.webp`, and `images/full/<slug>.webp` derivatives are regenerated automatically by pre-commit hooks; only flag a clash as a slug clash.)
-3. **Write the recipe** at `_recipes/<slug>.md` with frontmatter (`layout: recipe`, quoted `title`, `image: <slug>` — **bare slug, no extension**, `date: <today's date, YYYY-MM-DD>`, `tags:`, `ingredients:`) and Markdown body under `## Préparation`.
-4. **Re-encode + place the image**: open `image_temp_path` (the ComfyUI PNG) with Pillow, save as WebP at `images/<slug>.webp` (q90, `method=6`). Do NOT keep the PNG.
-5. **Derivatives**: `pre-commit run --files images/<slug>.webp` (or run `scripts/generate_card_thumbnails.py`, `scripts/generate_hero_images.py`, `scripts/generate_full_images.py`). These produce `images/{cards,hero,full}/<slug>.webp`.
-6. **Summarise**: slug + paths (recipe, source webp, 3 derivatives, prompt). Remind the user to review and commit.
+2. **Infer `country:`** per `format-pasted-recipe.md`'s country-inference rule — from the OCR'd dish name/technique, the source page (a cookbook title or chapter often signals a cuisine), and anything the user said when handing you the photo (e.g. "recette de mon grand-père corse"). Ask in a grouped question if it's genuinely ambiguous across multiple recipes on the same page; omit `country:` if it stays unresolved. Don't guess a single country for a fusion dish — use `country: "Fusion"` or leave it out.
+3. **Overwrite check** — stop and ask if any of these exist: `_recipes/<slug>.md`, `images/<slug>.webp`, `prompts/_recipes/<slug>.md`. (The `images/cards/<slug>.webp`, `images/hero/<slug>.webp`, and `images/full/<slug>.webp` derivatives are regenerated automatically by pre-commit hooks; only flag a clash as a slug clash.)
+4. **Write the recipe** at `_recipes/<slug>.md` with frontmatter (`layout: recipe`, quoted `title`, `image: <slug>` — **bare slug, no extension**, `date: <today's date, YYYY-MM-DD>`, `tags:`, `ingredients:`, optional `country:`) and Markdown body under `## Préparation`.
+5. **Re-encode + place the image**: open `image_temp_path` (the ComfyUI PNG) with Pillow, save as WebP at `images/<slug>.webp` (q90, `method=6`). Do NOT keep the PNG.
+6. **Derivatives**: `pre-commit run --files images/<slug>.webp` (or run `scripts/generate_card_thumbnails.py`, `scripts/generate_hero_images.py`, `scripts/generate_full_images.py`). These produce `images/{cards,hero,full}/<slug>.webp`.
+7. **Summarise**: slug + paths (recipe, source webp, 3 derivatives, prompt). Remind the user to review and commit.
 
 ## Post-pipeline contract for `ocr`
 
