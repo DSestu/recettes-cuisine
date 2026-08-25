@@ -16,7 +16,7 @@ The trigger phrases below stay unchanged. What decides the path is mechanical:
 uv run python .claude/skills/implement-recipe-from-image/split.py --image <raw_photo> [--dry-run]
 ```
 
-`split.py` detects every recipe on the page (Qwen3-VL grounding via the `SDXL_recettes_cuisine_split` workflow), auto-corrects page orientation (90°-rotated phone shots are common), and cuts **full-resolution** crops named to the existing convention: `<stem>_rN.png` (dish, squared) + `<stem>_rN_text.png` (text). Last stdout line is JSON:
+`split.py` detects every recipe on the page (Qwen3-VL grounding via the `SDXL_recettes_cuisine_split` workflow), auto-corrects page orientation (90°-rotated phone shots are common), and cuts **full-resolution** crops named to the existing convention: `<stem>_rN.webp` (dish, squared) + `<stem>_rN_text.webp` (text). Crops are WebP q90 — legible for OCR and manual reading at ~12% of the PNG size, so they stay cheap to keep in git. Last stdout line is JSON:
 
 - `recipes[]` — one entry per detected recipe: `title`, `photo` (null if the recipe has no dish photo), `text`, `index`.
 - `overlay` — annotated debug image (bounding boxes drawn on the oriented page).
@@ -30,16 +30,18 @@ Then loop over `recipes[]`:
 
 ### Archive contract (after each recipe succeeds and the slug is known)
 
-Everything is renamed to the slug and kept under `to_implement/processed/` (tracked in git — this is the audit trail; the raw source is removed so only processed material remains):
+Everything is renamed to the slug and kept under `to_implement/processed/`. The raw source photo is removed from the inbox so only processed material remains:
 
-| Artifact | Destination |
-|---|---|
-| Source page photo | `to_implement/processed/originals/<slug>.<ext>` (multi-recipe page: one **copy per slug**, then delete the raw source) |
-| Debug overlay | `to_implement/processed/debug/<slug>_boxes.jpg` |
-| Dish crop (exact restore input) | `to_implement/processed/crops/<slug>.png` |
-| Text crop (exact OCR input) | `to_implement/processed/crops/<slug>_text.png` |
+| Artifact | Destination | Tracked? |
+|---|---|---|
+| Source page photo | `to_implement/processed/originals/<slug>.<ext>` (multi-recipe page: one **copy per slug**, then delete the raw source) | **gitignored** — kept on disk only |
+| Debug overlay | `to_implement/processed/debug/<slug>_boxes.jpg` | tracked |
+| Dish crop (exact restore input) | `to_implement/processed/crops/<slug>.webp` | tracked |
+| Text crop (exact OCR input) | `to_implement/processed/crops/<slug>_text.webp` | tracked |
 
-These four debug artifacts are mandatory — they exist so the user can audit any recipe and redo it from the archived crops (which still follow the `_text` convention, so `run.py` accepts them directly).
+These four artifacts are mandatory — they exist so the user can audit any recipe and redo it from the archived crops (which still follow the `_text` convention, so `run.py` accepts them directly).
+
+**Never track raw source photos.** Originals and the raw inbox folders under `to_implement/` are gitignored: a full-page phone shot is 25–40 MB, and committing them once pushed a single pack past GitHub's 2 GiB hard limit and broke `git push` outright. Only the derived crops (WebP q90) and overlays belong in git.
 
 Tuning constants (padding, aspect guard, orientation thresholds) live at the top of `split.py` with benchmark provenance. The detection prompt lives inside the workflow JSON on the server — never hardcode it here. Use `Qwen3-VL-4B-Instruct-FP8` in that workflow; FP16 variants are ~13× slower on this machine (measured).
 
@@ -51,8 +53,10 @@ Tuning constants (padding, aspect guard, orientation thresholds) live at the top
 |---|---|---|---|---|
 | "implement this recipe from image", "implémente cette recette depuis l'image" | `full` | `--image <path>` (auto-detects `<stem>_text.<ext>` sibling) | `ocr_text` + restored dish image | Create `_recipes/<slug>.md`, place image, generate thumbnail, write prompt gallery |
 | "OCR this image", "extrais le texte de cette image" | `ocr` | `--image <path>` (same `_text` sibling rule) | `ocr_text` only | Hand the text back to the user; no recipe scaffolding |
-| "restore this photo", "restaure cette photo", "régénère l'image de la recette `<slug>`" | `image` | `--slug <slug>` (resolves `images/<slug>.{png,jpg,jpeg,webp}`) | restored image | Replace `images/<slug>.png` after user review |
-| "generate the image from the prompt", "génère l'image depuis le prompt" | `prompt` | `--slug <slug>` (reads `prompts/_recipes/<slug>.md`) | generated image | Replace `images/<slug>.png` |
+| "restore this photo", "restaure cette photo", "régénère l'image de la recette `<slug>`" | `image` | `--slug <slug>` (resolves **`images/<slug>.webp` only** — WebP-only post-migration) | restored image | Replace `images/<slug>.webp` after user review |
+| "generate the image from the prompt", "génère l'image depuis le prompt" | `prompt` | `--slug <slug>` (reads `prompts/_recipes/<slug>.md`) | generated image | Replace `images/<slug>.webp` |
+
+**Restore-only workaround:** when `--mode full` fails at the OCR stage (`text output node ... not in history outputs`) but you already have the recipe text, you can still get the dish image: encode the crop to `images/<slug>.webp` first, then run `--mode image --slug <slug>`, which overwrites it with the restored version.
 
 ### Folder-of-photos restoration (iterative `image` mode)
 

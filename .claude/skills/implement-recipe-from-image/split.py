@@ -226,6 +226,17 @@ def orient_and_detect(base, cfg_split, src: Path, im: Image.Image, out_dir: Path
 
 # --------------------------------------------------------------- cropping
 
+# Crops are written as WebP: q90 keeps the page text fully legible for OCR and
+# manual reading while being ~88% smaller than PNG (measured over 185 crops,
+# 679 MB -> 84 MB). They stay small enough to keep in git as the audit trail.
+CROP_QUALITY = 90
+
+
+def save_crop(im: Image.Image, path: Path) -> None:
+    """Write a crop as WebP. RGB conversion keeps palette/alpha inputs valid."""
+    im.convert("RGB").save(path, "WEBP", quality=CROP_QUALITY, method=6)
+
+
 def cut_text(im: Image.Image, bbox) -> Image.Image:
     W, H = im.size
     x1, y1, x2, y2 = bbox
@@ -337,14 +348,14 @@ def main() -> None:
         entry = {"index": i, "title": r.get("title", ""), "photo": None, "text": None}
         if not args.dry_run:
             text_crop = cut_text(oriented, r["text_bbox"])
-            text_path = out_dir / f"{args.image.stem}_r{i}_text.png"
-            text_crop.save(text_path)
+            text_path = out_dir / f"{args.image.stem}_r{i}_text.webp"
+            save_crop(text_crop, text_path)
             entry["text"] = str(text_path)
             pb = r.get("photo_bbox")
             if pb:
                 box = square_photo_box(*oriented.size, pb)
-                photo_path = out_dir / f"{args.image.stem}_r{i}.png"
-                oriented.crop(box).save(photo_path)
+                photo_path = out_dir / f"{args.image.stem}_r{i}.webp"
+                save_crop(oriented.crop(box), photo_path)
                 entry["photo"] = str(photo_path)
         out_recipes.append(entry)
 
