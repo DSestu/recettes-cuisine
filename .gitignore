@@ -10,3 +10,12 @@ _recipes/.obsidian/core-plugins.json
 _recipes/.obsidian/workspace.json
 out.json
 _site_test/
+.dmux/
+# Raw source page photos — kept on disk, never uploaded.
+# Only the derived crops (to_implement/processed/crops/) and detection
+# overlays (to_implement/processed/debug/) are tracked as the audit trail.
+to_implement/processed/originals/
+to_implement/marabout_cuisine_du_monde/
+to_implement/carrement_cuisine_wok_hachette/
+to_implement/needs_reshoot/
+to_implement/restored/
