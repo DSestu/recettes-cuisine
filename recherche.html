@@ -193,6 +193,39 @@ permalink: /recherche/
       transition: transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
         box-shadow 160ms ease;
     }
+    /* Expandable "more tags" block: slide + fade, pills pop in staggered */
+    #tag-suggestions-more {
+      padding-top: 8px; /* room for the count bubbles (top: -8px) */
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+    }
+    #tag-suggestions-more.is-open {
+      opacity: 1;
+    }
+    #tag-suggestions-more.is-settled {
+      max-height: none;
+      overflow: visible;
+    }
+    @keyframes sugg-in {
+      from { opacity: 0; transform: translateY(6px) scale(0.92); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    #tag-suggestions-more.is-animating .tag-sugg {
+      animation: sugg-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    #tag-suggestions-toggle .chev {
+      display: inline-block;
+      transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #tag-suggestions-toggle[aria-expanded="true"] .chev {
+      transform: rotate(180deg);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #tag-suggestions-more, #tag-suggestions-toggle .chev { transition: none; }
+      #tag-suggestions-more.is-animating .tag-sugg { animation: none; }
+    }
     .sugg-pill:hover {
       transform: translateY(-1px) scale(1.05) rotate(0.8deg);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
@@ -475,6 +508,15 @@ permalink: /recherche/
         ></div>
         <div id="selected-tags" class="flex flex-wrap gap-2"></div>
         <div id="tag-suggestions" class="flex flex-wrap gap-2"></div>
+        <!-- Expandable: the tags beyond the top N, hidden until toggled -->
+        <button
+          id="tag-suggestions-toggle"
+          type="button"
+          class="hidden self-start text-xs px-3 py-1 rounded-full border border-primary/40 bg-primary/5 text-primary hover:bg-primary/10 transition"
+          aria-expanded="false"
+          aria-controls="tag-suggestions-more"
+        ></button>
+        <div id="tag-suggestions-more" class="flex flex-wrap gap-2"></div>
         <div id="add-ingredient-suggestions" class="mt-4 hidden">
           <h4 class="text-sm uppercase text-primary font-semibold mb-2">Ajoutez un ingrédient pour terminer une recette</h4>
           <div id="add-ingredient-list" class="flex flex-wrap gap-2"></div>

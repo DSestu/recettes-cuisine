@@ -234,6 +234,7 @@
     missingTolerance: 0,
     infiniteTolerance: false,
     mode: 'tag', // 'tag' | 'what_i_have'
+    tagSuggestionsExpanded: false,
     query: '',
     titleQuery: '',
     activeCategoryIds: new Set(),
@@ -307,13 +308,16 @@
       .filter(k => !window.__hiddenTopBlacklist.has(k))
       .filter(k => !selectedTagSet.has(String(k)))
     );
-    // Sort by count desc, then alpha asc (fr locale), take top 20
-    const sorted = Array.from(tagCount.entries())
+    // Sort by count desc, then alpha asc (fr locale). The top N stay visible;
+    // the rest go into an expandable block below.
+    const TOP_N = 20;
+    const sortedAll = Array.from(tagCount.entries())
       .sort((a,b)=>{
         if (b[1] !== a[1]) return b[1]-a[1];
         return String(a[0]).localeCompare(String(b[0]), 'fr', { sensitivity: 'base' });
-      })
-      .slice(0,20);
+      });
+    const sorted = sortedAll.slice(0, TOP_N);
+    const rest = sortedAll.slice(TOP_N);
 
     const maxVal = sorted.length ? sorted[0][1] : 1;
     // Inverted gradient relative to charts: red (low) -> orange -> green (high)
@@ -321,10 +325,9 @@
       .domain([0, maxVal*0.4, maxVal])
       .range(['#F53200', '#f97316', '#22c55e']);
 
-    const tagC = $('#tag-suggestions');
-    if (tagC) {
-      tagC.innerHTML = '';
-      for (const [tg, cnt] of sorted) {
+    function renderTagPills(container, list) {
+      container.innerHTML = '';
+      for (const [tg, cnt] of list) {
         const btn = pill(tg, ()=>{ state.selectedTags.add(tg); updateSelectedChips(); refresh(); });
         // Wrap to add colored bubble count
         const wrap = document.createElement('span');
@@ -350,7 +353,89 @@
         tip.title = `${cnt} occurrence${cnt>1?'s':''}`;
         wrap.appendChild(btn);
         wrap.appendChild(tip);
-        tagC.appendChild(wrap);
+        container.appendChild(wrap);
+      }
+    }
+
+    const tagC = $('#tag-suggestions');
+    if (tagC) renderTagPills(tagC, sorted);
+
+    // Expandable block for the remaining tags
+    const moreC = document.getElementById('tag-suggestions-more');
+    const toggle = document.getElementById('tag-suggestions-toggle');
+    if (moreC && toggle) {
+      // Animated expand/collapse. `__open` tracks the DOM state so a refresh
+      // while already open just re-renders the pills without re-animating.
+      const setToggleLabel = (open, n) => {
+        toggle.innerHTML = '';
+        toggle.appendChild(document.createTextNode(open
+          ? 'Réduire '
+          : `Voir les ${n} autre${n > 1 ? 's' : ''} tag${n > 1 ? 's' : ''} `));
+        const chev = document.createElement('span');
+        chev.className = 'chev';
+        chev.setAttribute('aria-hidden', 'true');
+        chev.textContent = '▾';
+        toggle.appendChild(chev);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      const finishOpen = () => {
+        moreC.classList.add('is-settled');
+        moreC.classList.remove('is-animating');
+        moreC.style.maxHeight = '';
+      };
+      const expandMore = () => {
+        clearTimeout(moreC.__timer);
+        renderTagPills(moreC, rest);
+        // Stagger the pill pop-in
+        Array.prototype.forEach.call(moreC.children, (el, i) => {
+          el.style.animationDelay = Math.min(i * 12, 360) + 'ms';
+        });
+        moreC.classList.remove('is-settled');
+        moreC.classList.add('is-animating');
+        moreC.style.maxHeight = '0px';
+        void moreC.offsetHeight; // start from 0
+        moreC.classList.add('is-open');
+        moreC.style.maxHeight = moreC.scrollHeight + 'px';
+        moreC.__timer = setTimeout(finishOpen, 340);
+      };
+      const collapseMore = () => {
+        clearTimeout(moreC.__timer);
+        moreC.classList.remove('is-settled', 'is-animating');
+        moreC.style.maxHeight = moreC.scrollHeight + 'px';
+        void moreC.offsetHeight; // pin the real height before animating to 0
+        moreC.classList.remove('is-open');
+        moreC.style.maxHeight = '0px';
+        moreC.__timer = setTimeout(() => {
+          moreC.innerHTML = '';
+          moreC.style.maxHeight = '';
+        }, 340);
+      };
+      if (rest.length === 0) {
+        clearTimeout(moreC.__timer);
+        moreC.innerHTML = '';
+        moreC.classList.remove('is-open', 'is-settled', 'is-animating');
+        moreC.style.maxHeight = '';
+        moreC.__open = false;
+        toggle.classList.add('hidden');
+      } else {
+        const open = !!state.tagSuggestionsExpanded;
+        toggle.classList.remove('hidden');
+        setToggleLabel(open, rest.length);
+        if (open && !moreC.__open) {
+          expandMore();
+        } else if (open) {
+          renderTagPills(moreC, rest); // already open: update contents in place
+        } else if (moreC.__open) {
+          collapseMore();
+        }
+        moreC.__open = open;
+        if (!toggle.__bound) {
+          toggle.__bound = true;
+          toggle.addEventListener('click', () => {
+            state.tagSuggestionsExpanded = !state.tagSuggestionsExpanded;
+            renderSuggestions();
+          });
+        }
       }
     }
     // Store muted keys globally so bar charts can adopt same muting
@@ -2564,12 +2649,46 @@
       window.isMobileSectionEnabled = function(sectionId) {
         return !!mobileAccordionOpen[sectionId];
       };
+      // Open/close an accordion body. The CSS animates max-height to a fixed
+      // cap (1200px); once the opening transition ends we lift the cap so tall
+      // content (e.g. the expanded tag list) is never clipped. Before closing,
+      // pin max-height back to the real height so the close still animates.
+      function applyBodyOpen(body, open) {
+        if (!body) return;
+        var isClosed = body.classList.contains('mobile-accordion-body--closed');
+        if (open) {
+          if (!isClosed && body.style.maxHeight === 'none') return;
+          if (!body.__uncapBound) {
+            body.__uncapBound = true;
+            body.addEventListener('transitionend', function(e) {
+              if (e.target !== body || e.propertyName !== 'max-height') return;
+              if (!body.classList.contains('mobile-accordion-body--closed')) body.style.maxHeight = 'none';
+            });
+          }
+          body.style.maxHeight = '';
+          body.classList.remove('mobile-accordion-body--closed');
+          // Fallback if no transition runs (transitionend never fires).
+          clearTimeout(body.__uncapTimer);
+          body.__uncapTimer = setTimeout(function() {
+            if (!body.classList.contains('mobile-accordion-body--closed')) body.style.maxHeight = 'none';
+          }, 300);
+        } else {
+          clearTimeout(body.__uncapTimer);
+          if (isClosed) return;
+          if (body.style.maxHeight === 'none') {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            void body.offsetHeight; // force reflow so the transition starts from the real height
+          }
+          body.style.maxHeight = '';
+          body.classList.add('mobile-accordion-body--closed');
+        }
+      }
       function setSectionOpen(sectionId, open) {
         var body = document.getElementById('mobile-accordion-body-' + sectionId);
         var trigger = document.getElementById('mobile-accordion-trigger-' + sectionId);
         if (!body || !trigger) return;
         mobileAccordionOpen[sectionId] = open;
-        body.classList.toggle('mobile-accordion-body--closed', !open);
+        applyBodyOpen(body, open);
         trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
         if (typeof refresh === 'function') refresh();
         syncMobileAccordionUI();
@@ -2591,7 +2710,7 @@
           var body = document.getElementById('mobile-accordion-body-' + t.id);
           if (body) {
             var open = mobileAccordionOpen[t.id];
-            body.classList.toggle('mobile-accordion-body--closed', !open);
+            applyBodyOpen(body, open);
             if (trigger) trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
           }
         });
