@@ -237,6 +237,7 @@
     query: '',
     titleQuery: '',
     activeCategoryIds: new Set(),
+    activeCountries: new Set(),
     selectedTags: new Set(),
   };
 
@@ -404,6 +405,10 @@
       const hasMatch = Array.from(state.activeCategoryIds).some(id => catIds.indexOf(id) !== -1);
       if (!hasMatch) return false;
     }
+    // Country filter (multi-select: item's country must be one of the selected) — only when section enabled on mobile
+    if (sectionEnabled('countries') && state.activeCountries && state.activeCountries.size > 0) {
+      if (!it.country || !state.activeCountries.has(it.country)) return false;
+    }
     // Title search: each word of query must match — only when section enabled on mobile
     if (sectionEnabled('name') && state.titleQuery) {
       const q = normalize(state.titleQuery);
@@ -433,7 +438,7 @@
   function getFiltered() {
     const filtered = ITEMS.filter(itemMatches);
     var sectionEnabled = (typeof window.isMobileSectionEnabled === 'function') ? window.isMobileSectionEnabled : function() { return true; };
-    if (!sectionEnabled('name') && !sectionEnabled('categories') && !sectionEnabled('tags')) {
+    if (!sectionEnabled('name') && !sectionEnabled('categories') && !sectionEnabled('countries') && !sectionEnabled('tags')) {
       return filtered;
     }
     if (sectionEnabled('tags') && state.mode === 'what_i_have') {
@@ -2150,6 +2155,81 @@
   }
 
   // -----------------------------
+  // Pays (chips + counts)
+  // -----------------------------
+  function getFilteredWithoutCountryFilter() {
+    const prev = state.activeCountries;
+    state.activeCountries = new Set();
+    const result = ITEMS.filter(itemMatches);
+    state.activeCountries = prev;
+    return result;
+  }
+
+  function renderCountryChips() {
+    const container = $('#adv-countries');
+    if (!container) return;
+    const baseFiltered = getFilteredWithoutCountryFilter();
+    const countByCountry = new Map();
+    for (const it of ITEMS) if (it.country) countByCountry.set(it.country, 0);
+    for (const it of baseFiltered) {
+      if (it.country && countByCountry.has(it.country)) countByCountry.set(it.country, countByCountry.get(it.country) + 1);
+    }
+    const sorted = Array.from(countByCountry.keys()).sort((a, b) => {
+      const d = (countByCountry.get(b) || 0) - (countByCountry.get(a) || 0);
+      return d !== 0 ? d : a.localeCompare(b, 'fr');
+    });
+    container.innerHTML = '';
+    if (state.activeCountries && state.activeCountries.size > 0) {
+      const clearBtn = document.createElement('button');
+      clearBtn.type = 'button';
+      clearBtn.title = 'Effacer les pays';
+      clearBtn.setAttribute('aria-label', 'Effacer les pays');
+      clearBtn.className = 'inline-flex items-center justify-center w-8 h-8 rounded-full border border-primary text-white bg-primary shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40';
+      clearBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-4 h-4"><path d="M6 6l12 12M18 6l-12 12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      clearBtn.addEventListener('click', () => {
+        state.activeCountries.clear();
+        renderCountryChips();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+        if (window.syncMobileAccordionUI) { try { window.syncMobileAccordionUI(); } catch (_) {} }
+      });
+      container.appendChild(clearBtn);
+      const spacer = document.createElement('span');
+      spacer.className = 'w-2';
+      container.appendChild(spacer);
+    }
+    for (const country of sorted) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const active = state.activeCountries && state.activeCountries.has(country);
+      btn.className = active
+        ? 'px-3 py-1 rounded-full border border-primary bg-primary text-white text-sm transition'
+        : 'px-3 py-1 rounded-full border border-red-200 bg-white text-red-900 hover:bg-red-50 text-sm transition';
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = country;
+      btn.appendChild(labelSpan);
+      const cnt = countByCountry.get(country) || 0;
+      if (cnt > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/90 text-red-900 border border-red-200 w-5 h-5';
+        if (active) badge.className = 'ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/20 text-white border border-white w-5 h-5';
+        badge.textContent = String(cnt);
+        btn.appendChild(badge);
+      }
+      btn.addEventListener('click', () => {
+        if (!state.activeCountries) state.activeCountries = new Set();
+        if (state.activeCountries.has(country)) state.activeCountries.delete(country);
+        else state.activeCountries.add(country);
+        renderCountryChips();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+        if (window.syncMobileAccordionUI) { try { window.syncMobileAccordionUI(); } catch (_) {} }
+      });
+      container.appendChild(btn);
+    }
+  }
+
+  // -----------------------------
   // "Ajoutez un ingrédient" suggestions (mode "J'ai ces ingrédients")
   // -----------------------------
   function renderAddIngredientSuggestions() {
@@ -2203,6 +2283,7 @@
     renderSuggestions(filtered);
     renderResults(filtered);
     renderCategoryChips();
+    renderCountryChips();
     renderAddIngredientSuggestions();
     updateCharts(filtered);
     updateAdvancedViz(filtered);
@@ -2452,7 +2533,7 @@
 
     // Mobile-only accordion sections (name, categories, tags)
     (function() {
-      var mobileAccordionOpen = { name: false, categories: false, tags: false };
+      var mobileAccordionOpen = { name: false, categories: false, countries: false, tags: false };
       function isMobile() { return window.matchMedia && window.matchMedia('(max-width: 767px)').matches; }
       function nameActive() {
         var el = document.getElementById('title-search');
@@ -2460,6 +2541,9 @@
       }
       function categoriesActive() {
         return state.activeCategoryIds && state.activeCategoryIds.size > 0;
+      }
+      function countriesActive() {
+        return state.activeCountries && state.activeCountries.size > 0;
       }
       function tagsActive() {
         return (state.selectedTags && state.selectedTags.size > 0) || state.mode === 'what_i_have';
@@ -2482,6 +2566,7 @@
         var triggers = [
           { id: 'name', active: mobileAccordionOpen.name },
           { id: 'categories', active: mobileAccordionOpen.categories },
+          { id: 'countries', active: mobileAccordionOpen.countries },
           { id: 'tags', active: mobileAccordionOpen.tags }
         ];
         triggers.forEach(function(t) {
@@ -2515,15 +2600,17 @@
         if (!isMobile()) {
           mobileAccordionOpen.name = true;
           mobileAccordionOpen.categories = true;
+          mobileAccordionOpen.countries = true;
           mobileAccordionOpen.tags = true;
         } else {
           mobileAccordionOpen.name = nameActive();
           mobileAccordionOpen.categories = categoriesActive();
+          mobileAccordionOpen.countries = countriesActive();
           mobileAccordionOpen.tags = tagsActive();
         }
         syncMobileAccordionUI();
       }
-      ['name','categories'].forEach(function(sectionId) {
+      ['name','categories','countries'].forEach(function(sectionId) {
         var trigger = document.getElementById('mobile-accordion-trigger-' + sectionId);
         if (!trigger) return;
         trigger.addEventListener('click', function(e) {
@@ -2561,13 +2648,14 @@
       window.syncMobileAccordionUI = syncMobileAccordionUI;
       window.initMobileAccordionState = initMobileAccordionState;
       window.getAccordionOpenForUrl = function() {
-        return { name: mobileAccordionOpen.name, categories: mobileAccordionOpen.categories, tags: mobileAccordionOpen.tags };
+        return { name: mobileAccordionOpen.name, categories: mobileAccordionOpen.categories, countries: mobileAccordionOpen.countries, tags: mobileAccordionOpen.tags };
       };
       window.applyAccordionOpenFromUrl = function(openParam) {
         if (!openParam || typeof openParam !== 'string') return;
         var parts = openParam.split(',').map(function(p) { return p.trim().toLowerCase(); }).filter(Boolean);
         mobileAccordionOpen.name = parts.indexOf('name') !== -1;
         mobileAccordionOpen.categories = parts.indexOf('categories') !== -1;
+        mobileAccordionOpen.countries = parts.indexOf('countries') !== -1;
         mobileAccordionOpen.tags = parts.indexOf('tags') !== -1;
         syncMobileAccordionUI();
       };
@@ -2576,7 +2664,7 @@
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
     // reset-ingredients button was removed with hidden wrapper
 
-    // Paramètres URL (?q= & tags=x,y & cat= & mode= & open=name,categories,tags & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
+    // Paramètres URL (?q= & tags=x,y & cat= & pays=a|b & mode= & open=name,categories,countries,tags & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
     const params = new URLSearchParams(window.location.search);
     const q = params.get('q');
     const tags = params.get('tags');
@@ -2613,6 +2701,8 @@
     }
     const catParam = params.get('cat');
     if (catParam) { catParam.split(',').filter(Boolean).forEach(id=>state.activeCategoryIds.add(id.trim())); }
+    const paysParam = params.get('pays');
+    if (paysParam) { paysParam.split('|').filter(Boolean).forEach(c=>state.activeCountries.add(c.trim())); }
     if (comp === '0') { state.includeComponents = false; }
     if (modeParam && (modeParam === 'tag' || modeParam === 'what_i_have')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
@@ -2794,11 +2884,13 @@
       setParam('tags', tagVals.length ? tagVals.join(',') : '');
       setParam('q', state.titleQuery || '');
       setParam('cat', (state.activeCategoryIds && state.activeCategoryIds.size) ? Array.from(state.activeCategoryIds).join(',') : '');
+      setParam('pays', (state.activeCountries && state.activeCountries.size) ? Array.from(state.activeCountries).join('|') : '');
       var openAcc = typeof window.getAccordionOpenForUrl === 'function' && window.getAccordionOpenForUrl();
       if (openAcc) {
         var openList = [];
         if (openAcc.name) openList.push('name');
         if (openAcc.categories) openList.push('categories');
+        if (openAcc.countries) openList.push('countries');
         if (openAcc.tags) openList.push('tags');
         setParam('open', openList.join(','));
       } else {
