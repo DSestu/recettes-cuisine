@@ -386,11 +386,36 @@ layout: default
   >
     <!-- call up the main recipe title and content -->
     <header class="recipe-header flex flex-col gap-6 md:pt-16">
+      {% assign country_entry = nil %}
+      {% if page.country %}
+        {% assign country_entry = site.data.countries | where: "name", page.country | first %}
+      {% endif %}
       <h1
         class="recipe-title font-gelica text-primary text-left text-5xl lg:text-7xl font-bold"
         itemprop="name"
       >
-        {{ page.title }}
+        {% if country_entry %}
+          {%- comment -%}
+            Last word + flag share a nowrap span so the flag never wraps alone
+            (browsers may break before an inline image even after &nbsp;).
+          {%- endcomment -%}
+          {%- assign title_words = page.title | split: " " -%}
+          {%- assign title_last = title_words | last -%}
+          {%- assign title_head_size = title_words.size | minus: 1 -%}
+          {%- if title_head_size > 0 -%}
+            {%- assign title_head = title_words | slice: 0, title_head_size | join: " " -%}
+            {{ title_head }}
+          {%- endif %} <span class="whitespace-nowrap">{{ title_last }}&nbsp;<img
+            src="{{ site.baseurl }}/assets/flags/{{ country_entry.flag }}.svg"
+            alt=""
+            title="{{ page.country | escape }}"
+            aria-hidden="true"
+            class="inline-block w-auto rounded align-baseline"
+            style="height: 0.6em; box-shadow: 0 0 0 1px rgba(0,0,0,0.12);"
+          ></span>
+        {% else %}
+          {{ page.title }}
+        {% endif %}
       </h1>
 
       <div

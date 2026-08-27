@@ -2208,6 +2208,19 @@
       const labelSpan = document.createElement('span');
       labelSpan.textContent = country;
       btn.appendChild(labelSpan);
+      const flagUrl = (__D.COUNTRY_FLAGS || {})[country];
+      if (flagUrl) {
+        const flag = document.createElement('img');
+        flag.src = flagUrl;
+        flag.alt = '';
+        flag.setAttribute('aria-hidden', 'true');
+        flag.className = 'inline-block w-auto rounded-sm';
+        flag.style.marginLeft = '0.375rem';
+        flag.style.verticalAlign = '-0.1em';
+        flag.style.height = '0.9rem';
+        flag.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.12)';
+        btn.appendChild(flag);
+      }
       const cnt = countByCountry.get(country) || 0;
       if (cnt > 0) {
         const badge = document.createElement('span');

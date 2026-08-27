@@ -1,0 +1,475 @@
+# Country / region names usable in recipe `country:` frontmatter, mapped to a
+# flag file `assets/flags/<flag>.svg` (ISO 3166-1 alpha-2 codes from the
+# flag-icons project, 4x3 ratio). Match is on the exact `name` string.
+#
+# Regions / special values:
+#   - "Antilles" uses the Martinique flag (Guadeloupe has no distinct flag).
+#   - "Fusion" uses a neutral globe icon (assets/flags/fusion.svg).
+#   - Sub-national cuisines (Corse, Bretagne, Réunion, Écosse, Catalogne, …)
+#     map to the flag available in the set.
+
+# --- Special / regions --------------------------------------------------------
+- name: "Fusion"
+  flag: fusion
+- name: "Antilles"
+  flag: mq
+- name: "Martinique"
+  flag: mq
+- name: "Guadeloupe"
+  flag: gp
+- name: "Réunion"
+  flag: re
+- name: "La Réunion"
+  flag: re
+- name: "Guyane"
+  flag: gf
+- name: "Polynésie française"
+  flag: pf
+- name: "Nouvelle-Calédonie"
+  flag: nc
+- name: "Corse"
+  flag: fr
+- name: "Bretagne"
+  flag: fr
+- name: "Alsace"
+  flag: fr
+- name: "Provence"
+  flag: fr
+- name: "Écosse"
+  flag: gb-sct
+- name: "Angleterre"
+  flag: gb-eng
+- name: "Pays de Galles"
+  flag: gb-wls
+- name: "Irlande du Nord"
+  flag: gb-nir
+- name: "Catalogne"
+  flag: es-ct
+- name: "Pays basque"
+  flag: es-pv
+- name: "Galice"
+  flag: es-ga
+- name: "Hong Kong"
+  flag: hk
+- name: "Macao"
+  flag: mo
+- name: "Taïwan"
+  flag: tw
+- name: "Porto Rico"
+  flag: pr
+- name: "Groenland"
+  flag: gl
+- name: "Îles Féroé"
+  flag: fo
+- name: "Kosovo"
+  flag: xk
+- name: "Palestine"
+  flag: ps
+- name: "Tibet"
+  flag: cn
+- name: "Kurdistan"
+  flag: iq
+- name: "Europe"
+  flag: eu
+- name: "Union européenne"
+  flag: eu
+
+# --- Europe -------------------------------------------------------------------
+- name: "France"
+  flag: fr
+- name: "Italie"
+  flag: it
+- name: "Espagne"
+  flag: es
+- name: "Portugal"
+  flag: pt
+- name: "Allemagne"
+  flag: de
+- name: "Autriche"
+  flag: at
+- name: "Suisse"
+  flag: ch
+- name: "Belgique"
+  flag: be
+- name: "Pays-Bas"
+  flag: nl
+- name: "Luxembourg"
+  flag: lu
+- name: "Royaume-Uni"
+  flag: gb
+- name: "Grande-Bretagne"
+  flag: gb
+- name: "Irlande"
+  flag: ie
+- name: "Grèce"
+  flag: gr
+- name: "Chypre"
+  flag: cy
+- name: "Malte"
+  flag: mt
+- name: "Turquie"
+  flag: tr
+- name: "Suède"
+  flag: se
+- name: "Norvège"
+  flag: no
+- name: "Danemark"
+  flag: dk
+- name: "Finlande"
+  flag: fi
+- name: "Islande"
+  flag: is
+- name: "Pologne"
+  flag: pl
+- name: "Tchéquie"
+  flag: cz
+- name: "République tchèque"
+  flag: cz
+- name: "Slovaquie"
+  flag: sk
+- name: "Hongrie"
+  flag: hu
+- name: "Roumanie"
+  flag: ro
+- name: "Bulgarie"
+  flag: bg
+- name: "Moldavie"
+  flag: md
+- name: "Ukraine"
+  flag: ua
+- name: "Biélorussie"
+  flag: by
+- name: "Russie"
+  flag: ru
+- name: "Estonie"
+  flag: ee
+- name: "Lettonie"
+  flag: lv
+- name: "Lituanie"
+  flag: lt
+- name: "Slovénie"
+  flag: si
+- name: "Croatie"
+  flag: hr
+- name: "Bosnie-Herzégovine"
+  flag: ba
+- name: "Serbie"
+  flag: rs
+- name: "Monténégro"
+  flag: me
+- name: "Macédoine du Nord"
+  flag: mk
+- name: "Albanie"
+  flag: al
+- name: "Andorre"
+  flag: ad
+- name: "Monaco"
+  flag: mc
+- name: "Saint-Marin"
+  flag: sm
+- name: "Vatican"
+  flag: va
+- name: "Liechtenstein"
+  flag: li
+- name: "Géorgie"
+  flag: ge
+- name: "Arménie"
+  flag: am
+- name: "Azerbaïdjan"
+  flag: az
+
+# --- Africa -------------------------------------------------------------------
+- name: "Maroc"
+  flag: ma
+- name: "Algérie"
+  flag: dz
+- name: "Tunisie"
+  flag: tn
+- name: "Libye"
+  flag: ly
+- name: "Égypte"
+  flag: eg
+- name: "Soudan"
+  flag: sd
+- name: "Soudan du Sud"
+  flag: ss
+- name: "Éthiopie"
+  flag: et
+- name: "Érythrée"
+  flag: er
+- name: "Djibouti"
+  flag: dj
+- name: "Somalie"
+  flag: so
+- name: "Kenya"
+  flag: ke
+- name: "Ouganda"
+  flag: ug
+- name: "Tanzanie"
+  flag: tz
+- name: "Rwanda"
+  flag: rw
+- name: "Burundi"
+  flag: bi
+- name: "Mauritanie"
+  flag: mr
+- name: "Mali"
+  flag: ml
+- name: "Niger"
+  flag: ne
+- name: "Tchad"
+  flag: td
+- name: "Sénégal"
+  flag: sn
+- name: "Gambie"
+  flag: gm
+- name: "Guinée-Bissau"
+  flag: gw
+- name: "Guinée"
+  flag: gn
+- name: "Sierra Leone"
+  flag: sl
+- name: "Liberia"
+  flag: lr
+- name: "Côte d'Ivoire"
+  flag: ci
+- name: "Ghana"
+  flag: gh
+- name: "Togo"
+  flag: tg
+- name: "Bénin"
+  flag: bj
+- name: "Nigeria"
+  flag: ng
+- name: "Burkina Faso"
+  flag: bf
+- name: "Cap-Vert"
+  flag: cv
+- name: "Cameroun"
+  flag: cm
+- name: "République centrafricaine"
+  flag: cf
+- name: "Gabon"
+  flag: ga
+- name: "Congo"
+  flag: cg
+- name: "République démocratique du Congo"
+  flag: cd
+- name: "Guinée équatoriale"
+  flag: gq
+- name: "São Tomé-et-Príncipe"
+  flag: st
+- name: "Angola"
+  flag: ao
+- name: "Zambie"
+  flag: zm
+- name: "Zimbabwe"
+  flag: zw
+- name: "Malawi"
+  flag: mw
+- name: "Mozambique"
+  flag: mz
+- name: "Namibie"
+  flag: na
+- name: "Botswana"
+  flag: bw
+- name: "Afrique du Sud"
+  flag: za
+- name: "Lesotho"
+  flag: ls
+- name: "Eswatini"
+  flag: sz
+- name: "Madagascar"
+  flag: mg
+- name: "Maurice"
+  flag: mu
+- name: "Île Maurice"
+  flag: mu
+- name: "Seychelles"
+  flag: sc
+- name: "Comores"
+  flag: km
+- name: "Mayotte"
+  flag: yt
+
+# --- Middle East --------------------------------------------------------------
+- name: "Liban"
+  flag: lb
+- name: "Syrie"
+  flag: sy
+- name: "Israël"
+  flag: il
+- name: "Jordanie"
+  flag: jo
+- name: "Irak"
+  flag: iq
+- name: "Iran"
+  flag: ir
+- name: "Arabie saoudite"
+  flag: sa
+- name: "Yémen"
+  flag: ye
+- name: "Oman"
+  flag: om
+- name: "Émirats arabes unis"
+  flag: ae
+- name: "Qatar"
+  flag: qa
+- name: "Bahreïn"
+  flag: bh
+- name: "Koweït"
+  flag: kw
+
+# --- Asia ---------------------------------------------------------------------
+- name: "Japon"
+  flag: jp
+- name: "Chine"
+  flag: cn
+- name: "Corée du Sud"
+  flag: kr
+- name: "Corée"
+  flag: kr
+- name: "Corée du Nord"
+  flag: kp
+- name: "Mongolie"
+  flag: mn
+- name: "Inde"
+  flag: in
+- name: "Pakistan"
+  flag: pk
+- name: "Bangladesh"
+  flag: bd
+- name: "Sri Lanka"
+  flag: lk
+- name: "Népal"
+  flag: np
+- name: "Bhoutan"
+  flag: bt
+- name: "Maldives"
+  flag: mv
+- name: "Afghanistan"
+  flag: af
+- name: "Kazakhstan"
+  flag: kz
+- name: "Ouzbékistan"
+  flag: uz
+- name: "Turkménistan"
+  flag: tm
+- name: "Kirghizistan"
+  flag: kg
+- name: "Tadjikistan"
+  flag: tj
+- name: "Thaïlande"
+  flag: th
+- name: "Viêt Nam"
+  flag: vn
+- name: "Vietnam"
+  flag: vn
+- name: "Laos"
+  flag: la
+- name: "Cambodge"
+  flag: kh
+- name: "Birmanie"
+  flag: mm
+- name: "Myanmar"
+  flag: mm
+- name: "Malaisie"
+  flag: my
+- name: "Singapour"
+  flag: sg
+- name: "Indonésie"
+  flag: id
+- name: "Philippines"
+  flag: ph
+- name: "Brunei"
+  flag: bn
+- name: "Timor oriental"
+  flag: tl
+
+# --- Americas -----------------------------------------------------------------
+- name: "États-Unis"
+  flag: us
+- name: "USA"
+  flag: us
+- name: "Canada"
+  flag: ca
+- name: "Québec"
+  flag: ca
+- name: "Mexique"
+  flag: mx
+- name: "Guatemala"
+  flag: gt
+- name: "Belize"
+  flag: bz
+- name: "Honduras"
+  flag: hn
+- name: "Salvador"
+  flag: sv
+- name: "Nicaragua"
+  flag: ni
+- name: "Costa Rica"
+  flag: cr
+- name: "Panama"
+  flag: pa
+- name: "Cuba"
+  flag: cu
+- name: "Jamaïque"
+  flag: jm
+- name: "Haïti"
+  flag: ht
+- name: "République dominicaine"
+  flag: do
+- name: "Bahamas"
+  flag: bs
+- name: "Barbade"
+  flag: bb
+- name: "Trinité-et-Tobago"
+  flag: tt
+- name: "Sainte-Lucie"
+  flag: lc
+- name: "Dominique"
+  flag: dm
+- name: "Grenade"
+  flag: gd
+- name: "Colombie"
+  flag: co
+- name: "Venezuela"
+  flag: ve
+- name: "Équateur"
+  flag: ec
+- name: "Pérou"
+  flag: pe
+- name: "Bolivie"
+  flag: bo
+- name: "Brésil"
+  flag: br
+- name: "Paraguay"
+  flag: py
+- name: "Uruguay"
+  flag: uy
+- name: "Argentine"
+  flag: ar
+- name: "Chili"
+  flag: cl
+- name: "Guyana"
+  flag: gy
+- name: "Suriname"
+  flag: sr
+
+# --- Oceania ------------------------------------------------------------------
+- name: "Australie"
+  flag: au
+- name: "Nouvelle-Zélande"
+  flag: nz
+- name: "Fidji"
+  flag: fj
+- name: "Papouasie-Nouvelle-Guinée"
+  flag: pg
+- name: "Samoa"
+  flag: ws
+- name: "Tonga"
+  flag: to
+- name: "Vanuatu"
+  flag: vu
+- name: "Hawaï"
+  flag: us

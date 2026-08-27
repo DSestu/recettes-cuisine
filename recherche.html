@@ -908,6 +908,7 @@ permalink: /recherche/
       {% endif %}
     ],
     INGREDIENT_TAG_IDS: {{ site.data.recipe_tags | where: "ingredient", true | map: "id" | jsonify }},
+    COUNTRY_FLAGS: { {% for c in site.data.countries %}{{ c.name | jsonify }}: {{ c.flag | prepend: "/assets/flags/" | prepend: site.baseurl | append: ".svg" | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %} },
     BASE: {{ site.baseurl | jsonify }}
   };
 </script>

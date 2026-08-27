@@ -78,13 +78,59 @@
 
     const BASES_ID = "bases";
 
+    const COUNTRY_FLAGS =
+      (typeof HOME_COUNTRY_FLAGS === "object" && HOME_COUNTRY_FLAGS) || {};
+
+    /** Small inline flag <img> for a country, or null when no flag is known. */
+    function createFlag(country, heightRem) {
+      const url = country ? COUNTRY_FLAGS[country] : null;
+      if (!url) return null;
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = "";
+      img.title = country;
+      img.setAttribute("aria-hidden", "true");
+      img.decoding = "async";
+      img.loading = "lazy";
+      img.className = "inline-block w-auto rounded-sm";
+      img.style.verticalAlign = "-0.1em";
+      img.style.height = (heightRem || 0.9) + "rem";
+      img.style.boxShadow = "0 0 0 1px rgba(0,0,0,0.12)";
+      return img;
+    }
+
+    /**
+     * Append `text` to `el`, followed by the flag (one space apart). The last
+     * word and the flag share a `nowrap` span: browsers may break before an
+     * inline image even after a no-break space, which would orphan the flag.
+     */
+    function appendTextWithFlag(el, text, flag) {
+      if (!flag) {
+        el.appendChild(document.createTextNode(text));
+        return;
+      }
+      const words = String(text).split(" ");
+      const last = words.pop();
+      if (words.length) {
+        el.appendChild(document.createTextNode(words.join(" ") + " "));
+      }
+      const tail = document.createElement("span");
+      tail.style.whiteSpace = "nowrap";
+      tail.appendChild(document.createTextNode(last + "\u00a0"));
+      tail.appendChild(flag);
+      el.appendChild(tail);
+    }
+
     // Initial state from URL
     let initialCategoryId = null;
+    let initialCountry = null;
     let showComponentsInMain = false;
     try {
       const params = new URLSearchParams(window.location.search);
       const catParam = params.get("cat");
       if (catParam) initialCategoryId = catParam;
+      const paysParam = params.get("pays");
+      if (paysParam) initialCountry = paysParam.trim();
       const basesParam = params.get("bases");
       if (basesParam === "1") showComponentsInMain = true;
       const urlQ = params.get("q") || params.get("query");
@@ -158,7 +204,8 @@
       title.className = (opts && opts.big)
         ? "px-6 text-primary uppercase font-semibold mb-3 text-2xl md:text-3xl"
         : "px-6 text-primary uppercase font-semibold mb-2 text-lg md:text-xl";
-      title.textContent = labelText;
+      const flag = opts && opts.flag ? createFlag(opts.flag, 1.1) : null;
+      appendTextWithFlag(title, labelText, flag);
       section.appendChild(title);
 
       const grid = document.createElement("div");
@@ -214,7 +261,7 @@
     ).sort((a, b) => a.localeCompare(b, "fr"));
     const countrySections = new Map();
     for (const name of countryNames) {
-      countrySections.set(name, buildSection(name));
+      countrySections.set(name, buildSection(name, { flag: name }));
     }
 
     if (typeof window.initColsSelector === "function") {
@@ -302,7 +349,10 @@
 
       const h1 = document.createElement("h1");
       h1.className = "font-semibold leading-tight";
-      h1.textContent = recipe.title;
+      // Flag after the title (one space apart), except in the "Pays" view
+      // where the section header already carries it.
+      const flag = opts && opts.hideFlag ? null : createFlag(recipe.country, 0.8);
+      appendTextWithFlag(h1, recipe.title, flag);
       a.appendChild(h1);
 
       if (opts && opts.showDate) addDateBubble(a, recipe);
@@ -357,6 +407,7 @@
           categoryId: catId,
           catIds: matchedCatIds,
           kind: r.kind,
+          country: String(r.country || "").trim(),
           view: "category",
         });
       }
@@ -386,6 +437,7 @@
         categoryId: null,
         catIds: catIdsByTitle.get(r.title) || [],
         kind: r.kind,
+        country: String(r.country || "").trim(),
         view: "date",
       });
     }
@@ -394,7 +446,7 @@
       const country = String(r.country || "").trim();
       const target = country ? countrySections.get(country) : null;
       if (!target) continue;
-      const card = createRecipeCard(r);
+      const card = createRecipeCard(r, { hideFlag: true });
       target.grid.appendChild(card);
       items.push({
         card,
@@ -404,6 +456,7 @@
         categoryId: null,
         catIds: catIdsByTitle.get(r.title) || [],
         kind: r.kind,
+        country,
         view: "country",
       });
     }
@@ -519,6 +572,66 @@
       return null;
     }
 
+    // Country selector: same interaction as categories — one country at a
+    // time, clicking the active one shows everything again.
+    let activeCountry = null;
+    const countryBadges = new Map();
+    const countryButtons = new Map();
+
+    function setCountryButtonState(btn, active) {
+      const inactiveCls = ["bg-white", "border-red-200", "text-red-900", "hover:bg-red-50"];
+      const activeCls = ["bg-green-600", "border-green-600", "text-white"];
+      btn.classList.remove(...(active ? inactiveCls : activeCls));
+      btn.classList.add(...(active ? activeCls : inactiveCls));
+    }
+
+    function setActiveCountry(name) {
+      activeCountry = name || null;
+      for (const [country, btn] of countryButtons) {
+        setCountryButtonState(btn, country === activeCountry);
+      }
+    }
+
+    function setupHomeCountries() {
+      const container = document.getElementById("home-countries");
+      if (!container || !countryNames.length) return;
+
+      for (const country of countryNames) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
+          "inline-flex items-center px-3 py-1 rounded-full border border-red-200 bg-white text-red-900 hover:bg-red-50 transition";
+
+        const labelSpan = document.createElement("span");
+        labelSpan.textContent = country;
+        btn.appendChild(labelSpan);
+        const flag = createFlag(country, 0.9);
+        if (flag) {
+          flag.style.marginLeft = "0.375rem";
+          btn.appendChild(flag);
+        }
+
+        const badge = document.createElement("span");
+        badge.className =
+          "ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/90 text-red-900 border border-red-200 w-5 h-5";
+        badge.textContent = "0";
+        btn.appendChild(badge);
+        countryBadges.set(country, badge);
+
+        btn.addEventListener("click", () => {
+          setActiveCountry(activeCountry === country ? null : country);
+          applyFilter();
+        });
+
+        countryButtons.set(country, btn);
+        container.appendChild(btn);
+      }
+
+      if (initialCountry && countryButtons.has(initialCountry)) {
+        setActiveCountry(initialCountry);
+      }
+    }
+
     function syncUrlState(hasTextFilter, hasCategoryFilter, matches) {
       try {
         const params = new URLSearchParams(window.location.search);
@@ -527,6 +640,11 @@
           params.set("cat", catId);
         } else {
           params.delete("cat");
+        }
+        if (activeCountry) {
+          params.set("pays", activeCountry);
+        } else {
+          params.delete("pays");
         }
         params.set("bases", showComponentsInMain ? "1" : "0");
         const qRaw = input.value || "";
@@ -538,7 +656,7 @@
         const query = params.toString();
         const newUrl = window.location.pathname + (query ? `?${query}` : "");
         window.history.replaceState(
-          { matches, cat: catId, bases: showComponentsInMain, q: qRaw },
+          { matches, cat: catId, pays: activeCountry, bases: showComponentsInMain, q: qRaw },
           "",
           newUrl,
         );
@@ -560,12 +678,13 @@
 
       const hasTextFilter = q.length >= 2;
       const hasCategoryFilter = selectedIds.size > 0;
+      const hasCountryFilter = !!activeCountry;
 
       // Toggle clear button based on any active filter
       if (clearBtn) {
         clearBtn.classList.toggle(
           "hidden",
-          !hasTextFilter && !hasCategoryFilter,
+          !hasTextFilter && !hasCategoryFilter && !hasCountryFilter,
         );
       }
 
@@ -585,6 +704,9 @@
             ok = false;
           }
         }
+
+        // 1a) Country filter (single country, any view).
+        if (ok && hasCountryFilter && it.country !== activeCountry) ok = false;
 
         // 1b) Optional: hide components in non-bases categories when toggle is off
         if (
@@ -653,6 +775,28 @@
         badge.style.display = n === 0 ? "none" : "";
       }
 
+      // Per-country badges: how many recipes each country would yield given
+      // the text + category filters. "date" view holds exactly one card per
+      // recipe, so count on it to avoid category duplicates.
+      const perCountryCount = new Map();
+      for (const it of items) {
+        if (it.view !== "date" || !it.country) continue;
+        if (hasCategoryFilter && selectedId && !it.catIds.includes(selectedId)) continue;
+        if (hasTextFilter) {
+          let textOk = true;
+          for (const w of words) {
+            if (!fuzzyContains(w, it.norm, 2, 1)) { textOk = false; break; }
+          }
+          if (!textOk) continue;
+        }
+        perCountryCount.set(it.country, (perCountryCount.get(it.country) || 0) + 1);
+      }
+      for (const [country, badge] of countryBadges.entries()) {
+        const n = perCountryCount.get(country) || 0;
+        badge.textContent = String(n);
+        badge.style.display = n === 0 ? "none" : "";
+      }
+
       // Show/hide category sections
       for (const [catId, { section, grid }] of categorySections.entries()) {
         if (sortMode !== "category") {
@@ -700,16 +844,16 @@
       }
 
       if (countEl) {
-        if (!hasTextFilter && !hasCategoryFilter) {
+        if (!hasTextFilter && !hasCategoryFilter && !hasCountryFilter) {
           countEl.style.display = "none";
         } else {
           const activeLabels = selectedCats
             .map((c) => c.label)
             .filter(Boolean);
-          let suffix = "";
-          if (activeLabels.length) {
-            suffix = ` (catégories : ${activeLabels.join(", ")})`;
-          }
+          const parts = [];
+          if (activeLabels.length) parts.push(`catégories : ${activeLabels.join(", ")}`);
+          if (hasCountryFilter) parts.push(`pays : ${activeCountry}`);
+          const suffix = parts.length ? ` (${parts.join(" ; ")})` : "";
           countEl.textContent =
             `${matches} résultat${matches > 1 ? "s" : ""}${suffix}`;
           countEl.style.display = "";
@@ -720,6 +864,7 @@
     }
 
     setupHomeCategories();
+    setupHomeCountries();
 
     // Sort/view selector. Must run after items[] is populated: initSortSelector
     // fires onChange once with the initial mode (from ?sort=), which filters.
@@ -769,6 +914,7 @@
       clearBtn.addEventListener("click", () => {
         input.value = "";
         activeCategoryIds.clear();
+        setActiveCountry(null);
         const buttons = setupHomeCategories._buttons || [];
         for (const btn of buttons) {
           btn.classList.remove(
