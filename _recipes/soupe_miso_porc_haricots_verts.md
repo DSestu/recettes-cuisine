@@ -4,6 +4,9 @@ title: "Soupe miso au porc et aux haricots verts"
 image: soupe_miso_porc_haricots_verts
 date: 2026-08-25
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 tags:
 - soupe
@@ -31,7 +34,7 @@ ingredients:
 country: "Japon"
 ---
 
-Pour 4 personnes. Temps de préparation : 10 min. Temps de cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

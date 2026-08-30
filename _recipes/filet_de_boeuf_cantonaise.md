@@ -4,6 +4,10 @@ title: "Filet de bœuf à la cantonaise"
 image: filet_de_boeuf_cantonaise
 date: 2026-08-24
 servings: 4
+prep_time: 20
+cook_time: 15
+rest_time: 180
+difficulty: 1
 
 tags:
 - plat principal

@@ -4,6 +4,9 @@ title: "Soupe de lentilles au lard, aux carottes, au céleri et à l'œuf poché
 image: soupe_lentille_lard_carottes_celerie_oeuf_poche
 date: 2026-06-07
 servings: 6
+prep_time: 20
+cook_time: 45
+difficulty: 2
 
 tags:
 - repas
@@ -37,7 +40,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 20 min. Cuisson : 45 min.
+Pour 6 personnes.
 
 ## Préparation
 

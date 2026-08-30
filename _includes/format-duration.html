@@ -1,0 +1,23 @@
+{%- comment -%}
+  Render a duration given in minutes the way the recipes wrote it in prose:
+  « 45 min », « 1 h 30 », « 2 h », « 1 j 12 h ». Days appear only for long
+  marinades and macerations.
+
+  Usage: {% include format-duration.html minutes=page.prep_time %}
+
+  Locals are prefixed `_fd_` because Liquid includes share the caller's scope:
+  a plain name like `_total` would overwrite the caller's variable of the same
+  name on every call.
+{%- endcomment -%}
+{%- assign _fd_minutes = include.minutes | plus: 0 -%}
+{%- if _fd_minutes >= 1440 -%}
+  {%- assign _fd_days = _fd_minutes | divided_by: 1440 -%}
+  {%- assign _fd_hours = _fd_minutes | modulo: 1440 | divided_by: 60 -%}
+  {{- _fd_days }} j{% if _fd_hours > 0 %} {{ _fd_hours }} h{% endif -%}
+{%- elsif _fd_minutes >= 60 -%}
+  {%- assign _fd_hours = _fd_minutes | divided_by: 60 -%}
+  {%- assign _fd_rem = _fd_minutes | modulo: 60 -%}
+  {{- _fd_hours }} h{% if _fd_rem > 0 %} {{ _fd_rem }}{% endif -%}
+{%- else -%}
+  {{- _fd_minutes }} min
+{%- endif -%}

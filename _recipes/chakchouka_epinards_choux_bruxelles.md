@@ -4,6 +4,9 @@ title: "Chakchouka aux épinards et choux de Bruxelles"
 image: chakchouka_epinards_choux_bruxelles
 date: 2026-06-07
 servings: 6
+prep_time: 15
+cook_time: 15
+difficulty: 1
 
 tags:
 - repas
@@ -44,7 +47,7 @@ ingredients:
 country: "Tunisie"
 ---
 
-Pour 6 personnes. Préparation : 15 min. Cuisson : 15 min.
+Pour 6 personnes.
 
 ## Préparation
 

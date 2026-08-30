@@ -4,6 +4,9 @@ title: "Omelette roulée"
 image: omelette_roulee
 date: 2026-08-25
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 2
 
 tags:
 - entree
@@ -36,7 +39,7 @@ ingredients:
 country: "Japon"
 ---
 
-Pour 4 personnes. Temps de préparation : 10 min. Temps de cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

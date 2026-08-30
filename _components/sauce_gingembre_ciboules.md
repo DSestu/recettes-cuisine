@@ -4,6 +4,8 @@ title: "Sauce au gingembre et aux ciboules"
 image: sauce_gingembre_ciboules
 date: 2026-08-24
 servings: 4
+prep_time: 10
+difficulty: 1
 
 tags:
 - condiment

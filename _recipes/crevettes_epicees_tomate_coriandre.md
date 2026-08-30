@@ -4,6 +4,9 @@ title: "Crevettes épicées à la tomate et à la coriandre"
 image: crevettes_epicees_tomate_coriandre
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 10
+difficulty: 1
 
 tags:
 - plat principal
@@ -42,7 +45,7 @@ ingredients:
 country: "Liban"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 10 min.
+Pour 4 personnes.
 
 ## Préparation
 

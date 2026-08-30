@@ -4,6 +4,9 @@ title: "Agneau aux oignons"
 image: agneau_aux_oignons
 date: 2026-08-24
 servings: 8
+prep_time: 20
+cook_time: 105
+difficulty: 2
 
 tags:
 - plat principal
@@ -49,7 +52,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 8 personnes. Temps de préparation : 20 min. Temps de cuisson : 1 h 45.
+Pour 8 personnes.
 
 ## Préparation
 

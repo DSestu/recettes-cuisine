@@ -4,6 +4,9 @@ title: "Pâtes crémeuses à la courge rôtie, à l'ail et à la sauge"
 image: pates_courge_ail_sauge
 date: 2026-05-13
 servings: 4
+prep_time: 15
+cook_time: 50
+difficulty: 1
 
 tags:
 - repas
@@ -36,7 +39,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 50 min.
+Pour 4 personnes.
 
 ## Préparation
 

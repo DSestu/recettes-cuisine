@@ -4,6 +4,10 @@ title: "Entremet framboises & mascarpone au kirsch"
 image: entremet_framboises_mascarpone_kirsch
 date: 2026-05-13
 servings: 4
+prep_time: 50
+cook_time: 10
+rest_time: 130
+difficulty: 3
 
 tags:
 - dessert

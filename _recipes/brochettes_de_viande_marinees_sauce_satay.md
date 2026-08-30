@@ -4,6 +4,10 @@ title: "Brochettes de viande marinées et sauce satay"
 image: brochettes_de_viande_marinees_sauce_satay
 date: 2026-08-25
 servings: 6
+prep_time: 20
+cook_time: 20
+rest_time: 180
+difficulty: 2
 
 tags:
 - plat principal
@@ -45,7 +49,7 @@ components:
 country: "Thaïlande"
 ---
 
-Pour 6 personnes. Temps de préparation : 20 min. Temps de marinade : 3 h. Temps de cuisson : 20 min.
+Pour 6 personnes.
 
 ## Préparation
 

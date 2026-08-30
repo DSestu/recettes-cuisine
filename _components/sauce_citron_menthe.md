@@ -4,6 +4,8 @@ title: "Sauce au citron et à la menthe"
 image: sauce_citron_menthe
 date: 2026-08-24
 servings: 4
+prep_time: 10
+difficulty: 1
 
 tags:
 - condiment

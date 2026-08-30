@@ -5,6 +5,10 @@ title: "Limoncello"
 image: limoncello
 date: 2026-02-26
 servings: 4
+prep_time: 40
+cook_time: 10
+rest_time: 43200
+difficulty: 1
 
 tags:
 - boisson

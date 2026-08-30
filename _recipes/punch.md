@@ -4,6 +4,9 @@ title: "Punch frais"
 image: punch
 date: 2026-02-15
 servings: 4
+prep_time: 15
+rest_time: 60
+difficulty: 1
 
 tags:
 - apéritif

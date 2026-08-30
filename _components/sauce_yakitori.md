@@ -4,6 +4,8 @@ title:  "Sauce Yakitori"
 image: sauce_yakitori
 date: 2026-02-14
 servings: 4
+prep_time: 10
+difficulty: 1
 
 tags:
 - japon

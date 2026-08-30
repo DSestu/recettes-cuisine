@@ -4,6 +4,9 @@ title: "Sashimi de saumon mariné"
 image: sashimi_saumon_marine
 date: 2026-08-25
 servings: 4
+prep_time: 20
+rest_time: 30
+difficulty: 1
 
 tags:
 - entree
@@ -37,7 +40,7 @@ ingredients:
 country: "Japon"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de repos : 30 min.
+Pour 4 personnes.
 
 ## Préparation
 

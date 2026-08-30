@@ -4,6 +4,9 @@ title: "Crevettes patia"
 image: crevettes_patia
 date: 2026-08-24
 servings: 4
+prep_time: 40
+cook_time: 20
+difficulty: 1
 
 tags:
 - plat principal
@@ -48,7 +51,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 4 personnes. Temps de préparation : 40 min. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

@@ -4,6 +4,8 @@ title:  "Sauce aromatique pour Karaage"
 image: aromatic_karaage
 date: 2025-10-09
 servings: 1
+prep_time: 5
+difficulty: 1
 
 tags:
 - japon

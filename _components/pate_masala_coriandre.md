@@ -4,6 +4,8 @@ title: "Pâte masala à la coriandre"
 image: pate_masala_coriandre
 date: 2026-08-24
 servings: 4
+prep_time: 10
+difficulty: 1
 
 tags:
 - condiment

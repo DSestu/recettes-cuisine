@@ -4,6 +4,9 @@ title: "Frittata aux petits pois, au poulet et à la menthe"
 image: frittata_petits_pois_poulet_menthe
 date: 2026-06-07
 servings: 6
+prep_time: 15
+cook_time: 20
+difficulty: 1
 
 tags:
 - repas
@@ -44,7 +47,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 6 personnes. Préparation : 15 min. Cuisson : 20 min.
+Pour 6 personnes.
 
 ## Préparation
 

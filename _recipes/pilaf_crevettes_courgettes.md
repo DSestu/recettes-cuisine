@@ -4,6 +4,10 @@ title: "Pilaf de crevettes et de courgettes"
 image: pilaf_crevettes_courgettes
 date: 2026-08-24
 servings: 4
+prep_time: 25
+cook_time: 25
+rest_time: 5
+difficulty: 1
 
 tags:
 - plat principal

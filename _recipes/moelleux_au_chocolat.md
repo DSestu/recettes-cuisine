@@ -5,6 +5,9 @@ title: "Moelleux au chocolat"
 image: moelleux_au_chocolat
 date: 2026-02-15
 servings: 4
+prep_time: 20
+cook_time: 40
+difficulty: 1
 
 tags:
 - beurre

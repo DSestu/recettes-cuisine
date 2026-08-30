@@ -4,6 +4,10 @@ title: "Pad thaï"
 image: pad_thai
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 10
+rest_time: 30
+difficulty: 2
 
 tags:
 - plat principal
@@ -57,7 +61,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de trempage : 30 min. Temps de préparation : 20 min. Temps de cuisson : 10 min.
+Pour 4 personnes.
 
 ## Préparation
 

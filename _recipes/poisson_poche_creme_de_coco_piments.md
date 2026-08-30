@@ -4,6 +4,9 @@ title: "Poisson poché à la crème de coco et aux piments"
 image: poisson_poche_creme_de_coco_piments
 date: 2026-08-25
 servings: 4
+prep_time: 15
+cook_time: 20
+difficulty: 1
 
 tags:
 - plat principal
@@ -41,7 +44,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

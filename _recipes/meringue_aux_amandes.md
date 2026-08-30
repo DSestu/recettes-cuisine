@@ -5,6 +5,9 @@ title: "Meringue aux amandes"
 image: meringue_aux_amandes
 date: 2026-02-26
 servings: 4
+prep_time: 25
+cook_time: 60
+difficulty: 3
 
 tags:
 - dessert
@@ -33,4 +36,4 @@ directions:
 country: "France"
 ---
 
-Petites meringues croquantes et moelleuses aux amandes effilées. Pour environ 25 meringues. Temps total : 1 h 25 (préparation 25 min, cuisson 1 h).
+Petites meringues croquantes et moelleuses aux amandes effilées. Pour environ 25 meringues.

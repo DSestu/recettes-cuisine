@@ -5,6 +5,10 @@ title: "Pounchkis (beignets fourrés)"
 image: pounchkis
 date: 2025-08-12
 servings: 4
+prep_time: 30
+cook_time: 20
+rest_time: 85
+difficulty: 2
 
 
 tags:

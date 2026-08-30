@@ -4,6 +4,9 @@ title: "Boulettes poulet Yakitori"
 image: poulet_yakitori
 date: 2026-02-14
 servings: 4
+prep_time: 15
+cook_time: 20
+difficulty: 1
 
 
 tags:

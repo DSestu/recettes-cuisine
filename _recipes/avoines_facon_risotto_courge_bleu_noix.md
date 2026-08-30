@@ -4,6 +4,9 @@ title: "Avoines façon risotto, courge, bleu et noix"
 image: avoines_facon_risotto_courge_bleu_noix
 date: 2026-06-07
 servings: 4
+prep_time: 20
+cook_time: 30
+difficulty: 2
 
 tags:
 - repas
@@ -41,7 +44,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 20 min. Cuisson : 30 min.
+Pour 4 personnes.
 
 ## Préparation
 

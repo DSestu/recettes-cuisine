@@ -4,6 +4,10 @@ title: "Paris-brest à la crème pralinée"
 image: paris_brest_praline
 date: 2026-07-23
 servings: 6
+prep_time: 45
+cook_time: 50
+rest_time: 60
+difficulty: 3
 
 tags:
 - dessert
@@ -33,7 +37,7 @@ components:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 45 min. Cuisson : 50 min. Réfrigération : 1 h.
+Pour 6 personnes.
 
 ## Préparation
 

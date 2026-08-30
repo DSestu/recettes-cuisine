@@ -5,6 +5,10 @@ title: "Ramen maison"
 image: ramen_maison
 date: 2026-02-26
 servings: 2
+prep_time: 60
+cook_time: 30
+rest_time: 30
+difficulty: 3
 
 tags:
 - plat principal

@@ -4,6 +4,9 @@ title: "Côtes de bœuf braisées"
 image: cotes_de_boeuf_braisees
 date: 2026-08-24
 servings: 6
+prep_time: 30
+cook_time: 480
+difficulty: 1
 
 tags:
 - plat principal
@@ -38,7 +41,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 6 personnes. Temps de préparation : 30 min. Temps de cuisson : 8 h.
+Pour 6 personnes.
 
 ## Préparation
 

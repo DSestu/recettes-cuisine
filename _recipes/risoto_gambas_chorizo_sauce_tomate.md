@@ -4,6 +4,9 @@ title: "Risotto aux gambas et chorizo à la sauce tomate"
 image: risoto_gambas_chorizo_sauce_tomate
 date: 2026-06-07
 servings: 4
+prep_time: 15
+cook_time: 20
+difficulty: 2
 
 tags:
 - repas
@@ -44,7 +47,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 4 personnes. Préparation : 15 min. Cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

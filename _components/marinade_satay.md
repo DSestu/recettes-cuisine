@@ -4,6 +4,9 @@ title: "Marinade satay"
 image: marinade_satay
 date: 2026-08-24
 servings: 4
+prep_time: 5
+rest_time: 180
+difficulty: 1
 
 tags:
 - condiment

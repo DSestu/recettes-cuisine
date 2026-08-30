@@ -4,6 +4,9 @@ title: "Potage Dubarry"
 image: potage_de_chou-fleur
 date: 2025-06-19
 servings: 4
+prep_time: 15
+cook_time: 45
+difficulty: 1
 
 
 tags:
@@ -46,5 +49,3 @@ country: "France"
 
 Soupe traditionnelle pour 4 personnes.
 
-Temps de préparation : 15 minutes
-Temps de cuisson : 45 minutes

@@ -4,6 +4,9 @@ title: "Faux-filet, sauce au poivre"
 image: faux_fillet_sauce_poivre
 date: 2026-05-17
 servings: 6
+prep_time: 30
+cook_time: 65
+difficulty: 2
 
 components:
 - Sauce au poivre
@@ -33,7 +36,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 30 min. Cuisson : 1h05.
+Pour 6 personnes.
 
 ## Préparation
 

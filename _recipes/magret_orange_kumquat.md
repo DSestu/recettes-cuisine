@@ -4,6 +4,9 @@ title: "Magret à l'orange et kumquat"
 image: magret_orange_kumquat
 date: 2026-06-07
 servings: 6
+prep_time: 25
+cook_time: 30
+difficulty: 2
 
 tags:
 - repas
@@ -42,7 +45,7 @@ components:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 25 min. Cuisson : 30 min.
+Pour 6 personnes.
 
 ## Préparation
 

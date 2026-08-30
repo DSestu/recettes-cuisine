@@ -5,6 +5,9 @@ title: "Chouquettes"
 image: chouquettes
 date: 2026-02-26
 servings: 4
+prep_time: 20
+cook_time: 15
+difficulty: 3
 
 tags:
 - dessert
@@ -39,4 +42,4 @@ directions:
 country: "France"
 ---
 
-Chouquettes légères et croquantes, parsemées de sucre perlé. Temps total : 35 min (préparation 20 min, cuisson 15 min).
+Chouquettes légères et croquantes, parsemées de sucre perlé.

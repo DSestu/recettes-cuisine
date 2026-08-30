@@ -4,6 +4,9 @@ title: "Triangles de thon à la menthe"
 image: triangles_de_thon_a_la_menthe
 date: 2026-08-25
 servings: 4
+prep_time: 30
+cook_time: 30
+difficulty: 2
 
 tags:
 - entree
@@ -36,7 +39,7 @@ ingredients:
 country: "Maroc"
 ---
 
-Pour 20 chaussons. Temps de préparation : 30 min. Temps de cuisson : 10 min. Cuisson au four : 20 min à 200 °C.
+Pour 20 chaussons.
 
 ## Préparation
 

@@ -4,6 +4,10 @@ title: "Falafels"
 image: falafels
 date: 2026-08-25
 servings: 4
+prep_time: 40
+cook_time: 20
+rest_time: 760
+difficulty: 2
 
 tags:
 - entree
@@ -40,7 +44,7 @@ ingredients:
 country: "Liban"
 ---
 
-Pour 40 falafels. Temps de trempage : 12 h. Temps de préparation : 40 min. Temps de repos : 40 min. Temps de cuisson : 20 min.
+Pour 40 falafels.
 
 ## Préparation
 

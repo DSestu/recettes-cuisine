@@ -4,6 +4,9 @@ title: "Cake aux olives et aux tomates séchées"
 image: cake_olives_tomates_sechees
 date: 2026-07-23
 servings: 6
+prep_time: 20
+cook_time: 40
+difficulty: 1
 
 tags:
 - aperitif
@@ -36,7 +39,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 20 min. Cuisson : 40 min.
+Pour 6 personnes.
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Sauté de porc au vin doux"
 image: saute_porc_vin_doux
 date: 2026-06-07
 servings: 6
+prep_time: 25
+cook_time: 60
+difficulty: 2
 
 tags:
 - repas
@@ -46,7 +49,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 25 min. Cuisson : 1 h.
+Pour 6 personnes.
 
 ## Préparation
 

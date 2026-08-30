@@ -6,6 +6,9 @@ image: poulet_curry
 date: 2025-05-11
 servings: 2
 servings_unit: portions
+prep_time: 15
+cook_time: 30
+difficulty: 1
 
 
 tags:

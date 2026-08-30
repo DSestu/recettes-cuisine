@@ -4,6 +4,9 @@ title: "Soupe aigre-douce aux crevettes"
 image: soupe_aigre_douce_aux_crevettes
 date: 2026-08-25
 servings: 4
+prep_time: 30
+cook_time: 20
+difficulty: 1
 
 tags:
 - soupe
@@ -42,7 +45,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 30 min. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

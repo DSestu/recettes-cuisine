@@ -4,6 +4,9 @@ title: "Marinade gingembre-soja"
 image: marinade_gingembre_soja
 date: 2026-05-16
 servings: 4
+prep_time: 15
+rest_time: 60
+difficulty: 1
 
 tags:
 - condiment

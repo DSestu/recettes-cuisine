@@ -4,6 +4,9 @@ title: "Soupe de moules"
 image: soupe_de_moules
 date: 2025-06-19
 servings: 10
+prep_time: 20
+cook_time: 60
+difficulty: 2
 
 
 tags:
@@ -73,5 +76,3 @@ country: "France"
 
 Soupe de moules traditionnelle pour 10 personnes.
 
-Temps de préparation : 20 minutes
-Temps de cuisson : 1 heure

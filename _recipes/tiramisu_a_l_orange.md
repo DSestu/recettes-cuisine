@@ -4,6 +4,9 @@ title: "Tiramisu à l'orange"
 image: tiramisu_a_l_orange
 date: 2026-05-13
 servings: 8
+prep_time: 25
+rest_time: 1440
+difficulty: 2
 
 tags:
 - biscuits cuillere
@@ -32,7 +35,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 8 personnes. Temps de préparation : 25 min. Réfrigération : 24 h.
+Pour 8 personnes.
 
 ## Préparation
 

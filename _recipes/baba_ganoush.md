@@ -4,6 +4,10 @@ title: "Baba ganoush"
 image: baba_ganoush
 date: 2026-08-25
 servings: 2
+prep_time: 15
+cook_time: 30
+rest_time: 25
+difficulty: 1
 
 tags:
 - entree
@@ -31,7 +35,7 @@ ingredients:
 country: "Liban"
 ---
 
-Pour 2 personnes. Temps de préparation : 15 min. Temps de cuisson : 30 min. Temps de repos : 25 min.
+Pour 2 personnes.
 
 ## Préparation
 

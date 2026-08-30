@@ -4,6 +4,9 @@ title: "Poulet poché au soja et au sésame"
 image: poulet_poche_soja_sesame
 date: 2026-08-24
 servings: 4
+prep_time: 30
+cook_time: 360
+difficulty: 1
 
 tags:
 - plat principal
@@ -45,7 +48,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 30 min. Temps de cuisson : 6 h.
+Pour 4 personnes.
 
 ## Préparation
 

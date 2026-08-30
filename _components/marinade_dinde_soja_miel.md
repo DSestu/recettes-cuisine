@@ -4,6 +4,9 @@ title: "Marinade soja-miel pour dinde"
 image: marinade_dinde_soja_miel
 date: 2026-07-23
 servings: 4
+prep_time: 10
+cook_time: 5
+difficulty: 1
 
 tags:
 - composant

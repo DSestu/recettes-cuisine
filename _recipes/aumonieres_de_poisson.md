@@ -4,6 +4,9 @@ title: "Aumônières de poisson"
 image: aumonieres_de_poisson
 date: 2026-08-24
 servings: 4
+prep_time: 35
+cook_time: 15
+difficulty: 2
 
 tags:
 - entree

@@ -4,6 +4,8 @@ title: "Sauce aux prunes"
 image: sauce_aux_prunes
 date: 2026-08-24
 servings: 4
+prep_time: 5
+difficulty: 1
 
 tags:
 - condiment

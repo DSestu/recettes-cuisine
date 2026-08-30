@@ -4,6 +4,9 @@ title: "Œufs en meurette"
 image: oeuf_en_meurette
 date: 2026-06-07
 servings: 4
+prep_time: 10
+cook_time: 55
+difficulty: 2
 
 tags:
 - repas
@@ -43,7 +46,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 10 min. Cuisson : 55 min.
+Pour 4 personnes.
 
 ## Préparation
 

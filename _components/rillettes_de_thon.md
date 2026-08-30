@@ -5,6 +5,8 @@ title: "Rillettes de thon"
 image: rillettes_de_thon
 date: 2026-03-11
 servings: 4
+prep_time: 10
+difficulty: 1
 
 tags:
 - composant

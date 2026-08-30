@@ -4,6 +4,9 @@ title: "Houmous"
 image: houmous
 date: 2026-08-25
 servings: 2
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 tags:
 - entree
@@ -31,7 +34,7 @@ ingredients:
 country: "Liban"
 ---
 
-Pour 2 personnes. Temps de préparation : 10 min. Temps de cuisson : 15 min.
+Pour 2 personnes.
 
 ## Préparation
 

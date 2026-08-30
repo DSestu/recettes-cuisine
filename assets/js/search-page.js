@@ -239,8 +239,27 @@
     titleQuery: '',
     activeCategoryIds: new Set(),
     activeCountries: new Set(),
+    activeDifficulties: new Set(),
+    maxTimeIdx: 7,
     selectedTags: new Set(),
   };
+
+  // Stops for the « au plus » time slider. The last one disables the filter,
+  // which is why the slider's default sits there.
+  const TIME_STOPS = [15, 30, 45, 60, 90, 120, 180, Infinity];
+  const DIFFICULTY_LABELS = { 1: 'Facile', 2: 'Moyen', 3: 'Difficile' };
+
+  function formatDuration(minutes) {
+    if (minutes < 60) return minutes + ' min';
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return m > 0 ? h + ' h ' + m : h + ' h';
+  }
+
+  function timeStopLabel(idx) {
+    const stop = TIME_STOPS[idx];
+    return stop === Infinity ? 'Sans limite' : formatDuration(stop);
+  }
 
   // -----------------------------
   // Helpers UI
@@ -494,6 +513,16 @@
     if (sectionEnabled('countries') && state.activeCountries && state.activeCountries.size > 0) {
       if (!it.country || !state.activeCountries.has(it.country)) return false;
     }
+    // Total time filter (max threshold) — only when section enabled on mobile.
+    // total_time 0 means the recipe declares no times, so it cannot honour a
+    // « ready in under X » promise and is excluded while the filter is active.
+    if (sectionEnabled('time') && state.maxTimeIdx < TIME_STOPS.length - 1) {
+      if (!it.total_time || it.total_time > TIME_STOPS[state.maxTimeIdx]) return false;
+    }
+    // Difficulty filter (multi-select) — only when section enabled on mobile
+    if (sectionEnabled('difficulty') && state.activeDifficulties && state.activeDifficulties.size > 0) {
+      if (!it.difficulty || !state.activeDifficulties.has(it.difficulty)) return false;
+    }
     // Title search: each word of query must match — only when section enabled on mobile
     if (sectionEnabled('name') && state.titleQuery) {
       const q = normalize(state.titleQuery);
@@ -523,7 +552,7 @@
   function getFiltered() {
     const filtered = ITEMS.filter(itemMatches);
     var sectionEnabled = (typeof window.isMobileSectionEnabled === 'function') ? window.isMobileSectionEnabled : function() { return true; };
-    if (!sectionEnabled('name') && !sectionEnabled('categories') && !sectionEnabled('countries') && !sectionEnabled('tags')) {
+    if (!sectionEnabled('name') && !sectionEnabled('categories') && !sectionEnabled('countries') && !sectionEnabled('time') && !sectionEnabled('difficulty') && !sectionEnabled('tags')) {
       return filtered;
     }
     if (sectionEnabled('tags') && state.mode === 'what_i_have') {
@@ -2242,6 +2271,57 @@
   // -----------------------------
   // Pays (chips + counts)
   // -----------------------------
+  function getFilteredWithoutDifficultyFilter() {
+    const prev = state.activeDifficulties;
+    state.activeDifficulties = new Set();
+    const result = ITEMS.filter(itemMatches);
+    state.activeDifficulties = prev;
+    return result;
+  }
+
+  function renderDifficultyChips() {
+    const container = $('#adv-difficulty');
+    if (!container) return;
+    const baseFiltered = getFilteredWithoutDifficultyFilter();
+    const countByLevel = new Map([[1, 0], [2, 0], [3, 0]]);
+    for (const it of baseFiltered) {
+      if (countByLevel.has(it.difficulty)) countByLevel.set(it.difficulty, countByLevel.get(it.difficulty) + 1);
+    }
+    container.innerHTML = '';
+    // Levels stay in ascending order — unlike countries, the scale itself is
+    // the meaningful ordering, so sorting by count would read as noise.
+    for (const level of [1, 2, 3]) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const active = state.activeDifficulties && state.activeDifficulties.has(level);
+      btn.className = active
+        ? 'px-3 py-1 rounded-full border border-primary bg-primary text-white text-sm transition'
+        : 'px-3 py-1 rounded-full border border-red-200 bg-white text-red-900 hover:bg-red-50 text-sm transition';
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = DIFFICULTY_LABELS[level];
+      btn.appendChild(labelSpan);
+      const cnt = countByLevel.get(level) || 0;
+      if (cnt > 0) {
+        const badge = document.createElement('span');
+        badge.className = active
+          ? 'ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/20 text-white border border-white w-5 h-5'
+          : 'ml-2 inline-flex items-center justify-center text-xs rounded-full bg-white/90 text-red-900 border border-red-200 w-5 h-5';
+        badge.textContent = String(cnt);
+        btn.appendChild(badge);
+      }
+      btn.addEventListener('click', () => {
+        if (!state.activeDifficulties) state.activeDifficulties = new Set();
+        if (state.activeDifficulties.has(level)) state.activeDifficulties.delete(level);
+        else state.activeDifficulties.add(level);
+        renderDifficultyChips();
+        refresh();
+        if (typeof window.pushControlsToUrl === 'function') window.pushControlsToUrl();
+        if (window.syncMobileAccordionUI) { try { window.syncMobileAccordionUI(); } catch (_) {} }
+      });
+      container.appendChild(btn);
+    }
+  }
+
   function getFilteredWithoutCountryFilter() {
     const prev = state.activeCountries;
     state.activeCountries = new Set();
@@ -2382,6 +2462,7 @@
     renderResults(filtered);
     renderCategoryChips();
     renderCountryChips();
+    renderDifficultyChips();
     renderAddIngredientSuggestions();
     updateCharts(filtered);
     updateAdvancedViz(filtered);
@@ -2427,6 +2508,16 @@
     const range = $('#missing-tolerance');
     const tolLabel = $('#tolerance-value');
     range.addEventListener('input', (e)=>{ state.missingTolerance = Number(e.target.value); tolLabel.textContent = e.target.value; refresh(); });
+    const maxTimeRange = $('#max-time');
+    const maxTimeLabel = $('#max-time-value');
+    if (maxTimeRange) {
+      maxTimeRange.addEventListener('input', (e) => {
+        state.maxTimeIdx = Number(e.target.value);
+        if (maxTimeLabel) maxTimeLabel.textContent = timeStopLabel(state.maxTimeIdx);
+        refresh();
+        if (window.syncMobileAccordionUI) { try { window.syncMobileAccordionUI(); } catch (_) {} }
+      });
+    }
     const infToggle = document.getElementById('infinite-tolerance');
     const tolGroup = document.getElementById('tolerance-group');
     function applyToleranceVisibility(){
@@ -2631,7 +2722,7 @@
 
     // Mobile-only accordion sections (name, categories, tags)
     (function() {
-      var mobileAccordionOpen = { name: false, categories: false, countries: false, tags: false };
+      var mobileAccordionOpen = { name: false, categories: false, countries: false, time: false, difficulty: false, tags: false };
       function isMobile() { return window.matchMedia && window.matchMedia('(max-width: 767px)').matches; }
       function nameActive() {
         var el = document.getElementById('title-search');
@@ -2642,6 +2733,12 @@
       }
       function countriesActive() {
         return state.activeCountries && state.activeCountries.size > 0;
+      }
+      function timeActive() {
+        return state.maxTimeIdx < TIME_STOPS.length - 1;
+      }
+      function difficultyActive() {
+        return state.activeDifficulties && state.activeDifficulties.size > 0;
       }
       function tagsActive() {
         return (state.selectedTags && state.selectedTags.size > 0) || state.mode === 'what_i_have';
@@ -2699,6 +2796,8 @@
           { id: 'name', active: mobileAccordionOpen.name },
           { id: 'categories', active: mobileAccordionOpen.categories },
           { id: 'countries', active: mobileAccordionOpen.countries },
+          { id: 'time', active: mobileAccordionOpen.time },
+          { id: 'difficulty', active: mobileAccordionOpen.difficulty },
           { id: 'tags', active: mobileAccordionOpen.tags }
         ];
         triggers.forEach(function(t) {
@@ -2733,16 +2832,20 @@
           mobileAccordionOpen.name = true;
           mobileAccordionOpen.categories = true;
           mobileAccordionOpen.countries = true;
+          mobileAccordionOpen.time = true;
+          mobileAccordionOpen.difficulty = true;
           mobileAccordionOpen.tags = true;
         } else {
           mobileAccordionOpen.name = nameActive();
           mobileAccordionOpen.categories = categoriesActive();
           mobileAccordionOpen.countries = countriesActive();
+          mobileAccordionOpen.time = timeActive();
+          mobileAccordionOpen.difficulty = difficultyActive();
           mobileAccordionOpen.tags = tagsActive();
         }
         syncMobileAccordionUI();
       }
-      ['name','categories','countries'].forEach(function(sectionId) {
+      ['name','categories','countries','time','difficulty'].forEach(function(sectionId) {
         var trigger = document.getElementById('mobile-accordion-trigger-' + sectionId);
         if (!trigger) return;
         trigger.addEventListener('click', function(e) {
@@ -2780,7 +2883,7 @@
       window.syncMobileAccordionUI = syncMobileAccordionUI;
       window.initMobileAccordionState = initMobileAccordionState;
       window.getAccordionOpenForUrl = function() {
-        return { name: mobileAccordionOpen.name, categories: mobileAccordionOpen.categories, countries: mobileAccordionOpen.countries, tags: mobileAccordionOpen.tags };
+        return { name: mobileAccordionOpen.name, categories: mobileAccordionOpen.categories, countries: mobileAccordionOpen.countries, time: mobileAccordionOpen.time, difficulty: mobileAccordionOpen.difficulty, tags: mobileAccordionOpen.tags };
       };
       window.applyAccordionOpenFromUrl = function(openParam) {
         if (!openParam || typeof openParam !== 'string') return;
@@ -2788,6 +2891,8 @@
         mobileAccordionOpen.name = parts.indexOf('name') !== -1;
         mobileAccordionOpen.categories = parts.indexOf('categories') !== -1;
         mobileAccordionOpen.countries = parts.indexOf('countries') !== -1;
+        mobileAccordionOpen.time = parts.indexOf('time') !== -1;
+        mobileAccordionOpen.difficulty = parts.indexOf('difficulty') !== -1;
         mobileAccordionOpen.tags = parts.indexOf('tags') !== -1;
         syncMobileAccordionUI();
       };
@@ -2796,7 +2901,7 @@
     $('#reset-tags').addEventListener('click', ()=>{ state.selectedTags.clear(); updateSelectedChips(); refresh(); });
     // reset-ingredients button was removed with hidden wrapper
 
-    // Paramètres URL (?q= & tags=x,y & cat= & pays=a|b & mode= & open=name,categories,countries,tags & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
+    // Paramètres URL (?q= & tags=x,y & cat= & pays=a|b & tmax=minutes & diff=1|2|3 & mode= & open=name,categories,countries,time,difficulty,tags & components=1 & viz=1 & edge=uniform|freq|idf & impact=0..100 & mr= & mi= & ht= & st/sr/sc=0|1)
     const params = new URLSearchParams(window.location.search);
     const q = params.get('q');
     const tags = params.get('tags');
@@ -2835,6 +2940,24 @@
     if (catParam) { catParam.split(',').filter(Boolean).forEach(id=>state.activeCategoryIds.add(id.trim())); }
     const paysParam = params.get('pays');
     if (paysParam) { paysParam.split('|').filter(Boolean).forEach(c=>state.activeCountries.add(c.trim())); }
+    const tmaxParam = params.get('tmax');
+    if (tmaxParam) {
+      const idx = TIME_STOPS.indexOf(Number(tmaxParam));
+      if (idx !== -1) {
+        state.maxTimeIdx = idx;
+        const el = document.getElementById('max-time');
+        const lbl = document.getElementById('max-time-value');
+        if (el) el.value = String(idx);
+        if (lbl) lbl.textContent = timeStopLabel(idx);
+      }
+    }
+    const diffParam = params.get('diff');
+    if (diffParam) {
+      diffParam.split('|').filter(Boolean).forEach(d => {
+        const level = Number(d.trim());
+        if (level >= 1 && level <= 3) state.activeDifficulties.add(level);
+      });
+    }
     if (comp === '0') { state.includeComponents = false; }
     if (modeParam && (modeParam === 'tag' || modeParam === 'what_i_have')) { state.mode = modeParam; document.getElementById('search-mode').value = modeParam; }
     if (layoutParam && ['force','radial','circle','rings','spiral'].includes(layoutParam)) { document.getElementById('layout-mode').value = layoutParam; }
@@ -3017,12 +3140,18 @@
       setParam('q', state.titleQuery || '');
       setParam('cat', (state.activeCategoryIds && state.activeCategoryIds.size) ? Array.from(state.activeCategoryIds).join(',') : '');
       setParam('pays', (state.activeCountries && state.activeCountries.size) ? Array.from(state.activeCountries).join('|') : '');
+      // Absent when the slider sits on « Sans limite », so a default search
+      // keeps a clean URL.
+      setParam('tmax', state.maxTimeIdx < TIME_STOPS.length - 1 ? String(TIME_STOPS[state.maxTimeIdx]) : '');
+      setParam('diff', (state.activeDifficulties && state.activeDifficulties.size) ? Array.from(state.activeDifficulties).sort().join('|') : '');
       var openAcc = typeof window.getAccordionOpenForUrl === 'function' && window.getAccordionOpenForUrl();
       if (openAcc) {
         var openList = [];
         if (openAcc.name) openList.push('name');
         if (openAcc.categories) openList.push('categories');
         if (openAcc.countries) openList.push('countries');
+        if (openAcc.time) openList.push('time');
+        if (openAcc.difficulty) openList.push('difficulty');
         if (openAcc.tags) openList.push('tags');
         setParam('open', openList.join(','));
       } else {
@@ -3041,7 +3170,7 @@
       if (pushUrlTimer) clearTimeout(pushUrlTimer);
       pushUrlTimer = setTimeout(() => { pushUrlTimer = null; pushControlsToUrl(); }, 250);
     }
-    const urlSyncControls = ['link-mode','layout-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','show-tokens','show-recipes','show-components','infinite-tolerance','search-mode'];
+    const urlSyncControls = ['link-mode','layout-mode','edge-weight-mode','edge-impact','max-recipes','max-ingredients','hide-top-ingredients','missing-tolerance','max-time','show-tokens','show-recipes','show-components','infinite-tolerance','search-mode'];
     urlSyncControls.forEach(id => {
       const el = document.getElementById(id);
       const ev = el.tagName === 'SELECT' ? 'change' : 'input';

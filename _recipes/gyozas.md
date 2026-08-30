@@ -4,6 +4,9 @@ title: "Gyozas"
 image: gyozas
 date: 2026-08-25
 servings: 4
+prep_time: 40
+rest_time: 60
+difficulty: 2
 
 tags:
 - entree
@@ -42,7 +45,7 @@ ingredients:
 country: "Japon"
 ---
 
-Pour 50 gyozas. Temps de préparation : 40 min. Temps de repos : 1 h.
+Pour 50 gyozas.
 
 ## Préparation
 

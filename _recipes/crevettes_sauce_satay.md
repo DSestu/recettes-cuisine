@@ -4,6 +4,10 @@ title: "Crevettes à la sauce satay"
 image: crevettes_sauce_satay
 date: 2026-08-24
 servings: 4
+prep_time: 30
+cook_time: 15
+rest_time: 180
+difficulty: 2
 
 tags:
 - plat principal
@@ -31,7 +35,7 @@ components:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 30 min. Temps de repos : 3 h. Temps de cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

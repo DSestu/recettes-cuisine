@@ -4,6 +4,9 @@ title: "Éclair à la chantilly et à la confiture de lait"
 image: eclair_chantilly_confiture_de_lait
 date: 2026-07-23
 servings: 4
+prep_time: 45
+cook_time: 35
+difficulty: 3
 
 tags:
 - dessert
@@ -31,7 +34,7 @@ components:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 45 min. Cuisson : 35 min.
+Pour 4 personnes.
 
 ## Préparation
 

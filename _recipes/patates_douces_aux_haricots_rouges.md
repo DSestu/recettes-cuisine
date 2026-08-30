@@ -4,6 +4,9 @@ title: "Patates douces"
 image: patates_douces_aux_haricots_rouges
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 25
+difficulty: 1
 
 tags:
 - repas
@@ -36,7 +39,7 @@ ingredients:
 country: "Antilles"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 25 min.
+Pour 4 personnes.
 
 ## Préparation
 

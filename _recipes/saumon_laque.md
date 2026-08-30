@@ -4,6 +4,9 @@ title: "Saumon laqué"
 image: saumon_laque
 date: 2026-08-25
 servings: 4
+prep_time: 10
+cook_time: 10
+difficulty: 1
 
 tags:
 - plat principal
@@ -39,7 +42,7 @@ ingredients:
 country: "Japon"
 ---
 
-Pour 4 personnes. Temps de préparation : 10 min. Temps de cuisson : 10 min.
+Pour 4 personnes.
 
 ## Préparation
 

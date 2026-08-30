@@ -4,6 +4,10 @@ title: "Sandwich à la dinde marinée"
 image: sandwitch_dinde_marinee
 date: 2026-07-23
 servings: 6
+prep_time: 25
+cook_time: 10
+rest_time: 60
+difficulty: 1
 
 tags:
 - repas
@@ -33,7 +37,7 @@ components:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 25 min. Cuisson : 10 min. Marinade : 1 h.
+Pour 6 personnes.
 
 ## Préparation
 

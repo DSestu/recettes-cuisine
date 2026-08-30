@@ -4,6 +4,9 @@ title: "Œufs à la crème"
 image: oeuf_a_la_creme
 date: 2026-06-07
 servings: 4
+prep_time: 15
+cook_time: 10
+difficulty: 2
 
 tags:
 - repas
@@ -38,7 +41,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 15 min. Cuisson : 10 min.
+Pour 4 personnes.
 
 ## Préparation
 

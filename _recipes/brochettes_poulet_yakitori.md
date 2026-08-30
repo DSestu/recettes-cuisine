@@ -4,6 +4,10 @@ title: "Brochettes de poulet yakitori"
 image: brochettes_poulet_yakitori
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 20
+rest_time: 180
+difficulty: 1
 
 tags:
 - aperitif
@@ -34,7 +38,7 @@ ingredients:
 country: "Japon"
 ---
 
-Pour 24 brochettes. Temps de préparation : 20 min. Temps de repos : 3 h au réfrigérateur. Temps de cuisson : 20 min.
+Pour 24 brochettes.
 
 ## Préparation
 

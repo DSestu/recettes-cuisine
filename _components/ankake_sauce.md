@@ -4,6 +4,9 @@ title:  "Sauce ankake aux champignons"
 image: ankake_sauce
 date: 2025-10-09
 servings: 1
+prep_time: 5
+cook_time: 10
+difficulty: 1
 
 tags:
 - japon

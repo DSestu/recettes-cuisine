@@ -4,6 +4,9 @@ title: "Béchamel pour moussaka"
 image: bechamel_moussaka
 date: 2026-08-25
 servings: 6
+prep_time: 5
+cook_time: 10
+difficulty: 1
 
 tags:
 - condiment

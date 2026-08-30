@@ -4,6 +4,9 @@ title: "Potage au concombre"
 image: potage_au_concombre
 date: 2025-06-24
 servings: 4
+prep_time: 15
+rest_time: 240
+difficulty: 1
 
 
 tags:
@@ -42,5 +45,3 @@ country: "France"
 
 Soupe froide pour 4 personnes.
 
-Temps de préparation : 15 minutes
-Temps de réfrigération : 4 heures

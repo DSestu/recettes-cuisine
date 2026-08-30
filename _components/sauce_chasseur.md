@@ -4,6 +4,9 @@ title: "Sauce chasseur"
 image: sauce_chasseur
 date: 2026-05-17
 servings: 4
+prep_time: 15
+cook_time: 25
+difficulty: 1
 
 tags:
 - condiment

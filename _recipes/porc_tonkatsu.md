@@ -4,6 +4,9 @@ title: "Porc tonkatsu"
 image: porc_tonkatsu
 date: 2026-08-25
 servings: 4
+prep_time: 25
+cook_time: 10
+difficulty: 2
 
 tags:
 - plat principal

@@ -4,6 +4,10 @@ title: "Saumon laqué au gingembre, poêlée de marrons et choux de Bruxelles"
 image: saumon_laque_gingembre_marron_choux_bruxelles
 date: 2025-11-16
 servings: 4
+prep_time: 30
+cook_time: 25
+rest_time: 60
+difficulty: 1
 
 tags:
 - poisson
@@ -67,8 +71,3 @@ country: "Fusion"
 
 Pour 4 personnes
 
-Temps de préparation: 30m
-
-Temps de cuisson: 25m
-
-Temps de repos: 1h

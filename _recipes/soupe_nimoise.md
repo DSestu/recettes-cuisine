@@ -4,6 +4,9 @@ title: "Soupe nîmoise"
 image: soupe_nimoise
 date: 2025-06-19
 servings: 6
+prep_time: 15
+cook_time: 75
+difficulty: 1
 
 
 tags:
@@ -48,5 +51,3 @@ country: "France"
 
 Soupe traditionnelle niçoise pour 6 personnes.
 
-Temps de préparation : 15 minutes
-Temps de cuisson : 1 heure 15

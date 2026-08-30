@@ -4,6 +4,10 @@ title: "Crème de champignons à la pancetta"
 image: creme_de_champignons_pancetta
 date: 2026-08-24
 servings: 4
+prep_time: 20
+cook_time: 40
+rest_time: 45
+difficulty: 1
 
 tags:
 - soupe

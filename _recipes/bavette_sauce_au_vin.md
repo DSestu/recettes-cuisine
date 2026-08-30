@@ -4,6 +4,9 @@ title: "Bavette sauce au vin"
 image: bavette_sauce_au_vin
 date: 2026-05-17
 servings: 6
+prep_time: 25
+cook_time: 25
+difficulty: 2
 
 tags:
 - repas
@@ -31,7 +34,7 @@ components:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 25 min. Cuisson : 25 min.
+Pour 6 personnes.
 
 ## Préparation
 

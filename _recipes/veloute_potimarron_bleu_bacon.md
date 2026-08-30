@@ -4,6 +4,9 @@ title: "Velouté de potimarron au bleu et au bacon grillé"
 image: veloute_potimarron_bleu_bacon
 date: 2026-05-13
 servings: 6
+prep_time: 20
+cook_time: 35
+difficulty: 1
 
 tags:
 - repas
@@ -35,7 +38,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Temps de préparation : 20 min. Temps de cuisson : 35 min.
+Pour 6 personnes.
 
 ## Préparation
 

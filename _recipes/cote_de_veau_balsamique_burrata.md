@@ -4,6 +4,9 @@ title: "Côte de veau rôtie au vinaigre balsamique, tomates confites et burrata
 image: cote_de_veau_balsamique_burrata
 date: 2026-07-23
 servings: 4
+prep_time: 20
+cook_time: 40
+difficulty: 2
 
 tags:
 - repas
@@ -32,7 +35,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 20 min. Cuisson : 40 min.
+Pour 4 personnes.
 
 ## Préparation
 

@@ -4,6 +4,10 @@ title: "Marinade au vinaigre, ail et laurier"
 image: marinade_vinaigre_ail_laurier
 date: 2026-05-16
 servings: 4
+prep_time: 20
+cook_time: 5
+rest_time: 2880
+difficulty: 1
 
 tags:
 - condiment

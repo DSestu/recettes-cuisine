@@ -4,6 +4,10 @@ title: "Lapin aux abricots et boulgour aux olives"
 image: lapin_abricots_boulgour_olives
 date: 2026-08-24
 servings: 4
+prep_time: 30
+cook_time: 135
+rest_time: 70
+difficulty: 2
 
 tags:
 - plat principal

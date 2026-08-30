@@ -4,6 +4,9 @@ title: "Sauce satay thaïe aux cacahuètes"
 image: sauce_satay_thaie_aux_cacahuetes
 date: 2026-08-25
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 tags:
 - condiment
@@ -32,7 +35,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 300 ml de sauce. Temps de préparation : 10 min. Temps de cuisson : 15 min.
+Pour 300 ml de sauce.
 
 ## Préparation
 

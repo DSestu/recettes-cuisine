@@ -4,6 +4,9 @@ title: "Velouté d'asperges"
 image: veloute_asperges
 date: 2025-06-24
 servings: 4
+prep_time: 15
+cook_time: 30
+difficulty: 1
 
 
 tags:
@@ -42,5 +45,3 @@ country: "France"
 
 Soupe chaude pour 4 personnes.
 
-Temps de préparation : 15 minutes
-Temps de cuisson : 25 à 30 minutes

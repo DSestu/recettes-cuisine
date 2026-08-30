@@ -4,6 +4,9 @@ title: "Ribs sauce à l'orange"
 image: ribs_sauce_orange
 date: 2026-05-16
 servings: 6
+prep_time: 25
+cook_time: 40
+difficulty: 1
 
 tags:
 - plat
@@ -39,7 +42,7 @@ country: "France"
 
 Travers de porc rôtis au four, laqués d'une sauce à l'orange légèrement amère et sucrée-salée, à servir avec des frites.
 
-Pour 6 personnes. Préparation : 25 min. Cuisson : 40 min.
+Pour 6 personnes.
 
 ## Préparation
 

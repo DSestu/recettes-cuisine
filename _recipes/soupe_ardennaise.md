@@ -4,6 +4,9 @@ title: "Soupe ardennaise"
 image: 0_TBD
 date: 2025-06-19
 servings: 6
+prep_time: 20
+cook_time: 60
+difficulty: 1
 
 
 tags:
@@ -49,5 +52,3 @@ country: "France"
 
 Soupe traditionnelle ardennaise pour 6 personnes.
 
-Temps de préparation : 20 minutes
-Temps de cuisson : 1 heure

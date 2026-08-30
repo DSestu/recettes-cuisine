@@ -4,6 +4,9 @@ title: "Soupe au chou"
 image: soupe_au_chou
 date: 2025-06-24
 servings: 6
+prep_time: 30
+cook_time: 65
+difficulty: 1
 
 
 tags:
@@ -56,6 +59,3 @@ country: "France"
 
 Soupe chaude pour 6 personnes.
 
-Temps de préparation : 30 minutes
-
-Temps de cuisson : 1 heure 05 minutes

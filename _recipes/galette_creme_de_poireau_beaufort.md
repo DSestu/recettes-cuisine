@@ -4,6 +4,9 @@ title: "Galette à la crème de poireau et beaufort"
 image: galette_creme_de_poireau_beaufort
 date: 2026-06-07
 servings: 4
+prep_time: 15
+cook_time: 20
+difficulty: 1
 
 tags:
 - repas
@@ -35,7 +38,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 15 min. Cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

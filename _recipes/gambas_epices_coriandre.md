@@ -4,6 +4,9 @@ title: "Gambas aux épices et à la coriandre"
 image: gambas_epices_coriandre
 date: 2026-08-24
 servings: 6
+prep_time: 40
+cook_time: 10
+difficulty: 1
 
 tags:
 - plat principal
@@ -28,7 +31,7 @@ components:
 country: "Inde"
 ---
 
-Pour 6 personnes. Temps de préparation : 40 min. Temps de cuisson : 10 min.
+Pour 6 personnes.
 
 ## Préparation
 

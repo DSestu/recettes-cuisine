@@ -4,6 +4,10 @@ title: "Crème pralinée"
 image: creme_pralinee
 date: 2026-07-23
 servings: 4
+prep_time: 15
+cook_time: 10
+rest_time: 60
+difficulty: 2
 
 tags:
 - composant

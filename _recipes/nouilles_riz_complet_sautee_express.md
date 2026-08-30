@@ -4,6 +4,9 @@ title: "Nouilles de riz complet sautées express"
 image: nouilles_riz_complet_sautee_express
 date: 2026-06-07
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 tags:
 - repas
@@ -33,7 +36,7 @@ ingredients:
 country: "Fusion"
 ---
 
-Pour 4 personnes. Préparation : 10 min. Cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

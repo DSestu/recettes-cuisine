@@ -4,6 +4,9 @@ title: "Crevettes au miel"
 image: crevettes_au_miel
 date: 2026-08-24
 servings: 4
+prep_time: 30
+cook_time: 15
+difficulty: 2
 
 tags:
 - plat principal
@@ -35,7 +38,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 30 min. Temps de cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Pâtes sauce tomate"
 image: pates_sauce_tomate
 date: 2026-05-15
 servings: 4
+prep_time: 20
+cook_time: 45
+difficulty: 2
 
 tags:
 - repas

@@ -4,6 +4,9 @@ title: "Joue de bœuf au cidre"
 image: joue_de_boeuf_au_cidre
 date: 2026-06-07
 servings: 6
+prep_time: 30
+cook_time: 200
+difficulty: 2
 
 tags:
 - repas
@@ -50,7 +53,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 30 min. Cuisson : 3 h 20.
+Pour 6 personnes.
 
 ## Préparation
 

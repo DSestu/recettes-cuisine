@@ -4,6 +4,9 @@ title: "Tagliatelles aux gambas flambées"
 image: tagliatelles_aux_gambas_flambes
 date: 2026-02-27
 servings: 4
+prep_time: 20
+cook_time: 30
+difficulty: 2
 
 tags:
 - pates
@@ -61,5 +64,3 @@ Tagliatelles aux gambas flambées, relevées de whisky, de citron vert et de pim
 
 Pour 4 personnes.
 
-Temps de préparation : 20 minutes.
-Temps de cuisson : 30 minutes.

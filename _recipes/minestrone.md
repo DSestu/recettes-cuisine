@@ -4,6 +4,9 @@ title: "Minestrone"
 image: minestrone
 date: 2026-02-15
 servings: 4
+prep_time: 20
+cook_time: 60
+difficulty: 1
 
 
 tags:

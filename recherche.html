@@ -368,6 +368,34 @@ permalink: /recherche/
         </div>
       </div>
 
+      <!-- Total time (mobile accordion section) -->
+      <div class="mobile-accordion-section flex flex-col gap-2" data-section="time">
+        <button type="button" class="mobile-accordion-trigger" aria-expanded="false" aria-controls="mobile-accordion-body-time" id="mobile-accordion-trigger-time">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>
+          <span>Temps total</span>
+        </button>
+        <span class="mobile-desktop-label text-sm uppercase text-primary font-semibold">Temps total</span>
+        <div id="mobile-accordion-body-time" class="mobile-accordion-body mobile-accordion-body--closed flex flex-col gap-2" role="region" aria-labelledby="mobile-accordion-trigger-time">
+          <label class="flex items-center gap-2 px-3 py-2 rounded-full bg-white outline outline-1 outline-gray-300 w-full md:w-auto">
+            <span class="whitespace-nowrap">Au plus</span>
+            <input id="max-time" type="range" min="0" max="7" step="1" value="7" class="accent-primary flex-1" />
+            <span id="max-time-value" class="font-semibold whitespace-nowrap">Sans limite</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Difficulty (mobile accordion section) -->
+      <div class="mobile-accordion-section flex flex-col gap-2" data-section="difficulty">
+        <button type="button" class="mobile-accordion-trigger" aria-expanded="false" aria-controls="mobile-accordion-body-difficulty" id="mobile-accordion-trigger-difficulty">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2.5a3.5 3.5 0 00-3.2 2A3 3 0 004 7.4a3.1 3.1 0 001.8 2.8V13h8.4v-2.8A3.1 3.1 0 0016 7.4a3 3 0 00-2.8-2.9A3.5 3.5 0 0010 2.5zM5.8 14.2h8.4v1.6c0 .6-.4 1-1 1H6.8c-.6 0-1-.4-1-1v-1.6z" /></svg>
+          <span>Difficulté</span>
+        </button>
+        <span class="mobile-desktop-label text-sm uppercase text-primary font-semibold">Difficulté</span>
+        <div id="mobile-accordion-body-difficulty" class="mobile-accordion-body mobile-accordion-body--closed flex flex-col gap-2" role="region" aria-labelledby="mobile-accordion-trigger-difficulty">
+          <div id="adv-difficulty" class="flex flex-wrap gap-2 items-center"></div>
+        </div>
+      </div>
+
       <!-- Tags (accordion section): two mode buttons (tag / ingredients); dropdown hidden, used for URL/state -->
       <div class="mobile-accordion-section flex flex-col gap-2 relative" data-section="tags">
         <div class="flex flex-wrap items-center gap-2">
@@ -923,6 +951,14 @@ permalink: /recherche/
     ],
     RECIPES: [
       {% for recipe in site.recipes %}
+      {%- comment -%}
+        Total time is summed here rather than stored per recipe. `plus:` fails
+        on a missing key, so each part is defaulted to 0 first. 0 means unknown.
+      {%- endcomment -%}
+      {%- assign r_prep = recipe.prep_time | default: 0 -%}
+      {%- assign r_cook = recipe.cook_time | default: 0 -%}
+      {%- assign r_rest = recipe.rest_time | default: 0 -%}
+      {%- assign r_total = r_prep | plus: r_cook | plus: r_rest -%}
       {
         type: 'recipe',
         title: {{ recipe.title | jsonify }},
@@ -930,6 +966,8 @@ permalink: /recherche/
         image_field: {{ recipe.image | jsonify }},
         tags: {{ recipe.tags | jsonify }},
         country: {{ recipe.country | default: "" | jsonify }},
+        total_time: {{ r_total }},
+        difficulty: {{ recipe.difficulty | default: 0 }},
         ingredients_lines: {{ recipe.ingredients | jsonify }}
       }{% if forloop.last == false %},{% endif %}
       {% endfor %}
@@ -937,6 +975,10 @@ permalink: /recherche/
       {% if has_components > 0 %}
       ,
       {% for c in site.components %}
+      {%- assign c_prep = c.prep_time | default: 0 -%}
+      {%- assign c_cook = c.cook_time | default: 0 -%}
+      {%- assign c_rest = c.rest_time | default: 0 -%}
+      {%- assign c_total = c_prep | plus: c_cook | plus: c_rest -%}
       {
         type: 'component',
         title: {{ c.title | jsonify }},
@@ -944,6 +986,8 @@ permalink: /recherche/
         image_field: {{ c.image | jsonify }},
         tags: {{ c.tags | jsonify }},
         country: {{ c.country | default: "" | jsonify }},
+        total_time: {{ c_total }},
+        difficulty: {{ c.difficulty | default: 0 }},
         ingredients_lines: {{ c.ingredients | jsonify }}
       }{% if forloop.last == false %},{% endif %}
       {% endfor %}

@@ -4,6 +4,10 @@ title: "Bûche framboise & mascarpone"
 image: buche_framboise_mascarpone
 date: 2026-05-13
 servings: 6
+prep_time: 40
+cook_time: 10
+rest_time: 60
+difficulty: 3
 
 tags:
 - dessert

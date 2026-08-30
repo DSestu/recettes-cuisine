@@ -534,6 +534,8 @@ layout: default
         })();
       </script>
 
+      {% include recipe-times.html %}
+
       {% assign tag_param = page.tags | join:',' | uri_escape %}
       <div>
         <a

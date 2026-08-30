@@ -4,6 +4,10 @@ title: "Poulet tikka"
 image: poulet_tikka
 date: 2026-08-24
 servings: 6
+prep_time: 20
+cook_time: 20
+rest_time: 720
+difficulty: 1
 
 tags:
 - plat principal
@@ -38,7 +42,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 6 personnes. Temps de préparation : 20 min. Temps de repos : 12 h. Temps de cuisson : 20 min.
+Pour 6 personnes.
 
 ## Préparation
 

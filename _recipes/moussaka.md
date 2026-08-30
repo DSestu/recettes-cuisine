@@ -4,6 +4,10 @@ title: "Moussaka"
 image: moussaka
 date: 2026-08-25
 servings: 4
+prep_time: 40
+cook_time: 100
+rest_time: 10
+difficulty: 2
 
 tags:
 - plat principal

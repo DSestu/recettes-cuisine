@@ -5,6 +5,10 @@ title: "Raviolis sestu (WIP)"
 image: raviolis_sestu
 date: 2026-02-26
 servings: 20
+prep_time: 120
+cook_time: 40
+rest_time: 60
+difficulty: 3
 
 tags:
 - plat principal

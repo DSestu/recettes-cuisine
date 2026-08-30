@@ -4,6 +4,9 @@ title: "Sauce à l'orange"
 image: sauce_orange
 date: 2026-05-16
 servings: 4
+prep_time: 15
+cook_time: 15
+difficulty: 1
 
 tags:
 - condiment

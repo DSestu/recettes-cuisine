@@ -4,6 +4,9 @@ title: "Gnocchi maison à la sauce tomate"
 image: gnocchi_maison_sauce_tomate
 date: 2026-05-13
 servings: 5
+prep_time: 40
+cook_time: 30
+difficulty: 2
 
 tags:
 - plat principal

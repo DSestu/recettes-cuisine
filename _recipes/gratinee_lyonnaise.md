@@ -4,6 +4,9 @@ title: "Gratinée lyonnaise"
 image: gratinee_lyonnaise
 date: 2025-06-19
 servings: 4
+prep_time: 20
+cook_time: 40
+difficulty: 2
 
 
 tags:
@@ -58,5 +61,3 @@ Soupe gratinée traditionnelle lyonnaise pour 4 à 6 personnes.
 
 Cette soupe dite "gratinée" est très appréciée à Lyon ; elle se déguste principalement le soir en famille ou entre amis, à la sortie des spectacles.
 
-Temps de préparation : 20 minutes
-Temps de cuisson : 40 minutes

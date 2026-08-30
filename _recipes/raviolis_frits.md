@@ -4,6 +4,10 @@ title: "Raviolis frits"
 image: raviolis_frits
 date: 2026-08-24
 servings: 4
+prep_time: 45
+cook_time: 15
+rest_time: 20
+difficulty: 2
 
 tags:
 - entree

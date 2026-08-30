@@ -4,6 +4,9 @@ title: "Pappardelles aux champignons, bleu, comté et poulet"
 image: pappardelles_champignons_bleu_comte_poulet
 date: 2026-05-13
 servings: 4
+prep_time: 20
+cook_time: 25
+difficulty: 1
 
 tags:
 - repas
@@ -35,7 +38,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 4 personnes. Préparation : 20 min. Cuisson : 25 min.
+Pour 4 personnes.
 
 ## Préparation
 

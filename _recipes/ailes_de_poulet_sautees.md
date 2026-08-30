@@ -4,6 +4,10 @@ title: "Ailes de poulet sautées"
 image: ailes_de_poulet_sautees
 date: 2026-08-24
 servings: 4
+prep_time: 15
+cook_time: 20
+rest_time: 180
+difficulty: 1
 
 tags:
 - plat principal
@@ -38,7 +42,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de repos : 3 h. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

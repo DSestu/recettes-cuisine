@@ -4,6 +4,9 @@ title: "Sauce au foie gras"
 image: sauce_au_foie_gras
 date: 2026-05-13
 servings: 4
+prep_time: 10
+cook_time: 20
+difficulty: 1
 
 tags:
 - condiment

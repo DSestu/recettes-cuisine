@@ -4,6 +4,9 @@ title: "Saint-Jacques façon chaudrée"
 image: saint_jacques_facon_chaudree
 date: 2026-02-27
 servings: 4
+prep_time: 20
+cook_time: 45
+difficulty: 2
 
 tags:
 - entree
@@ -57,8 +60,5 @@ country: "France"
 Chaudrée crémeuse de poisson, crevettes et noix de Saint-Jacques, servie bien chaude en entrée pour quatre personnes.
 
 Pour 4 personnes
-
-Temps de préparation : 20 minutes
-Temps de cuisson : 45 minutes
 
 Conservation des Saint-Jacques : les conserver dans le bac à légumes ou dans un endroit frais entre 5 et 10 °C, ventilé et à l'abri du soleil, pendant 2 jours maximum. Les envelopper dans un linge propre.

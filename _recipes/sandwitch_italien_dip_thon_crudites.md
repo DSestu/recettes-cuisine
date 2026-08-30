@@ -4,6 +4,9 @@ title: "Sandwich italien et dip de thon aux crudités"
 image: sandwitch_italien_dip_thon_crudites
 date: 2026-07-23
 servings: 4
+prep_time: 25
+cook_time: 5
+difficulty: 1
 
 tags:
 - repas
@@ -35,7 +38,7 @@ components:
 country: "Italie"
 ---
 
-Pour 4 personnes. Préparation : 25 min. Cuisson : 5 min.
+Pour 4 personnes.
 
 ## Préparation
 

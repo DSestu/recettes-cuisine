@@ -5,6 +5,9 @@ title: "Aiguillettes de poulet au miel et au cidre"
 image: aiguillettes_de_poulet_au_miel_et_au_cidre
 date: 2026-03-11
 servings: 4
+prep_time: 30
+cook_time: 30
+difficulty: 1
 
 tags:
 - repas
@@ -40,7 +43,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 30 min. Cuisson : 30 min.
+Pour 4 personnes.
 
 ## Préparation
 

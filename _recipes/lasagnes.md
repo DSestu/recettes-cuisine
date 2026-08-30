@@ -4,6 +4,9 @@ title: "Lasagnes"
 image: lasagnes
 date: 2025-10-13
 servings: 6
+prep_time: 20
+cook_time: 60
+difficulty: 2
 
 tags:
 - sestu
@@ -55,4 +58,4 @@ directions:
 country: "Italie"
 ---
 
-Recette classique de lasagnes italiennes. Pour 6 personnes. Préparation : 20 min ; Cuisson : 1 h.
+Recette classique de lasagnes italiennes. Pour 6 personnes.

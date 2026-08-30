@@ -4,6 +4,9 @@ title: "Linguines ricotta, pecorino et guanciale"
 image: linguines_ricotta_pecorino_et_guanciale
 date: 2026-02-27
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 tags:
 - plat
@@ -45,5 +48,3 @@ Linguines crémeuses à la ricotta et au pecorino, garnies de lardons de guancia
 
 Pour 4 personnes
 
-Temps de préparation : 10 minutes
-Temps de cuisson : 15 minutes

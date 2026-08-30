@@ -5,6 +5,9 @@ title: "Tiramisu (classique au café)"
 image: tiramisu
 date: 2025-08-12
 servings: 4
+prep_time: 30
+rest_time: 240
+difficulty: 2
 
 
 tags:

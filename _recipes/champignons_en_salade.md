@@ -4,6 +4,9 @@ title: "Champignons en salade"
 image: champignons_en_salade
 date: 2025-06-24
 servings: 4
+prep_time: 15
+cook_time: 10
+difficulty: 1
 
 
 tags:
@@ -48,6 +51,3 @@ country: "France"
 
 Pour 4 personnes.
 
-Temps de préparation : 15 minutes
-
-Temps de cuisson : 10 minutes

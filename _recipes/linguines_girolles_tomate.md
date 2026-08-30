@@ -4,6 +4,9 @@ title: "Linguines aux girolles et à la tomate"
 image: linguines_girolles_tomate
 date: 2026-05-13
 servings: 4
+prep_time: 15
+cook_time: 25
+difficulty: 1
 
 tags:
 - repas
@@ -36,7 +39,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 4 personnes. Préparation : 15 min. Cuisson : 25 min.
+Pour 4 personnes.
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Gambas sautées à la persillade et aux pêches"
 image: gambas_sautees_peche
 date: 2026-07-10
 servings: 4
+prep_time: 10
+cook_time: 10
+difficulty: 1
 
 tags:
 - plat
@@ -32,7 +35,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Temps de préparation : 10 min. Temps de cuisson : 10 min.
+Pour 4 personnes.
 
 ## Préparation
 

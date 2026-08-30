@@ -4,6 +4,9 @@ title: "Dip au fenouil rôti"
 image: dip_au_fenouil_roti
 date: 2026-08-24
 servings: 4
+prep_time: 15
+cook_time: 30
+difficulty: 1
 
 tags:
 - aperitif
@@ -29,7 +32,7 @@ ingredients:
 country: "Grèce"
 ---
 
-Pour 375 ml. Temps de préparation : 15 min. Temps de cuisson : 30 min à 200 °C.
+Pour 375 ml.
 
 ## Préparation
 

@@ -4,6 +4,10 @@ title: "Boulettes d'agneau et sauce piquante au yaourt"
 image: boulettes_agneau_sauce_yaourt
 date: 2026-08-24
 servings: 4
+prep_time: 30
+cook_time: 15
+rest_time: 40
+difficulty: 2
 
 tags:
 - plat principal

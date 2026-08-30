@@ -4,6 +4,9 @@ title: "Petits choux au citron meringués"
 image: petit_choux_citron_meringue
 date: 2026-07-23
 servings: 4
+prep_time: 55
+cook_time: 30
+difficulty: 3
 
 tags:
 - dessert
@@ -29,7 +32,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 55 min. Cuisson : 30 min.
+Pour 4 personnes.
 
 ## Préparation
 

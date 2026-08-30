@@ -4,6 +4,9 @@ title: "Canard glacé à la sauce aux prunes"
 image: canard_glace_sauce_prunes
 date: 2026-08-24
 servings: 4
+prep_time: 20
+cook_time: 90
+difficulty: 2
 
 tags:
 - plat principal
@@ -29,7 +32,7 @@ components:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 1 h 30 à 200 °C.
+Pour 4 personnes.
 
 ## Préparation
 

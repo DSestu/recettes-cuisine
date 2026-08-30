@@ -4,6 +4,9 @@ title: "Poulet Billy Kee"
 image: poulet_billy_kee
 date: 2026-08-24
 servings: 4
+prep_time: 10
+cook_time: 20
+difficulty: 2
 
 tags:
 - plat principal
@@ -34,7 +37,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 10 min. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

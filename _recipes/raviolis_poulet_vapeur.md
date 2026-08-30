@@ -4,6 +4,10 @@ title: "Raviolis de poulet à la vapeur"
 image: raviolis_poulet_vapeur
 date: 2026-08-24
 servings: 4
+prep_time: 40
+cook_time: 10
+rest_time: 50
+difficulty: 2
 
 tags:
 - entree

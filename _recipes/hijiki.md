@@ -4,6 +4,10 @@ title: "Salade de racine de lotus et algue hijiki au miso"
 image: hijiki
 date: 2025-10-09
 servings: 1
+prep_time: 15
+cook_time: 10
+rest_time: 15
+difficulty: 1
 
 
 tags:

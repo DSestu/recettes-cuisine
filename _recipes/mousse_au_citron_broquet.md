@@ -4,6 +4,10 @@ title: "Mousse au citron Broquet"
 image: mousse_au_citron_broquet
 date: 2026-06-07
 servings: 4
+prep_time: 25
+cook_time: 10
+rest_time: 120
+difficulty: 2
 
 tags:
 - dessert

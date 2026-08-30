@@ -4,6 +4,8 @@ title: "Gremolata"
 image: gremolata
 date: 2026-06-07
 servings: 4
+prep_time: 10
+difficulty: 1
 
 tags:
 - condiment

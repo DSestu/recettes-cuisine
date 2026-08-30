@@ -4,6 +4,9 @@ title: "Magret sauce fruitée"
 image: magret_sauce_fruitee
 date: 2026-06-07
 servings: 6
+prep_time: 30
+cook_time: 30
+difficulty: 2
 
 tags:
 - repas
@@ -43,7 +46,7 @@ components:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 30 min. Cuisson : 30 min.
+Pour 6 personnes.
 
 ## Préparation
 

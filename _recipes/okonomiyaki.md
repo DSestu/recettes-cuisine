@@ -4,6 +4,9 @@ title: "Okonomiyaki"
 image: okonomiyaki
 date: 2025-10-09
 servings: 1
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 
 tags:

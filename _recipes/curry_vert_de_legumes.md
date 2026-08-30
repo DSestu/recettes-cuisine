@@ -4,6 +4,9 @@ title: "Curry vert de légumes"
 image: curry_vert_de_legumes
 date: 2026-08-25
 servings: 4
+prep_time: 15
+cook_time: 25
+difficulty: 1
 
 tags:
 - plat principal
@@ -49,7 +52,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 25 min.
+Pour 4 personnes.
 
 ## Préparation
 

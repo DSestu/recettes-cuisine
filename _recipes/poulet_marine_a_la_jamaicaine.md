@@ -4,6 +4,10 @@ title: "Poulet mariné à la jamaïcaine (jerk chicken)"
 image: poulet_marine_a_la_jamaicaine
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 55
+rest_time: 60
+difficulty: 1
 
 tags:
 - repas
@@ -49,7 +53,7 @@ ingredients:
 country: "Antilles"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de marinade : 1 h. Temps de cuisson : 55 min. Four à 180 °C.
+Pour 4 personnes. Four à 180 °C.
 
 ## Préparation
 

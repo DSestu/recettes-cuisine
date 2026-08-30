@@ -4,6 +4,9 @@ title: "Soupe de poireaux et pommes de terre"
 image: soupe_poireau_pommes_de_terres
 date: 2025-06-24
 servings: 4
+prep_time: 10
+cook_time: 35
+difficulty: 1
 
 
 tags:
@@ -39,5 +42,3 @@ country: "France"
 
 Soupe traditionnelle pour 4 personnes.
 
-Temps de préparation : 10 minutes
-Temps de cuisson : 35 minutes

@@ -4,6 +4,10 @@ title: "Acras de morue"
 image: acras_de_morue
 date: 2026-08-25
 servings: 4
+prep_time: 25
+cook_time: 20
+rest_time: 720
+difficulty: 2
 
 tags:
 - aperitif
@@ -39,7 +43,7 @@ ingredients:
 country: "Antilles"
 ---
 
-Pour 4 personnes. Temps de dessalage : 12 h. Temps de préparation : 25 min. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

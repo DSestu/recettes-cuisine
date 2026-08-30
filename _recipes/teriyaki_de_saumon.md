@@ -4,6 +4,10 @@ title: "Teriyaki de saumon"
 image: teriyaki_de_saumon
 date: 2026-08-25
 servings: 4
+prep_time: 15
+cook_time: 15
+rest_time: 10
+difficulty: 1
 
 tags:
 - plat principal
@@ -29,7 +33,7 @@ components:
 country: "Japon"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de repos : 10 min. Temps de cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

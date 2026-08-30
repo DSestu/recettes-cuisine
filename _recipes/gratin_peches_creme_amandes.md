@@ -4,6 +4,9 @@ title: "Gratin de pêches à la crème d'amandes"
 image: gratin_peches_creme_amandes
 date: 2026-05-13
 servings: 4
+prep_time: 20
+cook_time: 20
+difficulty: 1
 
 tags:
 - dessert
@@ -32,7 +35,7 @@ ingredients:
 country: "France"
 ---
 
-Pour de petits ramequins. Cuisson : 20 min à 150 °C.
+Pour de petits ramequins.
 
 ## Préparation
 

@@ -4,6 +4,10 @@ title: "Maquereaux marinés"
 image: maquereaux_marines
 date: 2025-06-24
 servings: 6
+prep_time: 20
+cook_time: 10
+rest_time: 80
+difficulty: 1
 
 
 tags:
@@ -46,10 +50,3 @@ country: "France"
 
 Pour 6 personnes.
 
-Temps de préparation : 20 minutes
-
-Temps de cuisson : 10 minutes
-
-Temps de marinade : 20 minutes
-
-Temps de repos : 1 heure

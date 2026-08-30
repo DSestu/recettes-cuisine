@@ -4,6 +4,9 @@ title: "Velouté de champignons de Paris au tahini"
 image: veloute_de_champignons_de_paris_au_tahini
 date: 2026-03-01
 servings: 4
+prep_time: 10
+cook_time: 25
+difficulty: 1
 
 tags:
 - soupe
@@ -40,9 +43,6 @@ country: "France"
 ---
 
 Pour 4 personnes.
-
-Temps de préparation : 10 minutes  
-Temps de cuisson : 25 minutes
 
 ## Préparation
 

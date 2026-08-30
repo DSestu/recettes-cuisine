@@ -5,6 +5,10 @@ title:  "Gateau de riz"
 image: gateau_de_riz
 date: 2025-06-18
 servings: 4
+prep_time: 15
+cook_time: 55
+rest_time: 60
+difficulty: 2
 
 
 tags:

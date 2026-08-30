@@ -4,6 +4,9 @@ title: "Poulet au miel et aux piments"
 image: poulet_miel_piments
 date: 2026-08-24
 servings: 4
+prep_time: 15
+cook_time: 25
+difficulty: 2
 
 tags:
 - plat principal
@@ -41,7 +44,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 25 min.
+Pour 4 personnes.
 
 ## Préparation
 

@@ -4,6 +4,10 @@ title: "Curry vert de porc à l'ail mariné"
 image: curry_vert_de_porc_ail_marine
 date: 2026-08-25
 servings: 4
+prep_time: 10
+cook_time: 20
+rest_time: 30
+difficulty: 1
 
 tags:
 - plat principal
@@ -44,7 +48,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 10 min. Temps de marinade : 30 min. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

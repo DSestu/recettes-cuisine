@@ -4,6 +4,9 @@ title: "Tajine de bœuf aux pruneaux"
 image: tajine_boeuf_pruneaux
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 150
+difficulty: 2
 
 tags:
 - plat principal
@@ -46,7 +49,7 @@ ingredients:
 country: "Maroc"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 2 h 30.
+Pour 4 personnes.
 
 ## Préparation
 

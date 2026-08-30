@@ -4,6 +4,9 @@ title: "Spaghettonis à la crème de roquette et de basilic"
 image: spaghettonis_a_la_creme_de_roquette_et_de_basilic
 date: 2026-02-27
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 tags:
 - plat
@@ -46,5 +49,3 @@ Spaghettonis crémeux à la crème de roquette, basilic, brousse de brebis, masc
 
 Pour 4 personnes
 
-Temps de préparation : 10 minutes
-Temps de cuisson : 15 minutes

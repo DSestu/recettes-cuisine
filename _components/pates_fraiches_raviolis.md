@@ -5,6 +5,9 @@ title: "Pâtes fraîches / à raviolis"
 image: pates_fraiches_raviolis
 date: 2026-02-26
 servings: 4
+prep_time: 20
+rest_time: 60
+difficulty: 2
 
 tags:
 - farine

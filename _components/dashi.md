@@ -4,6 +4,10 @@ title:  "Dashi"
 image: dashi
 date: 2025-10-09
 servings: 4
+prep_time: 10
+cook_time: 15
+rest_time: 30
+difficulty: 1
 
 tags:
 - japon

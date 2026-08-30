@@ -4,6 +4,10 @@ title: "Œuf en croûte de pain au fromage"
 image: oeuf_en_croute_de_pain_au_fromage
 date: 2026-05-13
 servings: 6
+prep_time: 30
+cook_time: 15
+rest_time: 140
+difficulty: 2
 
 tags:
 - repas
@@ -42,7 +46,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 30 min. Repos : 2 h 20. Cuisson : 15 min.
+Pour 6 personnes.
 
 ## Préparation
 

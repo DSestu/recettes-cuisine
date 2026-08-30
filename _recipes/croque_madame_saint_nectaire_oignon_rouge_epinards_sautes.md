@@ -4,6 +4,9 @@ title: "Croque-madame au saint-nectaire, à l'oignon rouge et aux épinards saut
 image: croque_madame_saint_nectaire_oignon_rouge_epinards_sautes
 date: 2026-06-07
 servings: 4
+prep_time: 10
+cook_time: 10
+difficulty: 2
 
 tags:
 - repas
@@ -43,7 +46,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 10 min. Cuisson : 10 min.
+Pour 4 personnes.
 
 ## Préparation
 

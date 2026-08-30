@@ -4,6 +4,9 @@ title: "Marinade cuite pour poisson"
 image: marinade_poisson
 date: 2026-05-16
 servings: 4
+prep_time: 10
+cook_time: 20
+difficulty: 1
 
 tags:
 - condiment

@@ -4,6 +4,9 @@ title: "Blanquette de veau"
 image: blanquette_de_veau
 date: 2026-05-17
 servings: 6
+prep_time: 20
+cook_time: 80
+difficulty: 2
 
 tags:
 - repas
@@ -41,7 +44,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 20 min. Cuisson : 1h20.
+Pour 6 personnes.
 
 ## Préparation
 

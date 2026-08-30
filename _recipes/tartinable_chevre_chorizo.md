@@ -5,6 +5,9 @@ title: "Tartinable chèvre chorizo"
 image: tartinable_chevre_chorizo
 date: 2026-02-26
 servings: 4
+prep_time: 15
+cook_time: 10
+difficulty: 1
 
 tags:
 - apéritif

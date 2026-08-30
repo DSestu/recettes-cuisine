@@ -4,6 +4,10 @@ title: "Crêpes Broquet"
 image: crepes_broquet
 date: 2026-06-07
 servings: 4
+prep_time: 15
+cook_time: 20
+rest_time: 60
+difficulty: 1
 
 tags:
 - dessert

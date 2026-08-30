@@ -4,6 +4,9 @@ title: "Osso-buco et polenta crémeuse"
 image: osso_buco_polenta_cremeuse
 date: 2026-06-07
 servings: 6
+prep_time: 25
+cook_time: 165
+difficulty: 2
 
 tags:
 - repas
@@ -49,7 +52,7 @@ components:
 country: "Italie"
 ---
 
-Pour 6 personnes. Préparation : 25 min. Cuisson : 2 h 45.
+Pour 6 personnes.
 
 ## Préparation
 

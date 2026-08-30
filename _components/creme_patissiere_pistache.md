@@ -4,6 +4,10 @@ title: "Crème pâtissière à la pistache"
 image: creme_patissiere_pistache
 date: 2026-07-23
 servings: 4
+prep_time: 15
+cook_time: 10
+rest_time: 120
+difficulty: 2
 
 tags:
 - composant

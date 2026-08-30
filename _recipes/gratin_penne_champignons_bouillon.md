@@ -4,6 +4,9 @@ title: "Gratin de pennes et champignons au bouillon"
 image: gratin_penne_champignons_bouillon
 date: 2026-05-13
 servings: 4
+prep_time: 20
+cook_time: 40
+difficulty: 2
 
 tags:
 - repas
@@ -43,7 +46,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 40 min.
+Pour 4 personnes.
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Pavé d'agneau et girolles au beurre d'estragon"
 image: pave_agneau_girolles_beurre_estragon
 date: 2026-05-13
 servings: 4
+prep_time: 35
+cook_time: 12
+difficulty: 2
 
 tags:
 - repas
@@ -30,7 +33,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Temps de préparation : 35 min. Temps de cuisson : 12 min.
+Pour 4 personnes.
 
 ## Préparation
 

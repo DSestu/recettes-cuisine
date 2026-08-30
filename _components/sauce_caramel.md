@@ -4,6 +4,9 @@ title:  Sauce caramel
 image: sauce_caramel
 date: 2025-06-18
 servings: 4
+prep_time: 5
+cook_time: 10
+difficulty: 2
 
 tags:
 - sucre

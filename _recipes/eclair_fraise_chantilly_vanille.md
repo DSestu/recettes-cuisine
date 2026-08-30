@@ -4,6 +4,9 @@ title: "Éclairs à la fraise et chantilly vanillée"
 image: eclair_fraise_chantilly_vanille
 date: 2026-07-23
 servings: 4
+prep_time: 45
+cook_time: 40
+difficulty: 3
 
 tags:
 - dessert
@@ -35,7 +38,7 @@ components:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 45 min. Cuisson : 40 min.
+Pour 4 personnes.
 
 ## Préparation
 

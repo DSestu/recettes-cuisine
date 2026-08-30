@@ -4,6 +4,9 @@ title: "Muffins aux lardons et au fromage bleu"
 image: muffins_lardon_bleu
 date: 2026-07-23
 servings: 6
+prep_time: 10
+cook_time: 20
+difficulty: 1
 
 tags:
 - aperitif
@@ -32,7 +35,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 10 min. Cuisson : 20 min.
+Pour 6 personnes.
 
 ## Préparation
 

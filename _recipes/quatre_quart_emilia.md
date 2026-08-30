@@ -5,6 +5,9 @@ title:  "Quatre quart Emilia"
 image: quatre_quart_emilia
 date: 2026-02-15
 servings: 4
+prep_time: 20
+cook_time: 35
+difficulty: 1
 
 tags:
 - quatre-quarts

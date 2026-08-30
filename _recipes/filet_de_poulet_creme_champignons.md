@@ -4,6 +4,9 @@ title: "Filet de poulet à la crème et aux champignons"
 image: filet_de_poulet_creme_champignons
 date: 2026-05-17
 servings: 6
+prep_time: 35
+cook_time: 30
+difficulty: 1
 
 tags:
 - repas
@@ -39,7 +42,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 35 min. Cuisson : 30 min.
+Pour 6 personnes.
 
 ## Préparation
 

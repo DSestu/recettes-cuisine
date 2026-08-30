@@ -4,6 +4,9 @@ title: "Tajine d'agneau aux coings et couscous aux pistaches"
 image: tajine_agneau_coings_couscous_pistaches
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 105
+difficulty: 1
 
 tags:
 - plat principal
@@ -48,8 +51,6 @@ ingredients:
 
 country: "Maroc"
 ---
-
-Temps de préparation : 20 min. Temps de cuisson : 1 h 45.
 
 ## Préparation
 

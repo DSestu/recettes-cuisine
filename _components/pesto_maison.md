@@ -4,6 +4,8 @@ title: "Pesto maison"
 image: pesto_maison
 date: 2026-07-23
 servings: 4
+prep_time: 10
+difficulty: 1
 
 tags:
 - composant

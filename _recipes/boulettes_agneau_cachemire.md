@@ -4,6 +4,10 @@ title: "Boulettes d'agneau à la façon du Cachemire"
 image: boulettes_agneau_cachemire
 date: 2026-08-24
 servings: 6
+prep_time: 30
+cook_time: 30
+rest_time: 30
+difficulty: 2
 
 tags:
 - plat principal
@@ -45,7 +49,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 6 personnes. Temps de préparation : 30 min. Temps de repos : 30 min. Temps de cuisson : 30 min.
+Pour 6 personnes.
 
 ## Préparation
 

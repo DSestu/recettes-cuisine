@@ -5,6 +5,9 @@ image: sauce_blanche_vin_blanc
 date: 2026-08-24
 servings: 4
 servings_unit: portions
+prep_time: 5
+cook_time: 15
+difficulty: 1
 
 tags:
 - condiment

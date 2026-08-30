@@ -4,6 +4,10 @@ title: "Poulet makhani"
 image: poulet_makhani
 date: 2026-08-24
 servings: 4
+prep_time: 25
+cook_time: 75
+rest_time: 180
+difficulty: 2
 
 tags:
 - plat principal
@@ -54,7 +58,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 4 personnes. Temps de préparation : 25 min. Temps de repos : 3 h. Temps de cuisson : 1 h 15.
+Pour 4 personnes.
 
 ## Préparation
 

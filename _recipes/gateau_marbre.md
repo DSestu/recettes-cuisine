@@ -4,6 +4,9 @@ title: "Gâteau marbré"
 image: gateau_marbre
 date: 2026-02-15
 servings: 6
+prep_time: 20
+cook_time: 60
+difficulty: 1
 
 tags:
 - beurre
@@ -40,5 +43,3 @@ country: "France"
 
 Gâteau marbré moelleux pour 6 à 8 personnes.
 
-Temps de préparation : 20 minutes  
-Temps de cuisson : 1 heure

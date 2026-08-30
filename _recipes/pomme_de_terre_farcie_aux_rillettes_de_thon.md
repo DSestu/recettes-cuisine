@@ -5,6 +5,9 @@ title: "Pomme de terre farcie aux rillettes de thon"
 image: pomme_de_terre_farcie_aux_rillettes_de_thon
 date: 2026-03-11
 servings: 4
+prep_time: 20
+cook_time: 30
+difficulty: 1
 
 tags:
 - repas
@@ -35,7 +38,7 @@ components:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 20 min. Cuisson : 30 min.
+Pour 4 personnes.
 
 ## Préparation
 

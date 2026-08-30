@@ -4,6 +4,9 @@ title: "Salade de sashimi au thon, sauce au miso"
 image: salade_de_sashimi_au_thon_sauce_au_miso
 date: 2026-08-25
 servings: 4
+prep_time: 25
+rest_time: 15
+difficulty: 1
 
 tags:
 - entree
@@ -32,7 +35,7 @@ components:
 country: "Japon"
 ---
 
-Pour 4 personnes. Temps de préparation : 25 min. Temps de repos : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

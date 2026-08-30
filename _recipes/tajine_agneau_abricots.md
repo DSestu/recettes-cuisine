@@ -4,6 +4,10 @@ title: "Tajine d'agneau aux abricots"
 image: tajine_agneau_abricots
 date: 2026-08-25
 servings: 8
+prep_time: 20
+cook_time: 60
+rest_time: 45
+difficulty: 1
 
 tags:
 - plat principal
@@ -52,7 +56,7 @@ ingredients:
 country: "Maroc"
 ---
 
-Pour 8 personnes. Temps de préparation : 20 min. Temps de repos : 45 min. Temps de cuisson : 1 h.
+Pour 8 personnes.
 
 ## Préparation
 

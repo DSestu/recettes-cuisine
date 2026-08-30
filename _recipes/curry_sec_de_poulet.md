@@ -4,6 +4,9 @@ title: "Curry sec de poulet"
 image: curry_sec_de_poulet
 date: 2026-08-24
 servings: 6
+prep_time: 10
+cook_time: 50
+difficulty: 1
 
 tags:
 - plat principal
@@ -43,7 +46,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 6 personnes. Temps de préparation : 10 min. Temps de cuisson : 50 min.
+Pour 6 personnes.
 
 ## Préparation
 

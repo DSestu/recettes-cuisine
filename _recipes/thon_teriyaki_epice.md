@@ -5,6 +5,10 @@ image: thon_teriyaki_epice
 date: 2026-08-25
 servings: 24
 servings_unit: pièces
+prep_time: 20
+cook_time: 5
+rest_time: 180
+difficulty: 2
 
 tags:
 - aperitif
@@ -35,7 +39,7 @@ ingredients:
 country: "Japon"
 ---
 
-Pour 24 pièces. Temps de préparation : 20 min. Temps de repos : 3 h. Temps de cuisson : 5 min.
+Pour 24 pièces.
 
 ## Préparation
 

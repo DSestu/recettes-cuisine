@@ -4,6 +4,10 @@ title: "Travers de porc à la moutarde, au miel et aux pommes"
 image: travers_de_porc_moutarde_miel_pommes
 date: 2026-02-27
 servings: 4
+prep_time: 20
+cook_time: 90
+rest_time: 30
+difficulty: 1
 
 tags:
 - plat
@@ -48,6 +52,3 @@ Travers de porc rôtis au four, laqués d'une marinade à la moutarde et au miel
 
 Pour 4 personnes
 
-Temps de préparation : 20 minutes
-Temps de cuisson : 1 h 30
-Temps de marinade : 30 minutes

@@ -4,6 +4,9 @@ title: "Curry de poulet de Tobago"
 image: curry_de_poulet_de_tobago
 date: 2026-08-25
 servings: 4
+prep_time: 25
+cook_time: 55
+difficulty: 1
 
 tags:
 - plat principal
@@ -35,7 +38,7 @@ ingredients:
 country: "Antilles"
 ---
 
-Pour 4 personnes. Temps de préparation : 25 min. Temps de cuisson : 55 min.
+Pour 4 personnes.
 
 ## Préparation
 

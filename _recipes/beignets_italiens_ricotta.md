@@ -4,6 +4,9 @@ title: "Beignets italiens à la ricotta"
 image: beignets_italiens_ricotta
 date: 2026-05-13
 servings: 4
+prep_time: 20
+cook_time: 15
+difficulty: 2
 
 tags:
 - dessert

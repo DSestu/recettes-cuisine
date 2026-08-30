@@ -4,6 +4,9 @@ title: "Curry de gambas et de mangue verte"
 image: curry_gambas_mangue_verte
 date: 2026-08-24
 servings: 6
+prep_time: 25
+cook_time: 20
+difficulty: 1
 
 tags:
 - plat principal

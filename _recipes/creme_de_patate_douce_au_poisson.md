@@ -4,6 +4,9 @@ title: "Crème de patate douce au poisson"
 image: creme_de_patate_douce_au_poisson
 date: 2026-08-25
 servings: 4
+prep_time: 15
+cook_time: 45
+difficulty: 1
 
 tags:
 - repas
@@ -39,7 +42,7 @@ ingredients:
 country: "Antilles"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 45 min.
+Pour 4 personnes.
 
 ## Préparation
 

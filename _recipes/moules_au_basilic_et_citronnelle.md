@@ -4,6 +4,9 @@ title: "Moules au basilic et à la citronnelle"
 image: moules_au_basilic_et_citronnelle
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 10
+difficulty: 1
 
 tags:
 - plat principal
@@ -43,7 +46,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 10 min.
+Pour 4 personnes.
 
 ## Préparation
 

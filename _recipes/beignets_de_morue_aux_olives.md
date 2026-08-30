@@ -4,6 +4,10 @@ title: "Beignets de morue aux olives"
 image: beignets_de_morue_aux_olives
 date: 2026-08-24
 servings: 4
+prep_time: 40
+cook_time: 45
+rest_time: 750
+difficulty: 2
 
 tags:
 - aperitif

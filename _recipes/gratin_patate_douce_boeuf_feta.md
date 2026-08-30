@@ -4,6 +4,9 @@ title: "Gratin patate douce, bœuf haché & feta"
 image: gratin_patate_douce_boeuf_feta
 date: 2026-05-13
 servings: 4
+prep_time: 20
+cook_time: 50
+difficulty: 2
 
 tags:
 - plat principal

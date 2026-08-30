@@ -4,6 +4,9 @@ title: "Soupe de poisson au saumon"
 image: soupe_de_poisson_au_saumon
 date: 2026-05-13
 servings: 4
+prep_time: 15
+cook_time: 35
+difficulty: 1
 
 tags:
 - soupe

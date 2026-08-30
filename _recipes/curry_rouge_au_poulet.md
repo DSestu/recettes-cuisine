@@ -4,6 +4,9 @@ title: "Curry rouge au poulet"
 image: curry_rouge_au_poulet
 date: 2026-08-24
 servings: 6
+prep_time: 15
+cook_time: 40
+difficulty: 1
 
 tags:
 - plat principal
@@ -47,7 +50,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 6 personnes. Temps de préparation : 15 min. Temps de cuisson : 40 min.
+Pour 6 personnes.
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Sauce tonkatsu"
 image: sauce_tonkatsu
 date: 2026-08-25
 servings: 4
+prep_time: 5
+cook_time: 5
+difficulty: 1
 
 tags:
 - condiment

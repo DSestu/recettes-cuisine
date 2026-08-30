@@ -4,6 +4,9 @@ title: "Kinpira Gobo - Racine de bardane et carotte sautées"
 image: kinpira_gobo
 date: 2025-10-09
 servings: 1
+prep_time: 10
+cook_time: 10
+difficulty: 1
 
 
 tags:

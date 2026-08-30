@@ -4,6 +4,9 @@ title: "Risotto aux champignons et aux châtaignes"
 image: risotto_aux_champignons_et_aux_chataignes
 date: 2026-03-01
 servings: 4
+prep_time: 15
+cook_time: 20
+difficulty: 2
 
 tags:
 - plat
@@ -39,9 +42,6 @@ country: "Italie"
 ---
 
 Pour 4 personnes.
-
-Temps de préparation : 15 minutes  
-Temps de cuisson : environ 20 minutes
 
 ## Préparation
 

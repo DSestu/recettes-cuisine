@@ -4,6 +4,10 @@ title: "Fougasse aux olives"
 image: fougasse_aux_olives
 date: 2026-07-23
 servings: 6
+prep_time: 20
+cook_time: 20
+rest_time: 120
+difficulty: 2
 
 tags:
 - aperitif
@@ -32,7 +36,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 20 min. Repos : 2 h. Cuisson : 20 min.
+Pour 6 personnes.
 
 ## Préparation
 

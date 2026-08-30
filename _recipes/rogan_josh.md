@@ -4,6 +4,9 @@ title: "Rogan josh"
 image: rogan_josh
 date: 2026-08-24
 servings: 4
+prep_time: 30
+cook_time: 110
+difficulty: 2
 
 tags:
 - plat principal
@@ -56,7 +59,7 @@ components:
 country: "Inde"
 ---
 
-Pour 4 personnes. Temps de préparation : 30 min. Temps de cuisson : 1 h 50.
+Pour 4 personnes.
 
 ## Préparation
 

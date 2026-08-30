@@ -4,6 +4,9 @@ title: "Spaghettis aux girolles sautées"
 image: spaghettis_aux_girolles_sautees
 date: 2026-02-27
 servings: 4
+prep_time: 12
+cook_time: 30
+difficulty: 1
 
 tags:
 - plat
@@ -46,5 +49,3 @@ Spaghettis aux girolles sautées au beurre, parfumées d'ail, de persil et de pa
 
 Pour 4 personnes
 
-Temps de préparation : 12 minutes
-Temps de cuisson : 30 minutes

@@ -4,6 +4,9 @@ title: "Saint-Jacques au gingembre et au sésame"
 image: saint_jacques_gingembre_sesame
 date: 2026-08-24
 servings: 6
+prep_time: 20
+cook_time: 5
+difficulty: 2
 
 tags:
 - entree
@@ -38,7 +41,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 6 personnes. Temps de préparation : 20 min. Temps de cuisson : 5 min.
+Pour 6 personnes.
 
 ## Préparation
 

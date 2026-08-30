@@ -4,6 +4,9 @@ title: "Soupe à l'oignon"
 image: soupe_a_loignon
 date: 2025-06-24
 servings: 4
+prep_time: 20
+cook_time: 45
+difficulty: 2
 
 
 tags:
@@ -58,6 +61,3 @@ country: "France"
 
 Soupe chaude pour 4 personnes.
 
-Temps de préparation : 20 minutes
-
-Temps de cuisson : 45 minutes

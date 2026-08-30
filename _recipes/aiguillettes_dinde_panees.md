@@ -4,6 +4,9 @@ title: "Aiguillettes de dinde panées"
 image: aiguillettes_dinde_panees
 date: 2026-07-23
 servings: 6
+prep_time: 25
+cook_time: 15
+difficulty: 2
 
 tags:
 - repas
@@ -35,7 +38,7 @@ components:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 25 min. Cuisson : 15 min.
+Pour 6 personnes.
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Sauce au vin rouge"
 image: sauce_au_vin_rouge
 date: 2026-05-17
 servings: 4
+prep_time: 15
+cook_time: 25
+difficulty: 1
 
 tags:
 - condiment

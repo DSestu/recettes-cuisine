@@ -4,6 +4,9 @@ title: "Velouté de potiron aux épices douces"
 image: veloute_de_potiron
 date: 2025-11-16
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 
 tags:
@@ -43,6 +46,3 @@ country: "France"
 
 Pour 4 personnes
 
-Temps de préparation: 10m
-
-Temps de cuisson: 15m

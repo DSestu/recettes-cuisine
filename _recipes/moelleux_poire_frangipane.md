@@ -4,6 +4,9 @@ title: "Moelleux à la poire et à la frangipane"
 image: moelleux_poire_frangipane
 date: 2026-05-13
 servings: 6
+prep_time: 30
+cook_time: 30
+difficulty: 1
 
 tags:
 - dessert
@@ -44,7 +47,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Temps de préparation : 30 min. Temps de cuisson : 30 min.
+Pour 6 personnes.
 
 ## Préparation
 

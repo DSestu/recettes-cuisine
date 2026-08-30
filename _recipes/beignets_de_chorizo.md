@@ -4,6 +4,10 @@ title: "Beignets de chorizo"
 image: beignets_de_chorizo
 date: 2026-08-24
 servings: 4
+prep_time: 45
+cook_time: 20
+rest_time: 30
+difficulty: 2
 
 tags:
 - aperitif
@@ -41,7 +45,7 @@ ingredients:
 country: "Espagne"
 ---
 
-Pour 40 beignets. Temps de préparation : 45 min. Temps de repos : 30 min. Temps de cuisson : 20 min.
+Pour 40 beignets.
 
 ## Préparation
 

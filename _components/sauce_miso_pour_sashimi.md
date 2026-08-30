@@ -4,6 +4,10 @@ title: "Sauce au miso pour sashimi"
 image: sauce_miso_pour_sashimi
 date: 2026-08-25
 servings: 4
+prep_time: 5
+cook_time: 5
+rest_time: 30
+difficulty: 1
 
 tags:
 - condiment

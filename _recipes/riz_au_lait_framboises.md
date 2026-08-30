@@ -4,6 +4,10 @@ title: "Riz au lait aux framboises en verrines"
 image: riz_au_lait_framboises
 date: 2026-05-13
 servings: 4
+prep_time: 20
+cook_time: 35
+rest_time: 60
+difficulty: 2
 
 tags:
 - dessert
@@ -30,7 +34,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 verrines. Préparation : 20 min. Cuisson : 35 min. Réfrigération : 1 h minimum.
+Pour 4 verrines.
 
 ## Préparation
 

@@ -5,6 +5,10 @@ image: minitostadas_boeuf_epice
 date: 2026-08-24
 servings: 36
 servings_unit: pièces
+prep_time: 20
+cook_time: 35
+rest_time: 20
+difficulty: 2
 
 tags:
 - aperitif
@@ -41,7 +45,7 @@ ingredients:
 country: "Mexique"
 ---
 
-Pour 36 pièces. Temps de trempage : 20 min. Temps de préparation : 20 min. Temps de cuisson : 35 min.
+Pour 36 pièces.
 
 ## Préparation
 

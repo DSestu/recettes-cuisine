@@ -4,6 +4,9 @@ title: "Coleslaw japonais"
 image: coleslaw_japonais
 date: 2026-08-25
 servings: 6
+prep_time: 20
+rest_time: 30
+difficulty: 1
 
 tags:
 - salade
@@ -35,7 +38,7 @@ components:
 country: "Japon"
 ---
 
-Pour 6 personnes. Temps de préparation : 20 min. Temps de repos : 30 min.
+Pour 6 personnes.
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Tom yum goong"
 image: tom_yum_goong
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 40
+difficulty: 2
 
 tags:
 - soupe
@@ -48,7 +51,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 40 min.
+Pour 4 personnes.
 
 ## Préparation
 

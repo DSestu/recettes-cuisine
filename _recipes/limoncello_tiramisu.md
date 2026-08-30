@@ -5,6 +5,10 @@ title: "Limoncello tiramisu"
 image: limoncello_tiramisu
 date: 2026-02-26
 servings: 4
+prep_time: 45
+cook_time: 15
+rest_time: 300
+difficulty: 2
 
 tags:
 - dessert

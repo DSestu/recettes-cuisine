@@ -4,6 +4,9 @@ title: "Sauce bolognaise"
 image: sauce_bolognaise
 date: 2026-05-16
 servings: 4
+prep_time: 15
+cook_time: 30
+difficulty: 1
 
 tags:
 - condiment

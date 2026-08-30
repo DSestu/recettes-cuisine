@@ -4,6 +4,9 @@ title: "Sauce fruitée"
 image: sauce_fruitee
 date: 2026-06-07
 servings: 4
+prep_time: 10
+cook_time: 15
+difficulty: 1
 
 tags:
 - condiment

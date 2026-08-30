@@ -4,6 +4,9 @@ title: "Curry d'œuf massala"
 image: curry_oeuf_massala
 date: 2026-06-07
 servings: 4
+prep_time: 15
+cook_time: 25
+difficulty: 1
 
 tags:
 - repas
@@ -47,7 +50,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 4 personnes. Préparation : 15 min. Cuisson : 25 min.
+Pour 4 personnes.
 
 ## Préparation
 

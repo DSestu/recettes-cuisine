@@ -4,6 +4,9 @@ title: "Sauté de porc aux abricots, sauce soja et citron vert"
 image: saute_de_porc_aux_abricots_sauce_soja_citron_vert
 date: 2026-03-01
 servings: 6
+prep_time: 5
+cook_time: 70
+difficulty: 1
 
 tags:
 - plat
@@ -38,9 +41,6 @@ country: "Fusion"
 ---
 
 Pour 6 personnes.
-
-Temps de préparation : 5 minutes  
-Temps de cuisson : 1 h 10
 
 ## Préparation
 

@@ -4,6 +4,9 @@ title: "Filet mignon sauce chasseur"
 image: filet_mignon_sauce_chasseur
 date: 2026-05-17
 servings: 6
+prep_time: 30
+cook_time: 70
+difficulty: 3
 
 tags:
 - plat principal
@@ -35,7 +38,7 @@ components:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 30 min. Cuisson : 1 h 10. Difficulté : ⚠️⚠️⚠️.
+Pour 6 personnes. Difficulté : ⚠️⚠️⚠️.
 
 ## Préparation
 

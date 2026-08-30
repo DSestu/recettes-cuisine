@@ -4,6 +4,9 @@ title: "Magret de canard, clémentines de Corse et purée de butternut"
 image: magret_de_canard_clementines_corse_puree_de_butternut
 date: 2026-02-27
 servings: 4
+prep_time: 20
+cook_time: 35
+difficulty: 2
 
 tags:
 - plat
@@ -58,5 +61,3 @@ Magret de canard rôti servi avec une sauce aux clémentines de Corse, à la bi�
 
 Pour 4 personnes
 
-Temps de préparation : 20 minutes
-Temps de cuisson : 35 minutes

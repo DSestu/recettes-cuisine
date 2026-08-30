@@ -4,6 +4,8 @@ title: "Crème mascarpone à la confiture de lait"
 image: creme_mascarpone_confiture_de_lait
 date: 2026-07-23
 servings: 4
+prep_time: 5
+difficulty: 1
 
 tags:
 - composant

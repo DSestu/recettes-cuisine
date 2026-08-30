@@ -4,6 +4,9 @@ title: "Tarte amandine aux poires"
 image: tarte_amandine_aux_poires
 date: 2026-05-13
 servings: 6
+prep_time: 60
+cook_time: 45
+difficulty: 2
 
 tags:
 - dessert
@@ -30,7 +33,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 à 8 personnes. Temps de préparation : 1 heure. Temps de cuisson : 45 min.
+Pour 6 à 8 personnes.
 
 ## Préparation
 

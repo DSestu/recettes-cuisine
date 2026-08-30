@@ -4,6 +4,10 @@ title: "Poulet masala"
 image: poulet_masala
 date: 2026-08-24
 servings: 4
+prep_time: 20
+cook_time: 25
+rest_time: 360
+difficulty: 1
 
 tags:
 - plat principal
@@ -37,7 +41,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de repos : 6 h. Temps de cuisson : 25 min.
+Pour 4 personnes.
 
 ## Préparation
 

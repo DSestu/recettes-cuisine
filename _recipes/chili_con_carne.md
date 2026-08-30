@@ -4,6 +4,9 @@ title: "Chili con carne"
 image: chili_con_carne
 date: 2026-05-17
 servings: 6
+prep_time: 20
+cook_time: 45
+difficulty: 1
 
 tags:
 - repas
@@ -40,7 +43,7 @@ ingredients:
 country: "Mexique"
 ---
 
-Pour 6 personnes. Préparation : 20 min. Cuisson : 45 min.
+Pour 6 personnes.
 
 ## Préparation
 

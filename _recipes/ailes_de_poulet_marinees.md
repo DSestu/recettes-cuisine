@@ -5,6 +5,10 @@ image: ailes_de_poulet_marinees
 date: 2026-08-24
 servings: 24
 servings_unit: pièces
+prep_time: 40
+cook_time: 25
+rest_time: 180
+difficulty: 2
 
 tags:
 - aperitif
@@ -35,7 +39,7 @@ ingredients:
 country: "Chine"
 ---
 
-Pour 24 pièces. Temps de préparation : 40 min. Temps de repos : 3 h. Temps de cuisson : 25 min.
+Pour 24 pièces.
 
 ## Préparation
 

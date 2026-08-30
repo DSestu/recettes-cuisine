@@ -4,6 +4,8 @@ title: "Sauce hoisin aux cacahuètes"
 image: sauce_hoisin_cacahuetes
 date: 2026-08-24
 servings: 4
+prep_time: 5
+difficulty: 1
 
 tags:
 - condiment

@@ -4,6 +4,10 @@ title: "Poulet tandoori"
 image: poulet_tandoori
 date: 2026-08-24
 servings: 4
+prep_time: 20
+cook_time: 90
+rest_time: 720
+difficulty: 1
 
 tags:
 - plat principal
@@ -30,7 +34,7 @@ ingredients:
 country: "Inde"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de repos : 12 h. Temps de cuisson : 1 h 30 au four à 180 °C.
+Pour 4 personnes.
 
 ## Préparation
 

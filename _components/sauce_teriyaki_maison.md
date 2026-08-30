@@ -4,6 +4,9 @@ title:  Sauce teriyaki pour nouilles sautées
 image: sauce_teriyaki
 date: 2025-10-09
 servings: 4
+prep_time: 5
+cook_time: 10
+difficulty: 1
 
 tags:
 - japon

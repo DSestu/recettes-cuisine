@@ -4,6 +4,9 @@ title: "Char siu (porc doré au chalumeau)"
 image: char_siu_porc_chalumeau
 date: 2026-02-26
 servings: 4
+prep_time: 10
+cook_time: 60
+difficulty: 2
 
 tags:
 - composant

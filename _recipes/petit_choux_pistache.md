@@ -4,6 +4,10 @@ title: "Petits choux à la pistache"
 image: petit_choux_pistache
 date: 2026-07-23
 servings: 4
+prep_time: 55
+cook_time: 40
+rest_time: 180
+difficulty: 3
 
 tags:
 - dessert
@@ -31,7 +35,7 @@ components:
 country: "France"
 ---
 
-Pour une douzaine de choux. Préparation : 55 min. Cuisson : 40 min. Réfrigération : 3 h.
+Pour une douzaine de choux.
 
 ## Préparation
 

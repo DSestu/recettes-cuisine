@@ -4,6 +4,10 @@ title: "Poulet rôti au citron confit"
 image: poulet_roti_au_citron_confit
 date: 2026-08-25
 servings: 6
+prep_time: 45
+cook_time: 45
+rest_time: 180
+difficulty: 2
 
 tags:
 - plat principal
@@ -43,7 +47,7 @@ ingredients:
 country: "Maroc"
 ---
 
-Pour 6 personnes. Temps de préparation : 45 min. Temps de repos : 3 h. Cuisson au four : 45 min à 180 °C.
+Pour 6 personnes.
 
 ## Préparation
 

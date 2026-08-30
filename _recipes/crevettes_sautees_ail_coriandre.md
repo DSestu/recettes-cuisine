@@ -4,6 +4,10 @@ title: "Crevettes sautées à l'ail et à la coriandre"
 image: crevettes_sautees_ail_coriandre
 date: 2026-08-25
 servings: 4
+prep_time: 15
+cook_time: 15
+rest_time: 180
+difficulty: 1
 
 tags:
 - plat principal
@@ -38,7 +42,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de marinade : 3 h. Temps de cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

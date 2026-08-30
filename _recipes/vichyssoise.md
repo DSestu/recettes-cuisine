@@ -4,6 +4,10 @@ title: "Vichyssoise"
 image: vichyssoise
 date: 2025-06-19
 servings: 6
+prep_time: 30
+cook_time: 50
+rest_time: 120
+difficulty: 1
 
 
 tags:
@@ -53,6 +57,3 @@ country: "France"
 
 Soupe froide traditionnelle pour 6 personnes.
 
-Temps de préparation : 30 minutes
-Temps de cuisson : 50 minutes
-Temps de réfrigération : 2 heures

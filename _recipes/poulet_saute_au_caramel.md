@@ -4,6 +4,10 @@ title: "Poulet sauté au caramel"
 image: poulet_saute_au_caramel
 date: 2026-08-25
 servings: 4
+prep_time: 15
+cook_time: 60
+rest_time: 720
+difficulty: 2
 
 tags:
 - repas
@@ -55,7 +59,7 @@ ingredients:
 country: "Antilles"
 ---
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de marinade : 12 h. Temps de cuisson : 1 h.
+Pour 4 personnes.
 
 ## Préparation
 

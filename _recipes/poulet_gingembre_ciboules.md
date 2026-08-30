@@ -4,6 +4,9 @@ title: "Poulet au gingembre et aux ciboules"
 image: poulet_gingembre_ciboules
 date: 2026-08-24
 servings: 4
+prep_time: 10
+cook_time: 40
+difficulty: 2
 
 tags:
 - plat principal
@@ -37,7 +40,7 @@ components:
 country: "Chine"
 ---
 
-Pour 4 personnes. Temps de préparation : 10 min. Temps de cuisson : 40 min.
+Pour 4 personnes.
 
 ## Préparation
 

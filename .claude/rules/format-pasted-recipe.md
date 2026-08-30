@@ -17,13 +17,15 @@ globs:
 - **Frontmatter (YAML):** `layout: recipe`, `title: "Titre"` (quoted, proper accents), `image: slug` (**bare slug, no extension** — the site is WebP-only and the layout appends `.webp`), `date: YYYY-MM-DD`. Then `tags:`, `ingredients:` as lists. Optional `components:` (component titles), optional `country:`.
 - **`date:` is mandatory** and means *added at* — the day the recipe entered the repo. Always use **today's date** for a new recipe or component; never invent or backdate it. Existing files were backfilled from git history by `scripts/backfill_added_at.py`. Never edit an existing `date:`. The homepage's « Récents » sort reads this field, grouping recipes into one section per calendar month.
 - **`servings:` is mandatory** — an integer, the number of people the written quantities feed. Take it from the body's « Pour N personnes » (a range like « Pour 6 à 8 personnes » becomes its lower bound, `6`); default to `4` when the source says nothing. For a yield counted in something other than people, add `servings_unit: "pièces"` (or `parts`/`portions`/`pots`) alongside it. The recipe page's servings stepper divides by this number, so a wrong value rescales every quantity — never guess when the source states a count. Components declare it too; inline components follow their parent recipe's factor, so their own value only matters on the component's own page. `scripts/backfill_servings.py` seeded the existing corpus.
+- **`prep_time:` and `difficulty:` are mandatory**; `cook_time:` and `rest_time:` are written only when they apply. All three times are **integers in minutes**. `rest_time` is a single bucket for every passive wait — repos, marinade, dessalage, trempage, réfrigération, macération, levée — summed when there are several (« une nuit » = 720, « 1 jour » = 1440). A range takes its **upper** bound (« 25 à 30 minutes » → 30), the opposite of `servings:`, because the search filters on a maximum. `difficulty:` is `1` (facile), `2` (moyen) or `3` (difficile), judged on technique risk and coordination load rather than duration — an unattended three-hour braise is a 1, a five-minute emulsion that can split is a 2, choux/meringue/fresh pasta/multi-component builds are 3.
+  - **Never write the times as prose in the body.** The recipe header renders them as an icon row from the frontmatter, and the total (prep + cook + rest) is computed at render time — never stored. Sentences like « Temps de préparation : 15 min. » were removed from the corpus by `scripts/backfill_times.py`; « Pour N personnes » stays. Run `uv run python scripts/backfill_times.py --check` to validate the whole corpus.
 - **`country:` is optional** and drives the homepage's « Pays » grouping — a single quoted French country or region name (`country: "Japon"`), or `country: "Fusion"` for a dish that blends multiple cuisines with no single identifiable origin.
   - **Always try to infer it** when creating or substantially editing a recipe/component, from (in order of confidence): an explicit nationality in the title/text (« italien », « japonais »); a named dish/technique tied to one cuisine regardless of the exact ingredients used (pasta shapes, risotto, gnocchi, tiramisu → Italie; karaage, yakitori, okonomiyaki, ramen, dashi/miso/mirin → Japon; curry + massala → Inde; chakchouka → a Maghreb country); and any context the user gave in their ask (a cookbook's name or origin, a stated cuisine or trip, "c'est une recette de ma grand-mère italienne").
   - **If genuinely ambiguous** (plausibly several origins, or only a borrowed ingredient/format with no named-dish signal, e.g. a soy-and-ginger stir-fry with no single Asian country implied) — ask the user in one grouped question, stating your best guess and reasoning per recipe, rather than silently guessing or silently skipping it.
   - **If still unresolved after asking, or the user says to leave it** — omit `country:` entirely; never invent one.
   - A plain French dish gets `country: "France"` — that is a normal, expected value, not something to avoid.
 - **Directions live in two possible places** — Markdown body is preferred; legacy YAML list in frontmatter is still supported.
-- **After `---`:** Optional short description ("Pour X personnes", "Temps de préparation : …"). When using Markdown directions, add a level-2 heading (`## Préparation`) and write full Markdown (paragraphs, bullets, images, tables, sublists).
+- **After `---`:** Optional short description ("Pour X personnes", a sentence about the dish) — but never the times, which live in the frontmatter. When using Markdown directions, add a level-2 heading (`## Préparation`) and write full Markdown (paragraphs, bullets, images, tables, sublists).
 
 ## Directions: Markdown (preferred) vs list (legacy)
 
@@ -94,6 +96,9 @@ title: "Velouté d'asperges"
 image: veloute_asperges
 date: 2026-08-23
 servings: 4
+prep_time: 15
+cook_time: 20
+difficulty: 1
 
 tags:
 - repas
@@ -108,7 +113,7 @@ ingredients:
 ---
 ```
 
-Pour 4 personnes. Temps de préparation : 15 min. Temps de cuisson : 20 min.
+Pour 4 personnes.
 
 ## Préparation
 

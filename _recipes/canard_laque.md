@@ -4,6 +4,9 @@ title: "Canard laqué"
 image: canard_laque
 date: 2026-08-24
 servings: 4
+prep_time: 30
+cook_time: 55
+difficulty: 3
 
 tags:
 - plat principal

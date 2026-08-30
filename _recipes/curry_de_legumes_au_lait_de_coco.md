@@ -4,6 +4,9 @@ title: "Curry de légumes au lait de coco"
 image: curry_de_legumes_au_lait_de_coco
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 15
+difficulty: 1
 
 tags:
 - plat principal
@@ -51,7 +54,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

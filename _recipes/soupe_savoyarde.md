@@ -4,6 +4,9 @@ title: "Soupe savoyarde"
 image: soupe_savoyarde
 date: 2025-06-19
 servings: 4
+prep_time: 15
+cook_time: 50
+difficulty: 1
 
 
 tags:
@@ -55,5 +58,3 @@ country: "France"
 
 Soupe traditionnelle savoyarde pour 4 personnes.
 
-Temps de préparation : 15 minutes
-Temps de cuisson : 50 minutes

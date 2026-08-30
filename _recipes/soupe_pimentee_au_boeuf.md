@@ -4,6 +4,9 @@ title: "Soupe pimentée au bœuf"
 image: soupe_pimentee_au_boeuf
 date: 2026-08-25
 servings: 6
+prep_time: 15
+cook_time: 25
+difficulty: 1
 
 tags:
 - soupe
@@ -41,7 +44,7 @@ ingredients:
 country: "Thaïlande"
 ---
 
-Pour 6 personnes. Temps de préparation : 15 min. Temps de cuisson : 25 min.
+Pour 6 personnes.
 
 ## Préparation
 

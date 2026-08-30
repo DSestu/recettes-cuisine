@@ -4,6 +4,9 @@ title: "Fettucine alle vongole"
 image: fettucine_alle_vongole
 date: 2026-08-24
 servings: 4
+prep_time: 15
+cook_time: 15
+difficulty: 1
 
 tags:
 - plat principal

@@ -4,6 +4,9 @@ title: "Haricots au prosciutto"
 image: haricots_au_prosciutto
 date: 2026-08-24
 servings: 8
+prep_time: 15
+cook_time: 15
+difficulty: 1
 
 tags:
 - entree
@@ -30,7 +33,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 8 personnes. Temps de préparation : 15 min. Temps de cuisson : 15 min.
+Pour 8 personnes.
 
 ## Préparation
 

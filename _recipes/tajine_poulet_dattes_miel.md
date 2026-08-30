@@ -4,6 +4,9 @@ title: "Tajine de poulet aux dattes et au miel"
 image: tajine_poulet_dattes_miel
 date: 2026-08-25
 servings: 4
+prep_time: 25
+cook_time: 105
+difficulty: 1
 
 tags:
 - plat principal
@@ -47,7 +50,7 @@ ingredients:
 country: "Maroc"
 ---
 
-Pour 4 personnes. Temps de préparation : 25 min. Temps de cuisson : 1 h 45.
+Pour 4 personnes.
 
 ## Préparation
 

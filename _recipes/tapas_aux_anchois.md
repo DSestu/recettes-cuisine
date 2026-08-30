@@ -4,6 +4,10 @@ title: "Tapas aux anchois"
 image: tapas_aux_anchois
 date: 2026-08-24
 servings: 4
+prep_time: 15
+cook_time: 10
+rest_time: 10
+difficulty: 1
 
 tags:
 - entree

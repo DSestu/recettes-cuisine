@@ -4,6 +4,9 @@ title: "Blancs de poulet farcis aux épinards et à la feta"
 image: blancs_poulet_farcis_epinards_feta
 date: 2026-08-24
 servings: 4
+prep_time: 25
+cook_time: 40
+difficulty: 2
 
 tags:
 - plat principal

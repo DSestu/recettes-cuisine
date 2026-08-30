@@ -4,6 +4,8 @@ title:  "Sauce teriyaki"
 image: sauce_teriyaki
 date: 2025-08-10
 servings: 4
+prep_time: 5
+difficulty: 1
 
 tags:
 - japon

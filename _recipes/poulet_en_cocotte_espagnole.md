@@ -4,6 +4,9 @@ title: "Poulet en cocotte à l'espagnole"
 image: poulet_en_cocotte_espagnole
 date: 2026-08-24
 servings: 4
+prep_time: 20
+cook_time: 75
+difficulty: 1
 
 tags:
 - plat principal
@@ -45,7 +48,7 @@ ingredients:
 country: "Espagne"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 1 h au four à 180 °C, puis 15 min.
+Pour 4 personnes.
 
 ## Préparation
 

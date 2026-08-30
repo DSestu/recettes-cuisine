@@ -5,6 +5,10 @@ title: "Crème brûlée"
 image: creme_brulee
 date: 2025-08-12
 servings: 4
+prep_time: 25
+cook_time: 35
+rest_time: 130
+difficulty: 2
 
 
 tags:

@@ -4,6 +4,9 @@ title: "Velouté de patate douce, lentilles corail et œuf poché"
 image: veloute_patate_douce_lentilles_corail
 date: 2026-05-13
 servings: 4
+prep_time: 30
+cook_time: 35
+difficulty: 2
 
 tags:
 - repas
@@ -39,7 +42,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 4 personnes. Préparation : 30 min. Cuisson : 35 min.
+Pour 4 personnes.
 
 ## Préparation
 

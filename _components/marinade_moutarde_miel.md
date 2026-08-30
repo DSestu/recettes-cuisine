@@ -4,6 +4,9 @@ title: "Marinade moutarde-miel"
 image: marinade_moutarde_miel
 date: 2026-05-16
 servings: 4
+prep_time: 5
+rest_time: 30
+difficulty: 1
 
 tags:
 - condiment

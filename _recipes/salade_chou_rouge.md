@@ -4,6 +4,10 @@ title: "Salade de chou rouge"
 image: salade_chou_rouge
 date: 2025-06-24
 servings: 4
+prep_time: 15
+cook_time: 6
+rest_time: 2880
+difficulty: 1
 
 
 tags:
@@ -48,8 +52,3 @@ country: "France"
 
 Pour 4 personnes.
 
-Temps de préparation : 15 minutes
-
-Temps de cuisson : 6 minutes
-
-Temps de marinade : 2 jours

@@ -5,6 +5,9 @@ title: "Tiramisu aux framboises"
 image: tiramisu_framboise
 date: 2025-08-12
 servings: 4
+prep_time: 30
+rest_time: 120
+difficulty: 2
 
 
 tags:

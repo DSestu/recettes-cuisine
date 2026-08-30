@@ -4,6 +4,9 @@ title: "Coquilles Saint-Jacques gratinées"
 image: coquilles_saint_jacques_gratinees
 date: 2026-05-13
 servings: 4
+prep_time: 25
+cook_time: 25
+difficulty: 2
 
 tags:
 - entree

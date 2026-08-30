@@ -4,6 +4,9 @@ title: "Risotto aux crevettes et aux asperges"
 image: risotto_crevettes_asperges
 date: 2026-08-23
 servings: 4
+prep_time: 25
+cook_time: 45
+difficulty: 2
 
 tags:
 - plat principal
@@ -35,7 +38,7 @@ ingredients:
 country: "Italie"
 ---
 
-Pour 4 personnes. Temps de préparation : 25 min. Temps de cuisson : 45 min.
+Pour 4 personnes.
 
 ## Préparation
 

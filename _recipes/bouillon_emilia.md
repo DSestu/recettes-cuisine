@@ -5,6 +5,9 @@ title:  "Bouillon Emilia"
 image: bouillon_emilia
 date: 2026-02-15
 servings: 4
+prep_time: 20
+cook_time: 120
+difficulty: 1
 
 
 tags:

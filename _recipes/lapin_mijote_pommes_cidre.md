@@ -4,6 +4,9 @@ title: "Lapin mijoté aux pommes et au cidre"
 image: lapin_mijote_pommes_cidre
 date: 2026-05-17
 servings: 6
+prep_time: 10
+cook_time: 50
+difficulty: 1
 
 tags:
 - repas
@@ -37,7 +40,7 @@ ingredients:
 country: "France"
 ---
 
-Pour 6 personnes. Préparation : 10 min. Cuisson : 50 min.
+Pour 6 personnes.
 
 ## Préparation
 

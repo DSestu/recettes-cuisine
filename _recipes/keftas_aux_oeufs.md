@@ -4,6 +4,9 @@ title: "Keftas aux œufs"
 image: keftas_aux_oeufs
 date: 2026-08-25
 servings: 4
+prep_time: 20
+cook_time: 45
+difficulty: 1
 
 tags:
 - plat principal
@@ -43,7 +46,7 @@ ingredients:
 country: "Maroc"
 ---
 
-Pour 4 personnes. Temps de préparation : 20 min. Temps de cuisson : 45 min.
+Pour 4 personnes.
 
 ## Préparation
 
