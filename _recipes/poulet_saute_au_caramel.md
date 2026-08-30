@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet sauté au caramel"
 image: poulet_saute_au_caramel
 date: 2026-08-25
+servings: 4
 
 tags:
 - repas

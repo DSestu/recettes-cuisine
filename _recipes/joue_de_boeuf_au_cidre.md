@@ -3,6 +3,7 @@ layout: recipe
 title: "Joue de bœuf au cidre"
 image: joue_de_boeuf_au_cidre
 date: 2026-06-07
+servings: 6
 
 tags:
 - repas

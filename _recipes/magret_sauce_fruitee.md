@@ -3,6 +3,7 @@ layout: recipe
 title: "Magret sauce fruitée"
 image: magret_sauce_fruitee
 date: 2026-06-07
+servings: 6
 
 tags:
 - repas

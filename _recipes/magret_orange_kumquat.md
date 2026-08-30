@@ -3,6 +3,7 @@ layout: recipe
 title: "Magret à l'orange et kumquat"
 image: magret_orange_kumquat
 date: 2026-06-07
+servings: 6
 
 tags:
 - repas

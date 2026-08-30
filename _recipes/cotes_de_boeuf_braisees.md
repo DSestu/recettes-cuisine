@@ -3,6 +3,7 @@ layout: recipe
 title: "Côtes de bœuf braisées"
 image: cotes_de_boeuf_braisees
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

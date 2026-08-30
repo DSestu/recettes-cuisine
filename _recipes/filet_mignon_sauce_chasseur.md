@@ -3,6 +3,7 @@ layout: recipe
 title: "Filet mignon sauce chasseur"
 image: filet_mignon_sauce_chasseur
 date: 2026-05-17
+servings: 6
 
 tags:
 - plat principal

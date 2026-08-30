@@ -3,6 +3,7 @@ layout: recipe
 title: "Saint-Jacques au gingembre et au sésame"
 image: saint_jacques_gingembre_sesame
 date: 2026-08-24
+servings: 6
 
 tags:
 - entree

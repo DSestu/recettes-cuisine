@@ -3,6 +3,7 @@ layout: recipe
 title: "Curry de poulet de Tobago"
 image: curry_de_poulet_de_tobago
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

@@ -3,6 +3,7 @@ layout: recipe
 title: "Tom yum goong"
 image: tom_yum_goong
 date: 2026-08-25
+servings: 4
 
 tags:
 - soupe

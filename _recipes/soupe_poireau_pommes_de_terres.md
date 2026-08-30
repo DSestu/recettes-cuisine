@@ -3,6 +3,7 @@ layout: recipe
 title: "Soupe de poireaux et pommes de terre"
 image: soupe_poireau_pommes_de_terres
 date: 2025-06-24
+servings: 4
 
 
 tags:

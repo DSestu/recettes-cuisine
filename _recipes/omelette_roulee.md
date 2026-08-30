@@ -3,6 +3,7 @@ layout: recipe
 title: "Omelette roulée"
 image: omelette_roulee
 date: 2026-08-25
+servings: 4
 
 tags:
 - entree

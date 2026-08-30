@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce pimentée au dashi et shichimi"
 image: sauce_pimentee_au_dashi_et_shichimi
 date: 2026-08-25
+servings: 4
 
 tags:
 - condiment

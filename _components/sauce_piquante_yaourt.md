@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce piquante au yaourt"
 image: sauce_piquante_yaourt
 date: 2026-08-24
+servings: 4
 
 tags:
 - condiment

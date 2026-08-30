@@ -3,6 +3,7 @@ layout: recipe
 title: "Boulettes de tofu avec sauce Ankake aux champignons"
 image:  tofu_meatball_with_mushroom_ankake_sauce
 date: 2025-10-09
+servings: 1
 
 tags:
 - entrée

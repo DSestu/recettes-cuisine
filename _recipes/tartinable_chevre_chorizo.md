@@ -4,6 +4,7 @@ layout: recipe
 title: "Tartinable chèvre chorizo"
 image: tartinable_chevre_chorizo
 date: 2026-02-26
+servings: 4
 
 tags:
 - apéritif

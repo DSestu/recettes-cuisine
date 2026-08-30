@@ -3,6 +3,8 @@ layout: recipe
 title: "Sauce blanche au vin blanc"
 image: sauce_blanche_vin_blanc
 date: 2026-08-24
+servings: 4
+servings_unit: portions
 
 tags:
 - condiment

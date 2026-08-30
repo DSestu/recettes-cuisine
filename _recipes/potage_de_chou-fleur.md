@@ -3,6 +3,7 @@ layout: recipe
 title: "Potage Dubarry"
 image: potage_de_chou-fleur
 date: 2025-06-19
+servings: 4
 
 
 tags:

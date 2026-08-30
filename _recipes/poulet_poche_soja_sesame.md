@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet poché au soja et au sésame"
 image: poulet_poche_soja_sesame
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

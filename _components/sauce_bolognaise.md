@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce bolognaise"
 image: sauce_bolognaise
 date: 2026-05-16
+servings: 4
 
 tags:
 - condiment

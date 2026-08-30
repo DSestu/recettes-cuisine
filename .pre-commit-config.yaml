@@ -55,6 +55,12 @@ repos:
         language: system
         files: ^(_recipes/.*\.md|_components/.*\.md|_data/(seasonality|recipe_tags)\.yml|scripts/generate_recipe_seasonality\.py)$
         pass_filenames: false
+      - id: generate-recipe-scaling
+        name: Generate recipe scaling JSON (quantity tokens for the servings scaler)
+        entry: uv run python scripts/generate_recipe_scaling.py
+        language: system
+        files: ^(_recipes/.*\.md|_components/.*\.md|scripts/generate_recipe_scaling\.py)$
+        pass_filenames: false
       - id: build-tailwind
         name: Compile static Tailwind CSS
         entry: uv run python scripts/build_tailwind.py

@@ -3,6 +3,7 @@ layout: recipe
 title: "Béchamel pour moussaka"
 image: bechamel_moussaka
 date: 2026-08-25
+servings: 6
 
 tags:
 - condiment

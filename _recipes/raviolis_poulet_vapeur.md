@@ -3,6 +3,7 @@ layout: recipe
 title: "Raviolis de poulet à la vapeur"
 image: raviolis_poulet_vapeur
 date: 2026-08-24
+servings: 4
 
 tags:
 - entree

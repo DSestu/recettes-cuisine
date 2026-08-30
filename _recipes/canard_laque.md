@@ -3,6 +3,7 @@ layout: recipe
 title: "Canard laqué"
 image: canard_laque
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

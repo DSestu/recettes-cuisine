@@ -3,6 +3,7 @@ layout: recipe
 title: "Houmous"
 image: houmous
 date: 2026-08-25
+servings: 2
 
 tags:
 - entree

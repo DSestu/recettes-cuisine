@@ -3,6 +3,7 @@ layout: recipe
 title: "Coleslaw japonais"
 image: coleslaw_japonais
 date: 2026-08-25
+servings: 6
 
 tags:
 - salade

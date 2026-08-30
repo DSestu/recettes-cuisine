@@ -3,6 +3,7 @@ layout: recipe
 title: "Karaage - Poulet frit japonais avec sauce aromatique"
 image: karaage
 date: 2025-10-09
+servings: 1
 
 
 tags:

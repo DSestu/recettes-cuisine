@@ -3,6 +3,7 @@ layout: recipe
 title: "Teriyaki de saumon"
 image: teriyaki_de_saumon
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

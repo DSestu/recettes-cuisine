@@ -4,6 +4,7 @@ layout: recipe
 title: "Ramen maison"
 image: ramen_maison
 date: 2026-02-26
+servings: 2
 
 tags:
 - plat principal

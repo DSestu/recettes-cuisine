@@ -3,6 +3,7 @@ layout: recipe
 title: "Filet de bœuf à la cantonaise"
 image: filet_de_boeuf_cantonaise
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

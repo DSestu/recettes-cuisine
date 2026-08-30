@@ -3,6 +3,7 @@ layout: recipe
 title: "Baba ganoush"
 image: baba_ganoush
 date: 2026-08-25
+servings: 2
 
 tags:
 - entree

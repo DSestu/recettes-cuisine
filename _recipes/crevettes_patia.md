@@ -3,6 +3,7 @@ layout: recipe
 title: "Crevettes patia"
 image: crevettes_patia
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

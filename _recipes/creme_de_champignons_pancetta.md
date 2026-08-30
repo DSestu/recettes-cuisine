@@ -3,6 +3,7 @@ layout: recipe
 title: "Crème de champignons à la pancetta"
 image: creme_de_champignons_pancetta
 date: 2026-08-24
+servings: 4
 
 tags:
 - soupe

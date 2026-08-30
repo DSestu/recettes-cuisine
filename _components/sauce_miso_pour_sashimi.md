@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce au miso pour sashimi"
 image: sauce_miso_pour_sashimi
 date: 2026-08-25
+servings: 4
 
 tags:
 - condiment

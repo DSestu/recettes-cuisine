@@ -3,6 +3,7 @@ layout: recipe
 title: "Rogan josh"
 image: rogan_josh
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

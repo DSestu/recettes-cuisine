@@ -3,6 +3,7 @@ layout: recipe
 title: "Keftas aux œufs"
 image: keftas_aux_oeufs
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

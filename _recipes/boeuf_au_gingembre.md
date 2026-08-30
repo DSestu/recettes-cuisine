@@ -3,6 +3,7 @@ layout: recipe
 title: "Bœuf au gingembre"
 image: boeuf_au_gingembre
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

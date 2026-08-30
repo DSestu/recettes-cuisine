@@ -3,6 +3,7 @@ layout: recipe
 title: "Porc laqué sauté"
 image: porc_laque_saute
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

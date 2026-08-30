@@ -3,6 +3,7 @@ layout: recipe
 title: "Bavette sauce au vin"
 image: bavette_sauce_au_vin
 date: 2026-05-17
+servings: 6
 
 tags:
 - repas

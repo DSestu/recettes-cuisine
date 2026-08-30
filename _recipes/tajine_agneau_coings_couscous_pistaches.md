@@ -3,6 +3,7 @@ layout: recipe
 title: "Tajine d'agneau aux coings et couscous aux pistaches"
 image: tajine_agneau_coings_couscous_pistaches
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

@@ -3,6 +3,7 @@ layout: recipe
 title: "Entremet framboises & mascarpone au kirsch"
 image: entremet_framboises_mascarpone_kirsch
 date: 2026-05-13
+servings: 4
 
 tags:
 - dessert

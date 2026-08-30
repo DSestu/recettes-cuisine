@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce tonkatsu"
 image: sauce_tonkatsu
 date: 2026-08-25
+servings: 4
 
 tags:
 - condiment

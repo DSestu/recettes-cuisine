@@ -3,6 +3,7 @@ layout: recipe
 title: "Soupe miso au porc et aux haricots verts"
 image: soupe_miso_porc_haricots_verts
 date: 2026-08-25
+servings: 4
 
 tags:
 - soupe

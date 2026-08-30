@@ -3,6 +3,7 @@ layout: recipe
 title: "Poisson poché à la crème de coco et aux piments"
 image: poisson_poche_creme_de_coco_piments
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

@@ -3,6 +3,7 @@ layout: recipe
 title: "Beignets de morue aux olives"
 image: beignets_de_morue_aux_olives
 date: 2026-08-24
+servings: 4
 
 tags:
 - aperitif

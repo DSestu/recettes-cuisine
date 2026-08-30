@@ -3,6 +3,7 @@ layout: recipe
 title: "Velouté de champignons de Paris au tahini"
 image: veloute_de_champignons_de_paris_au_tahini
 date: 2026-03-01
+servings: 4
 
 tags:
 - soupe

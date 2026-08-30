@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet mariné à la jamaïcaine (jerk chicken)"
 image: poulet_marine_a_la_jamaicaine
 date: 2026-08-25
+servings: 4
 
 tags:
 - repas

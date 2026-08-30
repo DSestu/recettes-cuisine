@@ -3,6 +3,7 @@ layout: recipe
 title: "Ailes de poulet sautées"
 image: ailes_de_poulet_sautees
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

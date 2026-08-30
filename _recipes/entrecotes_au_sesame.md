@@ -3,6 +3,7 @@ layout: recipe
 title: "Entrecôtes au sésame"
 image: entrecotes_au_sesame
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

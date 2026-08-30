@@ -3,6 +3,7 @@ layout: recipe
 title: "Boulettes d'agneau à la façon du Cachemire"
 image: boulettes_agneau_cachemire
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

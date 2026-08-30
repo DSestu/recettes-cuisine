@@ -3,6 +3,7 @@ layout: recipe
 title: "Falafels"
 image: falafels
 date: 2026-08-25
+servings: 4
 
 tags:
 - entree

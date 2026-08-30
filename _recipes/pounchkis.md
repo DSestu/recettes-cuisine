@@ -4,6 +4,7 @@ layout: recipe
 title: "Pounchkis (beignets fourrés)"
 image: pounchkis
 date: 2025-08-12
+servings: 4
 
 
 tags:

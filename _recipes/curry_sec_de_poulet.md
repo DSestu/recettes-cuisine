@@ -3,6 +3,7 @@ layout: recipe
 title: "Curry sec de poulet"
 image: curry_sec_de_poulet
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

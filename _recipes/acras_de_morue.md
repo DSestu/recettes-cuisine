@@ -3,6 +3,7 @@ layout: recipe
 title: "Acras de morue"
 image: acras_de_morue
 date: 2026-08-25
+servings: 4
 
 tags:
 - aperitif

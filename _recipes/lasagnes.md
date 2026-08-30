@@ -3,6 +3,7 @@ layout: recipe
 title: "Lasagnes"
 image: lasagnes
 date: 2025-10-13
+servings: 6
 
 tags:
 - sestu

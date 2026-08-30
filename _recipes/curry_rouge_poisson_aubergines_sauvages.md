@@ -3,6 +3,7 @@ layout: recipe
 title: "Curry rouge de poisson et aubergines sauvages"
 image: curry_rouge_poisson_aubergines_sauvages
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

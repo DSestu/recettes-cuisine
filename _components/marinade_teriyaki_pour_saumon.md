@@ -3,6 +3,7 @@ layout: recipe
 title: "Marinade teriyaki pour saumon"
 image: marinade_teriyaki_pour_saumon
 date: 2026-08-25
+servings: 4
 
 tags:
 - condiment

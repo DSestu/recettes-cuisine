@@ -3,6 +3,7 @@ layout: recipe
 title: "Raviolis frits"
 image: raviolis_frits
 date: 2026-08-24
+servings: 4
 
 tags:
 - entree

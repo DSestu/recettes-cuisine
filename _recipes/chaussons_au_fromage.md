@@ -3,6 +3,7 @@ layout: recipe
 title: "Chaussons au fromage"
 image: chaussons_au_fromage
 date: 2026-08-24
+servings: 4
 
 tags:
 - aperitif

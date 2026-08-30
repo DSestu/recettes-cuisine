@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce chasseur"
 image: sauce_chasseur
 date: 2026-05-17
+servings: 4
 
 tags:
 - condiment

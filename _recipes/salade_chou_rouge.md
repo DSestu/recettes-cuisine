@@ -3,6 +3,7 @@ layout: recipe
 title: "Salade de chou rouge"
 image: salade_chou_rouge
 date: 2025-06-24
+servings: 4
 
 
 tags:

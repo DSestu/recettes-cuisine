@@ -3,6 +3,7 @@ layout: recipe
 title: "Saumon laqué au gingembre, poêlée de marrons et choux de Bruxelles"
 image: saumon_laque_gingembre_marron_choux_bruxelles
 date: 2025-11-16
+servings: 4
 
 tags:
 - poisson

@@ -3,6 +3,7 @@ layout: recipe
 title: "Blanquette de veau"
 image: blanquette_de_veau
 date: 2026-05-17
+servings: 6
 
 tags:
 - repas

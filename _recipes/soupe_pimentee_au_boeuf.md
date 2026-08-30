@@ -3,6 +3,7 @@ layout: recipe
 title: "Soupe pimentée au bœuf"
 image: soupe_pimentee_au_boeuf
 date: 2026-08-25
+servings: 6
 
 tags:
 - soupe

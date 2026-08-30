@@ -3,6 +3,7 @@ layout: recipe
 title: "Dip au fenouil rôti"
 image: dip_au_fenouil_roti
 date: 2026-08-24
+servings: 4
 
 tags:
 - aperitif

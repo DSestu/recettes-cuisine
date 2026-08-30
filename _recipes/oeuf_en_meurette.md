@@ -3,6 +3,7 @@ layout: recipe
 title: "Œufs en meurette"
 image: oeuf_en_meurette
 date: 2026-06-07
+servings: 4
 
 tags:
 - repas

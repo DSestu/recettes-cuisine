@@ -3,6 +3,7 @@ layout: recipe
 title: "Vinaigrette à la moutarde"
 image: vinaigrette_moutarde
 date: 2026-05-16
+servings: 4
 
 tags:
 - condiment

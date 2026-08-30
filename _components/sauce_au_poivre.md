@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce au poivre"
 image: sauce_au_poivre
 date: 2026-05-17
+servings: 4
 
 tags:
 - condiment

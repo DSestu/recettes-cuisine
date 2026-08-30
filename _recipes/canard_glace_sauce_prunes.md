@@ -3,6 +3,7 @@ layout: recipe
 title: "Canard glacé à la sauce aux prunes"
 image: canard_glace_sauce_prunes
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

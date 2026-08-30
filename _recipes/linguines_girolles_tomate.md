@@ -3,6 +3,7 @@ layout: recipe
 title: "Linguines aux girolles et à la tomate"
 image: linguines_girolles_tomate
 date: 2026-05-13
+servings: 4
 
 tags:
 - repas

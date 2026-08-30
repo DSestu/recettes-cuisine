@@ -3,6 +3,7 @@ layout: recipe
 title: "Sashimi de saumon mariné"
 image: sashimi_saumon_marine
 date: 2026-08-25
+servings: 4
 
 tags:
 - entree

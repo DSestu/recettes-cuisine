@@ -3,6 +3,7 @@ layout: recipe
 title: "Gambas aux épices et à la coriandre"
 image: gambas_epices_coriandre
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

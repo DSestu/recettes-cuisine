@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet makhani"
 image: poulet_makhani
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

@@ -3,6 +3,7 @@ layout: recipe
 title: "Mélange d'épices à la noix de coco"
 image: melange_epices_noix_de_coco
 date: 2026-08-24
+servings: 6
 
 tags:
 - condiment

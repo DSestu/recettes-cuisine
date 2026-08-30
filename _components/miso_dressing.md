@@ -3,6 +3,7 @@ layout: recipe
 title:  "Vinaigrette miso"
 image: vinaigrette_miso
 date: 2025-10-09
+servings: 1
 
 tags:
 - japon

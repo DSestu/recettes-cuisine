@@ -3,6 +3,7 @@ layout: recipe
 title: "Canard sauté au tamarin"
 image: canard_saute_au_tamarin
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

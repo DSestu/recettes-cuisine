@@ -3,6 +3,7 @@ layout: recipe
 title: "Spaghettis aux girolles sautées"
 image: spaghettis_aux_girolles_sautees
 date: 2026-02-27
+servings: 4
 
 tags:
 - plat

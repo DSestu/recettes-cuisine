@@ -3,6 +3,7 @@ layout: recipe
 title: "Char siu (porc doré au chalumeau)"
 image: char_siu_porc_chalumeau
 date: 2026-02-26
+servings: 4
 
 tags:
 - composant

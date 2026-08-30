@@ -3,6 +3,7 @@ layout: recipe
 title: "Raviolis végétariens"
 image: raviolis_vegetariens
 date: 2026-08-24
+servings: 4
 
 tags:
 - entree

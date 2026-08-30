@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet tikka"
 image: poulet_tikka
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

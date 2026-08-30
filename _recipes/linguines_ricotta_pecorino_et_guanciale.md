@@ -3,6 +3,7 @@ layout: recipe
 title: "Linguines ricotta, pecorino et guanciale"
 image: linguines_ricotta_pecorino_et_guanciale
 date: 2026-02-27
+servings: 4
 
 tags:
 - plat

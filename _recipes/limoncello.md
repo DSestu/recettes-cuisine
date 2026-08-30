@@ -4,6 +4,7 @@ layout: recipe
 title: "Limoncello"
 image: limoncello
 date: 2026-02-26
+servings: 4
 
 tags:
 - boisson

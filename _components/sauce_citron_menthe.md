@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce au citron et à la menthe"
 image: sauce_citron_menthe
 date: 2026-08-24
+servings: 4
 
 tags:
 - condiment

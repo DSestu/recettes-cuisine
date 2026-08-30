@@ -3,6 +3,7 @@ layout: recipe
 title: "Pot-au-feu de volaille"
 image: pot_au_feu_de_volaille
 date: 2026-08-25
+servings: 4
 
 tags:
 - repas

@@ -3,6 +3,7 @@ layout: recipe
 title: "Champignons sautés au piment"
 image: champignons_sautes_au_piment
 date: 2026-08-24
+servings: 4
 
 tags:
 - entree

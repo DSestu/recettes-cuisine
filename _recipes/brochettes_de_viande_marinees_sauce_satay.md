@@ -3,6 +3,7 @@ layout: recipe
 title: "Brochettes de viande marinées et sauce satay"
 image: brochettes_de_viande_marinees_sauce_satay
 date: 2026-08-25
+servings: 6
 
 tags:
 - plat principal

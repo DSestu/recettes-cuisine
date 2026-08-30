@@ -3,6 +3,7 @@ layout: recipe
 title: "Pilaf de crevettes et de courgettes"
 image: pilaf_crevettes_courgettes
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

@@ -3,6 +3,7 @@ layout: recipe
 title: "Tajine de bœuf aux pruneaux"
 image: tajine_boeuf_pruneaux
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

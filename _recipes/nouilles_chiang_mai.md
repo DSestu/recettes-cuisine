@@ -3,6 +3,7 @@ layout: recipe
 title: "Nouilles Chiang Mai"
 image: nouilles_chiang_mai
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

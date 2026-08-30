@@ -3,6 +3,7 @@ layout: recipe
 title: "Lapin mijoté aux pommes et au cidre"
 image: lapin_mijote_pommes_cidre
 date: 2026-05-17
+servings: 6
 
 tags:
 - repas

@@ -3,6 +3,7 @@ layout: recipe
 title: "Dip de thon"
 image: dip_de_thon
 date: 2026-07-23
+servings: 4
 
 tags:
 - composant

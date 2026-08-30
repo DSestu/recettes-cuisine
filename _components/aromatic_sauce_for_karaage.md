@@ -3,6 +3,7 @@ layout: recipe
 title:  "Sauce aromatique pour Karaage"
 image: aromatic_karaage
 date: 2025-10-09
+servings: 1
 
 tags:
 - japon

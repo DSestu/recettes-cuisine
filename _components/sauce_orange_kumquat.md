@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce orange et kumquat"
 image: sauce_orange_kumquat
 date: 2026-06-07
+servings: 4
 
 tags:
 - condiment

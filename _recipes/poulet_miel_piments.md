@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet au miel et aux piments"
 image: poulet_miel_piments
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

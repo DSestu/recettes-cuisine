@@ -3,6 +3,7 @@ layout: recipe
 title: "Risotto aux crevettes et aux asperges"
 image: risotto_crevettes_asperges
 date: 2026-08-23
+servings: 4
 
 tags:
 - plat principal

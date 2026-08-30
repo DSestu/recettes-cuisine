@@ -3,6 +3,7 @@ layout: recipe
 title: "Crème pralinée"
 image: creme_pralinee
 date: 2026-07-23
+servings: 4
 
 tags:
 - composant

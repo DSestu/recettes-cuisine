@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet rôti au citron confit"
 image: poulet_roti_au_citron_confit
 date: 2026-08-25
+servings: 6
 
 tags:
 - plat principal

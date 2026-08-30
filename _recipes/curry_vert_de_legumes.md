@@ -3,6 +3,7 @@ layout: recipe
 title: "Curry vert de légumes"
 image: curry_vert_de_legumes
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

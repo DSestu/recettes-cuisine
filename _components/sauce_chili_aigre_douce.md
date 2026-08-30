@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce chili aigre-douce"
 image: sauce_chili_aigre_douce
 date: 2026-07-23
+servings: 4
 
 tags:
 - composant

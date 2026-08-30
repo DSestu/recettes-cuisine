@@ -3,6 +3,7 @@ layout: recipe
 title: "Gratinée lyonnaise"
 image: gratinee_lyonnaise
 date: 2025-06-19
+servings: 4
 
 
 tags:

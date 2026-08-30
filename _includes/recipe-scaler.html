@@ -1,0 +1,50 @@
+{%- comment -%}
+Data for the servings scaler: quantity tokens for this recipe and for every
+component rendered inline on the page, keyed by collection path (the same key
+the `data-scale-scope` attributes carry).
+
+Resolved at build time from `_data/scaling.json` (written by
+scripts/generate_recipe_scaling.py) — only this page's slice is inlined, so
+the page never fetches the 190 kB site-wide file. Same rationale as
+`_includes/recipe-seasonality.html`.
+{%- endcomment -%}
+
+{%- assign sc_parts = "" -%}
+
+{%- assign sc_self = site.data.scaling[page.path] -%}
+{%- if sc_self -%}
+  {%- capture sc_entry -%}{{ page.path | jsonify }}:{{ sc_self | jsonify }}{%- endcapture -%}
+  {%- assign sc_parts = sc_entry -%}
+{%- endif -%}
+
+{%- for component in page.components -%}
+  {%- for recipe in site.components -%}
+    {%- if recipe.title == component -%}
+      {%- assign sc_comp = site.data.scaling[recipe.path] -%}
+      {%- if sc_comp -%}
+        {%- capture sc_entry -%}{{ recipe.path | jsonify }}:{{ sc_comp | jsonify }}{%- endcapture -%}
+        {%- if sc_parts == "" -%}
+          {%- assign sc_parts = sc_entry -%}
+        {%- else -%}
+          {%- assign sc_parts = sc_parts | append: "," | append: sc_entry -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+
+{%- if sc_parts != "" -%}
+{%- comment -%}
+The braces come from variables because Liquid's tokenizer ends a variable tag
+at the first `}` it sees, so an inline double-brace string literal containing a
+closing brace is a syntax error, not an escape.
+{%- endcomment -%}
+{%- assign sc_open = "{" -%}
+{%- assign sc_close = "}" -%}
+<script type="application/json" id="scaling-data">{{ sc_open }}{{ sc_parts }}{{ sc_close }}</script>
+<script
+  defer
+  src="{{ site.baseurl }}/assets/js/servings-scaler.js"
+  data-scope="{{ page.path }}"
+></script>
+{%- endif -%}

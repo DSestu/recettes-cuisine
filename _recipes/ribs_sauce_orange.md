@@ -3,6 +3,7 @@ layout: recipe
 title: "Ribs sauce à l'orange"
 image: ribs_sauce_orange
 date: 2026-05-16
+servings: 6
 
 tags:
 - plat

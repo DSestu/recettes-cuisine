@@ -3,6 +3,7 @@ layout: recipe
 title: "Œuf en croûte de pain au fromage"
 image: oeuf_en_croute_de_pain_au_fromage
 date: 2026-05-13
+servings: 6
 
 tags:
 - repas

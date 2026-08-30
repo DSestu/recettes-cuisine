@@ -3,6 +3,7 @@ layout: recipe
 title: "Soupe aigre-douce aux crevettes"
 image: soupe_aigre_douce_aux_crevettes
 date: 2026-08-25
+servings: 4
 
 tags:
 - soupe

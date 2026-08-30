@@ -4,6 +4,8 @@ layout: recipe
 title:  "Poulet curry"
 image: poulet_curry
 date: 2025-05-11
+servings: 2
+servings_unit: portions
 
 
 tags:

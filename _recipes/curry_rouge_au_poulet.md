@@ -3,6 +3,7 @@ layout: recipe
 title: "Curry rouge au poulet"
 image: curry_rouge_au_poulet
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

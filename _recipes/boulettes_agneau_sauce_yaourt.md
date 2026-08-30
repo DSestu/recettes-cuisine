@@ -3,6 +3,7 @@ layout: recipe
 title: "Boulettes d'agneau et sauce piquante au yaourt"
 image: boulettes_agneau_sauce_yaourt
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

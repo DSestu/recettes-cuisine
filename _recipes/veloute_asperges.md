@@ -3,6 +3,7 @@ layout: recipe
 title: "Velouté d'asperges"
 image: veloute_asperges
 date: 2025-06-24
+servings: 4
 
 
 tags:

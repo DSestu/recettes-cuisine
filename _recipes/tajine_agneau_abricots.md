@@ -3,6 +3,7 @@ layout: recipe
 title: "Tajine d'agneau aux abricots"
 image: tajine_agneau_abricots
 date: 2026-08-25
+servings: 8
 
 tags:
 - plat principal

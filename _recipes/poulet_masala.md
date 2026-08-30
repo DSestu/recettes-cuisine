@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet masala"
 image: poulet_masala
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

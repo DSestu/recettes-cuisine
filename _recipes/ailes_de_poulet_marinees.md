@@ -3,6 +3,8 @@ layout: recipe
 title: "Ailes de poulet marinées"
 image: ailes_de_poulet_marinees
 date: 2026-08-24
+servings: 24
+servings_unit: pièces
 
 tags:
 - aperitif

@@ -3,6 +3,7 @@ layout: recipe
 title: "Marinade satay"
 image: marinade_satay
 date: 2026-08-24
+servings: 4
 
 tags:
 - condiment

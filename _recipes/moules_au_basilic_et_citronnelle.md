@@ -3,6 +3,7 @@ layout: recipe
 title: "Moules au basilic et à la citronnelle"
 image: moules_au_basilic_et_citronnelle
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

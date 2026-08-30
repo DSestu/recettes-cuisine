@@ -3,6 +3,7 @@ layout: recipe
 title:  "Sauce ankake aux champignons"
 image: ankake_sauce
 date: 2025-10-09
+servings: 1
 
 tags:
 - japon

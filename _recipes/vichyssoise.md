@@ -3,6 +3,7 @@ layout: recipe
 title: "Vichyssoise"
 image: vichyssoise
 date: 2025-06-19
+servings: 6
 
 
 tags:

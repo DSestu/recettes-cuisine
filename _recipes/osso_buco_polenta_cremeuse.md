@@ -3,6 +3,7 @@ layout: recipe
 title: "Osso-buco et polenta crémeuse"
 image: osso_buco_polenta_cremeuse
 date: 2026-06-07
+servings: 6
 
 tags:
 - repas

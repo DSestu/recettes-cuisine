@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce satay thaïe aux cacahuètes"
 image: sauce_satay_thaie_aux_cacahuetes
 date: 2026-08-25
+servings: 4
 
 tags:
 - condiment

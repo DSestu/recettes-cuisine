@@ -635,14 +635,22 @@ layout: default
           {% endfor %}
         </div>
         {% endif %} {% if page.ingredients %}
-        <h2 class="uppercase text-primary font-semibold mb-2">
-          {{ site.translation[site.language].ingredients }}
-        </h2>
-        <ul itemprop="ingredients" class="flex flex-col gap-2 mb-8">
+        <div class="flex items-center justify-between gap-3 mb-2 flex-wrap">
+          <h2 class="uppercase text-primary font-semibold">
+            {{ site.translation[site.language].ingredients }}
+          </h2>
+          <div id="servings-scaler-mount"></div>
+        </div>
+        <ul
+          itemprop="ingredients"
+          class="flex flex-col gap-2 mb-8"
+          data-scale-scope="{{ page.path }}"
+        >
           <!-- list ingredients that make up recipe -->
           {% for ingredient in page.ingredients %}
           <li
             itemprop="recipeIngredient"
+            data-scale-ing="{{ forloop.index0 }}"
             class="flex items-start gap-3 text-lg leading-loose"
           >
             {{ ingredient | markdownify }}
@@ -657,9 +665,16 @@ layout: default
         <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].directions }}
         </h2>
-        <ul itemprop="recipeInstructions" class="flex flex-col gap-3 mb-8">
+        <ul
+          itemprop="recipeInstructions"
+          class="flex flex-col gap-3 mb-8"
+          data-scale-scope="{{ page.path }}"
+        >
           {% for direction in page.directions %}
-          <li class="flex gap-3 items-start text-lg leading-loose">
+          <li
+            data-scale-dir="{{ forloop.index0 }}"
+            class="flex gap-3 items-start text-lg leading-loose"
+          >
             {{ direction | markdownify }}
           </li>
           {% endfor %}
@@ -727,9 +742,17 @@ layout: default
         <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].ingredients }}
         </h2>
-        <ul class="ingredients flex flex-col gap-3 mb-8" itemprop="ingredients">
+        <ul
+          class="ingredients flex flex-col gap-3 mb-8"
+          itemprop="ingredients"
+          data-scale-scope="{{ recipe.path }}"
+        >
           {% for item in recipe.ingredients %}
-          <li itemprop="ingredient" class="flex gap-3 items-start">
+          <li
+            itemprop="ingredient"
+            data-scale-ing="{{ forloop.index0 }}"
+            class="flex gap-3 items-start"
+          >
             {{ item | markdownify }}
           </li>
           {% endfor %}
@@ -739,9 +762,15 @@ layout: default
         <h2 class="uppercase text-primary font-semibold mb-2">
           {{ site.translation[site.language].directions }}
         </h2>
-        <ul itemprop="instructions" class="flex flex-col gap-3 mb-8">
+        <ul
+          itemprop="instructions"
+          class="flex flex-col gap-3 mb-8"
+          data-scale-scope="{{ recipe.path }}"
+        >
           {% for item in recipe.directions %}
-          <li class="flex gap-3 items-start">{{ item | markdownify }}</li>
+          <li data-scale-dir="{{ forloop.index0 }}" class="flex gap-3 items-start">
+            {{ item | markdownify }}
+          </li>
           {% endfor %}
         </ul>
         {% else %}
@@ -777,6 +806,8 @@ layout: default
       ></div>
     </div>
   </article>
+
+  {% include recipe-scaler.html %}
 
   <div
     id="recipe-image-overlay"

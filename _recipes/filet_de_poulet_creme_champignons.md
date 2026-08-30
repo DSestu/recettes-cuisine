@@ -3,6 +3,7 @@ layout: recipe
 title: "Filet de poulet à la crème et aux champignons"
 image: filet_de_poulet_creme_champignons
 date: 2026-05-17
+servings: 6
 
 tags:
 - repas

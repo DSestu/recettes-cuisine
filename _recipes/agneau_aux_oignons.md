@@ -3,6 +3,7 @@ layout: recipe
 title: "Agneau aux oignons"
 image: agneau_aux_oignons
 date: 2026-08-24
+servings: 8
 
 tags:
 - plat principal

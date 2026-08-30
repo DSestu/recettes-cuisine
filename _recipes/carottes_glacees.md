@@ -3,6 +3,7 @@ layout: recipe
 title: "Carottes glacées"
 image: carottes_glacees
 date: 2026-08-25
+servings: 4
 
 tags:
 - legumes

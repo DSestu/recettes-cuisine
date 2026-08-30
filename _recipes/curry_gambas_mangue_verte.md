@@ -3,6 +3,7 @@ layout: recipe
 title: "Curry de gambas et de mangue verte"
 image: curry_gambas_mangue_verte
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

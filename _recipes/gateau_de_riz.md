@@ -4,6 +4,7 @@ layout: recipe
 title:  "Gateau de riz"
 image: gateau_de_riz
 date: 2025-06-18
+servings: 4
 
 
 tags:

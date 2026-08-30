@@ -3,6 +3,7 @@ layout: recipe
 title: "Porc tonkatsu"
 image: porc_tonkatsu
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

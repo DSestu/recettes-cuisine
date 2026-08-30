@@ -4,6 +4,7 @@ layout: recipe
 title: "Pâtes fraîches / à raviolis"
 image: pates_fraiches_raviolis
 date: 2026-02-26
+servings: 4
 
 tags:
 - farine

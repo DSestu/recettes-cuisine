@@ -4,6 +4,7 @@ layout: recipe
 title: "Limoncello tiramisu"
 image: limoncello_tiramisu
 date: 2026-02-26
+servings: 4
 
 tags:
 - dessert

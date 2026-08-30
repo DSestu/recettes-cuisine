@@ -3,6 +3,7 @@ layout: recipe
 title: "Crème de patate douce au poisson"
 image: creme_de_patate_douce_au_poisson
 date: 2026-08-25
+servings: 4
 
 tags:
 - repas

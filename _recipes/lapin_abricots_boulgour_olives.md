@@ -3,6 +3,7 @@ layout: recipe
 title: "Lapin aux abricots et boulgour aux olives"
 image: lapin_abricots_boulgour_olives
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

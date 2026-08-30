@@ -3,6 +3,7 @@ layout: recipe
 title: "Gâteau marbré"
 image: gateau_marbre
 date: 2026-02-15
+servings: 6
 
 tags:
 - beurre

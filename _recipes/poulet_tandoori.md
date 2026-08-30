@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet tandoori"
 image: poulet_tandoori
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

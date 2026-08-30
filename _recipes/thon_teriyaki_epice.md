@@ -3,6 +3,8 @@ layout: recipe
 title: "Thon teriyaki épicé"
 image: thon_teriyaki_epice
 date: 2026-08-25
+servings: 24
+servings_unit: pièces
 
 tags:
 - aperitif

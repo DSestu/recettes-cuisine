@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce aux prunes"
 image: sauce_aux_prunes
 date: 2026-08-24
+servings: 4
 
 tags:
 - condiment

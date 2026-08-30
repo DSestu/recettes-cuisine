@@ -3,6 +3,7 @@ layout: recipe
 title: "Marinade au vinaigre, ail et laurier"
 image: marinade_vinaigre_ail_laurier
 date: 2026-05-16
+servings: 4
 
 tags:
 - condiment

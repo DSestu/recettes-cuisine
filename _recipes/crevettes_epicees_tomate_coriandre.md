@@ -3,6 +3,7 @@ layout: recipe
 title: "Crevettes épicées à la tomate et à la coriandre"
 image: crevettes_epicees_tomate_coriandre
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

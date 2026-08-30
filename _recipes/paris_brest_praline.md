@@ -3,6 +3,7 @@ layout: recipe
 title: "Paris-brest à la crème pralinée"
 image: paris_brest_praline
 date: 2026-07-23
+servings: 6
 
 tags:
 - dessert

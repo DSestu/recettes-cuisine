@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauté de porc aux abricots, sauce soja et citron vert"
 image: saute_de_porc_aux_abricots_sauce_soja_citron_vert
 date: 2026-03-01
+servings: 6
 
 tags:
 - plat

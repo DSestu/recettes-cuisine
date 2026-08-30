@@ -3,6 +3,7 @@ layout: recipe
 title: "Gambas sautées à la persillade et aux pêches"
 image: gambas_sautees_peche
 date: 2026-07-10
+servings: 4
 
 tags:
 - plat

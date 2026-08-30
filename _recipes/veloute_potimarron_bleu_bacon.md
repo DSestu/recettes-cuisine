@@ -3,6 +3,7 @@ layout: recipe
 title: "Velouté de potimarron au bleu et au bacon grillé"
 image: veloute_potimarron_bleu_bacon
 date: 2026-05-13
+servings: 6
 
 tags:
 - repas

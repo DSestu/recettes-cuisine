@@ -3,6 +3,7 @@ layout: recipe
 title: "Triangles de thon à la menthe"
 image: triangles_de_thon_a_la_menthe
 date: 2026-08-25
+servings: 4
 
 tags:
 - entree

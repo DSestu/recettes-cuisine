@@ -3,6 +3,7 @@ layout: recipe
 title: "Tajine de poulet aux dattes et au miel"
 image: tajine_poulet_dattes_miel
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

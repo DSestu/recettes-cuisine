@@ -3,6 +3,7 @@ layout: recipe
 title: "Marinade moutarde-miel"
 image: marinade_moutarde_miel
 date: 2026-05-16
+servings: 4
 
 tags:
 - condiment

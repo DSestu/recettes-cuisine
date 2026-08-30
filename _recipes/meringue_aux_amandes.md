@@ -4,6 +4,7 @@ layout: recipe
 title: "Meringue aux amandes"
 image: meringue_aux_amandes
 date: 2026-02-26
+servings: 4
 
 tags:
 - dessert

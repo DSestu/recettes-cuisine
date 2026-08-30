@@ -3,6 +3,7 @@ layout: recipe
 title: "Raïta concombre et menthe"
 image: raita_concombre_menthe
 date: 2026-08-24
+servings: 4
 
 tags:
 - condiment

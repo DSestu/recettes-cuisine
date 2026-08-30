@@ -3,6 +3,8 @@ layout: recipe
 title: "Minitostadas de bœuf épicé"
 image: minitostadas_boeuf_epice
 date: 2026-08-24
+servings: 36
+servings_unit: pièces
 
 tags:
 - aperitif

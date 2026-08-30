@@ -3,6 +3,7 @@ layout: recipe
 title: "Crevettes sautées à l'ail et à la coriandre"
 image: crevettes_sautees_ail_coriandre
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

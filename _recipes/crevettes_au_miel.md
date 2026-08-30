@@ -3,6 +3,7 @@ layout: recipe
 title: "Crevettes au miel"
 image: crevettes_au_miel
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

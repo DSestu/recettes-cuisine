@@ -3,6 +3,7 @@ layout: recipe
 title: "Potage au concombre"
 image: potage_au_concombre
 date: 2025-06-24
+servings: 4
 
 
 tags:

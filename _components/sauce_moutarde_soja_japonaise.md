@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce à la moutarde et au soja japonaise"
 image: sauce_moutarde_soja_japonaise
 date: 2026-08-25
+servings: 4
 
 tags:
 - condiment

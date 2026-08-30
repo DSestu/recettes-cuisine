@@ -3,6 +3,7 @@ layout: recipe
 title: "Okonomiyaki"
 image: okonomiyaki
 date: 2025-10-09
+servings: 1
 
 
 tags:

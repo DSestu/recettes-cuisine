@@ -3,6 +3,7 @@ layout: recipe
 title: "Côtelettes d'agneau tandoori"
 image: cotelettes_agneau_tandoori
 date: 2026-08-24
+servings: 6
 
 tags:
 - plat principal

@@ -3,6 +3,7 @@ layout: recipe
 title: "Moussaka"
 image: moussaka
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

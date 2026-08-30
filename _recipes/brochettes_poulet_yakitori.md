@@ -3,6 +3,7 @@ layout: recipe
 title: "Brochettes de poulet yakitori"
 image: brochettes_poulet_yakitori
 date: 2026-08-25
+servings: 4
 
 tags:
 - aperitif

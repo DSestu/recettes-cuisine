@@ -3,6 +3,7 @@ layout: recipe
 title: "Éclair à la chantilly et à la confiture de lait"
 image: eclair_chantilly_confiture_de_lait
 date: 2026-07-23
+servings: 4
 
 tags:
 - dessert

@@ -3,6 +3,7 @@ layout: recipe
 title: "Poulet au gingembre et aux ciboules"
 image: poulet_gingembre_ciboules
 date: 2026-08-24
+servings: 4
 
 tags:
 - plat principal

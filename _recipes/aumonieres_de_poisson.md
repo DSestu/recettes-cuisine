@@ -3,6 +3,7 @@ layout: recipe
 title: "Aumônières de poisson"
 image: aumonieres_de_poisson
 date: 2026-08-24
+servings: 4
 
 tags:
 - entree

@@ -3,6 +3,7 @@ layout: recipe
 title: "Salade de sashimi au thon, sauce au miso"
 image: salade_de_sashimi_au_thon_sauce_au_miso
 date: 2026-08-25
+servings: 4
 
 tags:
 - entree

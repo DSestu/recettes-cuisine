@@ -3,6 +3,7 @@ layout: recipe
 title: "Sauce au vin rouge"
 image: sauce_au_vin_rouge
 date: 2026-05-17
+servings: 4
 
 tags:
 - condiment

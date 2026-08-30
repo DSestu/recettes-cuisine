@@ -3,6 +3,7 @@ layout: recipe
 title: "Tapas aux anchois"
 image: tapas_aux_anchois
 date: 2026-08-24
+servings: 4
 
 tags:
 - entree

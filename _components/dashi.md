@@ -3,6 +3,7 @@ layout: recipe
 title:  "Dashi"
 image: dashi
 date: 2025-10-09
+servings: 4
 
 tags:
 - japon

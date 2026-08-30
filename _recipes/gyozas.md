@@ -3,6 +3,7 @@ layout: recipe
 title: "Gyozas"
 image: gyozas
 date: 2026-08-25
+servings: 4
 
 tags:
 - entree

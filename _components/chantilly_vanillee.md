@@ -3,6 +3,7 @@ layout: recipe
 title: "Chantilly vanillée"
 image: chantilly_vanillee
 date: 2026-07-23
+servings: 4
 
 tags:
 - composant

@@ -4,6 +4,7 @@ layout: recipe
 title: "Tiramisu (classique au café)"
 image: tiramisu
 date: 2025-08-12
+servings: 4
 
 
 tags:

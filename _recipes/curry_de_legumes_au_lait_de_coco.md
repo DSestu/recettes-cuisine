@@ -3,6 +3,7 @@ layout: recipe
 title: "Curry de légumes au lait de coco"
 image: curry_de_legumes_au_lait_de_coco
 date: 2026-08-25
+servings: 4
 
 tags:
 - plat principal

@@ -3,6 +3,7 @@ layout: recipe
 title: "Velouté de patate douce, lentilles corail et œuf poché"
 image: veloute_patate_douce_lentilles_corail
 date: 2026-05-13
+servings: 4
 
 tags:
 - repas

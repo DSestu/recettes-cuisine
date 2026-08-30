@@ -3,6 +3,7 @@ layout: recipe
 title: "Patates douces"
 image: patates_douces_aux_haricots_rouges
 date: 2026-08-25
+servings: 4
 
 tags:
 - repas

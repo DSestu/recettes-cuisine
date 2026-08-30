@@ -3,6 +3,7 @@ layout: recipe
 title: "Haricots au prosciutto"
 image: haricots_au_prosciutto
 date: 2026-08-24
+servings: 8
 
 tags:
 - entree

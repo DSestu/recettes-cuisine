@@ -4,6 +4,7 @@ layout: recipe
 title:  "Quatre quart Emilia"
 image: quatre_quart_emilia
 date: 2026-02-15
+servings: 4
 
 tags:
 - quatre-quarts
