@@ -63,6 +63,7 @@ categories:
       - eclair
       - paris-brest
       - pate a choux
+      - glace
 
   - id: "drinks"
     label: "Boissons"

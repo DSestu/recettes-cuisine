@@ -4333,6 +4333,31 @@
       "temporal_ingredients": []
     },
     {
+      "slug": "pomme_de_terre_au_four_confit_de_canard",
+      "title": "Pomme de terre au four au confit de canard",
+      "url": "/recipes/pomme_de_terre_au_four_confit_de_canard.html",
+      "kind": "recipe",
+      "image": "pomme_de_terre_au_four_confit_de_canard",
+      "temporal_ingredients": [
+        {
+          "id": "roquette",
+          "category": "legume",
+          "phases": {
+            "6": "start",
+            "7": "start",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "end",
+            "15": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "pomme_de_terre_farcie_aux_rillettes_de_thon",
       "title": "Pomme de terre farcie aux rillettes de thon",
       "url": "/recipes/pomme_de_terre_farcie_aux_rillettes_de_thon.html",
@@ -4383,6 +4408,52 @@
           "phases": {
             "8": "start",
             "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "pomme_de_terre_farcie_champignons_saumon",
+      "title": "Pomme de terre farcie aux champignons et au saumon",
+      "url": "/recipes/pomme_de_terre_farcie_champignons_saumon.html",
+      "kind": "recipe",
+      "image": "pomme_de_terre_farcie_champignons_saumon",
+      "temporal_ingredients": [
+        {
+          "id": "aneth",
+          "category": "herbe",
+          "phases": {
+            "8": "start",
+            "9": "start",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end",
+            "17": "end"
+          }
+        },
+        {
+          "id": "ciboulette",
+          "category": "herbe",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
             "10": "peak",
             "11": "peak",
             "12": "peak",
@@ -5591,6 +5662,97 @@
       ]
     },
     {
+      "slug": "salade_agneau_peches_roties",
+      "title": "Salade d'agneau aux pêches rôties",
+      "url": "/recipes/salade_agneau_peches_roties.html",
+      "kind": "recipe",
+      "image": "salade_agneau_peches_roties",
+      "temporal_ingredients": [
+        {
+          "id": "agneau",
+          "category": "viande",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "end"
+          }
+        },
+        {
+          "id": "chevre",
+          "category": "fromage",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        },
+        {
+          "id": "myrtilles",
+          "category": "fruit",
+          "phases": {
+            "12": "start",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        },
+        {
+          "id": "noisettes",
+          "category": "fruit",
+          "phases": {
+            "16": "start",
+            "17": "peak",
+            "18": "peak",
+            "19": "peak",
+            "20": "end"
+          }
+        },
+        {
+          "id": "peche",
+          "category": "fruit",
+          "phases": {
+            "11": "start",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "end"
+          }
+        },
+        {
+          "id": "roquette",
+          "category": "legume",
+          "phases": {
+            "6": "start",
+            "7": "start",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "end",
+            "15": "end"
+          }
+        }
+      ]
+    },
+    {
       "slug": "salade_chou_rouge",
       "title": "Salade de chou rouge",
       "url": "/recipes/salade_chou_rouge.html",
@@ -5665,6 +5827,63 @@
           }
         }
       ]
+    },
+    {
+      "slug": "salade_pomme_de_terre_hareng_fume",
+      "title": "Salade de pomme de terre au hareng fumé",
+      "url": "/recipes/salade_pomme_de_terre_hareng_fume.html",
+      "kind": "recipe",
+      "image": "salade_pomme_de_terre_hareng_fume",
+      "temporal_ingredients": [
+        {
+          "id": "ciboulette",
+          "category": "herbe",
+          "phases": {
+            "4": "start",
+            "5": "start",
+            "6": "peak",
+            "7": "peak",
+            "8": "peak",
+            "9": "peak",
+            "10": "peak",
+            "11": "peak",
+            "12": "peak",
+            "13": "peak",
+            "14": "peak",
+            "15": "peak",
+            "16": "peak",
+            "17": "end",
+            "18": "end"
+          }
+        },
+        {
+          "id": "hareng",
+          "category": "poisson",
+          "phases": {
+            "0": "peak",
+            "1": "peak",
+            "2": "peak",
+            "3": "end",
+            "4": "end",
+            "16": "start",
+            "17": "start",
+            "18": "peak",
+            "19": "peak",
+            "20": "peak",
+            "21": "peak",
+            "22": "peak",
+            "23": "peak"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "sandwichs_glaces_petits_beurre_amandes",
+      "title": "Sandwichs glacés aux petits-beurre et aux amandes",
+      "url": "/recipes/sandwichs_glaces_petits_beurre_amandes.html",
+      "kind": "recipe",
+      "image": "sandwichs_glaces_petits_beurre_amandes",
+      "temporal_ingredients": []
     },
     {
       "slug": "sandwitch_dinde_marinee",
@@ -7543,6 +7762,14 @@
       ]
     },
     {
+      "slug": "tiramisu_aux_speculoos",
+      "title": "Tiramisu aux spéculoos",
+      "url": "/recipes/tiramisu_aux_speculoos.html",
+      "kind": "recipe",
+      "image": "tiramisu_aux_speculoos",
+      "temporal_ingredients": []
+    },
+    {
       "slug": "tiramisu_classique",
       "title": "Tiramisu (classique au café)",
       "url": "/recipes/tiramisu_classique.html",
@@ -7667,6 +7894,14 @@
           }
         }
       ]
+    },
+    {
+      "slug": "veloute_champignons_lard_comte",
+      "title": "Velouté de champignons au lard et au comté",
+      "url": "/recipes/veloute_champignons_lard_comte.html",
+      "kind": "recipe",
+      "image": "veloute_champignons_lard_comte",
+      "temporal_ingredients": []
     },
     {
       "slug": "veloute_de_champignons_de_paris_au_tahini",

@@ -16,6 +16,7 @@
         "moussaka",
         "pave_agneau_girolles_beurre_estragon",
         "rogan_josh",
+        "salade_agneau_peches_roties",
         "tajine_agneau_abricots",
         "tajine_agneau_coings_couscous_pistaches"
       ]
@@ -63,7 +64,9 @@
     },
     "aneth": {
       "category": "herbe",
-      "recipes": []
+      "recipes": [
+        "pomme_de_terre_farcie_champignons_saumon"
+      ]
     },
     "artichaut violet": {
       "category": "legume",
@@ -292,7 +295,9 @@
     },
     "chevre": {
       "category": "fromage",
-      "recipes": []
+      "recipes": [
+        "salade_agneau_peches_roties"
+      ]
     },
     "chevreau": {
       "category": "viande",
@@ -381,9 +386,11 @@
         "fettucine_alle_vongole",
         "pappardelles_champignons_bleu_comte_poulet",
         "pomme_de_terre_farcie_aux_rillettes_de_thon",
+        "pomme_de_terre_farcie_champignons_saumon",
         "potage_au_concombre",
         "poulet_miel_piments",
         "raviolis_poulet_vapeur",
+        "salade_pomme_de_terre_hareng_fume",
         "vichyssoise"
       ]
     },
@@ -663,7 +670,9 @@
     },
     "hareng": {
       "category": "poisson",
-      "recipes": []
+      "recipes": [
+        "salade_pomme_de_terre_hareng_fume"
+      ]
     },
     "haricots beurre": {
       "category": "legume",
@@ -852,7 +861,9 @@
     },
     "myrtilles": {
       "category": "fruit",
-      "recipes": []
+      "recipes": [
+        "salade_agneau_peches_roties"
+      ]
     },
     "navets": {
       "category": "legume",
@@ -872,7 +883,8 @@
       "category": "fruit",
       "recipes": [
         "magret_de_canard_clementines_corse_puree_de_butternut",
-        "paris_brest_praline"
+        "paris_brest_praline",
+        "salade_agneau_peches_roties"
       ]
     },
     "noisettes fraiches": {
@@ -956,7 +968,8 @@
       "category": "fruit",
       "recipes": [
         "gambas_sautees_peche",
-        "gratin_peches_creme_amandes"
+        "gratin_peches_creme_amandes",
+        "salade_agneau_peches_roties"
       ]
     },
     "perdreau": {
@@ -1131,6 +1144,8 @@
       "category": "legume",
       "recipes": [
         "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
+        "pomme_de_terre_au_four_confit_de_canard",
+        "salade_agneau_peches_roties",
         "sandwitch_italien_dip_thon_crudites",
         "spaghettonis_a_la_creme_de_roquette_et_de_basilic"
       ]
@@ -2050,6 +2065,13 @@
       ],
       "title": "Pilaf de crevettes et de courgettes"
     },
+    "pomme_de_terre_au_four_confit_de_canard": {
+      "image": "pomme_de_terre_au_four_confit_de_canard",
+      "ingredients": [
+        "roquette"
+      ],
+      "title": "Pomme de terre au four au confit de canard"
+    },
     "pomme_de_terre_farcie_aux_rillettes_de_thon": {
       "image": "pomme_de_terre_farcie_aux_rillettes_de_thon",
       "ingredients": [
@@ -2058,6 +2080,14 @@
         "thon"
       ],
       "title": "Pomme de terre farcie aux rillettes de thon"
+    },
+    "pomme_de_terre_farcie_champignons_saumon": {
+      "image": "pomme_de_terre_farcie_champignons_saumon",
+      "ingredients": [
+        "aneth",
+        "ciboulette"
+      ],
+      "title": "Pomme de terre farcie aux champignons et au saumon"
     },
     "porc_laque_saute": {
       "image": "porc_laque_saute",
@@ -2256,6 +2286,18 @@
       ],
       "title": "Saint-Jacques au gingembre et au sésame"
     },
+    "salade_agneau_peches_roties": {
+      "image": "salade_agneau_peches_roties",
+      "ingredients": [
+        "agneau",
+        "chevre",
+        "myrtilles",
+        "noisettes",
+        "peche",
+        "roquette"
+      ],
+      "title": "Salade d'agneau aux pêches rôties"
+    },
     "salade_chou_rouge": {
       "image": "salade_chou_rouge",
       "ingredients": [
@@ -2270,6 +2312,14 @@
         "thon"
       ],
       "title": "Salade de sashimi au thon, sauce au miso"
+    },
+    "salade_pomme_de_terre_hareng_fume": {
+      "image": "salade_pomme_de_terre_hareng_fume",
+      "ingredients": [
+        "ciboulette",
+        "hareng"
+      ],
+      "title": "Salade de pomme de terre au hareng fumé"
     },
     "sandwitch_dinde_marinee": {
       "image": "sandwitch_dinde_marinee",

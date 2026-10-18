@@ -1089,3 +1089,17 @@
   ingredient: false
 - id: piment antillais
   ingredient: true
+- id: hareng
+  ingredient: true
+- id: myrtilles
+  ingredient: true
+- id: aneth
+  ingredient: true
+- id: baies roses
+  ingredient: true
+- id: glace
+  ingredient: false
+- id: huile de noisette
+  ingredient: true
+- id: jeunes pousses
+  ingredient: true
