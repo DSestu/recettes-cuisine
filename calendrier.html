@@ -1316,6 +1316,164 @@ title: "Calendrier des ingrédients"
     background: rgb(254 215 170 / 0.4);
     color: rgb(60 20 5);
   }
+
+  /* Menu de saison (?affichage=menu). Ported from tasks/menu-mockups.html;
+     Surprise grid, Repas menu card, Semaine days + shopping list. */
+  #calendrier-controls-mount[hidden] { display: none !important; }
+  #calendrier-menu {
+    --mn-ink: #431407;
+    --mn-ink-soft: rgb(124 45 18 / 0.78);
+    --mn-line: #fed7aa;
+    --mn-line-soft: #ffedd5;
+    --mn-primary: #f53200;
+    --mn-primary-strong: #d02a00; /* text and fills carrying text: 5.2:1 on white */
+    --mn-ok: #15803d; --mn-ok-bg: #dcfce7;
+    --mn-mid: #92400e; --mn-mid-bg: #fef3c7;
+    --mn-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    container-type: inline-size;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--mn-ink);
+  }
+  #calendrier-menu[hidden] { display: none; }
+  #calendrier-menu .mn-icon { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  #calendrier-menu :is(button, a):focus-visible { outline: 2px solid var(--mn-primary); outline-offset: 2px; }
+
+  #calendrier-menu .mn-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 0 22px; border-top: 1px solid var(--mn-line); }
+  #calendrier-menu .mn-modes { display: inline-flex; border: 1px solid var(--mn-line); border-radius: 999px; background: #fff; padding: 3px; }
+  #calendrier-menu .mn-modes button { font: 600 14px/1 Inter, ui-sans-serif, system-ui, sans-serif; border: 0; background: transparent; color: #9a3412; min-height: 44px; padding: 0 16px; border-radius: 999px; cursor: pointer; }
+  #calendrier-menu .mn-modes button[aria-pressed="true"] { background: var(--mn-ink); color: #fff7ed; }
+  #calendrier-menu .mn-primary { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font: 600 15px/1 Inter, ui-sans-serif, system-ui, sans-serif; color: #fff; background: var(--mn-primary-strong); border: 0; border-radius: 999px; padding: 0 20px; cursor: pointer;
+    box-shadow: 0 6px 14px -6px rgb(245 50 0 / 0.55); transition: transform 180ms var(--mn-ease), box-shadow 180ms var(--mn-ease); }
+  #calendrier-menu .mn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 20px -8px rgb(245 50 0 / 0.6); }
+  #calendrier-menu .mn-hint { width: 100%; margin: 2px 0 0; font-size: 14px; color: var(--mn-ink-soft); line-height: 1.45; }
+
+  #calendrier-menu .mn-season { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; padding: 0; list-style: none; font-size: 13.5px; }
+  #calendrier-menu .mn-season li { display: inline-flex; align-items: center; gap: 6px; }
+  #calendrier-menu .mn-season li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c, #16a34a); }
+  #calendrier-menu .mn-meta { display: flex; gap: 12px; font-size: 13px; color: var(--mn-ink-soft); font-variant-numeric: tabular-nums; }
+  #calendrier-menu .mn-meta span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  #calendrier-menu .mn-meta .mn-icon { width: 14px; height: 14px; }
+  #calendrier-menu .mn-score { display: inline-flex; align-items: center; font: 600 12.5px/1 Inter, ui-sans-serif, system-ui, sans-serif; font-variant-numeric: tabular-nums; padding: 6px 9px; border-radius: 999px; background: var(--mn-ok-bg); color: var(--mn-ok); white-space: nowrap; }
+  #calendrier-menu .mn-score.mid { background: var(--mn-mid-bg); color: var(--mn-mid); }
+  #calendrier-menu .mn-acts { display: flex; gap: 8px; }
+  #calendrier-menu .mn-act { flex: 1; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 0 14px; font: 600 14px/1 Inter, ui-sans-serif, system-ui, sans-serif; color: #9a3412; background: #fff; border: 1px solid var(--mn-line); border-radius: 10px; cursor: pointer; transition: background 160ms var(--mn-ease), border-color 160ms var(--mn-ease); }
+  #calendrier-menu .mn-act:hover { background: #fff7ed; border-color: #fdba74; }
+  #calendrier-menu .mn-act[aria-pressed="true"] { background: var(--mn-ink); border-color: var(--mn-ink); color: #fff7ed; }
+  #calendrier-menu .mn-act:disabled { opacity: 0.45; cursor: not-allowed; background: #fff; border-color: var(--mn-line); }
+  #calendrier-menu .mn-act .mn-icon { width: 17px; height: 17px; }
+  #calendrier-menu .mn-title { color: inherit; text-decoration: none; }
+  #calendrier-menu .mn-title:hover { text-decoration: underline; text-decoration-color: rgb(245 50 0 / 0.5); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+  #calendrier-menu .mn-note { display: flex; gap: 8px; align-items: flex-start; margin: 0; font-size: 13px; color: var(--mn-mid); background: var(--mn-mid-bg); border-radius: 8px; padding: 8px 10px; line-height: 1.4; }
+  #calendrier-menu .mn-note .mn-icon { width: 15px; height: 15px; margin-top: 1px; }
+
+  #calendrier-menu .mn-grid { display: grid; gap: 22px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  #calendrier-menu .mn-card { background: #fff; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--mn-line-soft); box-shadow: 0 10px 24px -16px rgb(67 20 7 / 0.35); }
+  #calendrier-menu .mn-card.kept { outline: 2px solid var(--mn-ink); outline-offset: -2px; }
+  #calendrier-menu .mn-card :is(img, .mn-tile) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--mn-line-soft); }
+  #calendrier-menu .mn-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  #calendrier-menu .mn-body h4 { font-family: "Gelica", ui-serif, Georgia, serif; font-weight: 700; font-size: 1.2rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+  #calendrier-menu .mn-body .mn-acts { margin-top: auto; padding-top: 6px; }
+  #calendrier-menu .mn-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
+  @container (max-width: 960px) { #calendrier-menu .mn-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @container (max-width: 520px) {
+    #calendrier-menu .mn-modes { width: 100%; }
+    #calendrier-menu .mn-modes button { flex: 1; }
+    #calendrier-menu .mn-primary { margin-left: 0; width: 100%; justify-content: center; }
+    #calendrier-menu .mn-grid { grid-template-columns: 1fr; gap: 14px; }
+    #calendrier-menu .mn-card { display: grid; grid-template-columns: 116px 1fr; }
+    #calendrier-menu .mn-card :is(img, .mn-tile) { height: 100%; aspect-ratio: auto; min-height: 150px; }
+    #calendrier-menu .mn-body { padding: 12px 12px 12px 14px; gap: 8px; }
+    #calendrier-menu .mn-body h4 { font-size: 1.05rem; }
+    #calendrier-menu .mn-act { padding: 0 8px; font-size: 13px; }
+    #calendrier-menu .mn-top .mn-meta { display: none; }
+  }
+  /* Repas: one menu card, three courses */
+  #calendrier-menu .kept { outline: 2px solid var(--mn-ink); outline-offset: -2px; }
+  #calendrier-menu .mn-rp { max-width: 900px; margin: 0 auto; background: #fff; border: 1px solid var(--mn-line); border-radius: 20px; padding: 10px 28px; box-shadow: 0 14px 30px -20px rgb(67 20 7 / 0.35); }
+  #calendrier-menu .mn-rp-row { display: grid; grid-template-columns: 112px 220px 1fr auto; gap: 22px; align-items: center; padding: 20px 0; }
+  #calendrier-menu .mn-rp-row + .mn-rp-row { border-top: 1px dashed var(--mn-line); }
+  #calendrier-menu .mn-rp-row.kept { border-radius: 12px; padding-inline: 12px; margin-inline: -12px; }
+  #calendrier-menu .mn-rp-course { font-family: "Gelica", ui-serif, Georgia, serif; font-size: 1.35rem; color: var(--mn-primary-strong); }
+  #calendrier-menu .mn-rp-row :is(img, .mn-tile) { width: 220px; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 12px; display: block; background: var(--mn-line-soft); }
+  #calendrier-menu .mn-rp-txt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  #calendrier-menu .mn-rp-txt h4 { font-family: "Gelica", ui-serif, Georgia, serif; font-weight: 700; font-size: 1.3rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+  #calendrier-menu .mn-rp-line { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  #calendrier-menu .mn-rp-row .mn-acts { flex-direction: column; }
+  #calendrier-menu .mn-rp-row .mn-act, #calendrier-menu .mn-wk-day .mn-act { flex: none; }
+  @container (max-width: 760px) {
+    #calendrier-menu .mn-rp { padding: 4px 16px; border-radius: 16px; }
+    #calendrier-menu .mn-rp-row { grid-template-columns: 1fr; gap: 12px; padding: 18px 0; }
+    #calendrier-menu .mn-rp-row.kept { padding-inline: 12px; }
+    #calendrier-menu .mn-rp-row :is(img, .mn-tile) { width: 100%; aspect-ratio: 16 / 9; }
+    #calendrier-menu .mn-rp-row .mn-acts { flex-direction: row; }
+    #calendrier-menu .mn-rp-row .mn-act { flex: 1; }
+    #calendrier-menu .mn-rp-course { font-size: 1.2rem; }
+  }
+
+  /* Semaine: day rows + shopping list */
+  #calendrier-menu .mn-wk { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; align-items: start; }
+  #calendrier-menu .mn-wk-days { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--mn-line); border-radius: 18px; overflow: hidden; }
+  #calendrier-menu .mn-wk-day { display: grid; grid-template-columns: 92px 104px 1fr auto; gap: 16px; align-items: center; padding: 12px 16px; }
+  #calendrier-menu .mn-wk-day + .mn-wk-day { border-top: 1px solid var(--mn-line-soft); }
+  #calendrier-menu .mn-dname { font-family: "Gelica", ui-serif, Georgia, serif; font-size: 1.15rem; }
+  #calendrier-menu .mn-wk-day :is(img, .mn-tile) { width: 104px; height: 78px; object-fit: cover; border-radius: 10px; display: block; background: var(--mn-line-soft); }
+  #calendrier-menu .mn-wk-txt { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  #calendrier-menu .mn-wk-day h4 { font-family: "Gelica", ui-serif, Georgia, serif; font-weight: 700; font-size: 1.08rem; line-height: 1.2; margin: 0; }
+  #calendrier-menu .mn-wk-day .mn-act { padding: 0 12px; }
+  #calendrier-menu .mn-wk-day .mn-lbl { display: none; }
+  #calendrier-menu .mn-wk-day.kept { background: #fff7ed; }
+  #calendrier-menu .mn-list { background: #fff; border: 1px solid var(--mn-line); border-radius: 18px; padding: 18px 18px 8px; position: sticky; top: 16px; }
+  #calendrier-menu .mn-list-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  #calendrier-menu .mn-list-head h3 { font-family: "Gelica", ui-serif, Georgia, serif; font-weight: 700; font-size: 1.35rem; margin: 0; }
+  #calendrier-menu .mn-list-head .mn-act { margin-left: auto; flex: none; }
+  #calendrier-menu .mn-list-sub { font-size: 13px; color: var(--mn-ink-soft); margin: 0 0 12px; font-variant-numeric: tabular-nums; }
+  #calendrier-menu .mn-grp { border-top: 1px solid var(--mn-line-soft); }
+  #calendrier-menu .mn-grp summary { list-style: none; display: flex; align-items: center; gap: 8px; padding: 12px 0; min-height: 44px; cursor: pointer; font-weight: 600; font-size: 14.5px; }
+  #calendrier-menu .mn-grp summary::-webkit-details-marker { display: none; }
+  #calendrier-menu .mn-grp summary:focus-visible { outline: 2px solid var(--mn-primary); outline-offset: 2px; }
+  #calendrier-menu .mn-grp summary .mn-n { margin-left: auto; white-space: nowrap; font-weight: 500; color: var(--mn-ink-soft); font-size: 13px; font-variant-numeric: tabular-nums; }
+  #calendrier-menu .mn-grp summary .mn-chev { transition: transform 200ms var(--mn-ease); width: 16px; height: 16px; color: var(--mn-ink-soft); }
+  #calendrier-menu .mn-grp[open] summary .mn-chev { transform: rotate(90deg); }
+  #calendrier-menu .mn-grp ul { list-style: none; margin: 0 0 10px; padding: 0; }
+  #calendrier-menu .mn-grp li label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; font-size: 14px; line-height: 1.35; cursor: pointer; }
+  #calendrier-menu .mn-grp input { appearance: none; flex: none; width: 18px; height: 18px; margin: 0; border: 1.5px solid #fdba74; border-radius: 5px; background: #fff; display: grid; place-items: center; }
+  #calendrier-menu .mn-grp input:checked { background: var(--mn-primary); border-color: var(--mn-primary); }
+  #calendrier-menu .mn-grp input:checked::after { content: ""; width: 9px; height: 5px; border: 2px solid #fff; border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+  #calendrier-menu .mn-grp input:checked + span { color: var(--mn-ink-soft); text-decoration: line-through; }
+  #calendrier-menu .mn-grp input:focus-visible { outline: 2px solid var(--mn-primary); outline-offset: 2px; }
+  @container (max-width: 960px) {
+    #calendrier-menu .mn-wk { grid-template-columns: 1fr; }
+    #calendrier-menu .mn-list { position: static; }
+  }
+  @container (max-width: 520px) {
+    #calendrier-menu .mn-wk-day { grid-template-columns: 72px 1fr auto; grid-template-areas: "img txt acts"; gap: 12px; padding: 12px; align-items: start; }
+    #calendrier-menu .mn-wk-day .mn-dname { display: none; }
+    #calendrier-menu .mn-wk-day .mn-day { display: inline; }
+    #calendrier-menu .mn-wk-day.mn-empty .mn-wk-txt h4 { display: block; }
+    #calendrier-menu .mn-wk-day :is(img, .mn-tile) { grid-area: img; width: 72px; height: 72px; }
+    #calendrier-menu .mn-wk-txt { grid-area: txt; }
+    #calendrier-menu .mn-wk-day .mn-acts { grid-area: acts; flex-direction: column; gap: 6px; }
+    #calendrier-menu .mn-wk-day h4 { font-size: 1rem; }
+    #calendrier-menu .mn-wk-day .mn-season { font-size: 12.5px; }
+    #calendrier-menu .mn-wk-day .mn-act { width: 44px; padding: 0; }
+  }
+  #calendrier-menu .mn-tile { display: block; background: var(--mn-line-soft); }
+  #calendrier-menu .mn-day { display: none; font-family: "Gelica", ui-serif, Georgia, serif; color: var(--mn-primary-strong); }
+  #calendrier-menu .mn-wk-day.mn-empty h4 { display: none; }
+  /* Empty slot: same footprint as a filled one, drawn as a muted dashed placeholder. */
+  #calendrier-menu .mn-card.mn-empty { background: transparent; border: 1.5px dashed #fdba74; box-shadow: none; }
+  #calendrier-menu .mn-empty .mn-body { justify-content: center; align-items: flex-start; min-height: 160px; }
+  #calendrier-menu .mn-vide { margin: 0; font-size: 14px; line-height: 1.45; color: var(--mn-ink-soft); }
+  #calendrier-menu .mn-empty .mn-act { flex: none; }
+  #calendrier-menu .mn-fail { margin: 0; padding: 16px 0; color: var(--mn-ink-soft); }
+  #calendrier-menu .mn-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  #calendrier-menu ::selection { background: #fed7aa; color: var(--mn-ink); }
+  #calendrier-menu .mn-grp input:focus-visible, #calendrier-menu summary:focus-visible { outline: 2px solid var(--mn-primary); outline-offset: 2px; }
+  #calendrier-menu .mn-list .mn-act:disabled { color: var(--mn-ink-soft); opacity: 0.6; }
+  @media (prefers-reduced-motion: reduce) {
+    #calendrier-menu, #calendrier-menu * { transition: none !important; animation: none !important; }
+    #calendrier-menu .mn-primary:hover { transform: none; }
+  }
 </style>
 
 <div class="content w-full md:w-full p-2 md:p-6 md:pl-16">
@@ -1349,6 +1507,13 @@ title: "Calendrier des ingrédients"
       class="cal-mode-btn"
       aria-selected="false"
     >Recettes de saison</button>
+    <button
+      type="button"
+      role="tab"
+      data-mode="menu"
+      class="cal-mode-btn"
+      aria-selected="false"
+    >Menu</button>
   </div>
 
   <div id="calendrier-status" class="text-sm text-red-700 mb-4 hidden"></div>
@@ -1443,10 +1608,24 @@ title: "Calendrier des ingrédients"
   >
     <p class="cal-recipes-placeholder">Chargement…</p>
   </section>
+
+  <section id="calendrier-menu" aria-label="Menu de saison" hidden></section>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-reroll" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.75-1.4"/></symbol>
+    <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+  </svg>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <!-- Shared strip renderer (also used by the per-recipe seasonality panel).
      Both are `defer`, which preserves execution order. -->
 <script src="{{ site.baseurl }}/assets/js/seasonality-strip.js" defer></script>
+<script src="{{ site.baseurl }}/assets/js/escape-html.js" defer></script>
+<script src="{{ site.baseurl }}/assets/js/menu-picker.js" defer></script>
 <script src="{{ site.baseurl }}/assets/js/calendrier.js" defer></script>

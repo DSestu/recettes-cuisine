@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu de saison — maquettes</title>
+<link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff7ed;            /* orange-50, site body */
+    --ink: #431407;           /* orange-950, site text */
+    --ink-soft: rgb(124 45 18 / 0.78);
+    --line: #fed7aa;          /* orange-200 */
+    --line-soft: #ffedd5;     /* orange-100 */
+    --paper: #ffffff;
+    --primary: #f53200;
+    --primary-ink: #ffffff;
+    --legume: #16a34a;
+    --fruit: #e11d48;
+    --coquillage: #0891b2;
+    --poisson: #0284c7;
+    --ok: #15803d;
+    --ok-bg: #dcfce7;
+    --mid: #a16207;
+    --mid-bg: #fef3c7;
+    --radius: 14px;
+    --display: gelica, Georgia, serif;
+    --ui: Inter, ui-sans-serif, system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  * { box-sizing: border-box; }
+  ::selection { background: rgb(245 50 0 / 0.18); color: var(--ink); }
+  html { background: #efe6db; }
+  body {
+    margin: 0;
+    font-family: var(--ui);
+    color: var(--ink);
+    background: #efe6db;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* ---------- mockup sheet chrome (not part of the design) ---------- */
+  .sheet { padding: 40px 16px 80px; max-width: 1760px; margin: 0 auto; }
+  .sheet > h1 { font-family: var(--display); font-weight: 700; font-size: 2rem; margin: 0 0 6px; }
+  .sheet > p { margin: 0 0 40px; color: var(--ink-soft); max-width: 70ch; line-height: 1.5; }
+  .mode-block { margin-bottom: 72px; }
+  .mode-block > h2 { font-family: var(--display); font-size: 1.5rem; margin: 0 0 4px; }
+  .mode-block > p { margin: 0 0 20px; color: var(--ink-soft); max-width: 75ch; line-height: 1.5; }
+  .frames { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .frame { flex: none; background: var(--bg); border-radius: 18px; overflow: hidden;
+           box-shadow: 0 18px 40px -18px rgb(67 20 7 / 0.35), 0 2px 6px rgb(67 20 7 / 0.08); }
+  .frame-cap { font: 600 12px/1 var(--ui); letter-spacing: 0.02em; color: var(--ink-soft);
+               padding: 10px 14px; background: #f6ece1; border-bottom: 1px solid var(--line); }
+  .frame.desk { width: min(1180px, 100%); }
+  .frame.phone { width: 390px; max-width: 100%; }
+  .viewport { container-type: inline-size; padding: 28px 32px 40px; }
+  .phone .viewport { padding: 20px 16px 32px; }
+
+  /* ---------- page header (existing calendrier look) ---------- */
+  .pg-title { font-family: var(--display); font-weight: 400; font-size: 2.4rem; line-height: 1.1; margin: 0 0 8px; color: #431407; }
+  .pg-sub { margin: 0 0 20px; color: rgb(154 52 18 / 0.85); line-height: 1.45; max-width: 60ch; }
+  .seg { display: inline-flex; padding: 4px; gap: 2px; border-radius: 12px; background: #ffedd5; border: 1px solid var(--line); }
+  .seg button { font: 500 15px/1 var(--ui); color: #9a3412; border: 0; background: transparent; padding: 11px 15px; border-radius: 9px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: #fff; color: var(--primary); box-shadow: 0 1px 2px rgb(67 20 7 / 0.12); }
+  .quinz { display: flex; align-items: center; gap: 14px; margin: 22px 0 18px; }
+  .quinz .nav { width: 40px; height: 40px; flex: none; display: grid; place-items: center; background: #fff; border: 1px solid var(--line); border-radius: 8px; color: var(--primary); cursor: pointer; }
+  .quinz .nav:last-child { margin-left: auto; }
+  .quinz h3 { font-family: var(--display); font-weight: 400; font-size: 1.45rem; margin: 0; line-height: 1.15; }
+  .quinz small { display: block; font-size: 12px; color: var(--ink-soft); letter-spacing: 0.04em; margin-top: 3px; }
+
+  /* ---------- menu toolbar ---------- */
+  .mn-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 0 22px; border-top: 1px solid var(--line); }
+  .mn-modes { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; background: #fff; padding: 3px; }
+  .mn-modes button { font: 600 14px/1 var(--ui); border: 0; background: transparent; color: #9a3412; padding: 12px 16px; border-radius: 999px; cursor: pointer; }
+  .mn-modes button[aria-pressed="true"] { background: var(--ink); color: #fff7ed; }
+  .btn-primary { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font: 600 15px/1 var(--ui); color: var(--primary-ink); background: var(--primary); border: 0; border-radius: 999px; padding: 13px 20px; cursor: pointer;
+                 box-shadow: 0 6px 14px -6px rgb(245 50 0 / 0.55); transition: transform 180ms var(--ease), box-shadow 180ms var(--ease); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 20px -8px rgb(245 50 0 / 0.6); }
+  .mn-hint { width: 100%; margin: 2px 0 0; font-size: 14px; color: var(--ink-soft); line-height: 1.45; }
+  @container (max-width: 520px) {
+    .pg-title { font-size: 1.9rem; }
+    .mn-modes { width: 100%; }
+    .mn-modes button { flex: 1; }
+    .btn-primary { margin-left: 0; width: 100%; justify-content: center; }
+  }
+  :is(button, a, input):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+  /* ---------- shared atoms ---------- */
+  .icon { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .season { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; padding: 0; list-style: none; font-size: 13.5px; color: var(--ink); }
+  .season li { display: inline-flex; align-items: center; gap: 6px; }
+  .season li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--legume)); }
+  .meta { display: flex; gap: 12px; font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .meta span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .meta .icon { width: 14px; height: 14px; }
+  .score { display: inline-flex; align-items: center; gap: 6px; font: 600 12.5px/1 var(--ui); font-variant-numeric: tabular-nums; padding: 6px 9px; border-radius: 999px; background: var(--ok-bg); color: var(--ok); white-space: nowrap; }
+  .score.mid { background: var(--mid-bg); color: var(--mid); }
+  .acts { display: flex; gap: 8px; }
+  .act { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 0 14px; font: 600 14px/1 var(--ui); color: #9a3412; background: #fff; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; transition: background 160ms var(--ease), border-color 160ms var(--ease); }
+  .act:hover { background: #fff7ed; border-color: #fdba74; }
+  .act[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff7ed; }
+  .act .icon { width: 17px; height: 17px; }
+  .title-link { color: inherit; text-decoration: none; }
+  .title-link:hover { text-decoration: underline; text-decoration-color: rgb(245 50 0 / 0.5); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+  .kept { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+  /* ---------- SURPRISE: photo-led grid ---------- */
+  .sp-grid { display: grid; gap: 22px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .sp-card { background: var(--paper); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--line-soft);
+             box-shadow: 0 10px 24px -16px rgb(67 20 7 / 0.35); }
+  .sp-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--line-soft); }
+  .sp-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .sp-body h4 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+  .sp-body .acts { margin-top: auto; padding-top: 6px; }
+  .sp-body .act { flex: 1; }
+  .sp-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
+  @container (max-width: 960px) { .sp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @container (max-width: 520px) {
+    .sp-grid { grid-template-columns: 1fr; gap: 14px; }
+    .sp-card { display: grid; grid-template-columns: 116px 1fr; }
+    .sp-card img { height: 100%; aspect-ratio: auto; min-height: 150px; }
+    .sp-body { padding: 12px 12px 12px 14px; gap: 8px; }
+    .sp-body h4 { font-size: 1.05rem; }
+    .sp-body .act { padding: 0 8px; font-size: 13px; }
+    .sp-top .meta { display: none; }
+  }
+
+  /* ---------- REPAS: one menu card, three courses ---------- */
+  .rp { max-width: 900px; margin: 0 auto; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 10px 28px; box-shadow: 0 14px 30px -20px rgb(67 20 7 / 0.35); }
+  .rp-row { display: grid; grid-template-columns: 112px 220px 1fr auto; gap: 22px; align-items: center; padding: 20px 0; }
+  .rp-row + .rp-row { border-top: 1px dashed var(--line); }
+  .rp-course { font-family: var(--display); font-size: 1.35rem; color: var(--primary); }
+  .rp-row img { width: 220px; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 12px; display: block; }
+  .rp-txt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .rp-txt h4 { font-family: var(--display); font-weight: 700; font-size: 1.3rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+  .rp-row .acts { flex-direction: column; }
+  .rp-note { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--mid); background: var(--mid-bg); border-radius: 8px; padding: 8px 10px; line-height: 1.4; }
+  .rp-note .icon { width: 15px; height: 15px; margin-top: 1px; }
+  @container (max-width: 760px) {
+    .rp { padding: 4px 16px; border-radius: 16px; }
+    .rp-row { grid-template-columns: 1fr; gap: 12px; padding: 18px 0; }
+    .rp-row img { width: 100%; aspect-ratio: 16 / 9; }
+    .rp-row .acts { flex-direction: row; }
+    .rp-row .act { flex: 1; }
+    .rp-course { font-size: 1.2rem; }
+  }
+
+  /* ---------- SEMAINE: days + shopping list ---------- */
+  .wk { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; align-items: start; }
+  .wk-days { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .wk-day { display: grid; grid-template-columns: 92px 104px 1fr auto; gap: 16px; align-items: center; padding: 12px 16px; }
+  .wk-day + .wk-day { border-top: 1px solid var(--line-soft); }
+  .wk-day .dname { font-family: var(--display); font-size: 1.15rem; }
+  .wk-day img { width: 104px; height: 78px; object-fit: cover; border-radius: 10px; display: block; }
+  .wk-day .txt { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .wk-day h4 { font-family: var(--display); font-weight: 700; font-size: 1.08rem; line-height: 1.2; margin: 0; }
+  .wk-day .act { padding: 0 12px; }
+  .wk-day .act .lbl { display: none; }
+  .wk-day.kept { background: #fff7ed; }
+  .list { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 18px 18px 8px; position: sticky; top: 16px; }
+  .list-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .list-head h3 { font-family: var(--display); font-weight: 700; font-size: 1.35rem; margin: 0; }
+  .list-head .act { margin-left: auto; }
+  .list-sub { font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; font-variant-numeric: tabular-nums; }
+  .grp { border-top: 1px solid var(--line-soft); }
+  .grp summary { list-style: none; display: flex; align-items: center; gap: 8px; padding: 12px 0; cursor: pointer; font-weight: 600; font-size: 14.5px; }
+  .grp summary::-webkit-details-marker { display: none; }
+  .grp summary .n { margin-left: auto; white-space: nowrap; font-weight: 500; color: var(--ink-soft); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .grp summary .chev { transition: transform 200ms var(--ease); width: 16px; height: 16px; color: var(--ink-soft); }
+  .grp[open] summary .chev { transform: rotate(90deg); }
+  .grp ul { list-style: none; margin: 0 0 10px; padding: 0; }
+  .grp li label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; font-size: 14px; line-height: 1.35; cursor: pointer; }
+  .grp input { appearance: none; flex: none; width: 18px; height: 18px; margin: 0; border: 1.5px solid #fdba74; border-radius: 5px; background: #fff; display: grid; place-items: center; }
+  .grp input:checked { background: var(--primary); border-color: var(--primary); }
+  .grp input:checked::after { content: ""; width: 9px; height: 5px; border: 2px solid #fff; border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+  .grp input:checked + span { color: rgb(124 45 18 / 0.5); text-decoration: line-through; }
+  @container (max-width: 960px) {
+    .wk { grid-template-columns: 1fr; }
+    .list { position: static; }
+  }
+  @container (max-width: 520px) {
+    .wk-day { grid-template-columns: 72px 1fr auto; grid-template-rows: auto 1fr; grid-template-areas: "img day acts" "img txt acts"; gap: 2px 12px; padding: 12px; align-items: start; }
+    .wk-day .dname { grid-area: day; }
+    .wk-day img { grid-area: img; width: 72px; height: 72px; }
+    .wk-day .txt { grid-area: txt; }
+    .wk-day .acts { grid-area: acts; flex-direction: column; gap: 6px; }
+    .wk-day .dname { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--primary); }
+    .wk-day h4 { font-size: 1rem; }
+    .wk-day .season { font-size: 12.5px; }
+    .wk-day .act { width: 44px; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-reroll" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.75-1.4"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></symbol>
+</svg>
+
+<div class="sheet">
+  <h1>Menu de saison : maquettes</h1>
+  <p>Troisième mode de <code>/calendrier/</code>. Recettes réelles, tirées avec la règle du spec pour la deuxième quinzaine de novembre. Chaque mode est montré en bureau (1180 px) et en mobile (390 px). Une carte « gardée » est visible dans chaque mode.</p>
+  <div id="blocks"></div>
+</div>
+
+<script>
+const IMG = s => `https://dsestu.github.io/recettes-cuisine/images/cards/${s}.webp`;
+const C = { legume: "var(--legume)", fruit: "var(--fruit)", coquillage: "var(--coquillage)" };
+const R = {
+  chou:     { t: "Soupe au chou", s: "soupe_au_chou", time: "1 h 35", diff: "Facile", sc: "3 sur 4", hi: 1, peak: [["chou","legume"],["navets","legume"],["poireaux","legume"]] },
+  saumon:   { t: "Soupe de poisson au saumon", s: "soupe_de_poisson_au_saumon", time: "50 min", diff: "Facile", sc: "2 sur 3", hi: 1, peak: [["poireaux","legume"],["citron","fruit"]] },
+  magret:   { t: "Magret de canard, clémentines de Corse et purée de butternut", s: "magret_de_canard_clementines_corse_puree_de_butternut", time: "55 min", diff: "Moyen", sc: "2 sur 4", hi: 0, peak: [["butternut","legume"],["clémentine","fruit"]] },
+  tarte:    { t: "Tarte amandine aux poires", s: "tarte_amandine_aux_poires", time: "1 h 45", diff: "Moyen", sc: "2 sur 2", hi: 1, peak: [["poire","fruit"],["citron","fruit"]] },
+  fenouil:  { t: "Dip au fenouil rôti", s: "dip_au_fenouil_roti", time: "45 min", diff: "Facile", sc: "2 sur 2", hi: 1, peak: [["fenouil","legume"],["citron","fruit"]] },
+  moules:   { t: "Soupe de moules", s: "soupe_de_moules", time: "1 h 20", diff: "Moyen", sc: "3 sur 4", hi: 1, peak: [["moules","coquillage"],["fenouil","legume"],["poireaux","legume"]] },
+  stj:      { t: "Saint-Jacques façon chaudrée", s: "saint_jacques_facon_chaudree", time: "1 h 05", diff: "Moyen", sc: "1 sur 3", hi: 0, peak: [["saint-jacques","coquillage"]] },
+  pot:      { t: "Pot-au-feu de volaille", s: "pot_au_feu_de_volaille", time: "1 h", diff: "Facile", sc: "1 sur 3", hi: 0, peak: [["patate douce","legume"]] },
+  vongole:  { t: "Fettucine alle vongole", s: "fettucine_alle_vongole", time: "30 min", diff: "Facile", sc: "2 sur 3", hi: 1, peak: [["palourdes","coquillage"],["citron","fruit"]] },
+  chak:     { t: "Chakchouka aux épinards et choux de Bruxelles", s: "chakchouka_epinards_choux_bruxelles", time: "30 min", diff: "Facile", sc: "2 sur 4", hi: 0, peak: [["choux de Bruxelles","legume"],["citron","fruit"]] },
+};
+const ic = id => `<svg class="icon" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const season = r => `<ul class="season" aria-label="En pleine saison">${r.peak.map(([n,c]) => `<li style="--c:${C[c]}">${n}</li>`).join("")}</ul>`;
+const score = r => `<span class="score ${r.hi ? "" : "mid"}">${r.sc} de saison</span>`;
+const meta = r => `<div class="meta"><span>${ic("clock")}${r.time}</span><span>${r.diff}</span></div>`;
+const acts = (k, labels = true, kept = !!k) => `<div class="acts">
+  <button class="act" type="button" aria-label="Relancer">${ic("reroll")}<span class="lbl">${labels ? "Relancer" : ""}</span></button>
+  <button class="act" type="button" aria-pressed="${kept}" aria-label="${kept ? "Gardée" : "Garder"}">${ic(kept ? "lock" : "unlock")}<span class="lbl">${labels ? (kept ? "Gardée" : "Garder") : ""}</span></button>
+</div>`;
+
+const header = (mode, hint) => `
+  <h2 class="pg-title">Calendrier des ingrédients</h2>
+  <p class="pg-sub">Saisonnalité des produits utilisés dans les recettes.</p>
+  <div class="seg" role="group" aria-label="Affichage">
+    <button type="button" aria-pressed="false">Ingrédients</button>
+    <button type="button" aria-pressed="false">Recettes de saison</button>
+    <button type="button" aria-pressed="true">Menu</button>
+  </div>
+  <div class="quinz">
+    <button class="nav" type="button" aria-label="Quinzaine précédente">${ic("left")}</button>
+    <div><h3>Deuxième quinzaine de novembre</h3><small>nov-2</small></div>
+    <button class="nav" type="button" aria-label="Quinzaine suivante">${ic("right")}</button>
+  </div>
+  <div class="mn-bar">
+    <div class="mn-modes" role="group" aria-label="Type de menu">
+      ${["Surprise","Repas","Semaine"].map(m => `<button type="button" aria-pressed="${m === mode}">${m}</button>`).join("")}
+    </div>
+    <button class="btn-primary" type="button">${ic("dice")}Nouveau menu</button>
+    <p class="mn-hint">${hint}</p>
+  </div>`;
+
+const surprise = () => `<div class="sp-grid">${[["saumon",0],["tarte",1],["magret",0],["fenouil",0]].map(([k,kept]) => { const r = R[k]; return `
+  <article class="sp-card ${kept ? "kept" : ""}">
+    <img src="${IMG(r.s)}" alt="${r.t}" loading="lazy">
+    <div class="sp-body">
+      <div class="sp-top">${score(r)}${meta(r)}</div>
+      <h4><a class="title-link" href="#">${r.t}</a></h4>
+      ${season(r)}
+      ${acts(kept)}
+    </div>
+  </article>`; }).join("")}</div>`;
+
+const repas = () => `<div class="rp">${[["Entrée","saumon",0],["Plat","magret",1],["Dessert","tarte",0]].map(([course,k,kept]) => { const r = R[k]; return `
+  <article class="rp-row ${kept ? "kept" : ""}" style="${kept ? "border-radius:12px;padding-inline:12px;margin-inline:-12px" : ""}">
+    <div class="rp-course">${course}</div>
+    <img src="${IMG(r.s)}" alt="${r.t}" loading="lazy">
+    <div class="rp-txt">
+      <h4><a class="title-link" href="#">${r.t}</a></h4>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${score(r)}${meta(r)}</div>
+      ${season(r)}
+      ${course === "Dessert" ? `<p class="rp-note">${ic("info")}Seulement 2 desserts de saison cette quinzaine. Relancer piochera aussi dans les desserts moins de saison.</p>` : ""}
+    </div>
+    ${acts(kept)}
+  </article>`; }).join("")}</div>`;
+
+const DAYS = [["Lundi","chou",0],["Mardi","vongole",0],["Mercredi","pot",1],["Jeudi","moules",0],["Vendredi","chak",0],["Samedi","magret",0],["Dimanche","stj",0]];
+const LINES = {
+  chou: ["400 g de lard demi-sel","1 beau chou vert","5 pommes de terre (bintje)","3 carottes","2 navets","2 poireaux","1 gros oignon","1 clou de girofle","3 litres d'eau","1 cuillère à soupe de saindoux","Gros sel","Poivre blanc en grains","6 tranches de pain de campagne"],
+  vongole: ["2 c. à s. d'huile d'olive","3 gousses d'ail écrasées","1 long piment rouge frais","1 c. à s. de petites câpres","180 ml de vin blanc sec","180 ml de bouillon de poisson","2 c. à s. de jus de citron","1 kg de palourdes","375 g de fettucine","1 petite botte de persil plat","8 brins de ciboulette"],
+};
+const COUNTS = { pot: 16, moules: 21, chak: 13, magret: 16, stj: 17 };
+const SERV = { chou: 6, vongole: 4, pot: 4, moules: 10, chak: 6, magret: 4, stj: 4 };
+const semaine = () => `<div class="wk">
+  <div class="wk-days">${DAYS.map(([d,k,kept]) => { const r = R[k]; return `
+    <article class="wk-day ${kept ? "kept" : ""}">
+      <div class="dname">${d}</div>
+      <img src="${IMG(r.s)}" alt="${r.t}" loading="lazy">
+      <div class="txt"><h4><a class="title-link" href="#">${r.t}</a></h4>${season(r)}</div>
+      ${acts(kept, false)}
+    </article>`; }).join("")}</div>
+  <aside class="list" aria-label="Liste de courses">
+    <div class="list-head"><h3>Liste de courses</h3><button class="act" type="button">${ic("copy")}Copier</button></div>
+    <p class="list-sub">7 recettes · 107 ingrédients · quantités des recettes d'origine</p>
+    ${DAYS.map(([d,k], i) => { const r = R[k]; const lines = LINES[k]; const n = lines ? lines.length : COUNTS[k]; return `
+    <details class="grp" ${lines ? "open" : ""}>
+      <summary><svg class="icon chev" aria-hidden="true"><use href="#i-right"/></svg>${r.t.split(",")[0]}<span class="n">${SERV[k]} pers. · ${n} ingr.</span></summary>
+      ${lines ? `<ul>${lines.map((l, j) => `<li><label><input type="checkbox" ${i === 0 && j < 2 ? "checked" : ""}><span>${l}</span></label></li>`).join("")}</ul>` : ""}
+    </details>`; }).join("")}
+  </aside>
+</div>`;
+
+const MODES = [
+  { name: "Surprise", desc: "Quatre idées de saison, à relancer une par une. La carte du milieu est gardée : « Nouveau menu » ne la touche pas.", hint: "Quatre recettes construites autour des produits de la quinzaine. Relancez une carte, ou gardez-la.", body: surprise },
+  { name: "Repas", desc: "Un menu complet entrée, plat, dessert, présenté comme une carte de restaurant. Le plat est gardé. Le dessert montre le message quand le choix de saison est maigre (cas réel en novembre).", hint: "Une entrée, un plat, un dessert de saison qui vont ensemble.", body: repas },
+  { name: "Semaine", desc: "Sept plats, un par jour, et la liste de courses regroupée par recette. Mercredi est gardé. Sur mobile, la liste passe sous les jours.", hint: "Sept plats de saison, sans deux fois le même produit vedette.", body: semaine },
+];
+document.getElementById("blocks").innerHTML = MODES.map(m => `
+  <section class="mode-block">
+    <h2>${m.name}</h2><p>${m.desc}</p>
+    <div class="frames">
+      <div class="frame desk"><div class="frame-cap">Bureau · 1180 px</div><div class="viewport">${header(m.name, m.hint)}${m.body()}</div></div>
+      <div class="frame phone"><div class="frame-cap">Mobile · 390 px</div><div class="viewport">${header(m.name, m.hint)}${m.body()}</div></div>
+    </div>
+  </section>`).join("");
+</script>
+</body>
+</html>
