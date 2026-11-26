@@ -42,36 +42,6 @@
   },
   "recipes": [
     {
-      "slug": " tofu_meatball_with_mushroom_ankake_sauce",
-      "title": "Boulettes de tofu avec sauce Ankake aux champignons",
-      "url": "/recipes/ tofu_meatball_with_mushroom_ankake_sauce.html",
-      "kind": "recipe",
-      "image": "tofu_meatball_with_mushroom_ankake_sauce",
-      "temporal_ingredients": [
-        {
-          "id": "poireau japonais",
-          "category": "legume",
-          "phases": {
-            "0": "peak",
-            "1": "peak",
-            "2": "peak",
-            "3": "peak",
-            "4": "end",
-            "5": "end",
-            "6": "end",
-            "16": "start",
-            "17": "start",
-            "18": "peak",
-            "19": "peak",
-            "20": "peak",
-            "21": "peak",
-            "22": "peak",
-            "23": "peak"
-          }
-        }
-      ]
-    },
-    {
       "slug": "acras_de_morue",
       "title": "Acras de morue",
       "url": "/recipes/acras_de_morue.html",
@@ -100,7 +70,26 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g de morue séchée et salée",
+        "200 g de farine",
+        "½ c. à c. de levure chimique",
+        "150 ml d'eau",
+        "1 oignon émincé",
+        "2 gousses d'ail émincées",
+        "2 tiges de ciboule hachées",
+        "2 œufs, blancs et jaunes séparés",
+        "½ piment finement haché",
+        "Sel",
+        "1 litre d'huile de friture"
+      ],
+      "time": 765,
+      "difficulty": 2
     },
     {
       "slug": "agneau_aux_oignons",
@@ -170,7 +159,31 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 8,
+      "ingredients": [
+        "4 gros oignons (800 g)",
+        "3 c. à s. de ghee",
+        "5 gousses d'ail écrasées",
+        "1 c. à s. de gingembre frais râpé",
+        "½ c. à c. de piment en poudre",
+        "½ c. à c. de coriandre moulue",
+        "1 c. à c. de cumin moulu",
+        "½ c. à c. de curcuma moulu",
+        "4 clous de girofle",
+        "½ c. à c. de graines de cardamome",
+        "1,2 kg d'épaule d'agneau en morceaux",
+        "250 ml de yaourt",
+        "400 g de tomates pelées en conserve",
+        "2 c. à s. de coriandre ciselée",
+        "2 c. à s. de menthe ciselée",
+        "1 ½ c. à c. de garam masala"
+      ],
+      "time": 125,
+      "difficulty": 2
     },
     {
       "slug": "aiguillettes_de_poulet_au_miel_et_au_cidre",
@@ -196,7 +209,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g d'aiguillettes de poulet",
+        "200 g de poires",
+        "1 oignon",
+        "1 échalote",
+        "25 g de persil",
+        "1 cl de crème liquide",
+        "20 cl de cidre demi-sec",
+        "4 cl de sauce soja salée",
+        "25 g de miel",
+        "2 c. à soupe d'huile végétale",
+        "1 cube de bouillon de légumes"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "aiguillettes_dinde_panees",
@@ -222,7 +254,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "900 g de blancs de dinde",
+        "2 citrons",
+        "2 œufs",
+        "50 g de parmesan",
+        "150 g de chapelure",
+        "100 g de farine",
+        "50 g de corn-flakes",
+        "Huile de friture",
+        "Sel et poivre"
+      ],
+      "time": 40,
+      "difficulty": 2
     },
     {
       "slug": "ailes_de_poulet_marinees",
@@ -230,7 +279,21 @@
       "url": "/recipes/ailes_de_poulet_marinees.html",
       "kind": "recipe",
       "image": "ailes_de_poulet_marinees",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 24,
+      "ingredients": [
+        "12 ailes de poulet (1,5 kg)",
+        "60 ml de sauce soja",
+        "2 gousses d'ail écrasées",
+        "2 c. à c. de gingembre frais râpé",
+        "1 c. à s. de sucre brun",
+        "1 c. à s. de xérès",
+        "1 c. à s. d'huile d'arachide",
+        "2 c. à s. de miel"
+      ],
+      "time": 245,
+      "difficulty": 2
     },
     {
       "slug": "ailes_de_poulet_sautees",
@@ -261,7 +324,25 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 kg d'ailes de poulet",
+        "3 gousses d'ail écrasées",
+        "1 c. à s. de gingembre frais râpé",
+        "2 c. à s. de sauce hoisin",
+        "2 c. à s. de xérès",
+        "2 c. à s. de miel",
+        "1 c. à s. d'huile d'arachide",
+        "230 g de pousses de bambou égouttées, en tranches",
+        "6 ciboules hachées grossièrement",
+        "300 g de bok choy coupé grossièrement"
+      ],
+      "time": 215,
+      "difficulty": 1
     },
     {
       "slug": "ankake_sauce",
@@ -269,7 +350,16 @@
       "url": "/components/ankake_sauce.html",
       "kind": "component",
       "image": "ankake_sauce",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 1,
+      "ingredients": [
+        "10g de shimeji",
+        "3g de gingembre",
+        "50ml de dashi"
+      ],
+      "time": 15,
+      "difficulty": 1
     },
     {
       "slug": "aromatic_sauce_for_karaage",
@@ -308,7 +398,21 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 1,
+      "ingredients": [
+        "1 c. à café de vinaigre",
+        "1 c. à café de sauce soja foncée",
+        "3/2 c. à café de mirin",
+        "1 c. à café de dashi",
+        "1 c. à café de prune salée",
+        "10g de radis (râpé)",
+        "2g de pousses de radis (coupées en trois)",
+        "Une feuille de shiso"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "aumonieres_de_poisson",
@@ -339,7 +443,23 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de filets de poisson blanc coupés en morceaux",
+        "4 ciboules émincées",
+        "1 c. à c. de gingembre frais râpé",
+        "1 gousse d'ail écrasée",
+        "3 c. à c. de sauce barbecue chinoise",
+        "24 carrés de pâte pour pâtés impériaux",
+        "1 œuf légèrement battu",
+        "Huile végétale pour friture"
+      ],
+      "time": 50,
+      "difficulty": 2
     },
     {
       "slug": "avoines_facon_risotto_courge_bleu_noix",
@@ -375,7 +495,25 @@
             "22": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g d'avoines Alpina",
+        "1 courge butternut",
+        "1 oignon",
+        "1 gousse d'ail",
+        "100 g de fourme de Montbrison (+ 20 g pour le service)",
+        "1 L de bouillon",
+        "30 cl de vin blanc sec",
+        "40 g de noix",
+        "1 c. à soupe d'huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 50,
+      "difficulty": 2
     },
     {
       "slug": "baba_ganoush",
@@ -415,7 +553,21 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 2,
+      "ingredients": [
+        "2 grosses aubergines (1 kg)",
+        "3 gousses d'ail écrasées",
+        "2 c. à s. de tahini",
+        "60 ml de jus de citron",
+        "2 c. à s. d'huile d'olive",
+        "½ c. à c. de paprika doux"
+      ],
+      "time": 70,
+      "difficulty": 1
     },
     {
       "slug": "bavette_sauce_au_vin",
@@ -423,7 +575,19 @@
       "url": "/recipes/bavette_sauce_au_vin.html",
       "kind": "recipe",
       "image": "bavette_sauce_au_vin",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1 kg de bavette de bœuf",
+        "20 g de beurre",
+        "2 c. à soupe d'huile",
+        "Sel et poivre"
+      ],
+      "time": 50,
+      "difficulty": 2
     },
     {
       "slug": "bechamel_moussaka",
@@ -431,7 +595,16 @@
       "url": "/components/bechamel_moussaka.html",
       "kind": "component",
       "image": "bechamel_moussaka",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 6,
+      "ingredients": [
+        "75 g de beurre",
+        "50 g de farine",
+        "500 ml de lait"
+      ],
+      "time": 15,
+      "difficulty": 1
     },
     {
       "slug": "beignets_de_chorizo",
@@ -439,7 +612,25 @@
       "url": "/recipes/beignets_de_chorizo.html",
       "kind": "recipe",
       "image": "beignets_de_chorizo",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "60 ml d'huile d'olive",
+        "1 chorizo coupé en petits morceaux",
+        "2 piments doux rouges émincés très finement",
+        "150 g de farine",
+        "55 g de fécule de maïs",
+        "½ c. à c. de levure chimique",
+        "3 gousses d'ail écrasées",
+        "3 œufs, blancs et jaunes séparés",
+        "180 ml de bière",
+        "75 g de manchego râpé",
+        "Quelques brins de persil ciselés",
+        "Huile végétale"
+      ],
+      "time": 95,
+      "difficulty": 2
     },
     {
       "slug": "beignets_de_morue_aux_olives",
@@ -447,7 +638,22 @@
       "url": "/recipes/beignets_de_morue_aux_olives.html",
       "kind": "recipe",
       "image": "beignets_de_morue_aux_olives",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "625 g de filets de morue salée, avec la peau",
+        "3 pommes de terre (600 g) coupées en deux",
+        "1 c. à s. d'huile d'olive",
+        "1 oignon jaune (150 g) finement haché",
+        "2 gousses d'ail écrasées",
+        "5 ou 6 branches de persil plat ciselées",
+        "60 g d'olives vertes dénoyautées finement hachées",
+        "1 œuf",
+        "Huile végétale pour la friture"
+      ],
+      "time": 835,
+      "difficulty": 2
     },
     {
       "slug": "beignets_italiens_ricotta",
@@ -455,7 +661,24 @@
       "url": "/recipes/beignets_italiens_ricotta.html",
       "kind": "recipe",
       "image": "beignets_italiens_ricotta",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "250 g de ricotta",
+        "80 g de sucre",
+        "40 g de jaune d'œuf (environ 2 jaunes)",
+        "50 g d'huile",
+        "80 ml de lait",
+        "16 g de levure chimique",
+        "farine (quantité ajustée pour obtenir une pâte épaisse)",
+        "huile pour la friture",
+        "sucre glace (pour saupoudrer)"
+      ],
+      "time": 35,
+      "difficulty": 2
     },
     {
       "slug": "blancs_poulet_farcis_epinards_feta",
@@ -480,7 +703,21 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g d'épinards",
+        "75 g de feta émiettée",
+        "4 blancs de poulet",
+        "1 c. à s. d'huile d'olive",
+        "80 g de crème fraîche",
+        "2 c. à s. de persil frais ciselé"
+      ],
+      "time": 65,
+      "difficulty": 2
     },
     {
       "slug": "blanquette_de_veau",
@@ -562,7 +799,28 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1,2 kg de morceaux de veau",
+        "2 carottes",
+        "1 branche de céleri",
+        "250 g de champignons de Paris",
+        "½ citron (jus)",
+        "1 oignon",
+        "1 c. à soupe de ciboulette ciselée (facultatif)",
+        "1 feuille de laurier",
+        "20 cl de crème entière épaisse",
+        "85 g de beurre mou",
+        "70 g de farine",
+        "3 clous de girofle",
+        "Sel et poivre"
+      ],
+      "time": 100,
+      "difficulty": 2
     },
     {
       "slug": "boeuf_au_gingembre",
@@ -600,7 +858,26 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "30 g de gingembre frais",
+        "2 c. à s. d'huile végétale",
+        "600 g de rumsteck détaillé en fines lamelles",
+        "2 gousses d'ail pilées",
+        "120 g de haricots verts coupés en deux",
+        "8 oignons verts coupés en tronçons de 5 cm",
+        "2 c. à c. de sucre de palme râpé ou sucre roux",
+        "2 c. à c. de sauce d'huître",
+        "1 c. à s. de sauce de poisson",
+        "1 c. à s. de sauce soja",
+        "1 poignée de basilic thaï"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "bouillon_emilia",
@@ -662,7 +939,28 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1kg de viande (e.g. plat de côte, jarret de bœuf, langue de boeuf). Le jarret contient des os à moelle.",
+        "Gros plus avec plusieurs os à moelle potentiellement à rajouter",
+        "500g de carottes",
+        "3-4 poireaux",
+        "1 oignon",
+        "3-4 gousses d'ail",
+        "1 feuille de laurier",
+        "3-4 tomates pelées",
+        "4-5 clous de girofle",
+        "Thym",
+        "Céléri",
+        "2-3 pommes de terre"
+      ],
+      "time": 140,
+      "difficulty": 1
     },
     {
       "slug": "boulettes_agneau_cachemire",
@@ -684,7 +982,30 @@
             "10": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "2 c. à c. de cumin moulu",
+        "2 c. à c. de coriandre moulue",
+        "2 c. à c. de garam masala",
+        "1 c. à c. de piment en poudre",
+        "½ c. à c. de curcuma moulu",
+        "750 g d'agneau haché",
+        "4 gousses d'ail écrasées",
+        "2 c. à c. de gingembre frais râpé",
+        "240 ml de yaourt",
+        "2 c. à s. de ghee",
+        "1 gros oignon (200 g) haché",
+        "2 c. à s. de lait entier en poudre",
+        "2 c. à s. de poudre d'amandes",
+        "1 c. à c. de sucre",
+        "375 ml d'eau chaude"
+      ],
+      "time": 90,
+      "difficulty": 2
     },
     {
       "slug": "boulettes_agneau_sauce_yaourt",
@@ -725,7 +1046,23 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "40 g de boulgour",
+        "500 g d'agneau haché",
+        "1 œuf légèrement battu",
+        "1 oignon (150 g) finement haché",
+        "40 g de pignons de pin finement hachés",
+        "2 c. à s. de menthe finement hachée",
+        "2 c. à s. de persil plat finement haché",
+        "Huile végétale pour friture"
+      ],
+      "time": 85,
+      "difficulty": 2
     },
     {
       "slug": "brochettes_de_viande_marinees_sauce_satay",
@@ -749,7 +1086,27 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "250 g de blanc de poulet",
+        "250 g de filet de bœuf",
+        "250 g de filet de porc",
+        "2 gousses d'ail pilées",
+        "2 c. à c. de sucre de palme râpé ou sucre roux",
+        "¼ de c. à c. de sambal oelek",
+        "1 c. à c. de curcuma moulu",
+        "¼ de c. à c. de curry en poudre",
+        "½ c. à c. de cumin moulu",
+        "½ c. à c. de coriandre séchée en poudre",
+        "2 c. à s. d'huile végétale",
+        "sauce satay"
+      ],
+      "time": 220,
+      "difficulty": 2
     },
     {
       "slug": "brochettes_poulet_yakitori",
@@ -780,7 +1137,19 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "500 g de blancs de poulet coupés en lanières",
+        "125 ml de mirin",
+        "60 ml de kecap manis",
+        "1 c. à s. de sauce soja japonaise",
+        "1 c. à c. de graines de sésame blanc grillées",
+        "1 ciboule ciselée"
+      ],
+      "time": 220,
+      "difficulty": 1
     },
     {
       "slug": "buche_framboise_mascarpone",
@@ -803,7 +1172,26 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "4 œufs",
+        "140 g de farine",
+        "110 g de sucre",
+        "2 sachets de sucre vanillé",
+        "6 g de levure chimique",
+        "225 g de mascarpone",
+        "77 g de sucre glace",
+        "vanille liquide",
+        "7 ml d'extrait de vanille",
+        "sirop de rhum",
+        "framboises fraîches ou surgelées"
+      ],
+      "time": 110,
+      "difficulty": 3
     },
     {
       "slug": "cake_olives_tomates_sechees",
@@ -843,7 +1231,27 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "150 g de tomates séchées",
+        "100 g d'olives vertes dénoyautées",
+        "Quelques feuilles de basilic",
+        "3 œufs",
+        "100 g de mozzarella",
+        "10 cl de lait",
+        "50 g de parmesan râpé",
+        "180 g de farine",
+        "8 cl d'huile d'olive",
+        "1 sachet de levure chimique",
+        "Origan",
+        "Sel et poivre"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "canard_glace_sauce_prunes",
@@ -851,7 +1259,20 @@
       "url": "/recipes/canard_glace_sauce_prunes.html",
       "kind": "recipe",
       "image": "canard_glace_sauce_prunes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 canard de 1,8 kg",
+        "3 étoiles de badiane",
+        "2 gousses d'ail pelées",
+        "5 cm de gingembre frais, tranché",
+        "500 ml d'eau"
+      ],
+      "time": 110,
+      "difficulty": 2
     },
     {
       "slug": "canard_laque",
@@ -898,7 +1319,26 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 canard de 2 kg",
+        "80 ml d'eau",
+        "1 c. à s. de mélasse",
+        "1 c. à c. de vinaigre de riz",
+        "1 c. à s. de xérès sec",
+        "1 c. à c. de cinq-épices",
+        "4 cm de gingembre frais coupé en lamelles épaisses",
+        "2 étoiles de badiane",
+        "1 petit concombre",
+        "5 oignons nouveaux coupés en lamelles de 5 cm",
+        "20 crêpes chinoises pour canard laqué"
+      ],
+      "time": 85,
+      "difficulty": 3
     },
     {
       "slug": "canard_saute_au_tamarin",
@@ -922,7 +1362,31 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "25 g de pulpe de tamarin séchée",
+        "125 ml d'eau bouillante",
+        "6 cm de gingembre frais, pelé",
+        "1 c. à s. d'huile d'arachide",
+        "2 gousses d'ail pilées",
+        "2 longs piments rouges hachés",
+        "1 gros canard laqué découpé en 12 morceaux",
+        "1 poivron rouge en fines lanières",
+        "60 ml de bouillon de poulet",
+        "2 c. à s. de sauce d'huître",
+        "1 c. à s. de sauce de poisson",
+        "2 c. à s. de sucre de palme râpé ou sucre roux",
+        "2 minibok choy coupés en quatre",
+        "100 g de pois gourmands coupés en deux ou en trois",
+        "8 oignons verts en tronçons de 5 cm",
+        "1 poignée de coriandre"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "carottes_glacees",
@@ -949,7 +1413,19 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "30 g de beurre",
+        "1 c. à s. d'huile d'olive",
+        "6 carottes (720 g) en tranches épaisses",
+        "2 c. à s. de sucre",
+        "1 c. à s. de persil plat finement ciselé",
+        "1 c. à s. de vinaigre balsamique"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "chakchouka_epinards_choux_bruxelles",
@@ -1021,7 +1497,28 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "400 g de pousses d'épinard",
+        "300 g de choux de Bruxelles",
+        "1 oignon",
+        "½ citron",
+        "2 gousses d'ail",
+        "1 petit piment vert",
+        "3 brins de coriandre",
+        "6 œufs",
+        "½ yaourt à la grecque",
+        "2 c. à soupe de sauce sriracha",
+        "2 c. à soupe d'huile d'olive",
+        "1 c. à café de graines de cumin",
+        "Sel"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "champignons_en_salade",
@@ -1043,7 +1540,18 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "125 g de haricots verts",
+        "125 g de champignons de Paris",
+        "1 échalote"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "champignons_sautes_au_piment",
@@ -1069,7 +1577,23 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "80 ml d'huile d'olive",
+        "50 g de beurre",
+        "6 gousses d'ail écrasées",
+        "2 petits piments rouges finement émincés",
+        "1 kg de petits champignons de Paris nettoyés",
+        "1 c. à s. de jus de citron",
+        "1 pincée de piment séché en poudre ou en paillettes",
+        "Quelques feuilles de persil plat ciselées"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "chantilly_vanillee",
@@ -1077,7 +1601,16 @@
       "url": "/components/chantilly_vanillee.html",
       "kind": "component",
       "image": "chantilly_vanillee",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "12,5 cl de crème fleurette",
+        "12 g de sucre glace",
+        "1/8 c. à café d'extrait de vanille"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "char_siu_porc_dore_au_chalumeau",
@@ -1085,7 +1618,19 @@
       "url": "/components/char_siu_porc_dore_au_chalumeau.html",
       "kind": "component",
       "image": "char_siu_porc_chalumeau",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "160 g de poitrine de porc en bloc",
+        "2 c. à s. de sucre",
+        "2 c. à s. de saké",
+        "2 c. à s. de sauce soja",
+        "2,5 g de mayonnaise",
+        "2 g d'ail frais"
+      ],
+      "time": 70,
+      "difficulty": 2
     },
     {
       "slug": "chaussons_au_fromage",
@@ -1093,7 +1638,26 @@
       "url": "/recipes/chaussons_au_fromage.html",
       "kind": "recipe",
       "image": "chaussons_au_fromage",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "450 g de farine",
+        "1 sachet de levure chimique",
+        "180 ml d'huile d'olive",
+        "180 ml d'eau tiède",
+        "1 jaune d'œuf",
+        "2 c. à c. de lait",
+        "100 g de feta émiettée",
+        "100 g de ricotta",
+        "1 œuf légèrement battu",
+        "1 pincée de noix de muscade moulue",
+        "1 pincée de poivre noir moulu"
+      ],
+      "time": 120,
+      "difficulty": 2
     },
     {
       "slug": "chili_con_carne",
@@ -1117,7 +1681,28 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "800 g de bœuf haché",
+        "2 oignons rouges",
+        "2 gousses d'ail",
+        "1 citron vert",
+        "2 brins d'origan",
+        "2 feuilles de laurier",
+        "500 g de haricots rouges (conserve)",
+        "350 g de pulpe de tomate",
+        "20 cl de bouillon de bœuf chaud",
+        "2 c. à soupe de concentré de tomate",
+        "2 c. à soupe d'huile d'olive",
+        "2 c. à café d'épices à chili",
+        "Sel et poivre"
+      ],
+      "time": 65,
+      "difficulty": 1
     },
     {
       "slug": "chouquettes",
@@ -1125,7 +1710,23 @@
       "url": "/recipes/chouquettes.html",
       "kind": "recipe",
       "image": "chouquettes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "25 cl d'eau",
+        "100 g de beurre doux",
+        "150 g de farine",
+        "1 cuillère à soupe rase de sucre semoule",
+        "1/2 cuillerée à café de sel",
+        "1/2 cuillerée à café de levure chimique",
+        "1 sachet de sucre vanillé",
+        "3 œufs"
+      ],
+      "time": 35,
+      "difficulty": 3
     },
     {
       "slug": "coleslaw_japonais",
@@ -1174,7 +1775,21 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1/2 petit daikon (150 g) coupé en fins bâtonnets",
+        "1/2 petit chou chinois (350 g) coupé en fines lanières",
+        "1 grosse carotte (180 g) coupée en fins bâtonnets",
+        "2 ciboules (50 g) émincées",
+        "1 c. à s. de graines de sésame noir grillées",
+        "sel"
+      ],
+      "time": 50,
+      "difficulty": 1
     },
     {
       "slug": "coquilles_saint_jacques_gratinees",
@@ -1204,7 +1819,25 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 noix de Saint-Jacques avec corail par personne",
+        "vin blanc sec (court-bouillon)",
+        "fumet de poisson et crustacés",
+        "50 g de beurre",
+        "farine",
+        "poivre",
+        "champignons en morceaux (petite boîte)",
+        "gruyère râpé",
+        "chapelure",
+        "noix de beurre"
+      ],
+      "time": 50,
+      "difficulty": 2
     },
     {
       "slug": "cote_de_veau_balsamique_burrata",
@@ -1243,7 +1876,24 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 côtes de veau de 500 g",
+        "400 g de tomates cerise",
+        "2 têtes d'ail",
+        "1 petit bouquet de basilic",
+        "1 burrata",
+        "2 c. à soupe de vinaigre balsamique",
+        "2 c. à soupe d'huile d'olive",
+        "Fleur de sel",
+        "Poivre noir"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "cotelettes_agneau_tandoori",
@@ -1282,7 +1932,25 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "250 ml de yaourt",
+        "1 oignon (150 g) coupé en dés",
+        "2 c. à s. de jus de citron",
+        "1 c. à s. de gingembre frais coupé en dés",
+        "3 gousses d'ail écrasées",
+        "2 c. à c. de piment en poudre",
+        "1 c. à c. de garam masala",
+        "1 c. à c. de cumin moulu",
+        "1 c. à s. d'huile végétale",
+        "12 côtelettes d'agneau"
+      ],
+      "time": 755,
+      "difficulty": 1
     },
     {
       "slug": "cotes_de_boeuf_braisees",
@@ -1290,7 +1958,25 @@
       "url": "/recipes/cotes_de_boeuf_braisees.html",
       "kind": "recipe",
       "image": "cotes_de_boeuf_braisees",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "2 kg de carrés de côtes de bœuf",
+        "190 g de sauce hoisin",
+        "60 ml de sauce soja à teneur réduite en sel",
+        "60 ml de mirin",
+        "2 lanières de zeste d'orange de 3 cm",
+        "90 g de miel",
+        "5 cm de gingembre frais (25 g), râpé",
+        "3 gousses d'ail écrasées",
+        "1 long piment rouge frais, émincé",
+        "2 c. à c. d'huile de sésame"
+      ],
+      "time": 510,
+      "difficulty": 1
     },
     {
       "slug": "creme_brulee",
@@ -1298,7 +1984,20 @@
       "url": "/recipes/creme_brulee.html",
       "kind": "recipe",
       "image": "creme_brulee",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 ml de crème fraîche liquide entière",
+        "6 jaunes d'œufs",
+        "100 g de sucre en poudre",
+        "1 gousse de vanille (ou 1 c. à c. d'extrait de vanille)",
+        "cassonade (pour la caramélisation finale)"
+      ],
+      "time": 190,
+      "difficulty": 2
     },
     {
       "slug": "creme_de_champignons_pancetta",
@@ -1357,7 +2056,27 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "15 g de cèpes séchés",
+        "250 ml d'eau bouillante",
+        "45 g de beurre",
+        "1 oignon jaune (150 g) grossièrement haché",
+        "1 petit poireau (200 g) émincé",
+        "250 g de champignons de Paris grossièrement émincés",
+        "80 ml de vin blanc sec",
+        "750 ml de bouillon de poulet",
+        "1 grosse pomme de terre (300 g) grossièrement hachée",
+        "300 ml de crème liquide",
+        "2 c. à s. d'estragon grossièrement ciselé",
+        "6 tranches de pancetta (100 g)"
+      ],
+      "time": 105,
+      "difficulty": 1
     },
     {
       "slug": "creme_de_patate_douce_au_poisson",
@@ -1429,7 +2148,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 c. à s. d'huile d'olive",
+        "1 oignon haché",
+        "400 g de patate douce à chair orangée, pelée et taillée en dés de 2 cm",
+        "1 carotte taillée en dés",
+        "1,5 litre de fumet de poisson",
+        "200 g de filets de poisson blanc à chair ferme (daurade, sole, bar…), coupés en petits morceaux",
+        "1 c. à c. d'origan frais haché ou marjolaine",
+        "½ c. à c. de noix de muscade râpée",
+        "130 ml de crème fleurette",
+        "Coriandre hachée (facultatif)"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "creme_mascarpone_confiture_de_lait",
@@ -1437,7 +2175,17 @@
       "url": "/components/creme_mascarpone_confiture_de_lait.html",
       "kind": "component",
       "image": "creme_mascarpone_confiture_de_lait",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "80 g de mascarpone",
+        "60 g de confiture de lait"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "creme_patissiere_pistache",
@@ -1445,7 +2193,21 @@
       "url": "/components/creme_patissiere_pistache.html",
       "kind": "component",
       "image": "creme_patissiere_pistache",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "3 jaunes d'œufs",
+        "25 cl de lait",
+        "50 g de sucre",
+        "20 g de Maïzena",
+        "60 g de pâte de pistache",
+        "25 g de beurre"
+      ],
+      "time": 145,
+      "difficulty": 2
     },
     {
       "slug": "creme_pralinee",
@@ -1453,7 +2215,21 @@
       "url": "/components/creme_pralinee.html",
       "kind": "component",
       "image": "creme_pralinee",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 jaunes d'œufs",
+        "35 cl de lait",
+        "80 g de sucre",
+        "30 g de Maïzena",
+        "60 g de beurre",
+        "110 g de praliné"
+      ],
+      "time": 85,
+      "difficulty": 2
     },
     {
       "slug": "crepes_broquet",
@@ -1461,7 +2237,21 @@
       "url": "/recipes/crepes_broquet.html",
       "kind": "recipe",
       "image": "crepes_broquet",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 œufs",
+        "450 g de farine",
+        "1 L de lait",
+        "2 c. à soupe de sucre en poudre",
+        "1 sachet de sucre vanillé",
+        "1 sachet de levure chimique"
+      ],
+      "time": 95,
+      "difficulty": 1
     },
     {
       "slug": "crevettes_au_miel",
@@ -1486,7 +2276,25 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1,5 kg de grosses crevettes crues",
+        "150 g de farine avec levure incorporée",
+        "310 ml d'eau",
+        "1 œuf légèrement battu",
+        "Fécule de maïs",
+        "Huile végétale pour friture",
+        "2 c. à c. d'huile d'arachide",
+        "60 ml de miel",
+        "100 g de pousses d'épinard",
+        "2 c. à s. de graines de sésame grillées"
+      ],
+      "time": 45,
+      "difficulty": 2
     },
     {
       "slug": "crevettes_epicees_tomate_coriandre",
@@ -1524,7 +2332,28 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 kg de crevettes moyennes crues",
+        "2 c. à c. de paprika fort",
+        "1 c. à c. de graines de coriandre concassées",
+        "1 c. à c. de curcuma moulu",
+        "1 c. à c. de cumin moulu",
+        "1 c. à c. de poivre noir concassé",
+        "¼ de c. à c. de clous de girofle moulus",
+        "¼ de c. à c. de cardamome moulue",
+        "60 ml d'eau",
+        "1 c. à s. d'huile d'olive",
+        "2 oignons jaunes (300 g) émincés",
+        "2 grosses tomates (500 g) coupées en petits dés",
+        "2 c. à s. de feuilles de coriandre"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "crevettes_patia",
@@ -1562,7 +2391,31 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1,5 kg de gambas crues",
+        "400 g de tomates pelées en conserve",
+        "2 gros piments verts émincés",
+        "60 g de sucre brun",
+        "1 c. à s. de concentré de tamarin",
+        "60 ml de concentré de tomates",
+        "1 grosse poignée de coriandre",
+        "2 c. à s. de ghee",
+        "2 gros oignons (400 g) émincés",
+        "4 gousses d'ail écrasées",
+        "2 c. à c. de coriandre moulue",
+        "2 c. à c. de garam masala",
+        "2 c. à c. de cumin moulu",
+        "1 c. à c. de curcuma moulu",
+        "1 c. à c. de piment en poudre",
+        "6 feuilles de curry"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "crevettes_sauce_satay",
@@ -1586,7 +2439,20 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1,5 kg de grosses crevettes crues",
+        "2 oignons (300 g)",
+        "2 c. à c. d'huile d'arachide",
+        "60 ml de bouillon de poulet",
+        "2 c. à s. de feuilles de coriandre"
+      ],
+      "time": 225,
+      "difficulty": 2
     },
     {
       "slug": "crevettes_sautees_ail_coriandre",
@@ -1610,7 +2476,25 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 kg de crevettes moyennes crues",
+        "2 c. à c. de coriandre (racines et tiges) hachée",
+        "2 c. à c. de graines de coriandre séchées",
+        "1 c. à c. de grains de poivre vert séchés",
+        "4 gousses d'ail en quartiers",
+        "2 c. à s. d'huile d'arachide",
+        "80 g de germes de soja",
+        "1 c. à s. de feuilles de coriandre hachées + quelques feuilles entières",
+        "1 c. à s. d'échalotes frites",
+        "1 c. à s. d'ail frit"
+      ],
+      "time": 210,
+      "difficulty": 1
     },
     {
       "slug": "croque_madame_saint_nectaire_oignon_rouge_epinards_sautes",
@@ -1668,7 +2552,28 @@
             "15": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "300 g de pousses d'épinard",
+        "300 g de roquette",
+        "1 oignon rouge",
+        "2 c. à soupe de jus de citron",
+        "4 œufs",
+        "400 g de saint-nectaire",
+        "60 g de beurre demi-sel",
+        "400 g de brioche tressée (8 tranches)",
+        "2 c. à soupe d'huile de sésame torréfié",
+        "1 c. à café bombée de graines de sésame blond",
+        "Huile de tournesol",
+        "Sel et poivre"
+      ],
+      "time": 20,
+      "difficulty": 2
     },
     {
       "slug": "curry_de_legumes_au_lait_de_coco",
@@ -1724,7 +2629,30 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "6 gousses d'ail coupées en quatre",
+        "3 piments oiseau rouges hachés",
+        "1 blanc de citronnelle (20 g) haché",
+        "1 c. à s. de galanga mariné",
+        "4 cm de gingembre frais, en petits dés",
+        "20 g de curcuma frais, haché",
+        "500 ml de lait de coco",
+        "2 feuilles de citron kaffir entières + 2 feuilles ciselées très fin",
+        "4 courgettes en morceaux",
+        "6 pâtissons jaunes, en morceaux",
+        "200 g de fleurettes de chou-fleur",
+        "100 g de mini-épis de maïs coupés en deux dans la longueur",
+        "2 c. à s. de sauce soja",
+        "2 c. à s. de jus de citron vert",
+        "1 poignée de basilic thaï ciselé"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "curry_de_poulet_de_tobago",
@@ -1732,7 +2660,25 @@
       "url": "/recipes/curry_de_poulet_de_tobago.html",
       "kind": "recipe",
       "image": "curry_de_poulet_de_tobago",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "75 g de beurre",
+        "1 poulet (1,5 kg), découpé en 8 morceaux",
+        "2 oignons émincés",
+        "2 gousses d'ail émincées",
+        "1 c. à s. de curry en poudre",
+        "1 ou ½ petit piment antillais rouge épépiné et émincé",
+        "½ c. à c. de filaments de safran",
+        "250 ml de lait de coco",
+        "½ c. à c. de sel fin",
+        "500 ml d'eau, environ"
+      ],
+      "time": 80,
+      "difficulty": 1
     },
     {
       "slug": "curry_gambas_mangue_verte",
@@ -1740,7 +2686,24 @@
       "url": "/recipes/curry_gambas_mangue_verte.html",
       "kind": "recipe",
       "image": "curry_gambas_mangue_verte",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1,5 kg de grosses gambas crues",
+        "2 c. à s. d'huile végétale",
+        "1 gros oignon (200 g) haché",
+        "2 mangues vertes (860 g) pelées et détaillées en dés",
+        "8 feuilles de curry ciselées",
+        "100 ml de lait de coco en poudre",
+        "400 ml d'eau bouillante",
+        "80 ml de crème liquide",
+        "Oignons verts émincés pour décorer"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "curry_oeuf_massala",
@@ -1778,7 +2741,30 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "8 œufs",
+        "1 oignon",
+        "1 citron vert bio",
+        "3 cm de gingembre",
+        "2 gousses d'ail",
+        "1 piment oiseau frais",
+        "4 brins de coriandre fraîche",
+        "15 cl de lait de coco",
+        "10 g de ghee",
+        "400 g de tomates concassées",
+        "15 cl d'eau",
+        "1 c. à café de garam massala",
+        "1 c. à café de cardamome moulue",
+        "1 c. à café de cumin moulu",
+        "1 c. à café de coriandre moulue"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "curry_rouge_au_poulet",
@@ -1801,7 +2787,30 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "2 c. à s. de ghee",
+        "2 oignons (300 g) émincés",
+        "4 gousses d'ail écrasées",
+        "2 c. à c. de gingembre frais finement râpé",
+        "1 poivron rouge (200 g) en morceaux",
+        "2 c. à c. de cumin moulu",
+        "2 c. à c. de coriandre moulue",
+        "2 c. à c. de paprika doux",
+        "1 c. à c. de piment en poudre",
+        "1 c. à s. de concentré de tomates",
+        "425 g de tomates pelées en conserve",
+        "6 blancs de poulet (1 kg)",
+        "500 ml de bouillon de volaille",
+        "60 ml de crème liquide",
+        "1 c. à s. de concentré de tamarin"
+      ],
+      "time": 55,
+      "difficulty": 1
     },
     {
       "slug": "curry_rouge_poisson_aubergines_sauvages",
@@ -1839,7 +2848,31 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de poisson blanc",
+        "1 gousse d'ail coupée en quatre",
+        "1 c. à s. de coriandre hachée (tiges et racines)",
+        "1 c. à s. de sauce soja",
+        "1 c. à s. de fécule de maïs",
+        "2 c. à c. d'huile d'arachide",
+        "2 c. à s. de pâte de curry rouge",
+        "400 ml de lait de coco",
+        "60 g d'aubergines sauvages",
+        "2 c. à c. de sucre de palme râpé ou sucre roux",
+        "1 c. à s. de jus de citron vert",
+        "1 c. à s. de sauce de poisson",
+        "2 oignons verts émincés",
+        "40 g de germes de soja",
+        "2 longs piments rouges émincés",
+        "1 poignée de feuilles de coriandre"
+      ],
+      "time": 35,
+      "difficulty": 2
     },
     {
       "slug": "curry_sec_de_poulet",
@@ -1863,7 +2896,29 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "2 c. à s. de ghee",
+        "2 oignons (300 g) émincés",
+        "6 feuilles de curry ciselées",
+        "1 c. à c. de graines de cumin",
+        "1 c. à c. de graines de moutarde noire",
+        "2 gousses d'ail écrasées",
+        "2 c. à c. de gingembre frais râpé",
+        "1 c. à c. de garam masala",
+        "1 c. à c. de curcuma moulu",
+        "½ c. à c. de piment en poudre",
+        "1 c. à c. de sel",
+        "6 blancs de poulet coupés en deux (1 kg)",
+        "125 ml d'eau",
+        "1 c. à s. de coriandre ciselée"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "curry_vert_de_legumes",
@@ -1930,7 +2985,29 @@
             "23": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 c. à s. d'huile d'arachide",
+        "1 oignon jaune émincé",
+        "3 feuilles de citron kaffir ciselées",
+        "2 c. à s. de pâte de curry verte",
+        "1 carotte en fines rondelles",
+        "2 mini-aubergines en tranches fines",
+        "800 ml de lait de coco",
+        "100 g de champignons de Paris émincés",
+        "4 pâtissons jaunes, en quartiers",
+        "100 g de haricots verts coupés en deux",
+        "280 g de broccolinis coupés en gros morceaux",
+        "1 petit poivron rouge, en fines lamelles",
+        "230 g de pousses de bambou en conserve, rincées et égouttées",
+        "350 g de potiron, en tranches fines"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "curry_vert_de_porc_ail_marine",
@@ -1938,7 +3015,28 @@
       "url": "/recipes/curry_vert_de_porc_ail_marine.html",
       "kind": "recipe",
       "image": "curry_vert_de_porc_ail_marine",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "7 cm de gingembre frais, haché",
+        "3 gousses d'ail en quartiers",
+        "1 oignon jaune haché",
+        "1 c. à c. de curcuma moulu",
+        "2 c. à s. de pâte de curry verte",
+        "10 feuilles de citron kaffir ciselées",
+        "750 g de filet de porc en cubes",
+        "60 ml d'huile d'arachide",
+        "1 c. à s. de concentré de tamarin",
+        "250 ml d'eau bouillante",
+        "2 c. à s. de sauce de poisson",
+        "2 bulbes d'ail mariné égouttés et grossièrement hachés",
+        "2 c. à c. de sucre de palme râpé ou sucre roux"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "dashi",
@@ -1960,7 +3058,16 @@
             "20": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1L d'eau filtrée",
+        "10g de Konbu, algue séchée (~1% du poids de l'eau)",
+        "20g de Katsuo bushi, flocons de bonite séchée (~2% du poids de l'eau)"
+      ],
+      "time": 55,
+      "difficulty": 1
     },
     {
       "slug": "dip_au_fenouil_roti",
@@ -2005,7 +3112,18 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "4 petits bulbes de fenouil (520 g)",
+        "2 gousses d'ail non pelées",
+        "1 c. à s. d'huile d'olive",
+        "250 ml de crème fraîche",
+        "Quelques gouttes de jus de citron"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "dip_de_thon",
@@ -2069,7 +3187,19 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "200 g de thon au naturel égoutté",
+        "150 g de fromage frais",
+        "1 c. à café de moutarde",
+        "1 c. à soupe de jus de citron",
+        "Quelques brins de ciboulette",
+        "Sel et poivre"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "eclair_chantilly_confiture_de_lait",
@@ -2077,7 +3207,21 @@
       "url": "/recipes/eclair_chantilly_confiture_de_lait.html",
       "kind": "recipe",
       "image": "eclair_chantilly_confiture_de_lait",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 œuf",
+        "25 g de beurre",
+        "2 c. à soupe de lait",
+        "40 g de farine",
+        "1 pincée de sucre en poudre",
+        "Sel"
+      ],
+      "time": 80,
+      "difficulty": 3
     },
     {
       "slug": "eclair_fraise_chantilly_vanille",
@@ -2099,7 +3243,25 @@
             "13": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "110 g de fraises",
+        "1 petit œuf",
+        "6 cl de lait",
+        "25 g de beurre",
+        "40 g de farine",
+        "35 g de chocolat blanc",
+        "5 g de pétales de rose cristallisés (ou de fraises lyophilisées)",
+        "1 pincée de sucre en poudre",
+        "Colorant rose (facultatif)",
+        "Sel"
+      ],
+      "time": 85,
+      "difficulty": 3
     },
     {
       "slug": "entrecotes_au_sesame",
@@ -2130,7 +3292,24 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à s. de graines de sésame grillées",
+        "2 c. à s. de sauce soja japonaise",
+        "1 c. à s. de saké",
+        "1 c. à c. de sucre",
+        "2,5 cm de gingembre frais (15 g), râpé",
+        "1 gousse d'ail écrasée",
+        "4 entrecôtes (800 g)",
+        "3 ciboules coupées en fines lanières",
+        "1 c. à s. d'huile d'olive"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "entremet_framboises_mascarpone_kirsch",
@@ -2153,7 +3332,28 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "250 g de framboises",
+        "250 g de mascarpone",
+        "90 g de miel (ou sucre)",
+        "100 g de pâte de lait concentré (ou autre liaison sucrée)",
+        "4 feuilles de gélatine",
+        "4 œufs",
+        "100 g de sucre (génoise)",
+        "150 g de farine (génoise)",
+        "1 sachet de levure chimique",
+        "50 g de sucre (sirop)",
+        "75 ml de kirsch",
+        "100 ml d'eau (sirop)",
+        "sel"
+      ],
+      "time": 190,
+      "difficulty": 3
     },
     {
       "slug": "falafels",
@@ -2161,7 +3361,25 @@
       "url": "/recipes/falafels.html",
       "kind": "recipe",
       "image": "falafels",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g de pois chiches secs",
+        "1 oignon jaune (150 g) grossièrement haché",
+        "2 gousses d'ail coupées en quatre",
+        "1 botte de persil plat, grossièrement haché",
+        "2 c. à c. de coriandre moulue",
+        "1 c. à c. de cumin moulu",
+        "1 c. à c. de bicarbonate de soude",
+        "2 c. à s. de farine",
+        "1 c. à c. de sel",
+        "huile végétale pour la friture"
+      ],
+      "time": 820,
+      "difficulty": 2
     },
     {
       "slug": "faux_fillet_sauce_poivre",
@@ -2185,7 +3403,22 @@
             "12": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "6 faux-filets de 150 g",
+        "800 g de pommes de terre grenaille",
+        "400 g de champignons de Paris",
+        "½ botte de cerfeuil",
+        "80 g de beurre",
+        "3 c. à soupe d'huile",
+        "Sel et poivre"
+      ],
+      "time": 95,
+      "difficulty": 2
     },
     {
       "slug": "fettucine_alle_vongole",
@@ -2254,7 +3487,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à s. d'huile d'olive",
+        "3 gousses d'ail écrasées",
+        "1 long piment rouge frais finement haché",
+        "1 c. à s. de petites câpres rincées et égouttées",
+        "180 ml de vin blanc sec",
+        "180 ml de bouillon de poisson",
+        "2 c. à s. de jus de citron",
+        "1 kg de palourdes",
+        "375 g de fettucine",
+        "1 petite botte de persil plat grossièrement hachée",
+        "8 brins de ciboulette"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "filet_de_boeuf_cantonaise",
@@ -2262,7 +3514,24 @@
       "url": "/recipes/filet_de_boeuf_cantonaise.html",
       "kind": "recipe",
       "image": "filet_de_boeuf_cantonaise",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "750 g de bœuf, dans le filet",
+        "2 c. à c. de sucre",
+        "2 c. à c. de fécule de maïs",
+        "1 c. à s. de sauce soja",
+        "1 c. à s. de sauce d'huître",
+        "2 c. à s. de xérès",
+        "2 oignons (300 g)",
+        "1 ½ c. à s. d'huile d'arachide",
+        "160 g de germes de soja"
+      ],
+      "time": 215,
+      "difficulty": 1
     },
     {
       "slug": "filet_de_poulet_creme_champignons",
@@ -2270,7 +3539,27 @@
       "url": "/recipes/filet_de_poulet_creme_champignons.html",
       "kind": "recipe",
       "image": "filet_de_poulet_creme_champignons",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1 kg de filets de poulet fermier",
+        "500 g de champignons bruns",
+        "2 oignons",
+        "4 brins de persil",
+        "20 cl de crème liquide",
+        "20 g de beurre",
+        "20 cl de bouillon de volaille",
+        "2 c. à soupe d'huile",
+        "1 c. à soupe de farine",
+        "½ c. à café de sauce Worcestershire",
+        "2 pincées de muscade",
+        "Sel et poivre"
+      ],
+      "time": 65,
+      "difficulty": 1
     },
     {
       "slug": "filet_mignon_sauce_chasseur",
@@ -2294,7 +3583,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "2 filets mignons de porc",
+        "10 fines tranches de bacon",
+        "400 g de choux de Bruxelles",
+        "400 g de pommes de terre",
+        "4 gousses d'ail",
+        "20 g de beurre",
+        "100 g d'oignons grelot (conserve)",
+        "5 c. à soupe d'huile",
+        "Sel et poivre"
+      ],
+      "time": 100,
+      "difficulty": 3
     },
     {
       "slug": "fougasse_aux_olives",
@@ -2317,7 +3623,23 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 6,
+      "ingredients": [
+        "500 g de farine",
+        "20 g de levure fraîche",
+        "2 c. à soupe d'huile d'olive",
+        "2 pincées de sucre",
+        "Sel",
+        "{'Pour la garniture': \"100 g d'olives noires dénoyautées\"}",
+        "100 g de tomates confites à l'huile",
+        "2 c. à soupe d'huile d'olive",
+        "1 c. à soupe d'herbes de Provence",
+        "Fleur de sel"
+      ],
+      "time": 160,
+      "difficulty": 2
     },
     {
       "slug": "frittata_petits_pois_poulet_menthe",
@@ -2390,7 +3712,28 @@
             "13": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "6 œufs",
+        "200 g de blanc de poulet",
+        "150 g de petits pois écossés",
+        "100 g de pousses d'épinard",
+        "4 oignons nouveaux",
+        "½ citron",
+        "2 gousses d'ail",
+        "2 brins de menthe",
+        "10 cl de lait",
+        "80 g de feta",
+        "10 g de beurre",
+        "2 c. à soupe d'huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "galette_creme_de_poireau_beaufort",
@@ -2437,7 +3780,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 galettes de sarrasin",
+        "4 œufs",
+        "250 g de champignons de Paris",
+        "1 gros poireau",
+        "250 g de fromage frais à tartiner",
+        "100 g de beaufort râpé",
+        "100 g de beaufort coupé en lamelles",
+        "30 g de beurre",
+        "Sel et poivre"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "gambas_epices_coriandre",
@@ -2461,7 +3821,18 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1,5 kg de grosses gambas crues",
+        "2 c. à s. d'huile végétale",
+        "1 gros oignon (200 g) émincé"
+      ],
+      "time": 50,
+      "difficulty": 1
     },
     {
       "slug": "gambas_sautees_peche",
@@ -2499,7 +3870,23 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "16 gambas",
+        "3 pêches",
+        "1 citron",
+        "2 gousses d'ail",
+        "1 échalote",
+        "10 feuilles de persil plat",
+        "Huile d'olive",
+        "Sel, poivre"
+      ],
+      "time": 20,
+      "difficulty": 1
     },
     {
       "slug": "gateau_de_riz",
@@ -2507,7 +3894,22 @@
       "url": "/recipes/gateau_de_riz.html",
       "kind": "recipe",
       "image": "gateau_de_riz",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "200 g de riz rond (*)",
+        "1l de lait",
+        "3 œufs",
+        "30 g de beurre + un peu pour le moule",
+        "120 g de sucre roux",
+        "30 ml de rhum (**)",
+        "1 gousse de vanille"
+      ],
+      "time": 130,
+      "difficulty": 2
     },
     {
       "slug": "gateau_marbre",
@@ -2515,7 +3917,22 @@
       "url": "/recipes/gateau_marbre.html",
       "kind": "recipe",
       "image": "gateau_marbre",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1 sachet de levure chimique",
+        "3 œufs",
+        "60g de chocolat",
+        "100g de beurre",
+        "200g de sucre",
+        "200g de farine",
+        "1 dl de lait"
+      ],
+      "time": 80,
+      "difficulty": 1
     },
     {
       "slug": "gnocchi_maison_sauce_tomate",
@@ -2523,7 +3940,23 @@
       "url": "/recipes/gnocchi_maison_sauce_tomate.html",
       "kind": "recipe",
       "image": "gnocchi_maison_sauce_tomate",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 5,
+      "ingredients": [
+        "800 g de pommes de terre",
+        "60 g de beurre",
+        "1 œuf entier + 2 jaunes d'œufs",
+        "50 g de fromage râpé (gruyère ou parmesan)",
+        "sel, poivre, muscade",
+        "2 cubes de bouillon",
+        "20 cl de coulis de tomate",
+        "farine (pour le plan de travail)"
+      ],
+      "time": 70,
+      "difficulty": 2
     },
     {
       "slug": "gratin_patate_douce_boeuf_feta",
@@ -2562,7 +3995,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "450 g de patate douce",
+        "1 oignon (80 g)",
+        "500 g de bœuf haché",
+        "2 gousses d'ail",
+        "2 c. à s. de concentré de tomates",
+        "origan",
+        "sel et poivre",
+        "150 g de feta",
+        "100 ml de lait",
+        "1 œuf",
+        "mozzarella râpée"
+      ],
+      "time": 70,
+      "difficulty": 2
     },
     {
       "slug": "gratin_peches_creme_amandes",
@@ -2583,7 +4035,24 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 pêches blanches",
+        "40 g de poudre d'amandes",
+        "40 g d'amandes effilées",
+        "60 g de sucre",
+        "20 cl de crème liquide",
+        "1 c. à c. de maïzena",
+        "1 citron vert non traité",
+        "1 sachet de sucre vanillé",
+        "20 g de beurre"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "gratin_penne_champignons_bouillon",
@@ -2608,7 +4077,28 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g de champignons de Paris",
+        "100 g de pousses d'épinards",
+        "2 échalotes",
+        "1 gousse d'ail",
+        "100 g de parmesan râpé",
+        "10 g de beurre (+ pour le moule)",
+        "10 cl de crème liquide entière",
+        "500 g de pennes",
+        "70 cl de bouillon de volaille",
+        "2 c. à soupe d'huile",
+        "1 c. à soupe rase de farine",
+        "2 pincées de muscade",
+        "Sel et poivre"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "gratinee_lyonnaise",
@@ -2616,7 +4106,26 @@
       "url": "/recipes/gratinee_lyonnaise.html",
       "kind": "recipe",
       "image": "gratinee_lyonnaise",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "600g d'oignons paille",
+        "150g de beurre",
+        "2 cuillères à soupe de farine",
+        "1 petit bouquet garni",
+        "200g de pain (flûte)",
+        "250g de gruyère râpé",
+        "4 jaunes d'œufs",
+        "1 petit verre de vieux madère",
+        "Sel",
+        "Poivre du moulin"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "gremolata",
@@ -2658,7 +4167,17 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 citrons (zeste)",
+        "2 gousses d'ail",
+        "1 botte de persil",
+        "Sel et poivre"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "gyozas",
@@ -2689,7 +4208,26 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "325 g de chou blanc finement haché",
+        "300 g de porc haché",
+        "4 ciboules finement hachées",
+        "1 œuf légèrement battu",
+        "2 c. à s. de sauce soja japonaise",
+        "1 c. à s. de saké",
+        "2 c. à c. d'huile de sésame",
+        "1 c. à c. de sucre",
+        "¼ de c. à c. de poivre blanc",
+        "50 feuilles de pâte à gyozas",
+        "1 c. à s. d'huile végétale"
+      ],
+      "time": 100,
+      "difficulty": 2
     },
     {
       "slug": "haricots_au_prosciutto",
@@ -2740,7 +4278,21 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 8,
+      "ingredients": [
+        "200 g d'un mélange de haricots verts et de haricots beurre, parés",
+        "8 tranches de prosciutto (100 g)",
+        "60 g de beurre",
+        "1 c. à s. de câpres rincées et égouttées",
+        "1 c. à s. de jus de citron",
+        "1 poignée de persil grossièrement ciselé"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "hijiki",
@@ -2802,7 +4354,20 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 1,
+      "ingredients": [
+        "20g de racine de lotus",
+        "1 c. à café d'algue hijiki",
+        "1 tomate cerise",
+        "5g de fèves de soja vertes",
+        "50ml de dashi"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "houmous",
@@ -2828,7 +4393,22 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 2,
+      "ingredients": [
+        "500 ml d'eau",
+        "600 g de pois chiches en conserve, rincés et égouttés",
+        "60 ml de jus de citron",
+        "60 ml d'huile d'olive",
+        "80 g de tahini",
+        "3 gousses d'ail écrasées",
+        "1 c. à s. d'huile d'olive supplémentaire"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "joue_de_boeuf_au_cidre",
@@ -2855,7 +4435,30 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1,5 kg de joues de bœuf coupées en morceaux",
+        "3 oignons",
+        "3 gousses d'ail",
+        "½ botte de persil",
+        "1 c. à soupe de gingembre râpé",
+        "1 bouquet garni",
+        "20 g de beurre",
+        "75 cl de cidre brut",
+        "50 cl de bouillon de bœuf",
+        "2 c. à soupe de concentré de tomate",
+        "2 c. à soupe de farine",
+        "2 c. à soupe d'huile",
+        "1 c. à café de poivre concassé",
+        "Sel",
+        "{\"Pour l'accompagnement&nbsp;\": \"1 kg de pommes de terre à purée, 2 bottes de carottes fanes, 50 g de beurre, 15 cl de lait tiède, 4 c. à soupe d'huile d'olive\"}"
+      ],
+      "time": 230,
+      "difficulty": 2
     },
     {
       "slug": "karaage",
@@ -2894,7 +4497,18 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 1,
+      "ingredients": [
+        "80g de cuisse de poulet",
+        "1 c. à café de sauce soja foncée",
+        "1 c. à café de saké",
+        "petite quantité de gingembre",
+        "1-2 c. à café de fécule de pomme de terre"
+      ],
+      "time": 40,
+      "difficulty": 2
     },
     {
       "slug": "keftas_aux_oeufs",
@@ -2951,7 +4565,29 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de bœuf haché",
+        "1 gousse d'ail écrasée",
+        "1/2 botte de menthe ciselée",
+        "2 c. à s. de coriandre ciselée",
+        "1 c. à c. de cannelle",
+        "1 c. à c. de coriandre moulue",
+        "2 c. à c. de cumin moulu",
+        "1/2 c. à c. de piment en poudre",
+        "1 c. à s. d'huile d'olive",
+        "1 oignon jaune (150 g) haché",
+        "4 grosses tomates (880 g) coupées en petits dés",
+        "1 pincée de filaments de safran",
+        "4 œufs",
+        "1 petite botte de coriandre effeuillée"
+      ],
+      "time": 65,
+      "difficulty": 1
     },
     {
       "slug": "kinpira_gobo",
@@ -2975,7 +4611,18 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 1,
+      "ingredients": [
+        "10g de carotte",
+        "15g de racine de bardane",
+        "1 c. à café d'huile de sésame",
+        "1/2 c. à café de sésame",
+        "2 c. à café de sauce teriyaki"
+      ],
+      "time": 20,
+      "difficulty": 1
     },
     {
       "slug": "lapin_abricots_boulgour_olives",
@@ -3001,7 +4648,35 @@
             "22": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "200 g d'abricots secs",
+        "180 ml de vin blanc sec",
+        "2 kg de râbles de lapin coupés en morceaux",
+        "2 c. à s. de farine",
+        "80 ml d'huile d'olive",
+        "2 gros oignons coupés en rondelles",
+        "2 gousses d'ail écrasées",
+        "2 feuilles de laurier",
+        "3 branches de céleri (sans les feuilles) coupées en petits tronçons",
+        "625 ml de bouillon de volaille",
+        "2 c. à c. de miel",
+        "4 c. à c. de thym frais ciselé",
+        "4 c. à c. de romarin frais ciselé",
+        "2 c. à c. de graines de coriandre écrasées",
+        "1 c. à s. de vinaigre de malt",
+        "2 c. à s. d'huile d'olive",
+        "500 ml d'eau",
+        "160 g de blé concassé",
+        "80 g d'olives noires hachées",
+        "2 c. à s. de persil frais ciselé"
+      ],
+      "time": 235,
+      "difficulty": 2
     },
     {
       "slug": "lapin_mijote_pommes_cidre",
@@ -3027,7 +4702,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "3 cuisses de lapin",
+        "3 râbles de lapin",
+        "6 pommes",
+        "2 oignons roses",
+        "Quelques branches de thym",
+        "Quelques branches de romarin",
+        "4 c. à soupe de crème fraîche",
+        "75 cl de cidre brut",
+        "2 c. à soupe d'huile d'olive",
+        "1 petit verre de calvados (facultatif)",
+        "Sel et poivre"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "lasagnes",
@@ -3035,7 +4729,24 @@
       "url": "/recipes/lasagnes.html",
       "kind": "recipe",
       "image": "lasagnes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "50 cl de lait",
+        "pincée de noix de muscade",
+        "70 g de farine",
+        "70 g de beurre",
+        "sel",
+        "poivre",
+        "50 g de parmesan râpé",
+        "100 g d'emmental râpé",
+        "8 feuilles de lasagnes"
+      ],
+      "time": 80,
+      "difficulty": 2
     },
     {
       "slug": "limoncello",
@@ -3061,7 +4772,17 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1 L d'alcool à 95°",
+        "2,5 kg de citrons non traités (pelures uniquement, sans le blanc)",
+        "1,5 L d'eau",
+        "800 g de sucre"
+      ],
+      "time": 43250,
+      "difficulty": 1
     },
     {
       "slug": "limoncello_tiramisu",
@@ -3087,7 +4808,30 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 tasse d'eau",
+        "3/4 tasse de limoncello",
+        "1/4 tasse de sucre",
+        "2 c. à s. de jus de citron",
+        "1 ½ tasse de crème épaisse",
+        "250 g de mascarpone (température ambiante)",
+        "1/4 tasse de sucre cristallisé",
+        "2 c. à s. de limoncello",
+        "2 jaunes d'œuf + 1 œuf entier",
+        "2/3 tasse de sucre cristallisé",
+        "zeste d'1 citron",
+        "1/3 tasse de jus de citron",
+        "6 c. à c. de beurre non salé",
+        "1 pincée de sel",
+        "boudoirs (biscuits à la cuillère)"
+      ],
+      "time": 360,
+      "difficulty": 2
     },
     {
       "slug": "linguines_girolles_tomate",
@@ -3127,7 +4871,26 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "300 g de girolles",
+        "1 oignon jaune",
+        "1 gousse d'ail",
+        "1 bouquet garni",
+        "1 bouquet de persil",
+        "70 g d'emmental râpé",
+        "400 g de tomates concassées",
+        "300 g de linguines",
+        "250 g de lentilles vertes",
+        "1 c. à soupe d'huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "linguines_ricotta_pecorino_et_guanciale",
@@ -3152,7 +4915,23 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g de guanciale",
+        "1 bouquet de basilic pourpre",
+        "250 g de ricotta",
+        "200 g de pecorino romano",
+        "500 g de linguine",
+        "4 c. à soupe d'huile d'olive vierge extra",
+        "Sel",
+        "Poivre noir du moulin"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "magret_de_canard_clementines_corse_puree_de_butternut",
@@ -3217,7 +4996,31 @@
             "20": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 magrets de canard",
+        "6 clémentines de Corse",
+        "1 branche de thym",
+        "15 cl de bière",
+        "10 cl de vinaigre d'agrumes",
+        "30 g de noisettes concassées",
+        "2 c. à soupe de miel",
+        "1 c. à café de fond de veau déshydraté",
+        "Fleur de sel",
+        "Poivre du moulin",
+        "800 g de butternut",
+        "30 cl de lait",
+        "2 pincées de noix de muscade",
+        "1 c. à soupe de purée de noisettes",
+        "Sel",
+        "Poivre"
+      ],
+      "time": 55,
+      "difficulty": 2
     },
     {
       "slug": "magret_orange_kumquat",
@@ -3270,7 +5073,23 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "3 magrets de canard",
+        "6 pommes de terre",
+        "4 oranges (2 pour les suprêmes, 2 pour le zeste et le jus — voir sauce)",
+        "Persil",
+        "Huile d'olive",
+        "Fleur de sel",
+        "Sel et poivre",
+        "Ingrédients supplémentaires pour la *Sauce orange et kumquat* — voir composant"
+      ],
+      "time": 55,
+      "difficulty": 2
     },
     {
       "slug": "magret_sauce_fruitee",
@@ -3342,7 +5161,23 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "3 gros magrets de canard",
+        "6 carottes",
+        "10 clémentines",
+        "2 oranges",
+        "40 g de beurre (20 g pour la purée, 20 g pour la sauce)",
+        "15 cl de crème fraîche",
+        "Sel et poivre",
+        "Ingrédients supplémentaires pour la *Sauce fruitée* — voir composant"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "maquereaux_marines",
@@ -3403,7 +5238,19 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "12 petits maquereaux vidés et nettoyés",
+        "Sel",
+        "Poivre du moulin",
+        "Citron"
+      ],
+      "time": 110,
+      "difficulty": 1
     },
     {
       "slug": "marinade_dinde_soja_miel",
@@ -3411,7 +5258,20 @@
       "url": "/components/marinade_dinde_soja_miel.html",
       "kind": "component",
       "image": "marinade_dinde_soja_miel",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1 gousse d'ail",
+        "1 c. à café de gingembre râpé",
+        "10 cl de sauce soja",
+        "2 c. à soupe de vinaigre de cidre",
+        "2 c. à soupe de miel",
+        "2 c. à soupe d'huile d'olive",
+        "2 c. à soupe de sucre roux"
+      ],
+      "time": 15,
+      "difficulty": 1
     },
     {
       "slug": "marinade_gingembre_soja",
@@ -3419,7 +5279,21 @@
       "url": "/components/marinade_gingembre_soja.html",
       "kind": "component",
       "image": "marinade_gingembre_soja",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "6 tiges de cébette",
+        "2 gousses d'ail",
+        "10 g de gingembre frais",
+        "1 c. à soupe bombée de miel liquide",
+        "1/2 citron vert (jus)",
+        "8 cl de sauce soja",
+        "2 c. à soupe d'huile de sésame grillé",
+        "Poivre"
+      ],
+      "time": 75,
+      "difficulty": 1
     },
     {
       "slug": "marinade_moutarde_miel",
@@ -3427,7 +5301,16 @@
       "url": "/components/marinade_moutarde_miel.html",
       "kind": "component",
       "image": "marinade_moutarde_miel",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "3 c. à soupe de moutarde",
+        "2 c. à soupe de miel",
+        "1 c. à soupe d'huile d'olive"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "marinade_poisson",
@@ -3454,7 +5337,21 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 parts de vin blanc sec (pour 1 part de vinaigre)",
+        "1 part de vinaigre",
+        "1 carotte moyenne",
+        "1 gros oignon",
+        "1 brindille de thym",
+        "1 feuille de laurier",
+        "Sel",
+        "Poivre du moulin"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "marinade_satay",
@@ -3462,7 +5359,21 @@
       "url": "/components/marinade_satay.html",
       "kind": "component",
       "image": "marinade_satay",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "¼ de c. à c. de cinq-épices",
+        "½ c. à c. de sambal oelek",
+        "1 c. à c. de poudre de curry doux",
+        "60 ml de sauce satay",
+        "1 c. à s. de sauce soja",
+        "1 c. à s. de xérès sec",
+        "1 c. à c. de fécule de maïs",
+        "1 c. à c. de sucre"
+      ],
+      "time": 185,
+      "difficulty": 1
     },
     {
       "slug": "marinade_teriyaki_pour_saumon",
@@ -3470,7 +5381,17 @@
       "url": "/components/marinade_teriyaki_pour_saumon.html",
       "kind": "component",
       "image": "marinade_teriyaki_pour_saumon",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "160 ml de sauce soja japonaise",
+        "160 ml de mirin",
+        "2 c. à s. de saké",
+        "1 c. à s. de sucre"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "marinade_vinaigre_ail_laurier",
@@ -3478,7 +5399,18 @@
       "url": "/components/marinade_vinaigre_ail_laurier.html",
       "kind": "component",
       "image": "marinade_vinaigre_ail_laurier",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 dl de vinaigre",
+        "1 gousse d'ail (par couche de légume)",
+        "1 feuille de laurier (en fragments, par couche)",
+        "Sel fin",
+        "Poivre du moulin"
+      ],
+      "time": 2905,
+      "difficulty": 1
     },
     {
       "slug": "melange_epices_noix_de_coco",
@@ -3486,7 +5418,19 @@
       "url": "/components/melange_epices_noix_de_coco.html",
       "kind": "component",
       "image": "melange_epices_noix_de_coco",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 6,
+      "ingredients": [
+        "45 g de noix de coco sèche grillée",
+        "2 gousses d'ail émincées",
+        "½ c. à c. de curcuma moulu",
+        "2 c. à c. de coriandre moulue",
+        "2 longs piments rouges secs broyés",
+        "1 c. à c. de sel"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "meringue_aux_amandes",
@@ -3494,7 +5438,19 @@
       "url": "/recipes/meringue_aux_amandes.html",
       "kind": "recipe",
       "image": "meringue_aux_amandes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "3 blancs d'œuf",
+        "160 g de sucre en poudre (110 g + 50 g)",
+        "50 g de sucre glace",
+        "100 g d'amandes effilées"
+      ],
+      "time": 85,
+      "difficulty": 3
     },
     {
       "slug": "minestrone",
@@ -3575,7 +5531,25 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 petite portion de lardons",
+        "1/2 saucisse de morteau",
+        "3 carottes",
+        "2 tasses moyennes de lentilles corail",
+        "1 poireau",
+        "1 tasse orge perlé ou épeautre 1 tasse",
+        "1 oignon",
+        "1 ail",
+        "1 grosse patate",
+        "1 petite boîte de tomates en dés"
+      ],
+      "time": 80,
+      "difficulty": 1
     },
     {
       "slug": "minitostadas_boeuf_epice",
@@ -3599,7 +5573,25 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 36,
+      "ingredients": [
+        "2 piments chipotles",
+        "125 ml d'eau bouillante",
+        "12 tortillas de maïs de 17 cm de diamètre",
+        "Huile végétale pour la friture",
+        "1 c. à c. d'huile d'olive",
+        "1 petit oignon jaune (80 g) coupé en tranches fines",
+        "1 gousse d'ail écrasée",
+        "280 g de bœuf haché",
+        "1 c. à c. de concentré de tomates",
+        "250 ml de bière",
+        "1 grosse poignée de coriandre ciselée",
+        "120 g de crème fraîche"
+      ],
+      "time": 75,
+      "difficulty": 2
     },
     {
       "slug": "miso_dressing",
@@ -3607,7 +5599,20 @@
       "url": "/components/miso_dressing.html",
       "kind": "component",
       "image": "vinaigrette_miso",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree"
+      ],
+      "servings": 1,
+      "ingredients": [
+        "1 c. à café de sésame",
+        "1 c. à café de sauce soja foncée",
+        "1 c. à café de vinaigre",
+        "1 c. à café de mirin",
+        "1 c. à café de miso blanc"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "moelleux_au_chocolat",
@@ -3615,7 +5620,19 @@
       "url": "/recipes/moelleux_au_chocolat.html",
       "kind": "recipe",
       "image": "moelleux_au_chocolat",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "300 g de chocolat noir",
+        "200 g de sucre",
+        "200 g de beurre fondu",
+        "6 œufs"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "moelleux_poire_frangipane",
@@ -3641,7 +5658,31 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "3 poires",
+        "Amandes effilées",
+        "Pour le moelleux",
+        "2 œufs",
+        "1 yaourt nature",
+        "100 g de beurre fondu (+ pour le moule)",
+        "150 g de farine",
+        "100 g de sucre",
+        "1 sachet de levure chimique",
+        "Sel",
+        "Pour la frangipane",
+        "1 œuf",
+        "50 g de beurre pommade",
+        "60 g de poudre d'amande",
+        "50 g de sucre",
+        "2 gouttes d'extrait d'amande amère"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "moules_au_basilic_et_citronnelle",
@@ -3683,7 +5724,27 @@
             "22": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 kg de grosses moules",
+        "1 c. à s. d'huile d'arachide",
+        "1 oignon jaune émincé",
+        "2 gousses d'ail pilées",
+        "1 blanc de citronnelle (20 g) haché",
+        "1 piment oiseau rouge haché très fin + 1 autre en rondelles fines",
+        "250 ml de vin blanc sec",
+        "le jus de 1 citron vert",
+        "2 c. à s. de sauce de poisson",
+        "1 poignée de basilic thaï",
+        "125 ml de lait de coco",
+        "2 oignons verts émincés"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "moussaka",
@@ -3719,7 +5780,24 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "60 ml d'huile d'olive",
+        "2 grosses aubergines (1 kg) coupées en fines tranches",
+        "1 gros oignon jaune (200 g) finement haché",
+        "2 gousses d'ail écrasées",
+        "1 kg d'agneau haché",
+        "400 g de tomates concassées en conserve",
+        "125 ml de vin blanc sec",
+        "1 c. à c. de cannelle",
+        "20 g de parmesan finement râpé"
+      ],
+      "time": 150,
+      "difficulty": 2
     },
     {
       "slug": "mousse_au_citron_broquet",
@@ -3761,7 +5839,23 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "3 ou 4 beaux citrons (zeste et jus)",
+        "130 g de sucre",
+        "1 sachet de sucre vanillé",
+        "30 g de Maïzena",
+        "200 mL d'eau",
+        "4 jaunes d'œufs",
+        "4 blancs d'œufs",
+        "1 cuillère à café de sucre (pour les blancs en neige)"
+      ],
+      "time": 155,
+      "difficulty": 2
     },
     {
       "slug": "muffins_lardon_bleu",
@@ -3769,7 +5863,24 @@
       "url": "/recipes/muffins_lardon_bleu.html",
       "kind": "recipe",
       "image": "muffins_lardon_bleu",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "100 g de lardons",
+        "1 branchette de romarin",
+        "3 œufs",
+        "100 g de fromage bleu",
+        "10 cl de lait",
+        "50 g de beurre fondu",
+        "180 g de farine",
+        "1 sachet de levure chimique",
+        "Sel et poivre"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "nouilles_chiang_mai",
@@ -3793,7 +5904,32 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "huile végétale pour la friture",
+        "500 g de nouilles fraîches aux œufs",
+        "1 oignon jaune émincé",
+        "2 oignons verts émincés",
+        "1 poignée de feuilles de coriandre entières",
+        "75 g de pâte de curry rouge",
+        "2 gousses d'ail pilées",
+        "1 pincée de curcuma moulu",
+        "500 ml d'eau",
+        "400 ml de lait de coco",
+        "500 g de blanc de poulet émincé",
+        "60 ml de sauce de poisson",
+        "1 c. à s. de sauce soja",
+        "2 c. à s. de sucre de palme râpé ou sucre roux",
+        "2 c. à c. de jus de citron vert",
+        "2 c. à s. de feuilles de coriandre ciselées",
+        "1 piment rouge frais épépiné et émincé"
+      ],
+      "time": 30,
+      "difficulty": 2
     },
     {
       "slug": "nouilles_riz_complet_sautee_express",
@@ -3801,7 +5937,23 @@
       "url": "/recipes/nouilles_riz_complet_sautee_express.html",
       "kind": "recipe",
       "image": "nouilles_riz_complet_sautee_express",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "600 g de nouilles de riz complet",
+        "4 œufs",
+        "1 oignon cébette",
+        "8 c. à soupe de sauce soja",
+        "4 c. à soupe de vinaigre de riz",
+        "2 c. à soupe d'huile de sésame",
+        "Huile végétale",
+        "Poivre"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "oeuf_a_la_creme",
@@ -3846,7 +5998,27 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 œufs",
+        "500 g de yaourt grec",
+        "4 tranches de pain",
+        "½ citron bio",
+        "2 brins de menthe",
+        "2 c. à soupe de vinaigre d'alcool",
+        "1 c. à soupe de za'atar",
+        "1 c. à soupe d'huile d'olive",
+        "1 pincée d'ail en poudre",
+        "Sel",
+        "{'Pour le beurre parfumé&nbsp;': '30 g de ghee, 1 c. à soupe de paprika fumé'}"
+      ],
+      "time": 25,
+      "difficulty": 2
     },
     {
       "slug": "oeuf_en_croute_de_pain_au_fromage",
@@ -3854,7 +6026,30 @@
       "url": "/recipes/oeuf_en_croute_de_pain_au_fromage.html",
       "kind": "recipe",
       "image": "oeuf_en_croute_de_pain_au_fromage",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "6 petits œufs",
+        "Pour la pâte",
+        "1 œuf",
+        "25 cl de lait",
+        "30 g de beurre",
+        "450 g de farine",
+        "7 g de levure de boulanger déshydratée (1,5 c. à café)",
+        "1,5 c. à café de sel",
+        "Pour la farce au fromage",
+        "2 c. à soupe de persil haché",
+        "1 œuf + 1 jaune",
+        "300 g de tomme de Savoie",
+        "200 g de cantal entre-deux",
+        "150 g de fromage blanc",
+        "Poivre"
+      ],
+      "time": 185,
+      "difficulty": 2
     },
     {
       "slug": "oeuf_en_meurette",
@@ -3862,7 +6057,29 @@
       "url": "/recipes/oeuf_en_meurette.html",
       "kind": "recipe",
       "image": "oeuf_en_meurette",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "8 œufs",
+        "100 g de lard paysan",
+        "100 g de champignons de Paris",
+        "1 oignon",
+        "2 gousses d'ail",
+        "1 bouquet garni",
+        "40 g de beurre",
+        "50 cl de vin rouge",
+        "2 c. à soupe de vinaigre blanc",
+        "1 c. à soupe de farine",
+        "1 c. à café de sucre",
+        "Pain rassis",
+        "Sel et poivre"
+      ],
+      "time": 65,
+      "difficulty": 2
     },
     {
       "slug": "okonomiyaki",
@@ -3890,7 +6107,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 1,
+      "ingredients": [
+        "10g de crevettes",
+        "25g de chou",
+        "15ml (1 c. à café) de Dashi",
+        "3/2 c. à café d'œuf",
+        "15g de farine à gâteau",
+        "1 c. à café de flocons de tempura",
+        "1/2 c. à café de gingembre rouge",
+        "1 c. à café de sauce okonomiyaki",
+        "Un peu d'Aonori (algue verte séchée)"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "omelette_roulee",
@@ -3898,7 +6132,23 @@
       "url": "/recipes/omelette_roulee.html",
       "kind": "recipe",
       "image": "omelette_roulee",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "8 œufs légèrement battus",
+        "1 c. à s. d'eau ou de bouillon dashi",
+        "2 c. à c. de sucre",
+        "3 c. à c. de mirin",
+        "2 c. à c. de sauce soja claire",
+        "2 c. à s. d'huile végétale",
+        "80 ml de sauce soja japonaise",
+        "60 g de daikon finement râpé"
+      ],
+      "time": 25,
+      "difficulty": 2
     },
     {
       "slug": "osso_buco_polenta_cremeuse",
@@ -3938,7 +6188,28 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "6 tranches de jarret de veau",
+        "2 oignons",
+        "3 gousses d'ail",
+        "2 brins de thym",
+        "1 feuille de laurier",
+        "30 cl de sauce tomate",
+        "30 cl de bouillon de volaille",
+        "250 g de tomates pelées",
+        "15 cl de vin blanc sec",
+        "2 c. à soupe d'huile",
+        "Sel et poivre",
+        "{'Pour la polenta&nbsp;': \"1,3 L d'eau, 300 g de polenta instantanée, 15 cl de crème liquide, 50 g de parmesan, sel et poivre\"}",
+        "Ingrédients supplémentaires pour la *Gremolata* — voir composant"
+      ],
+      "time": 190,
+      "difficulty": 2
     },
     {
       "slug": "pad_thai",
@@ -3979,7 +6250,35 @@
             "15": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "40 g de pulpe de tamarin",
+        "125 ml d'eau bouillante",
+        "2 c. à s. de sucre de palme râpé ou sucre roux",
+        "80 ml de sauce au piment douce",
+        "80 ml de sauce de poisson",
+        "375 g de nouilles de riz fraîches",
+        "12 crevettes moyennes crues",
+        "2 gousses d'ail pilées",
+        "2 c. à s. de radis blanc salé, émincé",
+        "2 c. à s. de crevettes séchées",
+        "1 c. à s. de gingembre frais, râpé",
+        "2 piments rouges frais, épépinés et émincés",
+        "1 c. à c. d'huile végétale",
+        "250 g de porc haché",
+        "3 œufs légèrement battus",
+        "160 g de germes de soja",
+        "4 tiges d'oignon vert émincées",
+        "1 poignée de coriandre",
+        "35 g de cacahuètes rôties",
+        "1 citron vert coupé en quatre"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "pappardelles_champignons_bleu_comte_poulet",
@@ -4009,7 +6308,25 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 blancs de poulet",
+        "200 g de champignons de Paris bruns",
+        "1 échalote",
+        "6 brins de ciboulette",
+        "100 g de bleu",
+        "20 cl de crème fraîche",
+        "70 g de comté râpé",
+        "40 g de beurre",
+        "250 g de pappardelles",
+        "Sel et poivre"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "paris_brest_praline",
@@ -4029,7 +6346,24 @@
             "20": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "4 œufs",
+        "12,5 cl de lait",
+        "100 g de beurre coupé en cubes",
+        "150 g de farine",
+        "10 g de sucre",
+        "40 g d'amandes effilées",
+        "10 g de noisettes concassées",
+        "Sucre glace",
+        "Sel"
+      ],
+      "time": 155,
+      "difficulty": 3
     },
     {
       "slug": "patates_douces_aux_haricots_rouges",
@@ -4068,7 +6402,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de patates douces taillées en dés de 2 cm de côté",
+        "2 c. à s. d'huile d'olive",
+        "1 gros oignon haché",
+        "2 gousses d'ail émincées",
+        "1 c. à c. de cumin moulu",
+        "450 g de haricots rouges en conserve, égouttés",
+        "2 c. à s. de jus de citron vert",
+        "1 c. à c. de zeste de citron vert râpé",
+        "2 c. à s. de coriandre hachée"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "pate_masala_coriandre",
@@ -4111,7 +6462,26 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "3 grosses poignées de feuilles de coriandre",
+        "1 grosse poignée de feuilles de menthe",
+        "2 c. à s. d'eau",
+        "2 c. à c. d'huile de sésame",
+        "2 gousses d'ail hachées",
+        "2 c. à s. de vinaigre blanc",
+        "1 c. à s. de gingembre frais haché",
+        "1 c. à c. de curcuma moulu",
+        "1 c. à c. de cumin moulu",
+        "1 c. à c. de piment en poudre",
+        "1 c. à c. de fenouil moulu",
+        "½ c. à c. de cannelle",
+        "1 c. à c. de sel"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "pates_courge_ail_sauge",
@@ -4135,7 +6505,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "8 tranches de pancetta",
+        "1 petite courge butternut",
+        "1 tête d'ail",
+        "1 bouquet de sauge fraîche",
+        "100 g de parmesan",
+        "1 c. à soupe de mascarpone ou de ricotta",
+        "400 g de pâtes fraîches (type paccheris)",
+        "Huile d'olive",
+        "Fleur de sel et poivre"
+      ],
+      "time": 65,
+      "difficulty": 1
     },
     {
       "slug": "pates_fraiches_raviolis",
@@ -4143,7 +6530,16 @@
       "url": "/components/pates_fraiches_raviolis.html",
       "kind": "component",
       "image": "pates_fraiches_raviolis",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "100 g de farine",
+        "1 œuf",
+        "20 g d'huile d'olive"
+      ],
+      "time": 80,
+      "difficulty": 2
     },
     {
       "slug": "pates_sauce_tomate",
@@ -4182,7 +6578,27 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "300g de Pâtes",
+        "200 cl de purée de tomates sans concentré, nature",
+        "350 g de boeuf haché",
+        "1 gros oignon et demi",
+        "Basilic",
+        "Beurre",
+        "Huile d'olive",
+        "Poudre de fond de veau",
+        "Sucre",
+        "Sel",
+        "Poivre",
+        "Parmesan"
+      ],
+      "time": 65,
+      "difficulty": 2
     },
     {
       "slug": "pave_agneau_girolles_beurre_estragon",
@@ -4238,7 +6654,22 @@
             "20": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 pavés d'agneau bio",
+        "400 g de girolles",
+        "2 échalotes",
+        "1 botte d'estragon",
+        "100 g de beurre demi-sel",
+        "2 c. à soupe d'huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 47,
+      "difficulty": 2
     },
     {
       "slug": "pesto_maison",
@@ -4263,7 +6694,19 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1 petit bouquet de basilic",
+        "30 g de pignons de pin",
+        "80 g de parmesan râpé",
+        "1 gousse d'ail",
+        "4 c. à soupe d'huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "petit_choux_citron_meringue",
@@ -4289,7 +6732,23 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "½ citron bio",
+        "2 œufs + 2 blancs d'œufs",
+        "8 cl de lait",
+        "45 g de beurre",
+        "100 g de lemon curd",
+        "100 g de sucre glace",
+        "60 g de farine",
+        "Sel"
+      ],
+      "time": 85,
+      "difficulty": 3
     },
     {
       "slug": "petit_choux_pistache",
@@ -4297,7 +6756,23 @@
       "url": "/recipes/petit_choux_pistache.html",
       "kind": "recipe",
       "image": "petit_choux_pistache",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 œufs",
+        "50 g de beurre",
+        "65 g de farine",
+        "1 pincée de sucre",
+        "Sel",
+        "30 g de pâte de pistache (pour le nappage)",
+        "2 c. à soupe de crème liquide",
+        "30 g de pistaches non salées concassées"
+      ],
+      "time": 275,
+      "difficulty": 3
     },
     {
       "slug": "pilaf_crevettes_courgettes",
@@ -4322,7 +6797,26 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "20 crevettes moyennes, crues (1 kg)",
+        "60 g de beurre",
+        "1 c. à s. d'huile d'olive",
+        "1 oignon blanc (150 g), finement haché",
+        "2 gousses d'ail finement hachées",
+        "1 petit piment rouge frais finement haché",
+        "300 g de riz blanc long grain",
+        "1 c. à c. de zeste de citron finement râpé",
+        "60 ml de vin blanc sec",
+        "375 ml de fumet de poisson chaud",
+        "3 courgettes (360 g), grossièrement râpées"
+      ],
+      "time": 55,
+      "difficulty": 1
     },
     {
       "slug": "poisson_poche_creme_de_coco_piments",
@@ -4330,7 +6824,27 @@
       "url": "/recipes/poisson_poche_creme_de_coco_piments.html",
       "kind": "recipe",
       "image": "poisson_poche_creme_de_coco_piments",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à c. d'huile végétale",
+        "2 gousses d'ail pilées",
+        "1 c. à c. de gingembre frais, râpé",
+        "20 g de curcuma frais, râpé",
+        "2 piments rouges frais, émincés",
+        "375 ml de bouillon de poisson",
+        "400 ml de crème de coco",
+        "20 g de galanga frais, coupé en deux",
+        "1 tige de citronnelle coupée en tronçons de 2 cm",
+        "4 filets de poisson blanc de 200 g chacun",
+        "2 c. à s. de sauce de poisson",
+        "2 oignons verts émincés"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "pomme_de_terre_au_four_confit_de_canard",
@@ -4355,7 +6869,21 @@
             "15": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 cuisses de confit de canard",
+        "8 pommes de terre moyennes",
+        "80 g de roquette",
+        "Quelques brins de persil frisé",
+        "2 c. à soupe d'huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 80,
+      "difficulty": 1
     },
     {
       "slug": "pomme_de_terre_farcie_aux_rillettes_de_thon",
@@ -4419,7 +6947,20 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 grosses pommes de terre bintje (ou roseval)",
+        "½ bouquet de ciboulette",
+        "3 brins de persil",
+        "Huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 50,
+      "difficulty": 1
     },
     {
       "slug": "pomme_de_terre_farcie_champignons_saumon",
@@ -4465,7 +7006,26 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "150 g de saumon fumé",
+        "4 grosses pommes de terre",
+        "300 g de champignons de Paris",
+        "1 oignon",
+        "Quelques brins de ciboulette",
+        "Quelques brins d'aneth",
+        "15 cl de crème fraîche épaisse",
+        "100 g de parmesan râpé",
+        "1 c. à soupe d'huile d'olive",
+        "1 c. à café de baies roses",
+        "Sel et poivre"
+      ],
+      "time": 100,
+      "difficulty": 1
     },
     {
       "slug": "porc_laque_saute",
@@ -4496,7 +7056,27 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "375 g de vermicelles de riz",
+        "1 c. à s. d'huile de sésame",
+        "1 gousse d'ail écrasée",
+        "1 petit piment rouge thaï frais, épépiné et émincé",
+        "250 g d'un mélange de champignons coupés en lamelles",
+        "175 g de broccolinis hachés",
+        "2 c. à c. de fécule de maïs",
+        "4 c. à s. de sauce soja",
+        "600 g de porc laqué chinois coupé en lamelles épaisses",
+        "1 c. à s. de nuoc-mâm",
+        "180 ml de bouillon de poulet",
+        "4 ciboules émincées"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "porc_tonkatsu",
@@ -4522,7 +7102,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "300 g de chou blanc coupé en fines lanières",
+        "4 escalopes de porc (600 g)",
+        "35 g de farine",
+        "2 œufs légèrement battus",
+        "2 c. à c. d'eau",
+        "100 g de chapelure japonaise (panko)",
+        "huile pour friture",
+        "1 citron (140 g) coupé en quartiers",
+        "3 c. à c. de moutarde japonaise (wagarashi)"
+      ],
+      "time": 35,
+      "difficulty": 2
     },
     {
       "slug": "pot_au_feu_de_volaille",
@@ -4581,7 +7178,31 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à s. de farine",
+        "1 c. à c. de sel fin",
+        "½ c. à c. de poivre noir du moulin",
+        "4 cuisses de poulet, désossées et découpées en petits morceaux",
+        "2 c. à s. d'huile d'olive",
+        "1 gros oignon haché",
+        "2 gousses d'ail écrasées",
+        "250 g de patate douce, pelée et coupée en morceaux de 2 cm",
+        "2 carottes coupées en rondelles",
+        "2 branches de céleri nettoyées et émincées",
+        "2 bananes vertes, pelées et coupées en tranches",
+        "50 g de lentilles corail",
+        "1,5 litre de bouillon de poulet",
+        "1 c. à c. de sauce chili",
+        "1 bouquet garni (thym, laurier, persil plat)",
+        "150 g de pâtes (penne, macaronis, coquillettes…)"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "potage_au_concombre",
@@ -4639,7 +7260,23 @@
             "22": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 gros concombre",
+        "3 cuillères à soupe de ciboulette hachée",
+        "2 gousses d'ail",
+        "15 cerneaux de noix",
+        "2 cuillères à soupe d'huile d'olive",
+        "4 yaourts nature",
+        "Sel, poivre du moulin"
+      ],
+      "time": 255,
+      "difficulty": 1
     },
     {
       "slug": "potage_de_chou-fleur",
@@ -4678,7 +7315,25 @@
             "23": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "600 g de chou-fleur",
+        "130 g de beurre",
+        "350 g de pommes de terre",
+        "1 litre de lait",
+        "1 bouillon blanc",
+        "15 g de sel",
+        "10 cl de crème fraîche",
+        "1 pincée de cerfeuil",
+        "Croûtons"
+      ],
+      "time": 60,
+      "difficulty": 1
     },
     {
       "slug": "poulet_billy_kee",
@@ -4686,7 +7341,24 @@
       "url": "/recipes/poulet_billy_kee.html",
       "kind": "recipe",
       "image": "poulet_billy_kee",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 c. à c. de poivre du Sichuan",
+        "4 jaunes d'œufs",
+        "2 c. à s. de fécule de maïs",
+        "1 kg de blancs de poulet",
+        "Huile végétale pour friture",
+        "60 ml de xérès sec",
+        "60 ml de sauce tomate",
+        "1 c. à s. de sauce d'huître",
+        "1 c. à s. de vinaigre de riz"
+      ],
+      "time": 30,
+      "difficulty": 2
     },
     {
       "slug": "poulet_curry",
@@ -4694,7 +7366,22 @@
       "url": "/recipes/poulet_curry.html",
       "kind": "recipe",
       "image": "poulet_curry",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 2,
+      "ingredients": [
+        "300-400g de filet de poulet ou d'émincé de dinde (encore mieux)",
+        "1 gros oignon",
+        "Sauce huître",
+        "Poivre",
+        "Piment d'Espelette",
+        "Crème fraîche semi-épaisse",
+        "riz"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "poulet_en_cocotte_espagnole",
@@ -4733,7 +7420,29 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 c. à s. d'huile d'olive",
+        "4 pilons de poulet (600 g)",
+        "4 hauts de cuisse de poulet (750 g)",
+        "1 gros oignon (200 g) finement haché",
+        "4 pommes de terre (750 g) coupées en quatre",
+        "80 g de pignons de pin grillés",
+        "80 g d'amandes mondées",
+        "750 ml de bouillon de poulet",
+        "250 ml de vin blanc sec",
+        "80 ml de jus de citron",
+        "4 gousses d'ail écrasées",
+        "2 c. à s. de feuilles de thym frais",
+        "1 botte de persil plat hachée",
+        "500 g de jeunes haricots verts parés"
+      ],
+      "time": 95,
+      "difficulty": 1
     },
     {
       "slug": "poulet_gingembre_ciboules",
@@ -4757,7 +7466,24 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 poulet de 1,5 kg",
+        "2 litres de bouillon de poulet",
+        "2 étoiles de badiane",
+        "5 cm de gingembre frais, en tranches fines",
+        "1 gousse d'ail, en tranches fines",
+        "2 c. à s. de sauce soja",
+        "1 oignon (150 g), coupé en quatre",
+        "2 c. à c. de poivre du Sichuan",
+        "Quelques feuilles de coriandre"
+      ],
+      "time": 50,
+      "difficulty": 2
     },
     {
       "slug": "poulet_makhani",
@@ -4765,7 +7491,33 @@
       "url": "/recipes/poulet_makhani.html",
       "kind": "recipe",
       "image": "poulet_makhani",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "150 g de noix de cajou crues non salées",
+        "2 c. à c. de garam masala",
+        "2 c. à c. de coriandre moulue",
+        "½ c. à c. de piment moulu",
+        "3 gousses d'ail grossièrement hachées",
+        "4 cm (20 g) de gingembre frais, râpé",
+        "2 c. à s. de vinaigre blanc",
+        "100 g de concentré de tomates",
+        "140 g de yaourt",
+        "1 kg de cuisses de poulet désossées, coupées en deux",
+        "75 g de beurre",
+        "1 gros oignon jaune (200 g) finement haché",
+        "1 bâton de cannelle",
+        "4 gousses de cardamome écrasées",
+        "1 c. à c. de paprika fort",
+        "400 g de purée de tomates en conserve",
+        "180 ml de bouillon de poulet",
+        "180 ml de crème liquide"
+      ],
+      "time": 280,
+      "difficulty": 2
     },
     {
       "slug": "poulet_marine_a_la_jamaicaine",
@@ -4789,7 +7541,30 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à s. de yaourt nature",
+        "1 c. à s. de sauce chili",
+        "2 c. à s. de jus de citron vert",
+        "1 c. à c. de zeste de citron vert râpé",
+        "1 c. à c. de quatre-épices",
+        "½ c. à c. de sel fin",
+        "½ c. à c. de poivre noir du moulin",
+        "1 oignon haché",
+        "2 gousses d'ail hachées",
+        "1 c. à s. de gingembre frais râpé",
+        "1 c. à s. de feuilles de coriandre ciselées",
+        "1 c. à s. de graines de moutarde",
+        "2 c. à s. de cassonade ou vergeoise blonde",
+        "1 c. à s. d'huile d'olive",
+        "4 blancs de poulet (700 g)"
+      ],
+      "time": 135,
+      "difficulty": 1
     },
     {
       "slug": "poulet_masala",
@@ -4797,7 +7572,25 @@
       "url": "/recipes/poulet_masala.html",
       "kind": "recipe",
       "image": "poulet_masala",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à c. de graines de coriandre",
+        "2 c. à c. de graines de cumin",
+        "½ c. à c. de graines de cardamome",
+        "½ c. à c. de piment en poudre",
+        "½ c. à c. de poivre noir moulu",
+        "¼ de c. à c. de cannelle",
+        "¼ de c. à c. de clous de girofle moulus",
+        "1 c. à s. d'huile végétale",
+        "1 c. à s. d'eau",
+        "8 pilons de poulet (1,2 kg)"
+      ],
+      "time": 405,
+      "difficulty": 1
     },
     {
       "slug": "poulet_miel_piments",
@@ -4827,7 +7620,27 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "Huile végétale pour friture",
+        "100 g de vermicelles de soja",
+        "1 c. à c. d'huile aux piments",
+        "3 c. à c. d'huile d'arachide",
+        "2 oignons (300 g), émincés",
+        "4 gousses d'ail écrasées",
+        "1 c. à s. de gingembre frais râpé",
+        "1 kg de blancs de poulet, coupés en deux",
+        "125 ml de miel",
+        "2 c. à s. de sauce aux piments douce",
+        "500 g de brocolis chinois, coupés grossièrement",
+        "40 g de ciboulette ciselée"
+      ],
+      "time": 40,
+      "difficulty": 2
     },
     {
       "slug": "poulet_poche_soja_sesame",
@@ -4873,7 +7686,31 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 poulet de 1,6 kg",
+        "5 cm de gingembre frais (25 g), émincé",
+        "4 gousses d'ail coupées en deux",
+        "2 étoiles de badiane",
+        "2 bâtons de cannelle",
+        "330 ml de sauce soja",
+        "250 ml de vin jaune chinois (Shaoxing)",
+        "75 g de sucre",
+        "1 litre d'eau",
+        "2 c. à c. d'huile de sésame",
+        "2,5 cm de gingembre frais (15 g), en bâtonnets",
+        "2 gousses d'ail, en bâtonnets",
+        "2 longs piments rouges frais, émincés",
+        "80 ml d'huile d'arachide",
+        "4 oignons verts émincés",
+        "1 botte de coriandre"
+      ],
+      "time": 390,
+      "difficulty": 1
     },
     {
       "slug": "poulet_roti_au_citron_confit",
@@ -4897,7 +7734,30 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "60 g de zeste de citron confit finement haché",
+        "6 gousses d'ail écrasées",
+        "1 1/2 c. à c. de gingembre moulu",
+        "1 c. à c. de cumin moulu",
+        "1 c. à c. de paprika doux",
+        "1 c. à c. de piment séché",
+        "1/2 c. à c. de curcuma moulu",
+        "2 c. à s. d'huile d'olive",
+        "2,5 kg de cuisses de poulet désossées",
+        "1/4 de c. à c. de filaments de safran",
+        "250 ml d'eau bouillante",
+        "4 oignons (600 g) émincés",
+        "4 larges bandes de zeste de citron confit supplémentaires",
+        "155 g d'olives vertes égouttées",
+        "1 grosse botte de coriandre effeuillée"
+      ],
+      "time": 270,
+      "difficulty": 2
     },
     {
       "slug": "poulet_saute_au_caramel",
@@ -4977,7 +7837,33 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 oignon haché",
+        "3 tomates ébouillantées, pelées et concassées",
+        "1 branche de céleri parée et émincée",
+        "1 c. à s. de ciboule hachée",
+        "3 c. à s. de persil plat haché",
+        "2 gousses d'ail écrasées",
+        "1 c. à c. de thym frais, effeuillé",
+        "1 c. à s. de jus de citron vert",
+        "2 c. à s. de sauce chili douce",
+        "½ c. à c. de sel",
+        "½ c. à c. de poivre noir du moulin",
+        "8 pilons de poulet (1,2 kg)",
+        "2 c. à s. d'huile d'olive",
+        "2 c. à s. de sucre brut (muscovado)",
+        "500 ml de bouillon de poulet",
+        "1 c. à s. de concentré de tomates",
+        "2 carottes pelées et coupées en tranches de 1 cm",
+        "1 citron vert coupé en quartiers"
+      ],
+      "time": 795,
+      "difficulty": 2
     },
     {
       "slug": "poulet_tandoori",
@@ -4985,7 +7871,21 @@
       "url": "/recipes/poulet_tandoori.html",
       "kind": "recipe",
       "image": "poulet_tandoori",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "150 g de pâte tandoori",
+        "280 g de yaourt",
+        "2 gousses d'ail écrasées",
+        "2 cm (10 g) de gingembre frais, grossièrement haché",
+        "1 poulet de 1,6 kg environ",
+        "250 ml de Green Ginger Wine"
+      ],
+      "time": 830,
+      "difficulty": 1
     },
     {
       "slug": "poulet_tikka",
@@ -5011,7 +7911,25 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "6 blancs de poulet sans la peau (1,2 kg)",
+        "4 cm (20 g) de gingembre frais, râpé",
+        "2 gousses d'ail écrasées",
+        "2 c. à s. de jus de citron",
+        "2 c. à c. de coriandre moulue",
+        "2 c. à c. de cumin moulu",
+        "½ c. à c. de piment moulu",
+        "80 g de yaourt",
+        "2 c. à s. de concentré de tomates",
+        "1 pincée d'épices tandoori"
+      ],
+      "time": 760,
+      "difficulty": 1
     },
     {
       "slug": "poulet_yakitori",
@@ -5019,7 +7937,19 @@
       "url": "/recipes/poulet_yakitori.html",
       "kind": "recipe",
       "image": "poulet_yakitori",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 kg de blancs de poulet",
+        "1 oignon",
+        "100g de chapelure",
+        "sauce yakitori"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "pounchkis",
@@ -5027,7 +7957,24 @@
       "url": "/recipes/pounchkis.html",
       "kind": "recipe",
       "image": "pounchkis",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "330 g de farine",
+        "2 jaunes d'œufs + 1 blanc",
+        "40 g de margarine (ou beurre)",
+        "25 g de sucre en poudre",
+        "40 g de sucre semoule (pour sucrer le lait et/ou l'enrobage)",
+        "1/2 sachet de levure de boulanger déshydratée (5–6 g)",
+        "1/2 litre de lait, tiède (à ajouter progressivement; vous n'aurez peut‑être pas besoin de tout)",
+        "1 pincée de sel",
+        "Huile de friture"
+      ],
+      "time": 135,
+      "difficulty": 2
     },
     {
       "slug": "punch",
@@ -5035,7 +7982,23 @@
       "url": "/recipes/punch.html",
       "kind": "recipe",
       "image": "punch",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1L de rhum blanc",
+        "1L de jus de banane",
+        "1L de jus de goyave",
+        "1L de jus d'ananas",
+        "1L de jus d'orange",
+        "1 fiole de jus de citron vert",
+        "1 gousse de vanille",
+        "2 verres de sucre de canne",
+        "4 cuillères à soupe de vanille liquide",
+        "Un peu de poivre"
+      ],
+      "time": 75,
+      "difficulty": 1
     },
     {
       "slug": "quatre_quart_emilia",
@@ -5043,7 +8006,22 @@
       "url": "/recipes/quatre_quart_emilia.html",
       "kind": "recipe",
       "image": "quatre_quart_emilia",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "200 g de farine",
+        "2 sachets de sucre vanillé",
+        "4 œufs",
+        "150 g de sucre",
+        "8 cuillères à soupe d'huile",
+        "1/2 sachet de levure chimique",
+        "1 pincée de sel"
+      ],
+      "time": 55,
+      "difficulty": 1
     },
     {
       "slug": "raita_concombre_menthe",
@@ -5087,7 +8065,17 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "280 g de yaourt",
+        "1 petit concombre (130 g) épépiné et haché",
+        "1 c. à s. de menthe hachée",
+        "1 pincée de cumin moulu"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "ramen_maison",
@@ -5115,7 +8103,37 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 2,
+      "ingredients": [
+        "**Nouilles (2 pers.)**",
+        "200 g de farine à pain",
+        "1/2 c. à c. de poudre d'eau alcaline (kansui)",
+        "100 ml d'eau",
+        "fécule de maïs (pour fariner), selon besoin",
+        "sel 1 g",
+        "**Garnitures**",
+        "100 g de pousses de soja",
+        "250 g de chou (type chou blanc ou chou chinois)",
+        "20 g d'ail frais",
+        "**Soupe**",
+        "30 g de saké",
+        "20 g de mirin",
+        "100 g de sauce soja",
+        "1 g de sel",
+        "2 g d'ail frais",
+        "2 g de gingembre râpé ou en pâte",
+        "6 g de fond chinois (voir composant Dashi ou équivalent)",
+        "850 ml d'eau",
+        "25 g de saindoux",
+        "ajinomoto (MSG) selon goût"
+      ],
+      "time": 120,
+      "difficulty": 3
     },
     {
       "slug": "raviolis_frits",
@@ -5146,7 +8164,26 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "5 champignons shiitake séchés",
+        "250 g de porc haché",
+        "4 ciboules émincées",
+        "1 c. à s. de xérès sec",
+        "1 c. à s. de sauce hoisin",
+        "1 gousse d'ail écrasée",
+        "1 c. à c. de gingembre frais râpé",
+        "150 g de bok choy émincé finement",
+        "40 carrés de pâte à raviolis",
+        "1 œuf légèrement battu",
+        "Huile végétale pour friture"
+      ],
+      "time": 80,
+      "difficulty": 2
     },
     {
       "slug": "raviolis_poulet_vapeur",
@@ -5198,7 +8235,27 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 champignons shiitake séchés",
+        "500 g de poulet haché",
+        "2 ciboules émincées",
+        "1 c. à s. de ciboulette ciselée",
+        "2 gousses d'ail écrasées",
+        "2 c. à c. de gingembre frais râpé",
+        "¼ de c. à c. de cinq-épices",
+        "75 g de chapelure",
+        "2 c. à s. de sauce hoisin",
+        "1 c. à c. d'huile de sésame",
+        "1 œuf légèrement battu",
+        "30 carrés de pâte à raviolis"
+      ],
+      "time": 100,
+      "difficulty": 2
     },
     {
       "slug": "raviolis_sestu",
@@ -5206,7 +8263,24 @@
       "url": "/recipes/raviolis_sestu.html",
       "kind": "recipe",
       "image": "raviolis_sestu",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 20,
+      "ingredients": [
+        "1,5 kg de farine",
+        "15 œufs",
+        "300 g d'huile d'olive",
+        "1,5 kg de pommes de terre",
+        "1 kg de ricotta",
+        "parmesan râpé",
+        "200 g d'oignons et échalotes",
+        "3 œufs",
+        "noix de muscade"
+      ],
+      "time": 220,
+      "difficulty": 3
     },
     {
       "slug": "raviolis_vegetariens",
@@ -5289,7 +8363,25 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "32 disques de pâte à raviolis",
+        "1 œuf légèrement battu",
+        "Huile végétale pour friture",
+        "4 ciboules émincées",
+        "1 gousse d'ail écrasée",
+        "1 petite carotte (70 g) râpée",
+        "40 g de chou chinois en fines lanières",
+        "1 c. à s. de sauce hoisin",
+        "1 c. à s. de feuilles de coriandre",
+        "100 g de tofu ferme coupé finement"
+      ],
+      "time": 50,
+      "difficulty": 2
     },
     {
       "slug": "ribs_sauce_orange",
@@ -5329,7 +8421,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "2,5 kg de travers de porc",
+        "3 oranges",
+        "1 échalote",
+        "2 gousses d'ail",
+        "20 cl de fond de veau",
+        "5 cl d'huile",
+        "3 c. à soupe de sauce soja",
+        "2 c. à soupe de sucre roux",
+        "2 c. à soupe de vinaigre balsamique",
+        "1 c. à soupe de paprika fumé",
+        "Sel et poivre"
+      ],
+      "time": 65,
+      "difficulty": 1
     },
     {
       "slug": "rillettes_de_thon",
@@ -5372,7 +8483,16 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1 boîte de thon au naturel",
+        "100 g de fromage frais",
+        "½ citron (jus)"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "risoto_gambas_chorizo_sauce_tomate",
@@ -5397,7 +8517,28 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "450 g de riz à risotto",
+        "200 g de gambas",
+        "100 g de chorizo",
+        "1 oignon",
+        "Feuilles de basilic",
+        "Persil",
+        "100 g de parmesan",
+        "30 g de beurre froid",
+        "1,5 L de bouillon de légumes",
+        "400 g de sauce tomate au Parmigiano Reggiano (Mutti)",
+        "10 cl de vin blanc sec",
+        "2 c. à soupe d'huile d'olive",
+        "Sel et poivre du moulin"
+      ],
+      "time": 35,
+      "difficulty": 2
     },
     {
       "slug": "risotto_aux_champignons_et_aux_chataignes",
@@ -5418,7 +8559,26 @@
             "22": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "200 g de champignons de Paris",
+        "1 oignon",
+        "1 gousse d'ail",
+        "40 g de parmesan râpé",
+        "30 g de beurre",
+        "1 l de bouillon de légumes",
+        "300 g de riz arborio",
+        "150 g de châtaignes cuites (sous vide ou en bocal)",
+        "10 cl de vin blanc sec",
+        "2 c. à soupe d'huile d'olive",
+        "Sel et poivre du moulin"
+      ],
+      "time": 35,
+      "difficulty": 2
     },
     {
       "slug": "risotto_crevettes_asperges",
@@ -5455,7 +8615,29 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de grosses crevettes crues",
+        "750 ml de bouillon de poulet",
+        "750 ml d'eau",
+        "15 g de beurre",
+        "1 c. à s. d'huile d'olive",
+        "1 petit oignon jaune (80 g) finement haché",
+        "400 g de riz arborio",
+        "125 ml de xérès sec",
+        "15 g de beurre supplémentaire",
+        "2 c. à c. d'huile d'olive supplémentaire",
+        "2 gousses d'ail écrasées",
+        "500 g d'asperges grossièrement hachées",
+        "25 g de parmesan grossièrement râpé",
+        "1 poignée de basilic grossièrement haché"
+      ],
+      "time": 70,
+      "difficulty": 2
     },
     {
       "slug": "riz_au_lait_framboises",
@@ -5478,7 +8660,23 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "25 cl de lait",
+        "20 cl de crème liquide",
+        "150 g de riz rond",
+        "100 g de sucre",
+        "1 gousse de vanille",
+        "350 g de framboises",
+        "2 feuilles de gélatine",
+        "1 paquet de biscuits secs"
+      ],
+      "time": 115,
+      "difficulty": 2
     },
     {
       "slug": "rogan_josh",
@@ -5514,7 +8712,33 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 kg de gigot d'agneau coupé en cubes de 3 cm de côté",
+        "2 c. à c. de cardamome moulue",
+        "2 c. à c. de cumin moulu",
+        "2 c. à c. de coriandre moulue",
+        "20 g de beurre",
+        "2 c. à s. d'huile végétale",
+        "2 oignons (300 g) émincés",
+        "4 cm (20 g) de gingembre frais, râpé",
+        "4 gousses d'ail écrasées",
+        "2 c. à c. de paprika doux",
+        "¼ de c. à c. de piment de Cayenne",
+        "125 ml de bouillon de bœuf",
+        "400 g de tomates pelées en conserve",
+        "2 feuilles de laurier",
+        "2 bâtons de cannelle",
+        "200 g de yaourt",
+        "110 g d'amandes effilées et grillées",
+        "1 piment rouge frais émincé"
+      ],
+      "time": 140,
+      "difficulty": 2
     },
     {
       "slug": "saint_jacques_facon_chaudree",
@@ -5579,7 +8803,33 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "12 noix de Saint-Jacques de la baie de Saint-Brieuc",
+        "200 g de filet de poisson blanc",
+        "4 crevettes",
+        "400 g de pommes de terre",
+        "1 carotte",
+        "1 oignon",
+        "1/2 blanc de poireau",
+        "1 petite branche de céleri",
+        "2 branches de persil",
+        "1 feuille de laurier",
+        "15 cl de lait",
+        "15 cl de crème fraîche",
+        "1 noix de beurre",
+        "20 cl de vin blanc sec",
+        "1 c. à soupe rase de fécule de maïs",
+        "Sel",
+        "Poivre"
+      ],
+      "time": 65,
+      "difficulty": 2
     },
     {
       "slug": "saint_jacques_gingembre_sesame",
@@ -5659,7 +8909,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "12 saint-jacques dans leur coquille, sans le corail",
+        "1 morceau de gingembre frais, pelé",
+        "2 c. à c. d'huile de sésame",
+        "3 saucisses sèches chinoises (lap cheong) émincées",
+        "2 c. à c. de jus de citron vert",
+        "1 c. à c. de sucre",
+        "1 petit concombre émincé",
+        "1 échalote émincée",
+        "1 petit piment rouge frais, haché",
+        "1 petite poignée de coriandre",
+        "1 petite poignée de menthe"
+      ],
+      "time": 25,
+      "difficulty": 2
     },
     {
       "slug": "salade_agneau_peches_roties",
@@ -5750,7 +9019,27 @@
             "15": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "300 g d'épaule d'agneau",
+        "2 pêches",
+        "100 g de myrtilles",
+        "4 poignées de roquette",
+        "30 g de noisettes",
+        "100 g de chèvre frais",
+        "1 noix de beurre",
+        "6 c. à soupe d'huile de noisette",
+        "5 c. à soupe de vinaigre de cidre",
+        "1 c. à soupe de miel",
+        "Sel et poivre"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "salade_chou_rouge",
@@ -5778,7 +9067,19 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 petit chou rouge",
+        "3 cuillères à soupe d'huile d'olive",
+        "Sel fin",
+        "Poivre du moulin"
+      ],
+      "time": 2901,
+      "difficulty": 1
     },
     {
       "slug": "salade_de_sashimi_au_thon_sauce_au_miso",
@@ -5826,7 +9127,18 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "350 g de thon cru très frais",
+        "2 c. à s. de vinaigre de riz pour sushis",
+        "4 ciboules (le vert seulement) hachées"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "salade_pomme_de_terre_hareng_fume",
@@ -5875,7 +9187,25 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "300 g de filets de hareng fumé",
+        "800 g de pommes de terre à chair ferme",
+        "1 oignon rouge",
+        "1 poignée de jeunes pousses",
+        "Quelques brins de ciboulette",
+        "6 c. à soupe d'huile d'olive",
+        "2 c. à soupe de vinaigre de cidre",
+        "2 c. à café de moutarde à l'ancienne",
+        "Sel et poivre"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "sandwichs_glaces_petits_beurre_amandes",
@@ -5883,7 +9213,22 @@
       "url": "/recipes/sandwichs_glaces_petits_beurre_amandes.html",
       "kind": "recipe",
       "image": "sandwichs_glaces_petits_beurre_amandes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "250 g de mascarpone",
+        "25 cl de crème fleurette entière",
+        "16 biscuits petits-beurre",
+        "80 g d'amandes effilées",
+        "60 g de sucre glace",
+        "1 sachet de sucre vanillé",
+        "1 c. à soupe de miel"
+      ],
+      "time": 92,
+      "difficulty": 1
     },
     {
       "slug": "sandwitch_dinde_marinee",
@@ -5927,7 +9272,24 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "600 g d'escalopes de dinde",
+        "2 concombres",
+        "1 laitue romaine",
+        "2 brins de menthe",
+        "200 g de burrata",
+        "2 baguettes",
+        "2 c. à soupe de moutarde en grains",
+        "Sel et poivre"
+      ],
+      "time": 95,
+      "difficulty": 1
     },
     {
       "slug": "sandwitch_italien_dip_thon_crudites",
@@ -6020,7 +9382,22 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "120 g de jambon cru",
+        "4 carottes",
+        "½ concombre",
+        "1 branche de céleri",
+        "80 g de roquette",
+        "2 boules de mozzarella",
+        "4 pains individuels type ciabatta ou focaccia"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "sashimi_saumon_marine",
@@ -6051,7 +9428,23 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de saumon cru très frais",
+        "2 cm de gingembre frais, râpé",
+        "1 gousse d'ail écrasée",
+        "1 c. à c. de sucre de canne",
+        "2 c. à s. de sauce soja japonaise",
+        "125 ml de saké",
+        "4 ciboules (la partie verte seulement) finement hachées",
+        "2 c. à c. de graines de sésame grillées"
+      ],
+      "time": 50,
+      "difficulty": 1
     },
     {
       "slug": "sauce_au_foie_gras",
@@ -6073,7 +9466,16 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "150 g de foie gras",
+        "150 ml de bouillon de volaille",
+        "450 ml de crème fraîche"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "sauce_au_poivre",
@@ -6081,7 +9483,19 @@
       "url": "/components/sauce_au_poivre.html",
       "kind": "component",
       "image": "sauce_au_poivre",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 échalotes",
+        "2 c. à soupe de poivre vert",
+        "3 c. à soupe de cognac",
+        "20 cl de fond de veau",
+        "15 cl de crème liquide",
+        "20 g de beurre"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "sauce_au_vin_rouge",
@@ -6108,7 +9522,23 @@
             "21": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 carottes fines",
+        "2 échalotes",
+        "1 petit oignon rouge",
+        "1 feuille de laurier",
+        "50 g de beurre",
+        "25 cl de vin rouge",
+        "15 cl de fond de veau",
+        "1 c. à soupe de concentré de tomate",
+        "2 pincées de piment de Cayenne",
+        "Sel et poivre"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "sauce_aux_prunes",
@@ -6116,7 +9546,16 @@
       "url": "/components/sauce_aux_prunes.html",
       "kind": "component",
       "image": "sauce_aux_prunes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "80 ml de sauce aux prunes",
+        "2 c. à s. de sauce soja épaisse",
+        "1 c. à c. d'huile de sésame"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "sauce_blanche_vin_blanc",
@@ -6124,7 +9563,17 @@
       "url": "/components/sauce_blanche_vin_blanc.html",
       "kind": "component",
       "image": "sauce_blanche_vin_blanc",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "60 g de beurre",
+        "2 c. à s. de farine",
+        "250 ml de bouillon de volaille",
+        "250 ml de vin blanc sec"
+      ],
+      "time": 20,
+      "difficulty": 1
     },
     {
       "slug": "sauce_bolognaise",
@@ -6147,7 +9596,22 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à soupe d'huile d'olive",
+        "1 gousse d'ail hachée",
+        "1 oignon émincé",
+        "300 g de viande de bœuf hachée",
+        "800 g de pulpe de tomate (ou 500 g de tomates fraîches)",
+        "1 c. à soupe d'herbes aromatiques (origan, thym, basilic)",
+        "2 morceaux de sucre",
+        "Sel",
+        "Poivre du moulin"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "sauce_caramel",
@@ -6155,7 +9619,17 @@
       "url": "/components/sauce_caramel.html",
       "kind": "component",
       "image": "sauce_caramel",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "100 gr sucre",
+        "1/2 verre d'eau"
+      ],
+      "time": 15,
+      "difficulty": 2
     },
     {
       "slug": "sauce_chasseur",
@@ -6163,7 +9637,24 @@
       "url": "/components/sauce_chasseur.html",
       "kind": "component",
       "image": "sauce_chasseur",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "250 g de champignons de Paris",
+        "2 échalotes",
+        "2 brins de thym",
+        "1 feuille de laurier",
+        "10 g de beurre",
+        "1 c. à soupe d'huile",
+        "1 c. à soupe de farine",
+        "10 cl de vin blanc sec",
+        "15 cl de fond de veau",
+        "2 c. à soupe de concentré de tomate",
+        "Sel et poivre"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "sauce_chili_aigre_douce",
@@ -6171,7 +9662,20 @@
       "url": "/components/sauce_chili_aigre_douce.html",
       "kind": "component",
       "image": "sauce_chili_aigre_douce",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 petits piments rouges",
+        "1 gousse d'ail",
+        "70 g de sucre",
+        "4 c. à soupe de vinaigre de riz",
+        "2 c. à soupe de sauce soja",
+        "1 c. à café de fécule de maïs",
+        "Sauce chili aigre-douce"
+      ],
+      "time": 20,
+      "difficulty": 1
     },
     {
       "slug": "sauce_citron_menthe",
@@ -6216,7 +9720,18 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 citrons (280 g), pelés et séparés en quartiers",
+        "40 g de feuilles de persil plat",
+        "20 g de feuilles de menthe",
+        "60 ml d'huile d'olive",
+        "Sel, poivre"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "sauce_fruitee",
@@ -6270,7 +9785,22 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1 c. à soupe de graisse de canard (réservée de la cuisson des magrets)",
+        "2 échalotes pelées et hachées",
+        "2 c. à soupe de vinaigre balsamique",
+        "10 cl de vin blanc",
+        "Jus de 4 clémentines",
+        "Jus de 1 orange",
+        "2 c. à soupe de gelée de cerise",
+        "20 g de beurre",
+        "Sel et poivre"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "sauce_gingembre_ciboules",
@@ -6301,7 +9831,18 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "80 ml d'huile d'arachide",
+        "1 c. à s. de vinaigre de riz",
+        "1 c. à c. de sauce soja",
+        "1 c. à s. de gingembre frais râpé",
+        "2 ciboules émincées"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "sauce_hoisin_cacahuetes",
@@ -6309,7 +9850,17 @@
       "url": "/components/sauce_hoisin_cacahuetes.html",
       "kind": "component",
       "image": "sauce_hoisin_cacahuetes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à s. de sauce hoisin",
+        "1 c. à s. de beurre de cacahuète",
+        "1 c. à s. d'huile d'arachide",
+        "1 c. à s. de saké"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "sauce_miso_pour_sashimi",
@@ -6317,7 +9868,17 @@
       "url": "/components/sauce_miso_pour_sashimi.html",
       "kind": "component",
       "image": "sauce_miso_pour_sashimi",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à s. de miso blanc",
+        "1 c. à s. de mirin",
+        "1 c. à s. de saké",
+        "1 c. à s. de sucre"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "sauce_moutarde_soja_japonaise",
@@ -6325,7 +9886,20 @@
       "url": "/components/sauce_moutarde_soja_japonaise.html",
       "kind": "component",
       "image": "sauce_moutarde_soja_japonaise",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "125 g de mayonnaise",
+        "1/4 de c. à c. de moutarde japonaise",
+        "1 1/2 c. à s. de vinaigre de riz",
+        "1 c. à s. de saké",
+        "2 c. à c. de sauce soja japonaise",
+        "1 c. à c. de sucre extrafin",
+        "1/2 c. à c. d'huile de sésame"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "sauce_orange",
@@ -6365,7 +9939,22 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "3 oranges",
+        "1 échalote",
+        "2 gousses d'ail",
+        "20 cl de fond de veau",
+        "3 c. à soupe de sauce soja",
+        "2 c. à soupe de sucre roux",
+        "2 c. à soupe de vinaigre balsamique",
+        "1 c. à soupe de paprika fumé",
+        "Sel"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "sauce_orange_kumquat",
@@ -6418,7 +10007,22 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "3 c. à soupe de graisse de canard (réservées de la cuisson des magrets)",
+        "300 g de kumquats, en rondelles",
+        "3 gousses d'ail, épluchées et hachées",
+        "3 c. à soupe de vinaigre balsamique",
+        "5 cl de vin blanc sec",
+        "Jus de 2 oranges",
+        "2 c. à soupe de miel",
+        "Suprêmes de 2 oranges",
+        "Sel et poivre"
+      ],
+      "time": 30,
+      "difficulty": 1
     },
     {
       "slug": "sauce_pimentee_au_dashi_et_shichimi",
@@ -6426,7 +10030,17 @@
       "url": "/components/sauce_pimentee_au_dashi_et_shichimi.html",
       "kind": "component",
       "image": "sauce_pimentee_au_dashi_et_shichimi",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "60 ml de sauce soja japonaise",
+        "1 c. à c. de dashi en granulés",
+        "1/4 de c. à c. de sept-épices japonais (shichimi togarashi)",
+        "2 cm de gingembre frais (10 g), finement râpé"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "sauce_piquante_yaourt",
@@ -6469,7 +10083,20 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 petits piments thaïs rouges frais finement hachés",
+        "1 c. à s. de menthe finement hachée",
+        "1 c. à s. de persil plat finement haché",
+        "1 c. à s. de coriandre finement hachée",
+        "1 gousse d'ail écrasée",
+        "½ c. à c. de cumin moulu",
+        "500 g de yaourt ferme"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "sauce_satay_thaie_aux_cacahuetes",
@@ -6477,7 +10104,19 @@
       "url": "/components/sauce_satay_thaie_aux_cacahuetes.html",
       "kind": "component",
       "image": "sauce_satay_thaie_aux_cacahuetes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "80 g de cacahuètes non salées grillées à sec",
+        "2 c. à s. de pâte de curry rouge",
+        "180 ml de lait de coco",
+        "60 ml de bouillon de poulet",
+        "1 c. à s. de jus de citron kaffir ou de citron vert",
+        "1 c. à s. de sucre de palme râpé ou sucre roux"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "sauce_teriyaki",
@@ -6485,7 +10124,15 @@
       "url": "/components/sauce_teriyaki.html",
       "kind": "component",
       "image": "sauce_teriyaki",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "1/2tsp dark soy sauce",
+        "3/2tsp mirin"
+      ],
+      "time": 5,
+      "difficulty": 1
     },
     {
       "slug": "sauce_teriyaki_maison",
@@ -6493,7 +10140,17 @@
       "url": "/components/sauce_teriyaki_maison.html",
       "kind": "component",
       "image": "sauce_teriyaki",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "100g de sucre",
+        "4 càS de sauce soja claire",
+        "2 càS de saké",
+        "1 càC de sauce soja foncée"
+      ],
+      "time": 15,
+      "difficulty": 1
     },
     {
       "slug": "sauce_tonkatsu",
@@ -6501,7 +10158,18 @@
       "url": "/components/sauce_tonkatsu.html",
       "kind": "component",
       "image": "sauce_tonkatsu",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "80 ml de sauce tomate",
+        "2 c. à s. de sauce Worcestershire japonaise",
+        "2 c. à s. de saké",
+        "1 c. à c. de sauce soja japonaise",
+        "1 c. à c. de moutarde japonaise"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "sauce_yakitori",
@@ -6509,7 +10177,18 @@
       "url": "/components/sauce_yakitori.html",
       "kind": "component",
       "image": "sauce_yakitori",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "4 cas de sucre",
+        "12 cas de sauce soja",
+        "100g de gingembre",
+        "4 cas d'eau",
+        "miel (à part)"
+      ],
+      "time": 10,
+      "difficulty": 1
     },
     {
       "slug": "saumon_laque",
@@ -6517,7 +10196,24 @@
       "url": "/recipes/saumon_laque.html",
       "kind": "recipe",
       "image": "saumon_laque",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 c. à s. d'huile végétale",
+        "1 c. à s. d'huile de sésame",
+        "4 filets de saumon (700 g)",
+        "40 g de beurre",
+        "60 ml de saké",
+        "1 1/2 c. à s. de sauce soja japonaise",
+        "1 c. à s. de mirin",
+        "2 c. à c. de sucre",
+        "5 mm de gingembre frais (2 g), râpé"
+      ],
+      "time": 20,
+      "difficulty": 1
     },
     {
       "slug": "saumon_laque_au_gingembre_marron_choux_de_bruxelles",
@@ -6553,7 +10249,24 @@
             "22": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 pavés de saumon",
+        "500 g de choux de Bruxelles",
+        "1 oignon",
+        "1/2 botte de basilic thaï",
+        "400 g de marrons cuits en bocal",
+        "Miel liquide",
+        "Sauce soja",
+        "2 c. à soupe d'huile d'olive",
+        "Poivre"
+      ],
+      "time": 115,
+      "difficulty": 1
     },
     {
       "slug": "saute_de_porc_aux_abricots_sauce_soja_citron_vert",
@@ -6605,7 +10318,25 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1,2 kg d'échine de porc en cubes",
+        "4 oignons en lamelles moyennes",
+        "15 petits abricots frais",
+        "1 ou 2 citrons verts (zeste et jus)",
+        "1 bouquet de coriandre fraîche ciselée",
+        "6 c. à soupe de sauce soja",
+        "3 c. à soupe de miel d'acacia",
+        "Huile d'olive",
+        "Sel",
+        "Poivre du moulin"
+      ],
+      "time": 75,
+      "difficulty": 1
     },
     {
       "slug": "saute_porc_vin_doux",
@@ -6657,7 +10388,30 @@
             "19": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1,2 kg de cubes d'épaule de porc",
+        "400 g de carottes",
+        "1 oignon",
+        "2 échalotes",
+        "2 gousses d'ail",
+        "5 brins de cerfeuil",
+        "2 brins de thym",
+        "250 g de fruits secs moelleux au choix (figues, abricots, pruneaux)",
+        "25 cl de bouillon de volaille",
+        "20 cl de muscat",
+        "2 c. à soupe d'huile d'olive",
+        "1 c. à soupe de concentré de tomate",
+        "1 c. à soupe de miel",
+        "3 pincées de 4 épices",
+        "Sel et poivre"
+      ],
+      "time": 85,
+      "difficulty": 2
     },
     {
       "slug": "soupe_a_loignon",
@@ -6665,7 +10419,29 @@
       "url": "/recipes/soupe_a_loignon.html",
       "kind": "recipe",
       "image": "soupe_a_loignon",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g d'oignons",
+        "100 g de beurre",
+        "2 cuillères à soupe de farine",
+        "1,5 litre de bouillon ou d'eau",
+        "1 baguette de pain",
+        "200 g de pain",
+        "100 g de gruyère",
+        "1 paquet de chapelure",
+        "Sel, poivre",
+        "3 jaunes d'œufs (facultatif)",
+        "Crème fraîche (facultatif)",
+        "1 verre de porto (facultatif)",
+        "Noix de muscade (facultatif)"
+      ],
+      "time": 65,
+      "difficulty": 2
     },
     {
       "slug": "soupe_aigre_douce_aux_crevettes",
@@ -6705,7 +10481,27 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1,5 litre de bouillon de poisson",
+        "1 c. à s. de coriandre hachée (tiges et racines)",
+        "1 blanc de citronnelle (20 g) haché très fin",
+        "8 feuilles de citron kaffir ciselées",
+        "8 cm de gingembre frais, en fines rondelles",
+        "2 piments oiseau rouges hachés",
+        "1 c. à s. de sauce de poisson",
+        "12 gambas crues",
+        "8 oignons verts en tronçons de 2 cm",
+        "80 ml de jus de citron vert",
+        "1 grosse poignée de feuilles de coriandre ciselées",
+        "1 petite poignée de feuilles de basilic thaï ciselées"
+      ],
+      "time": 50,
+      "difficulty": 1
     },
     {
       "slug": "soupe_ardennaise",
@@ -6754,7 +10550,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "6 endives",
+        "2 blancs de poireaux",
+        "2 pommes de terre moyennes",
+        "150g de beurre",
+        "1 litre d'eau",
+        "10g de sel",
+        "0,5 litre de lait",
+        "1 flûte à potage (ou équivalent en pain)"
+      ],
+      "time": 80,
+      "difficulty": 1
     },
     {
       "slug": "soupe_au_chou",
@@ -6840,7 +10653,29 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "400 g de lard demi-sel",
+        "1 beau chou vert",
+        "5 pommes de terre (bintje)",
+        "3 carottes",
+        "2 navets",
+        "2 poireaux",
+        "1 gros oignon",
+        "1 clou de girofle",
+        "3 litres d'eau",
+        "1 cuillère à soupe de saindoux",
+        "Gros sel",
+        "Poivre blanc en grains",
+        "6 tranches de pain de campagne"
+      ],
+      "time": 95,
+      "difficulty": 1
     },
     {
       "slug": "soupe_de_moules",
@@ -6920,7 +10755,37 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 10,
+      "ingredients": [
+        "4 litres de moules de bouchot",
+        "1 bouteille de Pouilly-Fuissé",
+        "2 gousses d'ail haché",
+        "3 échalotes",
+        "50 g de persil",
+        "100 g de beurre",
+        "250 ml d'huile d'olive",
+        "300 g d'oignons émincés",
+        "300 g de poireaux coupés en julienne",
+        "50 g de fenouil frais",
+        "3 litres d'eau",
+        "4 kg de poisson de la Méditerranée",
+        "1.5 kg de tomates mondées et coupées en morceaux",
+        "1/2 feuille de laurier",
+        "1 branche de thym",
+        "Safran en pistil",
+        "250 ml de crème",
+        "Sel",
+        "Poivre",
+        "Pain grillé",
+        "Fromage râpé"
+      ],
+      "time": 80,
+      "difficulty": 2
     },
     {
       "slug": "soupe_de_poisson_au_saumon",
@@ -6985,7 +10850,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 filets de saumon (sans peau), coupés en dés",
+        "2 poireaux (blancs uniquement)",
+        "2 pommes de terre",
+        "1 ou 2 carottes râpées",
+        "1 litre de bouillon (ou fumet) de poisson",
+        "20 cl de crème fraîche à 30%",
+        "1 citron (jus et zeste)",
+        "beurre ou huile de tournesol",
+        "sel, poivre"
+      ],
+      "time": 50,
+      "difficulty": 1
     },
     {
       "slug": "soupe_lentille_lard_carottes_celerie_oeuf_poche",
@@ -7029,7 +10911,26 @@
             "22": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "800 g de lentilles cuites au naturel",
+        "150 g de lard",
+        "2 carottes",
+        "1 oignon",
+        "1 branche de céleri",
+        "6 œufs",
+        "1 c. à soupe de vinaigre blanc",
+        "1 c. à soupe de concentré de tomate",
+        "Huile d'olive",
+        "Sel et poivre"
+      ],
+      "time": 65,
+      "difficulty": 2
     },
     {
       "slug": "soupe_miso_porc_haricots_verts",
@@ -7073,7 +10974,21 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 litre de bouillon dashi",
+        "100 g de filet de porc coupé en fines tranches",
+        "8 haricots verts coupés en petits morceaux",
+        "75 g de miso rouge",
+        "2 c. à c. de jus de gingembre frais",
+        "2 ciboules émincées"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "soupe_nimoise",
@@ -7155,7 +11070,25 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "3 blancs de poireaux",
+        "300g de chou",
+        "1 coeur de céleri",
+        "100g d'orge perlé (ou de riz)",
+        "1 pincée de basilic écrasé",
+        "15g de sel",
+        "50g de beurre",
+        "2 litres d'eau",
+        "Gruyère râpé"
+      ],
+      "time": 90,
+      "difficulty": 1
     },
     {
       "slug": "soupe_pimentee_au_boeuf",
@@ -7179,7 +11112,27 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "750 ml d'eau",
+        "750 ml de bouillon de bœuf",
+        "6 oignons verts hachés",
+        "2 gousses d'ail émincées",
+        "3 racines de coriandre fraîche",
+        "2 c. à s. de sauce soja",
+        "2 c. à c. de cassonade",
+        "1 piment oiseau rouge haché",
+        "375 g de bœuf en tranches fines",
+        "425 g de champignons de Paris en conserve, rincés et égouttés",
+        "60 ml de jus de citron vert",
+        "1 c. à s. de coriandre ciselée"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "soupe_poireau_pommes_de_terres",
@@ -7209,7 +11162,22 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de pommes de terre",
+        "4 poireaux moyens",
+        "30 g de beurre",
+        "10 cl de crème fraîche",
+        "Sel, poivre",
+        "Facultatif, 2 paquets de couennes cuites"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "soupe_savoyarde",
@@ -7256,7 +11224,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "50g de lard gras",
+        "4 poireaux",
+        "1 oignon",
+        "1 branche de céleri",
+        "2 pommes de terre moyennes",
+        "1 litre d'eau",
+        "0.5 litre de lait",
+        "100g de pain",
+        "Gruyère ou parmesan râpé",
+        "Sel"
+      ],
+      "time": 65,
+      "difficulty": 1
     },
     {
       "slug": "spaghettis_aux_girolles_sautees",
@@ -7282,7 +11269,23 @@
             "20": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "600 g de girolles",
+        "1/2 botte de persil plat",
+        "2 gousses d'ail",
+        "125 g de parmesan",
+        "40 g de beurre mou",
+        "500 g de spaghettis",
+        "Sel",
+        "Poivre du moulin"
+      ],
+      "time": 42,
+      "difficulty": 1
     },
     {
       "slug": "spaghettonis_a_la_creme_de_roquette_et_de_basilic",
@@ -7336,7 +11339,24 @@
             "15": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "100 g de roquette",
+        "1 gros bouquet de basilic",
+        "200 g de brousse de brebis",
+        "200 g de mascarpone",
+        "100 g de parmesan râpé",
+        "500 g de spaghettonis",
+        "Huile d'olive vierge extra",
+        "Sel",
+        "Poivre du moulin"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "tagliatelles_aux_gambas_flambes",
@@ -7374,7 +11394,29 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "28 gambas crues",
+        "250 g de tomates cocktail",
+        "1 citron vert",
+        "3 gousses d'ail",
+        "1 botte de coriandre",
+        "100 g de parmesan",
+        "15 cl d'huile d'olive vierge extra",
+        "8 cl de whisky",
+        "3 c. à soupe de sauce Worcestershire",
+        "1 c. à soupe de piment doux moulu",
+        "1 c. à soupe de concentré de tomate",
+        "Sel",
+        "Poivre du moulin",
+        "500 g de tagliatelles"
+      ],
+      "time": 50,
+      "difficulty": 2
     },
     {
       "slug": "tajine_agneau_abricots",
@@ -7424,7 +11466,36 @@
             "23": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 8,
+      "ingredients": [
+        "250 g d'abricots secs",
+        "180 ml de jus d'orange",
+        "125 ml d'eau bouillante",
+        "2 c. à s. d'huile d'olive",
+        "900 g de viande d'agneau détaillée en cubes",
+        "2 poivrons rouges (400 g) détaillés en dés",
+        "1 gros oignon jaune (200 g) haché",
+        "800 g de potiron pelé et coupé en gros cubes",
+        "3 gousses d'ail écrasées",
+        "1 c. à c. de cannelle",
+        "2 c. à c. de cumin moulu",
+        "2 c. à c. de coriandre moulue",
+        "1 litre de bouillon de volaille",
+        "2 c. à s. de miel",
+        "4 poignées de coriandre",
+        "200 g de yaourt allégé",
+        "1 litre d'eau (pour le couscous aux agrumes)",
+        "800 g de couscous",
+        "1 c. à s. de zeste d'orange râpé",
+        "2 c. à c. de zeste de citron râpé",
+        "2 c. à c. de zeste de citron vert râpé"
+      ],
+      "time": 125,
+      "difficulty": 1
     },
     {
       "slug": "tajine_agneau_coings_couscous_pistaches",
@@ -7503,7 +11574,34 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "40 g de beurre",
+        "600 g de viande d'agneau en cubes",
+        "1 oignon rouge (170 g) haché",
+        "2 gousses d'ail écrasées",
+        "1 petit bâton de cannelle",
+        "2 c. à c. de coriandre moulue",
+        "1 c. à c. de cumin moulu",
+        "1 c. à c. de gingembre moulu",
+        "1 c. à c. de piment moulu",
+        "375 ml d'eau",
+        "400 g de tomates concassées en conserve",
+        "2 coings (700 g) pelés, évidés et coupés en quartiers",
+        "1 grosse courgette (150 g) en tronçons",
+        "2 c. à s. de coriandre ciselée",
+        "300 g de couscous (pour le couscous aux pistaches)",
+        "250 ml d'eau bouillante",
+        "20 g de beurre mou",
+        "2 poignées de coriandre ciselée",
+        "35 g de pistaches grillées grossièrement broyées"
+      ],
+      "time": 125,
+      "difficulty": 1
     },
     {
       "slug": "tajine_boeuf_pruneaux",
@@ -7542,7 +11640,32 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "2 gros oignons rouges (600 g) hachés",
+        "2 c. à s. d'huile d'olive",
+        "1 c. à c. de poivre noir concassé",
+        "1 pincée de filaments de safran",
+        "1 c. à s. de cannelle + 1 pincée pour les pruneaux",
+        "1/4 de c. à c. de gingembre moulu",
+        "1 kg de palette de bœuf en cubes de 4 cm",
+        "250 ml d'eau",
+        "50 g de beurre coupé en petits dés",
+        "425 g de tomates concassées en conserve",
+        "2 c. à s. de sucre",
+        "100 g d'amandes effilées grillées",
+        "250 g de pruneaux dénoyautés",
+        "1 c. à c. de zeste de citron râpé",
+        "300 g de couscous (pour le couscous aux épinards)",
+        "375 ml d'eau bouillante",
+        "80 g de pousses d'épinard ciselées"
+      ],
+      "time": 170,
+      "difficulty": 2
     },
     {
       "slug": "tajine_poulet_dattes_miel",
@@ -7566,7 +11689,32 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 kg de blancs de poulet",
+        "2 c. à s. d'huile d'olive",
+        "2 oignons jaunes (300 g) en tranches fines",
+        "4 gousses d'ail écrasées",
+        "1 c. à c. de graines de cumin",
+        "1 c. à c. de coriandre moulue",
+        "1 c. à c. de gingembre moulu",
+        "1 c. à c. de curcuma moulu",
+        "1 c. à c. de cannelle",
+        "1/2 c. à c. de piment en poudre",
+        "1/4 de c. à c. de noix de muscade râpée",
+        "375 ml de bouillon de volaille",
+        "250 ml d'eau",
+        "70 g de dattes dénoyautées et coupées en deux",
+        "90 g de miel",
+        "80 g d'amandes effilées grillées",
+        "1 c. à s. de coriandre ciselée"
+      ],
+      "time": 130,
+      "difficulty": 1
     },
     {
       "slug": "tapas_aux_anchois",
@@ -7612,7 +11760,28 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "8 filets d'anchois en saumure",
+        "60 ml de lait",
+        "4 c. à s. d'huile d'olive",
+        "1 tranche de pain de mie ou 30 g de mie de pain",
+        "1 bel oignon rouge émincé",
+        "1 gousse d'ail coupée en quatre",
+        "Quelques feuilles de persil ciselées",
+        "Quelques feuilles de marjolaine ciselées",
+        "1 brin de thym frais ciselé",
+        "30 g d'olives noires dénoyautées et hachées",
+        "4 c. à c. de câpres égouttées",
+        "2 c. à c. de vinaigre de xérès",
+        "1 c. à s. de jus de citron"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "tarte_amandine_aux_poires",
@@ -7655,7 +11824,23 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "120 g de farine de blé",
+        "200 g de beurre",
+        "180 g de sucre en poudre",
+        "4 œufs",
+        "5 poires",
+        "100 g de poudre d'amandes",
+        "1 citron",
+        "sel"
+      ],
+      "time": 105,
+      "difficulty": 2
     },
     {
       "slug": "tartinable_chevre_chorizo",
@@ -7678,7 +11863,24 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "100 g de chorizo doux ou fort selon le goût",
+        "200 g de chèvre frais",
+        "1/2 cuillère à café de piment doux",
+        "2 cuillères à soupe de purée de tomates",
+        "1 pincée de sel",
+        "4 wraps de blé",
+        "2 cuillères à soupe d'huile d'olive",
+        "1 cuillère à soupe de sésame doré",
+        "1 cuillère à soupe de ciboulette ciselée"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "teriyaki_de_saumon",
@@ -7686,7 +11888,17 @@
       "url": "/recipes/teriyaki_de_saumon.html",
       "kind": "recipe",
       "image": "teriyaki_de_saumon",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 filets de saumon (700 g), sans peau",
+        "120 g de daikon, en fines lanières"
+      ],
+      "time": 40,
+      "difficulty": 1
     },
     {
       "slug": "thon_teriyaki_epice",
@@ -7712,7 +11924,20 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [],
+      "servings": 24,
+      "ingredients": [
+        "180 ml de sauce soja japonaise",
+        "60 ml de mirin",
+        "2 c. à s. de miel",
+        "1 c. à s. de pâte de wasabi",
+        "1 c. à c. d'huile de sésame",
+        "300 g de thon cru très frais",
+        "2 c. à s. (45 g) de gingembre rose mariné (gari), égoutté et coupé en fines lanières"
+      ],
+      "time": 205,
+      "difficulty": 2
     },
     {
       "slug": "tiramisu_a_l_orange",
@@ -7736,7 +11961,24 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 8,
+      "ingredients": [
+        "3 grosses oranges à jus bio",
+        "2 gros œufs",
+        "500 g de mascarpone",
+        "25 à 30 biscuits à la cuillère",
+        "70 g de sucre en poudre",
+        "25 g de sucre glace",
+        "2 c. à soupe de Cointreau (facultatif)",
+        "1 c. à café de cacao",
+        "1 pincée de sel"
+      ],
+      "time": 1465,
+      "difficulty": 2
     },
     {
       "slug": "tiramisu_aux_framboises",
@@ -7759,7 +12001,21 @@
             "17": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "3 œufs (blancs et jaunes séparés)",
+        "200 g de mascarpone",
+        "80 g de sucre en poudre (à répartir)",
+        "16 spéculoos",
+        "250 g de framboises (fraîches ou surgelées, décongelées et égouttées)",
+        "50 g de pistaches natures, décortiquées (concassées)"
+      ],
+      "time": 150,
+      "difficulty": 2
     },
     {
       "slug": "tiramisu_aux_speculoos",
@@ -7767,7 +12023,23 @@
       "url": "/recipes/tiramisu_aux_speculoos.html",
       "kind": "recipe",
       "image": "tiramisu_aux_speculoos",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "500 g de mascarpone",
+        "25 cl de crème fleurette",
+        "24 à 26 biscuits spéculoos",
+        "200 g de pâte de spéculoos",
+        "60 g de sucre glace",
+        "1 c. à café d'extrait de vanille",
+        "Café soluble",
+        "Sel"
+      ],
+      "time": 392,
+      "difficulty": 1
     },
     {
       "slug": "tiramisu_classique",
@@ -7775,7 +12047,65 @@
       "url": "/recipes/tiramisu_classique.html",
       "kind": "recipe",
       "image": "tiramisu",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "dessert"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de mascarpone",
+        "4 œufs (blancs et jaunes séparés)",
+        "150 g de sucre en poudre",
+        "2 sachets de sucre vanillé (ou 2 c. à c. d'extrait de vanille)",
+        "300 ml de café fort, refroidi",
+        "3 à 4 c. à s. d'amaretto ou de marsala (optionnel)",
+        "30 à 40 biscuits cuillère",
+        "Cacao amer non sucré (pour saupoudrer)",
+        "(Option) 5 bouchons de Marsala (marque Perlino) à la place des c. à s."
+      ],
+      "time": 270,
+      "difficulty": 2
+    },
+    {
+      "slug": "tofu_meatball_with_mushroom_ankake_sauce",
+      "title": "Boulettes de tofu avec sauce Ankake aux champignons",
+      "url": "/recipes/ tofu_meatball_with_mushroom_ankake_sauce.html",
+      "kind": "recipe",
+      "image": "tofu_meatball_with_mushroom_ankake_sauce",
+      "temporal_ingredients": [
+        {
+          "id": "poireau japonais",
+          "category": "legume",
+          "phases": {
+            "0": "peak",
+            "1": "peak",
+            "2": "peak",
+            "3": "peak",
+            "4": "end",
+            "5": "end",
+            "6": "end",
+            "16": "start",
+            "17": "start",
+            "18": "peak",
+            "19": "peak",
+            "20": "peak",
+            "21": "peak",
+            "22": "peak",
+            "23": "peak"
+          }
+        }
+      ],
+      "courses": [],
+      "servings": 1,
+      "ingredients": [
+        "40g de poulet haché",
+        "20g de tofu",
+        "poireau japonais",
+        "une pincée de sel",
+        "1/2 c. à café de fécule de pomme de terre"
+      ],
+      "time": 35,
+      "difficulty": 2
     },
     {
       "slug": "tom_yum_goong",
@@ -7799,7 +12129,30 @@
             "16": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "750 g de gambas crues",
+        "1 c. à s. d'huile d'arachide",
+        "2 c. à s. de pâte de curry rouge",
+        "1 c. à s. de concentré de tamarin",
+        "20 g de citronnelle fraîche hachée",
+        "1 c. à c. de curcuma moulu",
+        "10 g de gingembre frais, émincé",
+        "2 petits piments rouges thaï frais, hachés",
+        "6 feuilles fraîches de citron kaffir ciselées",
+        "1 c. à c. de cassonade",
+        "150 g de shiitake coupés en deux",
+        "2 c. à s. de sauce de poisson",
+        "2 c. à s. de jus de citron vert",
+        "1 petite poignée de coriandre vietnamienne",
+        "1 petite poignée de coriandre ordinaire"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "travers_de_porc_moutarde_miel_pommes",
@@ -7807,7 +12160,21 @@
       "url": "/recipes/travers_de_porc_moutarde_miel_pommes.html",
       "kind": "recipe",
       "image": "travers_de_porc_moutarde_miel_pommes",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "800 g de travers de porc",
+        "5 pommes type Golden",
+        "1 tête d'ail",
+        "Huile d'olive (pour arroser)",
+        "Sel",
+        "Poivre"
+      ],
+      "time": 140,
+      "difficulty": 1
     },
     {
       "slug": "triangles_de_thon_a_la_menthe",
@@ -7872,7 +12239,26 @@
             "18": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "1 c. à s. d'huile d'olive",
+        "1 oignon jaune (150 g) finement haché",
+        "4 filets d'anchois égouttés, finement hachés",
+        "2 c. à c. de cumin moulu",
+        "425 g de thon au naturel en conserve, émietté",
+        "1 oeuf légèrement battu",
+        "1 petite botte de persil plat ciselée",
+        "1/2 botte de menthe ciselée",
+        "12 feuilles de pâte filo",
+        "90 g de beurre fondu",
+        "2 c. à c. de graines de pavot"
+      ],
+      "time": 60,
+      "difficulty": 2
     },
     {
       "slug": "veloute_asperges",
@@ -7893,7 +12279,23 @@
             "11": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "600 g d'asperges vertes",
+        "1 oignon moyen",
+        "1 petit bouquet de persil",
+        "1 cuillère à soupe de fécule",
+        "10 cl de crème fleurette",
+        "50 g de beurre",
+        "Sel, poivre"
+      ],
+      "time": 45,
+      "difficulty": 1
     },
     {
       "slug": "veloute_champignons_lard_comte",
@@ -7901,7 +12303,25 @@
       "url": "/recipes/veloute_champignons_lard_comte.html",
       "kind": "recipe",
       "image": "veloute_champignons_lard_comte",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "4 tranches de lard",
+        "500 g de champignons au choix",
+        "1 oignon haché",
+        "2 gousses d'ail",
+        "100 g de comté AOP râpé",
+        "10 cl de crème fraîche",
+        "15 g de beurre",
+        "70 cl de bouillon de légumes",
+        "1 c. à soupe de farine",
+        "Sel et poivre"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "veloute_de_champignons_de_paris_au_tahini",
@@ -7909,7 +12329,28 @@
       "url": "/recipes/veloute_de_champignons_de_paris_au_tahini.html",
       "kind": "recipe",
       "image": "veloute_de_champignons_de_paris_au_tahini",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "500 g de champignons de Paris",
+        "1 oignon moyen",
+        "1 petite pomme de terre",
+        "1 gousse d'ail",
+        "75 cl de bouillon de légumes",
+        "2 c. à soupe de tahini",
+        "2 c. à café d'huile d'olive",
+        "1 c. à café d'huile de sésame grillé",
+        "Sel et poivre",
+        "4 tranches de pain rassis ou de campagne (pour les croûtons)",
+        "1 c. à soupe d'huile d'olive (pour les croûtons)",
+        "Ail en poudre (pour les croûtons)"
+      ],
+      "time": 35,
+      "difficulty": 1
     },
     {
       "slug": "veloute_de_potiron",
@@ -7931,7 +12372,22 @@
             "23": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "800g de potiron",
+        "2 brins de persil",
+        "2 pistils de safran",
+        "250g de mascarpone",
+        "1 c. à café de baies roses",
+        "1 c. à café de graines de nigelle",
+        "sel et poivre"
+      ],
+      "time": 25,
+      "difficulty": 1
     },
     {
       "slug": "veloute_patate_douce_lentilles_corail",
@@ -7973,7 +12429,28 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 4,
+      "ingredients": [
+        "400 g de patates douces",
+        "1 carotte",
+        "1 petit oignon",
+        "Persil",
+        "4 œufs",
+        "10 cl de lait de coco",
+        "100 g de lentilles corail",
+        "100 g de pain rassis",
+        "1 cube de bouillon de légumes",
+        "2 c. à soupe d'huile d'olive",
+        "1 c. à soupe de vinaigre",
+        "1 c. à café de curry"
+      ],
+      "time": 65,
+      "difficulty": 2
     },
     {
       "slug": "veloute_potimarron_bleu_bacon",
@@ -7995,7 +12472,25 @@
             "23": "end"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "6 tranches de poitrine fumée",
+        "1 petit potimarron Prince de Bretagne",
+        "3 échalotes traditionnelles Prince de Bretagne",
+        "6 brins de persil",
+        "40 cl de crème liquide",
+        "180 g de bleu d'Auvergne",
+        "75 g de beurre",
+        "1 cube de bouillon de légumes",
+        "Sel et poivre"
+      ],
+      "time": 55,
+      "difficulty": 1
     },
     {
       "slug": "vichyssoise",
@@ -8046,7 +12541,26 @@
             "23": "peak"
           }
         }
-      ]
+      ],
+      "courses": [
+        "entree",
+        "plat"
+      ],
+      "servings": 6,
+      "ingredients": [
+        "1 kg de poireaux",
+        "500 g de pommes de terre (bintje)",
+        "80 g de beurre",
+        "2 litres d'eau",
+        "1 brin de thym",
+        "1 brin de persil",
+        "3 dl de crème liquide",
+        "10 brins de ciboulette",
+        "Sel",
+        "Poivre"
+      ],
+      "time": 200,
+      "difficulty": 1
     },
     {
       "slug": "vinaigrette_moutarde",
@@ -8054,7 +12568,18 @@
       "url": "/components/vinaigrette_moutarde.html",
       "kind": "component",
       "image": "vinaigrette_moutarde",
-      "temporal_ingredients": []
+      "temporal_ingredients": [],
+      "courses": [],
+      "servings": 4,
+      "ingredients": [
+        "2 c. à soupe d'huile d'arachide",
+        "1 c. à soupe de vinaigre de vin",
+        "1 c. à café de moutarde",
+        "Sel",
+        "Poivre du moulin"
+      ],
+      "time": 5,
+      "difficulty": 1
     }
   ]
 }

@@ -15,7 +15,10 @@ Schema per SPEC.md §4:
         {"slug", "title", "url", "kind": "recipe"|"component",
          "temporal_ingredients": [
            {"id", "category", "phases": {"<0..23>": "start"|"peak"|"end"}}
-         ]}
+         ],
+         "courses": ["entree"|"plat"|"dessert", …], "servings": int,
+         "ingredients": [raw frontmatter lines],
+         "time": minutes (prep+cook+rest) | null, "difficulty": 1|2|3 | null}
       ]
     }
 
@@ -61,6 +64,12 @@ TEMPORAL_CATEGORIES = [
     "legume", "fruit", "herbe", "champignon",
     "poisson", "coquillage", "viande", "fromage",
 ]
+# Menu generator: course -> tags that qualify a recipe for it (dict order = output order).
+COURSE_TAGS = {
+    "entree": {"entree", "soupe", "salade"},
+    "plat": {"plat", "plat principal", "repas"},
+    "dessert": {"dessert", "gateau"},
+}
 PHASE_WEIGHTS = {"peak": 1.0, "start": 0.5, "end": 0.5}
 
 
@@ -126,7 +135,8 @@ def collect(dir_path: Path, kind: str, canonical_tags: set[str],
         canonical_hits = [t for t in tags if isinstance(t, str) and t in canonical_tags]
         if not canonical_hits:
             continue
-        slug = path.stem
+        # Some files have a stray leading space in their filename; strip it from the slug (used in menu URLs).
+        slug = path.stem.strip()
         # Collections output under /<collection>/<slug>.html (recipes ->
         # _recipes, components -> _components). The URL must match that path so
         # the calendrier's recipe links resolve; a bare /<slug>.html 404s.
@@ -138,13 +148,22 @@ def collect(dir_path: Path, kind: str, canonical_tags: set[str],
             if t in seasonality
         ]
         temporal.sort(key=lambda x: x["id"])
+        courses = [c for c, ts in COURSE_TAGS.items() if ts & set(tags)]
+        prep = fm.get("prep_time")
+        time = (prep + (fm.get("cook_time") or 0) + (fm.get("rest_time") or 0)
+                if isinstance(prep, int) else None)
         out.append({
             "slug": slug,
             "title": fm.get("title", slug),
-            "url": f"/{collection}/{slug}.html",
+            "url": f"/{collection}/{path.stem}.html",  # real filename: Jekyll keeps a stray space
             "kind": kind,
             "image": fm.get("image", slug),
             "temporal_ingredients": temporal,
+            "courses": courses,
+            "servings": int(fm.get("servings") or 4),
+            "ingredients": [str(i) for i in (fm.get("ingredients") or [])],
+            "time": time,
+            "difficulty": fm.get("difficulty") if fm.get("difficulty") in (1, 2, 3) else None,
         })
     return out
 

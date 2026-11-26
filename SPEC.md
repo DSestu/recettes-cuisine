@@ -2,6 +2,9 @@
 
 Status: **DRAFT**, awaiting confirmation.
 
+A third mode, **Menu** (`?affichage=menu`), was added later: a seasonal menu generator
+(Surprise / Repas / Semaine) on top of the same scoring. See `SPEC-menu-generator.md`.
+
 ## 1. Objective
 
 Add a second view mode to `/calendrier/`. Today the page renders a Gantt-style calendar

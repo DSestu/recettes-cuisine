@@ -123,10 +123,11 @@
   const AFFICHAGE_URL_PARAM = "affichage";
   const MODE_INGREDIENTS = "ingredients";
   const MODE_RECETTES = "recettes-de-saison";
+  const MODE_MENU = "menu";
 
   function initialAffichage() {
     const fromUrl = new URLSearchParams(location.search).get(AFFICHAGE_URL_PARAM);
-    if (fromUrl === MODE_INGREDIENTS || fromUrl === MODE_RECETTES) return fromUrl;
+    if (fromUrl === MODE_INGREDIENTS || fromUrl === MODE_RECETTES || fromUrl === MODE_MENU) return fromUrl;
     return MODE_INGREDIENTS;
   }
 
@@ -297,19 +298,25 @@
   // toggle click. Does not touch data loading or renderers.
   function renderMode() {
     // NB: #calendrier-controls-mount (the "Vue globale / Vue large" layout
-    // toggle) stays visible in BOTH modes — the layout applies to whichever
-    // calendar is shown. Only the ingredient-specific sections hide.
+    // toggle) stays visible in the ingredient and recipe modes — the layout
+    // applies to whichever calendar is shown — and is hidden in the menu mode
+    // (see below). Only the ingredient-specific sections hide.
     const ingredientsSections = [
       document.getElementById("calendrier-now"),
       document.getElementById("calendrier-root"),
     ];
     const recipesSection = document.getElementById("calendrier-recipes");
-    const showRecipes = state.affichage === MODE_RECETTES;
+    const menuSection = document.getElementById("calendrier-menu");
+    const showIngredients = state.affichage === MODE_INGREDIENTS;
     for (const el of ingredientsSections) {
       if (!el) continue;
-      el.hidden = showRecipes;
+      el.hidden = !showIngredients;
     }
-    if (recipesSection) recipesSection.hidden = !showRecipes;
+    if (recipesSection) recipesSection.hidden = state.affichage !== MODE_RECETTES;
+    if (menuSection) menuSection.hidden = state.affichage !== MODE_MENU;
+    // The Vue globale / large layout toggle means nothing for the menu.
+    const controls = document.getElementById("calendrier-controls-mount");
+    if (controls) controls.hidden = state.affichage === MODE_MENU;
 
     const toggle = document.getElementById("calendrier-mode-toggle");
     if (toggle) {
@@ -323,6 +330,8 @@
   // Re-hydrate all recipes-mode state from the current URL and re-render.
   // Called on back/forward navigation so the view always matches the URL.
   let rehydrateFromUrl = () => {};
+  let rehydrateMenu = () => {};
+  let onMenuShown = () => {};
 
   function setupModeToggle() {
     const toggle = document.getElementById("calendrier-mode-toggle");
@@ -331,11 +340,14 @@
       const btn = ev.target.closest(".cal-mode-btn");
       if (!btn) return;
       const mode = btn.dataset.mode;
-      if (mode !== MODE_INGREDIENTS && mode !== MODE_RECETTES) return;
+      if (mode !== MODE_INGREDIENTS && mode !== MODE_RECETTES && mode !== MODE_MENU) return;
       if (state.affichage === mode) return;
       state.affichage = mode;
       writeAffichageToUrl(mode);
       renderMode();
+      if (mode === MODE_MENU) onMenuShown();
+      // The menu may have stepped the shared quinzaine; redraw the list for it.
+      if (mode === MODE_RECETTES) rehydrateFromUrl();
     });
     window.addEventListener("popstate", () => {
       const nextAffichage = initialAffichage();
@@ -344,6 +356,7 @@
       state.activeSeasonCategories = initialCategoriesSaison();
       state.includeComponents = initialIncludeComponents();
       rehydrateFromUrl();
+      rehydrateMenu();
       renderMode();
     });
   }
@@ -1551,8 +1564,11 @@
   //   endCount     – # at `end`
   //   total        – # active temporal ingredients (denominator)
   //   outOfSeason  – ids of active temporal ingredients with weight 0 here
-  function scoreRecipe(recipe, fortnightIdx, activeCategories) {
-    const active = activeIngredients(recipe, activeCategories);
+  // `raw` ignores the list mode's "ignorer" state (used by the menu mode).
+  function scoreRecipe(recipe, fortnightIdx, activeCategories, raw) {
+    const active = raw
+      ? recipe.temporal_ingredients.filter((t) => activeCategories.has(t.category))
+      : activeIngredients(recipe, activeCategories);
     if (active.length === 0) return null;
     const key = String(fortnightIdx);
     let weightedIn = 0;
@@ -1651,7 +1667,7 @@
     return state.quinzaineIdx !== null ? state.quinzaineIdx : currentFortnightIdx();
   }
 
-  function renderQuinzainePicker(mount, data, mountRoot) {
+  function renderQuinzainePicker(mount, data, mountRoot, onStep) {
     mount.innerHTML = "";
     const idx = resolveFortnightIdx();
 
@@ -1682,7 +1698,7 @@
       const nextIdx = ((cur + delta) % 24 + 24) % 24;
       state.quinzaineIdx = nextIdx;
       writeQuinzaineToUrl(nextIdx, false);
-      renderRecipesList(data, mountRoot);
+      (onStep || (() => renderRecipesList(data, mountRoot)))();
     };
     prev.addEventListener("click", () => step(-1));
     next.addEventListener("click", () => step(1));
@@ -2356,6 +2372,428 @@
     return { setActive };
   }
 
+  // --- Menu mode (?affichage=menu) --------------------------------------
+  // Pure picking lives in menu-picker.js (global MenuPicker); this block owns
+  // state, URL sync and rendering. Scoring reuses scoreRecipe().
+  const MENU_MODE_PARAM = "menu-mode";
+  const MENU_PARAM = "menu";
+  const MENU_KEPT_PARAM = "menu-garde";
+  const MENU_MODES = ["surprise", "repas", "semaine"];
+  const MENU_MODE_LABELS = { surprise: "Surprise", repas: "Repas", semaine: "Semaine" };
+  const MENU_HINTS = {
+    surprise: "Quatre recettes construites autour des produits de la quinzaine. Relancez une carte, ou gardez-la.",
+    repas: "Une entrée, un plat, un dessert de saison qui vont ensemble.",
+    semaine: "Sept plats de saison, sans deux fois le même produit vedette.",
+  };
+  const MENU_CATS = new Set(["legume", "fruit", "champignon", "coquillage"]);
+  const DIFFICULTY_FR = { 1: "Facile", 2: "Moyen", 3: "Difficile" };
+  // Course per slot (null = any recipe). Repas: Entrée/Plat/Dessert; Semaine: 7 plats.
+  const MENU_LAYOUTS = {
+    surprise: [null, null, null, null],
+    repas: ["entree", "plat", "dessert"],
+    semaine: ["plat", "plat", "plat", "plat", "plat", "plat", "plat"],
+  };
+  const menuSlotsFor = (mode) => MENU_LAYOUTS[mode] || MENU_LAYOUTS.surprise;
+  const COURSE_LABELS = { entree: "Entrée", plat: "Plat", dessert: "Dessert" };
+  const COURSE_PLURALS = { entree: "entrées", plat: "plats", dessert: "desserts" };
+  const WEEK_DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
+  const menu = {
+    mode: "surprise", slugs: [], locked: new Set(), seen: [],
+    data: null, mount: null, bySlug: new Map(),
+    idx: null, // fortnight the slots were last picked for
+    checks: [], // Semaine shopping list: per slot {slug, set} of ticked line indexes (in memory only)
+    open: new Map(), // Semaine list groups the user opened/closed, key "slot|slug"
+  };
+
+  const menuEsc = window.escapeHtml;
+  // Shopping lines are raw recipe markdown: show emphasis markers as plain text.
+  const menuPlain = (l) => String(l).replace(/(\*\*|__)(.+?)\1/g, "$2").replace(/\*(.+?)\*/g, "$1").replace(/(^|\W)_(.+?)_(?=\W|$)/g, "$1$2");
+  const menuTile = '<div class="mn-tile" aria-hidden="true"></div>';
+  const menuIcon = (id) => `<svg class="mn-icon" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+
+  function formatDuration(min) {
+    if (min >= 1440) {
+      const h = Math.floor((min % 1440) / 60);
+      return `${Math.floor(min / 1440)} j${h ? ` ${h} h` : ""}`;
+    }
+    if (min >= 60) return `${Math.floor(min / 60)} h${min % 60 ? ` ${min % 60}` : ""}`;
+    return `${min} min`;
+  }
+
+  function menuCandidates(idx) {
+    const key = String(idx);
+    return menu.data.recipes.filter((r) => r.kind !== "component").map((r) => {
+      const s = scoreRecipe(r, idx, MENU_CATS, true);
+      let lead = null, best = 0;
+      for (const ing of r.temporal_ingredients) {
+        if (!MENU_CATS.has(ing.category)) continue;
+        const ph = ing.phases[key];
+        const w = ph === "peak" ? 1 : ph ? 0.5 : 0;
+        if (w > best) { best = w; lead = ing.id; }
+      }
+      return {
+        slug: r.slug, score: s ? s.score : null, nTemporal: s ? s.total : 0,
+        courses: r.courses || [], lead,
+      };
+    });
+  }
+
+  const menuRng = () => MenuPicker.mulberry32(Math.floor(Math.random() * 2 ** 32));
+
+  function menuReadUrl() {
+    const p = new URLSearchParams(location.search);
+    const m = p.get(MENU_MODE_PARAM);
+    const prevMode = menu.mode;
+    menu.mode = MENU_MODES.includes(m) ? m : "surprise";
+    if (menu.mode !== prevMode) menu.seen = [];
+    const slots = menuSlotsFor(menu.mode);
+    const n = slots.length;
+    const raw = (p.get(MENU_PARAM) || "").split(",");
+    const seenSlugs = new Set();
+    menu.slugs = Array.from({ length: n }, (_, i) => {
+      const s = (raw[i] || "").trim();
+      // Unknown or duplicate slug → null, refilled later. Empty positions are kept.
+      const r = menu.bySlug.get(s);
+      // A recipe that does not belong to the slot's course is invalid too.
+      if (!r || seenSlugs.has(s) || (slots[i] && !(r.courses || []).includes(slots[i]))) return null;
+      seenSlugs.add(s);
+      return s;
+    });
+    menu.locked = new Set(
+      (p.get(MENU_KEPT_PARAM) || "").split(",")
+        .filter((s) => /^\d+$/.test(s)).map(Number)
+        .filter((i) => i < n && menu.slugs[i] !== null)
+    );
+    menu.seen = Array.from({ length: n }, (_, i) => menu.seen[i] || new Set());
+  }
+
+  function menuWriteUrl() {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set(MENU_MODE_PARAM, menu.mode);
+      url.searchParams.set(MENU_PARAM, menu.slugs.map((s) => s || "").join(","));
+      if (menu.locked.size) url.searchParams.set(MENU_KEPT_PARAM, [...menu.locked].sort().join(","));
+      else url.searchParams.delete(MENU_KEPT_PARAM);
+      window.history.replaceState({}, "", url.toString());
+    } catch (_) { /* noop */ }
+    if (typeof window.updateQrCode === "function") {
+      try { window.updateQrCode(); } catch (_) { /* noop */ }
+    }
+  }
+
+  // Fills empty slots only (fresh load, bad URL slugs): valid ones are held fixed.
+  function menuFillMissing() {
+    const keep = new Set();
+    menu.slugs.forEach((s, i) => { if (s) keep.add(i); });
+    const r = MenuPicker.fillMenu({
+      candidates: menuCandidates(resolveFortnightIdx()), slots: menuSlotsFor(menu.mode),
+      current: menu.slugs, locked: keep, seen: menu.seen, rng: menuRng(),
+    });
+    menu.slugs = r.slugs;
+    menu.seen = r.seen;
+    menu.idx = resolveFortnightIdx();
+  }
+
+  // Redraws every unlocked slot (Nouveau menu, quinzaine change).
+  function menuRefillUnlocked() {
+    menu.slugs.forEach((s, i) => { if (s && !menu.locked.has(i)) menu.seen[i].add(s); });
+    const r = MenuPicker.fillMenu({
+      candidates: menuCandidates(resolveFortnightIdx()), slots: menuSlotsFor(menu.mode),
+      current: menu.slugs, locked: menu.locked, seen: menu.seen, rng: menuRng(),
+    });
+    menu.slugs = r.slugs;
+    menu.seen = r.seen;
+    menu.idx = resolveFortnightIdx();
+  }
+
+  function menuReroll(i) {
+    const r = MenuPicker.rerollSlot({
+      candidates: menuCandidates(resolveFortnightIdx()), slots: menuSlotsFor(menu.mode),
+      current: menu.slugs, locked: menu.locked, seen: menu.seen, index: i, rng: menuRng(),
+    });
+    menu.slugs = r.slugs;
+    menu.seen = r.seen;
+  }
+
+  // Data shared by every layout for slot i (null when the slot is empty).
+  function menuParts(i, idx) {
+    const r = menu.bySlug.get(menu.slugs[i]);
+    if (!r) return null;
+    const baseurl = buildBaseurl();
+    const s = scoreRecipe(r, idx, MENU_CATS, true);
+    const w = s ? MenuPicker.pickWeight({ score: s.score, nTemporal: s.total }) : 0;
+    const peaks = r.temporal_ingredients.filter(
+      (t) => MENU_CATS.has(t.category) && t.phases[String(idx)] === "peak");
+    const title = menuEsc(r.title);
+    return {
+      title,
+      img: r.image === "0_TBD" ? menuTile : `<img src="${baseurl}/images/cards/${encodeURIComponent(r.image)}.webp" alt="" loading="lazy">`,
+      link: `<a class="mn-title" href="${baseurl}${encodeURI(r.url)}">${title}</a>`,
+      pill: s
+        ? `<span class="mn-score${w >= 0.4 ? "" : " mid"}">${s.total - s.outOfSeason.length} sur ${s.total} de saison</span>`
+        : "",
+      meta: [
+        r.time != null ? `<span>${menuIcon("clock")}${formatDuration(r.time)}</span>` : "",
+        DIFFICULTY_FR[r.difficulty] ? `<span>${DIFFICULTY_FR[r.difficulty]}</span>` : "",
+      ].join(""),
+      dots: peaks.length
+        ? `<ul class="mn-season" aria-label="En pleine saison">${peaks.map((t) =>
+          `<li style="--c:${CATEGORY_COLORS[t.category]}">${menuEsc(t.id)}</li>`).join("")}</ul>`
+        : "",
+      noSeason: s && w === 0,
+    };
+  }
+
+  function menuActs(i, p, kept, labels, ctx) {
+    const who = (ctx ? ctx + " : " : "") + p.title;
+    const lbl = (t) => `<span class="mn-lbl">${t}</span>`;
+    return `<div class="mn-acts">
+      <button class="mn-act" type="button" data-act="reroll" data-slot="${i}" data-key="reroll-${i}" aria-label="Relancer ${who}"${kept ? " disabled" : ""}>${menuIcon("reroll")}${labels ? lbl("Relancer") : ""}</button>
+      <button class="mn-act" type="button" data-act="keep" data-slot="${i}" data-key="keep-${i}" aria-pressed="${kept}" aria-label="${kept ? "Gardée, déverrouiller" : "Garder"} ${who}">${menuIcon(kept ? "lock" : "unlock")}${labels ? lbl(kept ? "Gardée" : "Garder") : ""}</button>
+    </div>`;
+  }
+
+  const menuEmptyActs = (i, what, labels = true) => `<div class="mn-acts"><button class="mn-act" type="button" data-act="reroll" data-slot="${i}" data-key="reroll-${i}" aria-label="Relancer ${what}">${menuIcon("reroll")}${labels ? '<span class="mn-lbl">Relancer</span>' : ""}</button></div>`;
+  const MENU_EMPTY = `<p class="mn-vide">Aucune recette disponible pour ce créneau</p>`;
+
+  function menuCardHtml(i, idx) {
+    const p = menuParts(i, idx);
+    const kept = menu.locked.has(i);
+    if (!p) {
+      return `<article class="mn-card mn-empty"><div class="mn-body">${MENU_EMPTY}${menuEmptyActs(i, "ce créneau")}</div></article>`;
+    }
+    const note = p.noSeason ? `<p class="mn-note">${menuIcon("info")}Rien de saison pour ce plat</p>` : "";
+    return `<article class="mn-card${kept ? " kept" : ""}">
+      ${p.img}
+      <div class="mn-body">
+        <div class="mn-top">${p.pill}<div class="mn-meta">${p.meta}</div></div>
+        <h4>${p.link}</h4>
+        ${p.dots}${note}
+        ${menuActs(i, p, kept, true)}
+      </div>
+    </article>`;
+  }
+
+  // Repas: one menu card, a row per course. The sparse-pool note follows the
+  // course's pool for the current fortnight (not the slot's history), so it is
+  // the same for fresh, locked and URL-restored slots.
+  function menuRepasHtml(idx) {
+    const cands = menuCandidates(idx);
+    const slots = menuSlotsFor("repas");
+    return `<div class="mn-rp">${slots.map((course, i) => {
+      const p = menuParts(i, idx);
+      const kept = menu.locked.has(i);
+      const label = `<div class="mn-rp-course">${COURSE_LABELS[course]}</div>`;
+      if (!p) {
+        return `<article class="mn-rp-row mn-empty">${label}${menuTile}<div class="mn-rp-txt">${MENU_EMPTY}</div>${menuEmptyActs(i, COURSE_LABELS[course])}</article>`;
+      }
+      const sparse = MenuPicker.poolFor(cands, course).tier !== "season";
+      const note = sparse
+        ? `Peu de ${COURSE_PLURALS[course]} de saison cette quinzaine : sélection élargie.`
+        : p.noSeason ? "Rien de saison pour ce plat" : "";
+      return `<article class="mn-rp-row${kept ? " kept" : ""}">
+        ${label}
+        ${p.img}
+        <div class="mn-rp-txt">
+          <h4>${p.link}</h4>
+          <div class="mn-rp-line">${p.pill}<div class="mn-meta">${p.meta}</div></div>
+          ${p.dots}
+          ${note ? `<p class="mn-note">${menuIcon("info")}${note}</p>` : ""}
+        </div>
+        ${menuActs(i, p, kept, true, COURSE_LABELS[course])}
+      </article>`;
+    }).join("")}</div>`;
+  }
+
+  // Semaine: seven day rows plus the shopping list of their recipes.
+  function menuWeekHtml(idx) {
+    const days = WEEK_DAYS.map((day, i) => {
+      const p = menuParts(i, idx);
+      const kept = menu.locked.has(i);
+      if (!p) {
+        return `<article class="mn-wk-day mn-empty"><div class="mn-dname">${day}</div>${menuTile}<div class="mn-wk-txt"><h4><span class="mn-day">${day}</span></h4>${MENU_EMPTY}</div>${menuEmptyActs(i, day, false)}</article>`;
+      }
+      return `<article class="mn-wk-day${kept ? " kept" : ""}">
+        <div class="mn-dname">${day}</div>
+        ${p.img}
+        <div class="mn-wk-txt"><h4><span class="mn-day">${day}</span><span class="mn-day" aria-hidden="true"> · </span>${p.link}</h4>${p.dots}</div>
+        ${menuActs(i, p, kept, false, day)}
+      </article>`;
+    }).join("");
+    return `<div class="mn-wk"><div class="mn-wk-days">${days}</div>${menuListHtml()}</div>`;
+  }
+
+  function menuShoppingGroups() {
+    return menu.slugs.map((slug, i) => ({ i, r: menu.bySlug.get(slug) }))
+      .filter((g) => g.r && Array.isArray(g.r.ingredients));
+  }
+
+  function menuListHtml() {
+    const groups = menuShoppingGroups();
+    const total = groups.reduce((n, g) => n + g.r.ingredients.length, 0);
+    const body = groups.map((g, k) => {
+      const key = g.i + "|" + g.r.slug;
+      const open = menu.open.has(key) ? menu.open.get(key) : k < 2;
+      const cur = menu.checks[g.i];
+      const ticked = cur && cur.slug === g.r.slug ? cur.set : new Set();
+      const name = menuEsc(g.r.title.split(",")[0]);
+      const n = g.r.ingredients.length;
+      return `<details class="mn-grp" data-key="grp-${g.i}" data-slot="${g.i}" data-gkey="${menuEsc(key)}"${open ? " open" : ""}>
+        <summary>${menuIcon("right").replace("mn-icon", "mn-icon mn-chev")}${name}<span class="mn-n">${g.r.servings ? g.r.servings + " pers. · " : ""}${n} ingr.</span></summary>
+        <ul>${g.r.ingredients.map((l, j) =>
+          `<li><label><input type="checkbox" data-slot="${g.i}" data-line="${j}"${ticked.has(j) ? " checked" : ""}><span>${menuEsc(menuPlain(l))}</span></label></li>`).join("")}</ul>
+      </details>`;
+    }).join("");
+    return `<aside class="mn-list" aria-label="Liste de courses">
+      <div class="mn-list-head"><h3>Liste de courses</h3>
+        <button class="mn-act" type="button" data-act="copy" data-key="copy"${total ? "" : " disabled"}>${menuIcon("copy")}<span class="mn-copy-lbl">Copier</span></button><span class="mn-sr mn-copy-status" role="status"></span></div>
+      <p class="mn-list-sub">${groups.length} recette${groups.length > 1 ? "s" : ""} · ${total} ingrédient${total > 1 ? "s" : ""} · quantités des recettes d'origine</p>
+      ${body}
+    </aside>`;
+  }
+
+  function menuListText() {
+    const out = ["Liste de courses — " + formatQuinzaineLong(resolveFortnightIdx())];
+    for (const g of menuShoppingGroups()) {
+      out.push("", g.r.title + (g.r.servings ? ` (${g.r.servings} pers.)` : ""));
+      for (const l of g.r.ingredients) out.push("- " + menuPlain(l));
+    }
+    return out.join("\n");
+  }
+
+  async function menuCopyList(btn) {
+    const text = menuListText();
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    } catch (_) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { ok = document.execCommand("copy"); } catch (_e) { /* noop */ }
+      ta.remove();
+    }
+    const lbl = btn.querySelector(".mn-copy-lbl");
+    const status = btn.parentElement.querySelector(".mn-copy-status");
+    if (!lbl) return;
+    lbl.textContent = ok ? "Copié" : "Copie impossible";
+    if (status) status.textContent = ok ? "Liste de courses copiée" : "Copie impossible";
+    clearTimeout(menuCopyList.t);
+    menuCopyList.t = setTimeout(() => { lbl.textContent = "Copier"; if (status) status.textContent = ""; }, 2000);
+  }
+
+  function renderMenu() {
+    const mount = menu.mount;
+    if (!mount || !menu.data) return;
+    const ae = document.activeElement;
+    const focusKey = ae && mount.contains(ae) ? ae.dataset.key : null;
+    mount.innerHTML = "";
+
+    const picker = document.createElement("div");
+    picker.className = "cal-recipes-picker";
+    renderQuinzainePicker(picker, menu.data, mount, () => {
+      menuRefillUnlocked();
+      menuWriteUrl();
+      renderMenu();
+    });
+    picker.firstElementChild.dataset.key = "q-prev";
+    picker.lastElementChild.dataset.key = "q-next";
+    mount.appendChild(picker);
+
+    const bar = document.createElement("div");
+    bar.className = "mn-bar";
+    bar.innerHTML = `<div class="mn-modes" role="group" aria-label="Type de menu">${MENU_MODES.map((m) =>
+      `<button type="button" data-act="mode" data-mode="${m}" data-key="mode-${m}" aria-pressed="${m === menu.mode}">${MENU_MODE_LABELS[m]}</button>`).join("")}</div>
+      <button class="mn-primary" type="button" data-act="new" data-key="new">${menuIcon("dice")}Nouveau menu</button>
+      <p class="mn-hint">${MENU_HINTS[menu.mode]}</p>`;
+    mount.appendChild(bar);
+
+    const idx = resolveFortnightIdx();
+    const body = document.createElement("div");
+    if (menu.mode === "repas") body.innerHTML = menuRepasHtml(idx);
+    else if (menu.mode === "semaine") body.innerHTML = menuWeekHtml(idx);
+    else {
+      body.className = "mn-grid";
+      body.innerHTML = menu.slugs.map((_, i) => menuCardHtml(i, idx)).join("");
+    }
+    mount.appendChild(body.className ? body : body.firstElementChild);
+
+    if (focusKey) {
+      const el = mount.querySelector(`[data-key="${focusKey}"]`);
+      if (el) el.focus();
+    }
+  }
+
+  function setupMenu(data, mount) {
+    menu.data = data;
+    menu.mount = mount;
+    for (const r of data.recipes) if (r.kind !== "component") menu.bySlug.set(r.slug, r);
+
+    mount.addEventListener("click", (ev) => {
+      const b = ev.target.closest("[data-act]");
+      if (!b) return;
+      const i = Number(b.dataset.slot);
+      switch (b.dataset.act) {
+        case "copy": menuCopyList(b); return;
+        case "reroll": menuReroll(i); break;
+        case "keep":
+          if (menu.locked.has(i)) menu.locked.delete(i); else menu.locked.add(i);
+          break;
+        case "new": menuRefillUnlocked(); break;
+        case "mode": {
+          if (menu.mode === b.dataset.mode) return;
+          // Locks and history do not carry across modes: start the new layout fresh.
+          menu.mode = b.dataset.mode;
+          const n = menuSlotsFor(menu.mode).length;
+          menu.slugs = new Array(n).fill(null);
+          menu.locked = new Set();
+          menu.seen = Array.from({ length: n }, () => new Set());
+          menuFillMissing();
+          break;
+        }
+        default: return;
+      }
+      menuWriteUrl();
+      renderMenu();
+    });
+
+    mount.addEventListener("change", (ev) => {
+      const t = ev.target;
+      if (!t.matches || !t.matches("input[type=checkbox][data-line]")) return;
+      const i = Number(t.dataset.slot);
+      const slug = menu.slugs[i];
+      if (!menu.checks[i] || menu.checks[i].slug !== slug) menu.checks[i] = { slug, set: new Set() };
+      const set = menu.checks[i].set;
+      if (t.checked) set.add(Number(t.dataset.line)); else set.delete(Number(t.dataset.line));
+    });
+    // <details> toggle events do not bubble; capture keeps open/closed across redraws.
+    mount.addEventListener("toggle", (ev) => {
+      const t = ev.target;
+      if (t.matches && t.matches("details[data-gkey]")) menu.open.set(t.dataset.gkey, t.open);
+    }, true);
+
+    // Re-read the URL (initial load, back/forward), fill what is missing, draw.
+    rehydrateMenu = () => {
+      menuReadUrl();
+      menuFillMissing();
+      if (state.affichage === MODE_MENU) menuWriteUrl();
+      renderMenu();
+    };
+    // Switching to the Menu tab: the URL only gets menu params once it is shown.
+    onMenuShown = () => {
+      // The quinzaine may have moved in Recettes since the cards were picked.
+      if (menu.idx !== resolveFortnightIdx()) menuRefillUnlocked();
+      menuWriteUrl();
+      renderMenu();
+    };
+    rehydrateMenu();
+  }
+
   document.addEventListener("DOMContentLoaded", async () => {
     const status = document.getElementById("calendrier-status");
     const root = document.getElementById("calendrier-root");
@@ -2392,6 +2830,9 @@
           const recipeSeasonality = await loadRecipeSeasonality(recipesEl);
           renderRecipesList(recipeSeasonality, recipesEl);
           rehydrateFromUrl = () => renderRecipesList(recipeSeasonality, recipesEl);
+          const menuEl = document.getElementById("calendrier-menu");
+          if (menuEl && window.MenuPicker) setupMenu(recipeSeasonality, menuEl);
+          else if (menuEl) menuEl.innerHTML = '<p class="mn-fail" role="alert">Le générateur de menu n\'a pas pu se charger. Rechargez la page pour réessayer.</p>';
 
           // Keyboard ←/→ steps the quinzaine picker while recipes mode is
           // active. Ignores presses whose target is a text field so users can
@@ -2415,6 +2856,8 @@
           p.className = "cal-recipes-placeholder";
           p.textContent = "Erreur de chargement des recettes.";
           recipesEl.appendChild(p);
+          const mEl = document.getElementById("calendrier-menu");
+          if (mEl) mEl.innerHTML = '<p class="mn-fail" role="alert">Impossible de charger les recettes pour le menu. Rechargez la page pour réessayer.</p>';
           console.error(err);
         }
       }
